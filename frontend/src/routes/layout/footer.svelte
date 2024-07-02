@@ -12,7 +12,7 @@
 	<div class="ititle"><strong> Contact Wragby </strong></div>
 	<br />
 	<Contact />
-	<Socials links={organization} />
+	<Socials links={$organization} />
 </footer>
 
 <div class="copyright">

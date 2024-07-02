@@ -35,7 +35,7 @@
 	<slot {id}>
 		<div class="input" class:left_pad={icon} class:disabled>
 			{#if icon}
-				<Icon {icon} />
+				<Icon {icon} size=20 />
 			{/if}
 			<Input bind:value {id} {type} {placeholder} {min} {disabled} on:blur on:input />
 			<slot name="right" />
@@ -58,6 +58,7 @@
 
 		width: 100%;
 
+		margin-top: var(--sp1);
 		border-radius: var(--sp0);
 		border: none;
 
@@ -78,5 +79,9 @@
 
 	.left_pad {
 		padding-left: var(--sp2);
+	}
+
+	label,.error{
+		font-size: small;
 	}
 </style>

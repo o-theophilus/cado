@@ -1,13 +1,9 @@
 <script>
 	import SVG from '$lib/svg.svelte';
-
 	export let links = {};
-
-	let has_link =
-		links.whatsapp || links.twitter || links.facebook || links.instagram || links.linkedin;
 </script>
 
-<div class="block" class:has_link>
+<div class="block" >
 	{#if links.whatsapp}
 		<a href="https://wa.me/{links.whatsapp}/?text=Hello%20{links.name}">
 			<SVG type="whatsapp" />

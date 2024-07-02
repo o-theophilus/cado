@@ -65,7 +65,7 @@
 		border: none;
 		outline: 2px solid transparent;
 
-		line-height: 0;
+		/* line-height: 0; */
 		background-color: var(--input);
 		color: var(--ft2);
 

@@ -54,7 +54,7 @@ def send_email():
     })
 
 
-# @bp.get("/fix")
+@bp.get("/fix")
 def create_tables():
     con, cur = db_open()
 

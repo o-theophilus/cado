@@ -5,6 +5,7 @@
 	import Link from './nav.btn.svelte';
 	import User from './nav.user.svelte';
 	import Login from '../account/login.svelte';
+	import Signup from '../account/signup.svelte';
 
 	$: home = $page.url.pathname == '/';
 </script>
@@ -18,16 +19,27 @@
 			{#if $user && $user.login}
 				<User />
 			{:else}
-				<Link
-					{home}
-					on:click={() => {
-						$module = {
-							module: Login
-						};
-					}}
+			<Link
+			{home}
+			on:click={() => {
+				$module = {
+					module: Login
+				};
+			}}
 				>
-					Login
-				</Link>
+				Login
+			</Link>
+			
+			<Link
+				{home}
+				on:click={() => {
+					$module = {
+						module: Signup
+					};
+				}}
+			>
+			Signup
+			</Link>
 			{/if}
 		</div>
 	</div>

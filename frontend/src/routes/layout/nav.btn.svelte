@@ -28,10 +28,12 @@
 		justify-content: center;
 		align-items: center;
 
+		padding-bottom: var(--sp0);
 		border-bottom: 2px solid transparent;
 
 		color: var(--ft2);
 		text-decoration: none;
+		font-weight: 800;
 
 		transition: border-color var(--trans), color var(--trans), font-weight var(--trans);
 	}

@@ -52,7 +52,7 @@
 	}
 
 	button {
-		line-height: 0;
+		/* line-height: 0; */
 		border-radius: 50%;
 		border: none;
 		cursor: pointer;

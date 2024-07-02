@@ -117,7 +117,7 @@
 		print-color-adjust: exact !important;
 
 		font-size: 10px;
-		line-height: 100%;
+		/* line-height: 100%; */
 	}
 
 	.block {
@@ -222,7 +222,7 @@
 		font-size: xx-small;
 		text-align: center;
 
-		line-height: 150%;
+		/* line-height: 150%; */
 	}
 
 	.name {
@@ -230,7 +230,7 @@
 		font-size: medium;
 		color: var(--ft1);
 
-		line-height: 150%;
+		/* line-height: 150%; */
 	}
 
 	.divider {

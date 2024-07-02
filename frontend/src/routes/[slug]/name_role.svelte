@@ -64,7 +64,7 @@
 		outline: 8px solid var(--bg2);
 		outline-offset: -4px;
 		border-radius: var(--sp1);
-		line-height: 0;
+		/* line-height: 0; */
 	}
 
 	@media screen and (min-width: 500px) {

@@ -5,53 +5,69 @@
 	import Icon from '$lib/icon.svelte';
 </script>
 
-<span class="grid">
+<div class="group">
 	<Icon icon="call" />
-	Phone:
-	<span />
-	<Link href="tel:{$organization.phone}">{$organization.phone}</Link>
-</span>
+	<div>
+		<div class="label">
+			Phone:
+		</div>
+		<Link href="tel:{$organization.phone}">{$organization.phone}</Link>
+	</div>
+</div>
 
-<span class="grid">
+<div class="group">
 	<Icon icon="email" />
+	<div>
+<div class="label">
 	Email:
-	<span />
-	<Link href="mailto:{$organization.email}">{$organization.email}</Link>
-</span>
+</div>
+		<Link href="mailto:{$organization.email}">{$organization.email}</Link>
+	</div>
+</div>
 
-<span class="grid">
+<div class="group">
+	
 	<Icon icon="language" />
-	Website:
-	<span />
-	<Link href="https://{$organization.website}" blank>{$organization.website}</Link>
-</span>
+	<div>
+		<div class="label">
+			Website:
+		</div>
+		<Link href="https://{$organization.website}" blank>{$organization.website}</Link>
+	</div>
+</div>
 
-<span class="grid">
+<div class="group">
 	<Icon icon="location_on" />
-	Address:
-
-	{#each $organization.address as a, i}
+	<div>
+		<div class="label">
+			Address:
+		</div>
+		{#each $organization.address as a, i}
 		{#if i > 0}
-			<span class="gap" />
+			<div class="gap" />
 		{/if}
-
-		<span />
 		<Link href="https://maps.app.goo.gl/{a.url}" blank>{a.address}</Link>
 	{/each}
-</span>
+	</div>
+</div>
 
 <style>
-	.grid {
+	.group {
 		display: grid;
 		grid-template-columns: 1fr 100fr;
 		gap: 0 var(--sp2);
 
-		align-items: center;
+		align-items: flex-start;
+		
 		margin: var(--sp2) 0;
+	}
+
+	.label{
+		font-size: small;
 	}
 
 	.gap {
 		grid-column: 1 / 3;
-		height: var(--sp2);
+		height: var(--sp1);
 	}
 </style>
