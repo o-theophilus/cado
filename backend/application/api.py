@@ -1,0 +1,109 @@
+from flask import Blueprint, jsonify, request
+import re
+import os
+from .tools import send_mail
+from .postgres import db_open, db_close
+from .postgres import user_table, otp_table
+
+
+bp = Blueprint("api", __name__)
+
+
+@bp.post("/contact")
+def send_email():
+
+    if (
+        "email_template" not in request.json
+        or not request.json["email_template"]
+    ):
+        return jsonify({
+            "status": 400,
+            "error": "invalid request"
+        })
+
+    error = {}
+
+    if "name" not in request.json or not request.json["name"]:
+        error["name"] = "cannot be empty"
+    if "email" not in request.json or not request.json["email"]:
+        error["email"] = "cannot be empty"
+    elif not re.match(r"\S+@\S+\.\S+", request.json["email"]):
+        error["email"] = "invalid email"
+    if "message" not in request.json or not request.json["message"]:
+        error["message"] = "cannot be empty"
+
+    if error != {}:
+        return jsonify({
+            "status": 400,
+            **error
+        })
+
+    message = request.json['email_template'].format(
+        name=request.json["name"],
+        email=request.json["email"],
+        message=request.json["message"])
+
+    send_mail(
+        os.environ["MAIL_USERNAME"],
+        f"{request.json['name']} from Loup",
+        message
+    )
+
+    return jsonify({
+        "status": 200
+    })
+
+
+def create_tables():
+    con, cur = db_open()
+
+    cur.execute(f"""
+        -- DROP TABLE IF EXISTS "user" CASCADE;
+        DROP TABLE IF EXISTS otp CASCADE;
+        -- {user_table}
+        {otp_table}
+    """)
+
+    db_close(con, cur)
+    return jsonify({
+        "status": 200
+    })
+
+
+# @bp.get("/fix")
+def general_fix():
+    con, cur = db_open()
+
+    # cur.execute("""
+    #     ALTER TABLE item
+    #     RENAME COLUMN old_price
+    #     TO discount_time;
+
+    #     ALTER TABLE item
+    #     ALTER COLUMN discount_time
+    #     TYPE VARCHAR(32);
+
+    #     ALTER TABLE item
+    #     ALTER COLUMN discount_time
+    #     SET DEFAULT 'TRUE';
+
+    #     UPDATE item
+    #     SET discount_time = 'TRUE';
+
+    # ALTER TABLE post
+    # DROP COLUMN videos;
+
+    #     ALTER TABLE order_item
+    #     ADD COLUMN price FLOAT DEFAULT 0 NOT NULL;
+    # """)
+
+    cur.execute("""
+        ALTER TABLE "user"
+        ADD COLUMN
+        office_location VARCHAR(255);
+    """)
+
+    db_close(con, cur)
+    return jsonify({
+        "status": 200
+    })
