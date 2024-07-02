@@ -1,10 +1,11 @@
 <script>
-	import { module, notification, loading } from '$lib/store.js';
+	import { module, notification, loading,organization } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import IG from '$lib/input_group.svelte';
 	import Button from '$lib/button/button.svelte';
 	import Icon from '$lib/icon.svelte';
+	import Dropdown from '$lib/dropdown.svelte';
 
 	let form = {
 		...$module.user
@@ -59,7 +60,9 @@
 		</div>
 	{/if}
 
-	<IG
+	<div class="line">
+
+		<IG
 		name="Firstname"
 		icon="person"
 		error={error.firstname}
@@ -67,9 +70,9 @@
 		type="text"
 		bind:value={form.firstname}
 		required
-	/>
-
-	<IG
+		/>
+		
+		<IG
 		name="Lastname"
 		icon="person"
 		error={error.lastname}
@@ -77,7 +80,8 @@
 		type="text"
 		bind:value={form.lastname}
 		required
-	/>
+		/>
+	</div>
 
 	<IG
 		name="Role"
@@ -96,6 +100,16 @@
 		type="tel"
 		bind:value={form.phone}
 	/>
+
+	Office Location
+	<Dropdown list={$organization.address.map(a => a.name)} wide on:change={(e)=>{
+		form.office_location = e.target.value
+	}}></Dropdown>
+	{#each $organization.address as a}
+		{#if a.name == form.office_location}
+			{a.address}
+		{/if}
+	{/each}
 
 	<IG
 		name="Manager's Email"
@@ -126,5 +140,9 @@
 	}
 	.error {
 		margin: var(--sp2) 0;
+	}
+
+	.line{
+		display: flex;
 	}
 </style>

@@ -1,9 +1,9 @@
+import os
+from io import BytesIO
+from uuid import uuid4
 from flask import Blueprint, send_file
 from deta import Deta
 from PIL import Image, ImageOps
-from io import BytesIO
-from uuid import uuid4
-import os
 from werkzeug.datastructures import FileStorage
 
 

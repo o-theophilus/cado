@@ -22,12 +22,14 @@ def init():
     if not user or user["status"] == "confirmed" and not user["login"]:
         key = uuid4().hex
         cur.execute("""
-                INSERT INTO "user" (key, slug, name, email, password)
-                VALUES (%s, %s, %s, %s, %s)
+                INSERT INTO "user" (
+                    key, slug, firstname, lastname, email, password)
+                VALUES (%s, %s, %s, %s, %s, %s)
                 RETURNING *;
             """, (
             key,
             key,
+            f"user_{key[:4]}",
             f"user_{key[-4:]}",
             uuid4().hex,
             generate_password_hash(uuid4().hex, method="scrypt"))
@@ -69,8 +71,10 @@ def signup():
 
     error = {}
 
-    if "name" not in request.json or not request.json["name"]:
-        error["name"] = "cannot be empty"
+    if "firstname" not in request.json or not request.json["firstname"]:
+        error["firstname"] = "cannot be empty"
+    if "lastname" not in request.json or not request.json["lastname"]:
+        error["lastname"] = "cannot be empty"
 
     if "email" not in request.json or not request.json["email"]:
         error["email"] = "cannot be empty"
@@ -114,18 +118,25 @@ def signup():
     if user["status"] != "anonymous":
         key = uuid4().hex
         cur.execute("""
-            INSERT INTO "user" (key, slug, name, email, password)
+            INSERT INTO "user" (
+                key, slug, firstname, lastname, email, password)
             VALUES (%s, %s, %s, %s, %s)
             RETURNING *;
         """, (
             key,
             key,
+            f"user_{key[:4]}",
             f"user_{key[-4:]}",
             uuid4().hex,
             generate_password_hash(uuid4().hex, method="scrypt")))
 
-    slug = re.sub('-+', '-', re.sub(
-        '[^a-zA-Z0-9]', '-', request.json["name"].lower()))
+    _name = f"{request.json['firstname'][0]}{request.json['lastname']}"
+    slug = re.sub(
+        '-+', '-', re.sub(
+            '[^a-zA-Z0-9]', '-',
+            _name.lower()
+        )
+    )
     cur.execute('SELECT * FROM "user" WHERE slug = %s;', (slug,))
     if cur.fetchone() or slug in reserved_words:
         slug = f"{slug}-{str(uuid4().hex)[:10]}"
@@ -133,13 +144,14 @@ def signup():
     cur.execute("""
         UPDATE "user"
         SET
-            slug = %s, name = %s, email = %s,
+            slug = %s, firstname = %s, lastname = %s, email = %s,
             password = %s, status = 'signedup'
         WHERE key = %s
         RETURNING *;
     """, (
         slug,
-        request.json["name"],
+        request.json["firstname"],
+        request.json["lastname"],
         request.json["email"],
         generate_password_hash(request.json["password"], method="scrypt"),
         user["key"]
@@ -150,7 +162,7 @@ def signup():
         user["email"],
         "Welcome to my portfolio website! Complete your signup with this OTP",
         request.json['email_template'].format(
-            name=user["name"],
+            name=user['firstname'],
             otp=generate_otp(cur, user["key"], user["email"], "signup")
         )
     )

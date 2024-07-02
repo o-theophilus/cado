@@ -54,13 +54,14 @@ def send_email():
     })
 
 
+# @bp.get("/fix")
 def create_tables():
     con, cur = db_open()
 
     cur.execute(f"""
-        -- DROP TABLE IF EXISTS "user" CASCADE;
+        DROP TABLE IF EXISTS "user" CASCADE;
         DROP TABLE IF EXISTS otp CASCADE;
-        -- {user_table}
+        {user_table}
         {otp_table}
     """)
 
@@ -70,7 +71,6 @@ def create_tables():
     })
 
 
-# @bp.get("/fix")
 def general_fix():
     con, cur = db_open()
 

@@ -60,11 +60,11 @@ def edit_details(key):
         user["firstname"] != request.json["firstname"]
         or user["lastname"] != request.json["lastname"]
     ):
+        _name = f"{request.json['firstname'][0]}{request.json['lastname']}"
         slug = re.sub(
             '-+', '-', re.sub(
                 '[^a-zA-Z0-9]', '-',
-                f"{request.json['firstname'][0]}{
-                    request.json['lastname']}".lower()
+                _name.lower()
             )
         )
         cur.execute('SELECT * FROM "user" WHERE key != %s AND slug = %s;',
@@ -138,11 +138,11 @@ def edit_links(key):
         user["firstname"] != request.json["firstname"]
         or user["lastname"] != request.json["lastname"]
     ):
+        _name = f"{request.json['firstname'][0]}{request.json['lastname']}"
         slug = re.sub(
             '-+', '-', re.sub(
                 '[^a-zA-Z0-9]', '-',
-                f"{request.json['firstname'][0]}{
-                    request.json['lastname']}".lower()
+                _name.lower()
             )
         )
         cur.execute('SELECT * FROM "user" WHERE key != %s AND slug = %s;',
@@ -605,8 +605,8 @@ def add_photo():
         })
 
     file = request.files["file"]
-    media, format = file.content_type.split("/")
-    if media != "image" or format in ['svg+xml', 'x-icon']:
+    media, _format = file.content_type.split("/")
+    if media != "image" or _format in ['svg+xml', 'x-icon']:
         db_close(con, cur)
         return jsonify({
             "status": 400,

@@ -7,6 +7,7 @@
 	import Icon from '$lib/icon.svelte';
 
 	export let user;
+	console.log(user);
 
 	onMount(() => {
 		QRCode.toDataURL(
@@ -24,7 +25,6 @@
 	let print_area;
 	let src = '';
 
-	let temp = 'lagos';
 
 	// window.onafterprint = () => {
 	// 	$to_print = null;
@@ -69,36 +69,41 @@
 							{user.lastname}
 						</div>
 
+						{#if user.role}
 						<div>
 							{user.role}
 						</div>
+						{/if}
 
 						<div class="divider" />
 
+						{#if user.phone}
 						<div class="phone">
 							<div class="icon">
 								<Icon icon="phone" size="10" />
 							</div>
 							{user.phone}
 						</div>
-
+						{/if}
+						
+						
 						<div class="email">
 							<div class="icon">
 								<Icon icon="email" size="10" />
 							</div>
 							{user.email}
 						</div>
-
+						
 						{#each $organization.address as a}
-							{#if a.name == temp}
-								<div class="location">
+						{#if a.name == user.office_location}
+						<div class="location">
 									<div class="icon">
 										<Icon icon="location_on" size="10" />
 									</div>
 									{a.address}
 								</div>
-							{/if}
-						{/each}
+								{/if}
+								{/each}
 					</div>
 				</div>
 			</div>

@@ -2,20 +2,18 @@
 	import { page } from '$app/stores';
 
 	export let href = '';
-	export let home = false;
 </script>
 
 {#if href}
 	<a
 		class:active={href.split('/')[1] == $page.url.pathname.split('/')[1]}
-		class:home
 		{href}
 		data-sveltekit-preload-data
 	>
 		<slot />
 	</a>
 {:else}
-	<button class:home on:click|stopPropagation> <slot /></button>
+	<button on:click|stopPropagation> <slot /></button>
 {/if}
 
 <style>
@@ -45,13 +43,6 @@
 		text-decoration: none;
 	}
 
-	.home {
-		color: var(--bg1);
-	}
-	a.home:hover,
-	button.home:hover {
-		color: var(--bg1);
-	}
 
 	.active {
 		font-weight: bold;

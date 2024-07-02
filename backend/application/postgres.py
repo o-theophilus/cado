@@ -33,7 +33,7 @@ user_table = """CREATE TABLE IF NOT EXISTS "user" (
     photo VARCHAR(50),
 
     admin BOOLEAN DEFAULT FALSE,
-    login BOOLEAN DEFAULT FALSE,
+    login BOOLEAN DEFAULT FALSE
 );"""
 
 

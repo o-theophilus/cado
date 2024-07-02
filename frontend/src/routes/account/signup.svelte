@@ -23,8 +23,11 @@
 	const validate = () => {
 		error = {};
 
-		if (!form.name) {
-			error.name = 'cannot be empty';
+		if (!form.firstname) {
+			error.firstname = 'cannot be empty';
+		}
+		if (!form.lastname) {
+			error.lastname = 'cannot be empty';
 		}
 		if (!form.email) {
 			error.email = 'cannot be empty';
@@ -87,12 +90,20 @@
 		</div>
 	{/if}
 	<IG
-		name="Name"
+		name="Firstname"
 		icon="person"
-		error={error.name}
-		placeholder="Name here"
+		error={error.firstname}
+		placeholder="Firstname here"
 		type="text"
-		bind:value={form.name}
+		bind:value={form.firstname}
+	/>
+	<IG
+		name="Lastname"
+		icon="person"
+		error={error.lastname}
+		placeholder="Lastname here"
+		type="text"
+		bind:value={form.lastname}
 	/>
 	<IG
 		name="Email"
