@@ -42,7 +42,7 @@ def edit_details(key):
     role = None
     phone = None
     manager_email = None
-    profile = None
+    about_me = None
     office_location = None
     if "role" in request.json and request.json["role"]:
         role = request.json["role"]
@@ -50,8 +50,8 @@ def edit_details(key):
         phone = request.json["phone"]
     if "manager_email" in request.json and request.json["manager_email"]:
         manager_email = request.json["manager_email"]
-    if "profile" in request.json and request.json["profile"]:
-        profile = request.json["profile"]
+    if "about_me" in request.json and request.json["about_me"]:
+        about_me = request.json["about_me"]
     if "office_location" in request.json and request.json["office_location"]:
         office_location = request.json["office_location"]
 
@@ -81,7 +81,7 @@ def edit_details(key):
             role = %s,
             phone = %s,
             manager_email = %s,
-            profile = %s,
+            about_me = %s,
             office_location = %s
         WHERE key = %s
         RETURNING *;
@@ -92,7 +92,7 @@ def edit_details(key):
         role,
         phone,
         manager_email,
-        profile,
+        about_me,
         office_location,
         user["key"]
     ))

@@ -6,7 +6,7 @@
 </script>
 
 <div class="group">
-	<Icon icon="call" />
+	<Icon icon="call" size=1.3 />
 	<div>
 		<div class="label">
 			Phone:
@@ -16,7 +16,7 @@
 </div>
 
 <div class="group">
-	<Icon icon="email" />
+	<Icon icon="email" size=1.3 />
 	<div>
 <div class="label">
 	Email:
@@ -27,7 +27,7 @@
 
 <div class="group">
 	
-	<Icon icon="language" />
+	<Icon icon="language" size=1.3 />
 	<div>
 		<div class="label">
 			Website:
@@ -37,7 +37,7 @@
 </div>
 
 <div class="group">
-	<Icon icon="location_on" />
+	<Icon icon="location_on" size=1.3 />
 	<div>
 		<div class="label">
 			Address:
@@ -63,7 +63,7 @@
 	}
 
 	.label{
-		font-size: small;
+		font-size: 0.8rem;
 	}
 
 	.gap {

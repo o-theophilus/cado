@@ -12,10 +12,10 @@ export const notification = writable();
 export const organization = writable({
 	name: 'Wragby',
 	whatsapp: '2349087733358',
-	twitter: 'wragbyng',
-	facebook: 'wragbysolutions',
-	instagram: 'wragby_ng',
-	linkedin: 'wragbysolutions',
+	linkedin: 'https://www.linkedin.com/in/wragbysolutions/',
+	twitter: 'https://twitter.com/wragbyng',
+	facebook: 'https://m.facebook.com/wragbysolutions',
+	instagram: 'https://www.instagram.com/wragby_ng/',
 
 	phone: "+2349087733358",
 	email: "info@wragbysolutions.com",

@@ -12,7 +12,9 @@
 	<div class="ititle"><strong> Contact Wragby </strong></div>
 	<br />
 	<Contact />
-	<Socials links={$organization} />
+	<div class="social">
+		<Socials links={$organization} />
+	</div>
 </footer>
 
 <div class="copyright">
@@ -36,6 +38,11 @@
 
 		text-align: center;
 		color: var(--ft1_b);
+		font-size: 0.8rem;
 		background-color: var(--ft1_d);
+	}
+
+	.social {
+		margin: var(--sp4) 0;
 	}
 </style>

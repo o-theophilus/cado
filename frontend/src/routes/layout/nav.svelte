@@ -60,7 +60,7 @@
 	}
 
 	img {
-		height: 40px;
+		height: 32px;
 	}
 
 	.links {

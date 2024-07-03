@@ -69,7 +69,8 @@
 <style>
 	.line {
 		display: flex;
-		gap: var(--sp0);
+		gap: var(--sp1);
+		margin-top: var(--sp1);
 	}
 
 	input {

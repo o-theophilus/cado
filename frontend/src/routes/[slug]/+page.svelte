@@ -1,27 +1,17 @@
 <script>
 	import { page } from '$app/stores';
-	import { slide } from 'svelte/transition';
-	import { cubicInOut } from 'svelte/easing';
-	import { user as me, module, to_print } from '$lib/store.js';
+	import { user as me, to_print, organization } from '$lib/store.js';
 
 	import Meta from '$lib/meta.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Link from '$lib/button/link.svelte';
-	import Fold from '$lib/button/fold.svelte';
 	import Header from './header.svelte';
 	import NameRole from './name_role.svelte';
 
 	import Socials from '../layout/socials.svelte';
 
-	import Detail from './_detail.svelte';
-	import Social from './_social.svelte';
-
-	import Photo from './_photo.svelte';
-	import Email from './_email_1.svelte';
-	import Delete from './_delete.svelte';
-	import Password from './_password_1_email.svelte';
-
 	import Print from './print.svelte';
+	import Setting from './setting.svelte';
 
 	export let data;
 	$: user = data.user;
@@ -52,145 +42,73 @@
 
 <section class="content">
 	{#if user.about_me}
-		<div class="grid">
-			<Icon icon="person" />
-			About Me:
-			<span />
-			{user.about_me}
+		<div class="group">
+			<Icon icon="person" size="1.2" />
+			<div>
+				<div class="label">About me:</div>
+				<div class="about">
+					{user.about_me}
+				</div>
+			</div>
 		</div>
 	{/if}
 
 	{#if user.phone}
-		<span class="grid">
-			<Icon icon="call" />
-			phone:
-			<span />
-			<Link href="tel:+234{user.phone}">{user.phone}</Link>
+		<span class="group">
+			<Icon icon="call" size="1.2" />
+			<div>
+				<div class="label">Phone:</div>
+				<Link href="tel:{user.phone}">{user.phone}</Link>
+			</div>
 		</span>
 	{/if}
 
-	<div class="grid">
-		<Icon icon="email" size="20" />
-		Email:
-		<span />
-		<Link href="mailto:{user.email}">
-			{user.email}
-		</Link>
+	<div class="group">
+		<Icon icon="email" size="1.2" />
+		<div>
+			<div class="label">Email:</div>
+			<Link href="mailto:{user.email}">
+				{user.email}
+			</Link>
+		</div>
 	</div>
 
-	<Socials links={{ ...user, name: user.firstname }} />
+	{#if user.office_location}
+		<div class="group">
+			<Icon icon="location_on" size="1.2" />
+			<div>
+				<div class="label">Location:</div>
+				{#each $organization.address as a}
+					<Link href="https://maps.app.goo.gl/{a.url}">
+						{#if a.name == user.office_location}
+							{a.address}
+						{/if}
+					</Link>
+				{/each}
+			</div>
+		</div>
+	{/if}
 
-	<Link
-		on:click={() => {
-			// $to_print = user;
-			// setTimeout(() => {
-			// 	window.print();
-			// });
-		}}
-	>
-		Print
-	</Link>
+	<div class="social">
+		<Socials links={{ ...user, name: user.firstname }} />
+		<div class="business_card">
+			<Link
+				on:click={() => {
+					// $to_print = user;
+					// setTimeout(() => {
+					// 	window.print();
+					// });
+				}}
+			>
+				Business Card
+			</Link>
+		</div>
+	</div>
 
-	<Print {user} />
+	<!-- <Print {user} /> -->
 
 	{#if user.key == $me.key}
-		<hr />
-		<div class="settings">
-			<div class="line gap">
-				<div class="line">
-					<Icon icon="settings" size="20" />
-					Settings
-				</div>
-				<Fold
-					{open}
-					on:click={() => {
-						open = !open;
-					}}
-				/>
-			</div>
-			{#if open}
-				<div class="links" transition:slide|local={{ delay: 0, duration: 200, easing: cubicInOut }}>
-					<br />
-					<Link
-						on:click={() => {
-							$module = {
-								module: Detail,
-								user,
-								update
-							};
-						}}
-					>
-						Edit Details
-					</Link>
-
-					|
-
-					<Link
-						on:click={() => {
-							$module = {
-								module: Photo,
-								user,
-								update: update_photo
-							};
-						}}
-					>
-						Edit Photo
-					</Link>
-
-					<br />
-
-					<Link
-						on:click={() => {
-							$module = {
-								module: Email,
-								update
-							};
-						}}
-					>
-						Edit Email
-					</Link>
-
-					|
-
-					<Link
-						on:click={() => {
-							$module = {
-								module: Social,
-								user,
-								update
-							};
-						}}
-					>
-						Edit Social Links
-					</Link>
-
-					<br />
-
-					<Link
-						on:click={() => {
-							$module = {
-								module: Password
-							};
-						}}
-					>
-						Change Password
-					</Link>
-
-					|
-
-					<Link
-						on:click={() => {
-							$module = {
-								module: Delete,
-								user
-							};
-						}}
-					>
-						Delete Account
-					</Link>
-				</div>
-			{/if}
-		</div>
+		<Setting {user} {update} {update_photo} />
 	{/if}
 </section>
 
@@ -204,26 +122,29 @@
 		padding: 0 var(--sp2);
 	}
 
-	.grid {
-		display: grid;
-		grid-template-columns: 1fr 100fr;
+	.group {
+		display: flex;
 		gap: 0 var(--sp2);
-
-		align-items: center;
+		align-items: flex-start;
 		margin: var(--sp2) 0;
 	}
+	.about {
+		line-height: 1.5;
+	}
+	.label {
+		font-size: 0.8rem;
+	}
 
-	.settings {
+	.social {
 		margin: var(--sp4) 0;
 	}
 
-	.line {
-		display: flex;
-		align-items: center;
-		gap: var(--sp2);
-	}
+	.business_card {
+		width: fit-content;
+		border-radius: var(--sp1);
+		padding: var(--sp1) var(--sp2);
+		margin-top: var(--sp2);
 
-	.gap {
-		justify-content: space-between;
+		background-color: var(--bg2);
 	}
 </style>

@@ -1,5 +1,5 @@
 <script>
-	import { module, notification, loading,organization } from '$lib/store.js';
+	import { module, notification, loading, organization } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import IG from '$lib/input_group.svelte';
@@ -10,6 +10,9 @@
 	let form = {
 		...$module.user
 	};
+	if (form.office_location == null) {
+		form.office_location = $organization.address[0].name;
+	}
 
 	let error = {};
 
@@ -44,7 +47,7 @@
 			$module.update(resp.user);
 			$module = null;
 			$notification = {
-				message: 'Name Changed'
+				message: 'Details Saved'
 			};
 		} else {
 			error = resp;
@@ -53,16 +56,14 @@
 </script>
 
 <form on:submit|preventDefault novalidate autocomplete="off">
-	<strong class="ititle"> Edit Name </strong>
+	<strong class="ititle"> Edit Information </strong>
 	{#if error.error}
 		<div class="error">
 			{error.error}
 		</div>
 	{/if}
 
-	<div class="line">
-
-		<IG
+	<IG
 		name="Firstname"
 		icon="person"
 		error={error.firstname}
@@ -70,9 +71,9 @@
 		type="text"
 		bind:value={form.firstname}
 		required
-		/>
-		
-		<IG
+	/>
+
+	<IG
 		name="Lastname"
 		icon="person"
 		error={error.lastname}
@@ -80,8 +81,7 @@
 		type="text"
 		bind:value={form.lastname}
 		required
-		/>
-	</div>
+	/>
 
 	<IG
 		name="Role"
@@ -101,15 +101,35 @@
 		bind:value={form.phone}
 	/>
 
-	Office Location
-	<Dropdown list={$organization.address.map(a => a.name)} wide on:change={(e)=>{
-		form.office_location = e.target.value
-	}}></Dropdown>
-	{#each $organization.address as a}
-		{#if a.name == form.office_location}
-			{a.address}
-		{/if}
-	{/each}
+	<label for="location">Office Location</label>
+	<div class="dropdown">
+		<Dropdown
+			list={$organization.address.map((a) => a.name)}
+			id="location"
+			icon="location_on"
+			wide
+			default_value={form.office_location}
+			on:change={(e) => {
+				form.office_location = e.target.value;
+			}}
+		/>
+
+		<div>
+			{#each $organization.address as a}
+				{#if a.name == form.office_location}
+					{a.address}
+				{/if}
+			{/each}
+		</div>
+	</div>
+
+	<IG
+		name="About Me"
+		error={error.about_me}
+		type="textarea"
+		placeholder="About me here"
+		bind:value={form.about_me}
+	/>
 
 	<IG
 		name="Manager's Email"
@@ -118,14 +138,6 @@
 		type="email"
 		bind:value={form.manager_email}
 		placeholder="Email here"
-	/>
-
-	<IG
-		name="About Me"
-		error={error.about_me}
-		type="textarea"
-		placeholder="About me here"
-		bind:value={form.about_me}
 	/>
 
 	<Button on:click={validate}>
@@ -141,8 +153,17 @@
 	.error {
 		margin: var(--sp2) 0;
 	}
+	label {
+		font-size: 0.8em;
+	}
+	.dropdown {
+		margin-top: var(--sp1);
+	}
+	.dropdown div {
+		padding: var(--sp2);
+		font-size: 0.8rem;
+		background-color: var(--bg2);
 
-	.line{
-		display: flex;
+		border-radius: var(--sp0);
 	}
 </style>

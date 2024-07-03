@@ -33,7 +33,8 @@
 
 		color: var(--ft2);
 		text-decoration: none;
-		font-weight: 800;
+		font-weight: 700;
+		font-size: 0.8rem;
 
 		transition: border-color var(--trans), color var(--trans), font-weight var(--trans);
 	}

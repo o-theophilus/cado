@@ -17,7 +17,7 @@ user_table = """CREATE TABLE IF NOT EXISTS "user" (
     lastname VARCHAR(100) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     phone VARCHAR(100),
-    profile TEXT,
+    about_me TEXT,
     organization VARCHAR(255),
     manager_email VARCHAR(255),
     role VARCHAR(100),

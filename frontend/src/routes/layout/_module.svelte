@@ -3,14 +3,14 @@
 	import { backInOut } from 'svelte/easing';
 
 	import { module } from '$lib/store.js';
-	import Button from '$lib/button/round.svelte';
+	import BRound from '$lib/button/round.svelte';
 </script>
 
 {#if $module}
 	<section>
 		<div class="block" transition:scale|local={{ delay: 0, duration: 200, easing: backInOut }}>
 			<div class="close">
-				<Button
+				<BRound
 					large
 					icon="close"
 					extra="hover_red"

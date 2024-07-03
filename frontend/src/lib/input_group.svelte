@@ -4,6 +4,8 @@
 
 	export let name = '';
 	export let icon = '';
+	export let svg = false;
+	export let icon_size = 1.2;
 	export let error = '';
 	let id = name.split(' ').join('_').toLowerCase();
 
@@ -35,7 +37,7 @@
 	<slot {id}>
 		<div class="input" class:left_pad={icon} class:disabled>
 			{#if icon}
-				<Icon {icon} size=20 />
+				<Icon {icon} {svg} size={icon_size} />
 			{/if}
 			<Input bind:value {id} {type} {placeholder} {min} {disabled} on:blur on:input />
 			<slot name="right" />
@@ -49,7 +51,7 @@
 		width: 100%;
 	}
 	.inputGroup:not(.no_pad) {
-		margin: var(--sp3) 0;
+		margin: var(--sp2) 0;
 	}
 
 	.input {
@@ -64,6 +66,7 @@
 
 		outline: 2px solid var(--input);
 		color: var(--ft2);
+		fill: currentColor;
 
 		transition: outline-color var(--trans);
 	}
@@ -81,7 +84,8 @@
 		padding-left: var(--sp2);
 	}
 
-	label,.error{
-		font-size: small;
+	label,
+	.error {
+		font-size: 0.8rem;
 	}
 </style>

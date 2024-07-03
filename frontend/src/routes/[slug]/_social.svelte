@@ -19,7 +19,7 @@
 	};
 
 	const submit = async () => {
-		$loading = 'Saving Post . . .';
+		$loading = 'Saving Links . . .';
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/links/${$module.user.key}`, {
 			method: 'put',
 			headers: {
@@ -36,7 +36,7 @@
 			$module.update(resp.user);
 			$module = null;
 			$notification = {
-				message: 'Name Changed'
+				message: 'Links Saved'
 			};
 		} else {
 			error = resp;
@@ -54,40 +54,50 @@
 
 	<IG
 		type="text"
-		icon="person"
-		placeholder="Whatsapp here"
+		icon="whatsapp"
+		svg
+		icon_size="1"
+		placeholder="Whatsapp number"
 		error={error.whatsapp}
 		bind:value={form.whatsapp}
-	/>
-
+		/>
+		
 	<IG
 		type="text"
-		icon="person"
-		placeholder="Linkedin here"
+		icon="linkedin"
+		svg
+		icon_size="1"
+		placeholder="Linkedin profile url"
 		error={error.linkedin}
 		bind:value={form.linkedin}
-	/>
-
-	<IG
+		/>
+		
+		<IG
 		type="text"
-		icon="person"
-		placeholder="Twitter here"
+		icon="twitter"
+		svg
+		icon_size="1"
+		placeholder="Twitter profile url"
 		error={error.twitter}
 		bind:value={form.twitter}
-	/>
-
-	<IG
+		/>
+		
+		<IG
 		type="text"
-		icon="person"
-		placeholder="Facebook here"
+		icon="facebook"
+		svg
+		icon_size="1"
+		placeholder="Facebook profile url"
 		error={error.facebook}
 		bind:value={form.facebook}
-	/>
-
-	<IG
+		/>
+		
+		<IG
 		type="text"
-		icon="person"
-		placeholder="Instagram here"
+		icon="instagram"
+		svg
+		icon_size="1"
+		placeholder="Instagram profile url"
 		error={error.instagram}
 		bind:value={form.instagram}
 	/>

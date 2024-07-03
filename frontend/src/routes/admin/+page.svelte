@@ -25,6 +25,22 @@
 	<br />
 	Todo
 	<br />
+	home hero image
+	<br />
+	Update email templates
+	<br />
+	update admin email sender email
+	<br />
+	admin menu show for only admin
+	<br />
+	primary button / button color
+	<br />
+	verify organization email domain
+	<br />
+	header photo
+	<br />
+	organisation info from backend
+	<br />
 </Content>
 
 <style>

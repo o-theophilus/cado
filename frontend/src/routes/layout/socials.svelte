@@ -1,55 +1,55 @@
 <script>
-	import SVG from '$lib/svg.svelte';
+	import Icon from '$lib/icon.svelte';
 	export let links = {};
 </script>
 
-<div class="block" >
-	{#if links.whatsapp}
-		<a href="https://wa.me/{links.whatsapp}/?text=Hello%20{links.name}">
-			<SVG type="whatsapp" />
-		</a>
-	{/if}
+{#if links.whatsapp || links.linkedin || links.twitter || links.facebook || links.instagram}
+	<div class="block">
+		{#if links.whatsapp}
+			<a href="https://wa.me/{links.whatsapp}/?text=Hello%20{links.name}">
+				<Icon svg icon="whatsapp" />
+			</a>
+		{/if}
 
-	{#if links.linkedin}
-		<a
-			href="https://www.linkedin.com/in/{links.linkedin}/"
-			target="_blank"
-			rel="noopener noreferrer"
-		>
-			<SVG type="linkedin" />
-		</a>
-	{/if}
+		{#if links.linkedin}
+			<a
+				href={links.linkedin}
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				<Icon svg icon="linkedin" />
+			</a>
+		{/if}
 
-	{#if links.twitter}
-		<a href="https://twitter.com/{links.twitter}" target="_blank" rel="noopener noreferrer">
-			<SVG type="twitter" />
-		</a>
-	{/if}
+		{#if links.twitter}
+			<a href={links.twitter} target="_blank" rel="noopener noreferrer">
+				<Icon svg icon="twitter" />
+			</a>
+		{/if}
 
-	{#if links.facebook}
-		<a href="https://m.facebook.com/{links.facebook}" target="_blank" rel="noopener noreferrer">
-			<SVG type="facebook" />
-		</a>
-	{/if}
+		{#if links.facebook}
+			<a href={links.facebook} target="_blank" rel="noopener noreferrer">
+				<Icon svg icon="facebook" />
+			</a>
+		{/if}
 
-	{#if links.instagram}
-		<a
-			href="https://www.instagram.com/{links.instagram}/"
-			target="_blank"
-			rel="noopener noreferrer"
-		>
-			<SVG type="instagram" />
-		</a>
-	{/if}
-</div>
+		{#if links.instagram}
+			<a
+				href={links.instagram}
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				<Icon svg icon="instagram" />
+			</a>
+		{/if}
+	</div>
+{/if}
 
 <style>
 	.block {
 		display: flex;
 		flex-wrap: wrap;
-		gap: var(--sp1);
-
-		margin: var(--sp4) 0;
+		gap: var(--sp0);
 
 		max-width: var(--mobileWidth);
 	}

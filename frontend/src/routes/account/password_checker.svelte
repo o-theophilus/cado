@@ -21,15 +21,17 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		text-align: center;
 		
 		padding: 4px;
 		
-		font-size: 12px;
+		font-size: 0.6rem;
 		color: var(--ft2);
 		background-color: var(--bg2);
 
 		width: 100%;
 	}
+	
 	.active {
 		color: var(--ft1_b);
 		background-color: var(--cl3);

@@ -33,12 +33,12 @@
 
 	{#if open}
 		<div class="menu" transition:slide={{ delay: 0, duration: 200, easing: cubicInOut }}>
+			{#if $page.url.pathname != `/${$user.slug}`}
+				<Link href="/{$user.slug}">Profile</Link>
+			{/if}
 			<!-- {#if $user.admin && $page.url.pathname != '/admin'} -->
 			{#if $page.url.pathname != '/admin'}
 				<Link href="/admin">Admin</Link>
-			{/if}
-			{#if $page.route.id != '/[slug]'}
-				<Link href="/{$user.slug}">Profile</Link>
 			{/if}
 			<Logout />
 		</div>
@@ -74,7 +74,7 @@
 
 		display: flex;
 		flex-direction: column;
-		gap: var(--sp2);
+		gap: var(--sp1);
 
 		background-color: var(--bg2);
 

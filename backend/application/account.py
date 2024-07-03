@@ -334,12 +334,16 @@ def logout():
     key = uuid4().hex
     cur.execute("""
         INSERT INTO "user" (
-            key, name, email, password, setting_theme
-        ) VALUES (%s, %s, %s, %s, %s) RETURNING *;
+            key, slug, firstname, lastname, email, password)
+        VALUES (%s, %s, %s, %s, %s, %s)
+        RETURNING *;
     """, (
-        key, f"user_{key[-4:]}", uuid4().hex,
-        generate_password_hash(uuid4().hex, method="scrypt"),
-        user["setting_theme"]
+        key,
+        key,
+        f"user_{key[:4]}",
+        f"user_{key[-4:]}",
+        uuid4().hex,
+        generate_password_hash(uuid4().hex, method="scrypt")
     ))
     anon_user = cur.fetchone()
 

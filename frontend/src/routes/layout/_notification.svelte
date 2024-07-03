@@ -76,7 +76,7 @@
 		align-items: center;
 		gap: var(--sp2);
 
-		padding: 0 var(--sp2);
+		padding: var(--sp2);
 	}
 
 	.progress {
