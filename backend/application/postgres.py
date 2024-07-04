@@ -7,6 +7,7 @@ import psycopg2.extras
 bp = Blueprint("postgres", __name__)
 
 
+# TODO: organization to organization_key
 user_table = """CREATE TABLE IF NOT EXISTS "user" (
     key CHAR(32) PRIMARY KEY,
     status VARCHAR(20) DEFAULT 'anonymous' NOT NULL,

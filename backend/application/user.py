@@ -8,6 +8,7 @@ import re
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
 from .storage import storage
+from .account import organization
 
 
 bp = Blueprint("user", __name__)
@@ -275,6 +276,10 @@ def email_3_new_email():
         error = "cannot be empty"
     elif not re.match(r"\S+@\S+\.\S+", request.json["email"]):
         error = "invalid email"
+    elif organization["email_domain"] != [] and not request.json[
+            "email"].endswith(tuple(organization["email_domain"])):
+        error["email"
+              ] = f"Please enter a valid {organization["name"]} email address"
     if error:
         db_close(con, cur)
         return jsonify({
@@ -303,8 +308,15 @@ def email_3_new_email():
         request.json["email"],
         "Email Change Confirmation - One-Time Password (OTP)",
         request.json['email_template'].format(
-            name=user["name"], otp=generate_otp(
-                cur, user["key"], request.json["email"], "change email", False)
+            firstname=user["firstname"],
+            otp=generate_otp(
+                cur,
+                user["key"],
+                request.json["email"],
+                "change email",
+                False
+            ),
+            organization_name=organization["name"]
         )
     )
 
@@ -337,6 +349,10 @@ def email_4_new_otp():
     if (
         "email" not in request.json or not request.json["email"]
         or not re.match(r"\S+@\S+\.\S+", request.json["email"])
+        or (
+            organization["email_domain"] != [] and not request.json[
+            "email"].endswith(tuple(organization["email_domain"]))
+        )
     ):
         db_close(con, cur)
         return jsonify({
@@ -392,7 +408,7 @@ def email_4_new_otp():
     })
 
 
-@bp.post("/user/password/1")
+@ bp.post("/user/password/1")
 def password_1_email():
     con, cur = db_open()
 
@@ -418,9 +434,14 @@ def password_1_email():
         user["email"],
         "Password Change Confirmation - One-Time Password (OTP)",
         request.json['email_template'].format(
-            name=user["name"],
+            firstname=user["firstname"],
             otp=generate_otp(
-                cur, user["key"], user["email"], "change password")
+                cur,
+                user["key"],
+                user["email"],
+                "change password"
+            ),
+            organization_name=organization["name"]
         )
     )
 
@@ -430,7 +451,7 @@ def password_1_email():
     })
 
 
-@bp.post("/user/password/2")
+@ bp.post("/user/password/2")
 def password_2_otp():
     con, cur = db_open()
 
@@ -456,7 +477,7 @@ def password_2_otp():
     })
 
 
-@bp.post("/user/password/3")
+@ bp.post("/user/password/3")
 def password_3_password():
     con, cur = db_open()
 
@@ -585,7 +606,7 @@ def delete():
     })
 
 
-@bp.put("/user/photo")
+@ bp.put("/user/photo")
 def add_photo():
     con, cur = db_open()
 
@@ -636,7 +657,7 @@ def add_photo():
     })
 
 
-@bp.delete("/user/photo")
+@ bp.delete("/user/photo")
 def delete_photo():
     con, cur = db_open()
 

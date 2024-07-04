@@ -3,36 +3,10 @@ import { writable, get } from 'svelte/store';
 import { invalidate } from '$app/navigation';
 
 export const user = writable();
-export const settings = writable({});
-
 export const loading = writable(false);
 export const module = writable();
 export const notification = writable();
-
-export const organization = writable({
-	name: 'Wragby',
-	whatsapp: '2349087733358',
-	linkedin: 'https://www.linkedin.com/in/wragbysolutions/',
-	twitter: 'https://twitter.com/wragbyng',
-	facebook: 'https://m.facebook.com/wragbysolutions',
-	instagram: 'https://www.instagram.com/wragby_ng/',
-
-	phone: "+2349087733358",
-	email: "info@wragbysolutions.com",
-	website: "www.wragbysolutions.com",
-	address: [
-		{
-			name: "lagos",
-			address: "Plot 21A Olubunmi Rotimi Street, off Abike Sulaiman Street, Lekki Phase 1, Lagos 105102, Nigeria.",
-			url: "WZNYkkKXp8sU599W7"
-		},
-		{
-			name: "abuja",
-			address: "1338 Leo Stan Ekeh Way, Area 3, Abuja, Nigeria.",
-			url: "vn3VqzfyUXimDCYp7"
-		}
-	]
-});
+export const organization = writable({});
 
 export const to_print = writable(null);
 

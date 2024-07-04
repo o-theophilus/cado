@@ -5,6 +5,7 @@
 	import Meta from '$lib/meta.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Link from '$lib/button/link.svelte';
+	import Button from '$lib/button/button.svelte';
 	import Header from './header.svelte';
 	import NameRole from './name_role.svelte';
 
@@ -29,8 +30,6 @@
 			$me = user;
 		}
 	};
-
-	let open = false;
 </script>
 
 {#key `${$page.url.pathname}${$page.url.search}`}
@@ -92,16 +91,20 @@
 	<div class="social">
 		<Socials links={{ ...user, name: user.firstname }} />
 		<div class="business_card">
-			<Link
+			<Button
+				size="small"
 				on:click={() => {
-					// $to_print = user;
-					// setTimeout(() => {
-					// 	window.print();
-					// });
+					$to_print = user;
+					setTimeout(() => {
+						window.print();
+					});
+					setTimeout(() => {
+						$to_print = null;
+					});
 				}}
 			>
 				Business Card
-			</Link>
+			</Button>
 		</div>
 	</div>
 
@@ -129,6 +132,7 @@
 		margin: var(--sp2) 0;
 	}
 	.about {
+		margin-top: var(--sp0);
 		line-height: 1.5;
 	}
 	.label {
@@ -140,11 +144,6 @@
 	}
 
 	.business_card {
-		width: fit-content;
-		border-radius: var(--sp1);
-		padding: var(--sp1) var(--sp2);
 		margin-top: var(--sp2);
-
-		background-color: var(--bg2);
 	}
 </style>

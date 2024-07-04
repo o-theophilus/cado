@@ -1,5 +1,5 @@
 <script>
-	import { module, user, loading } from '$lib/store.js';
+	import { module, user, loading, organization } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import Button from '$lib/button/button.svelte';
@@ -24,6 +24,11 @@
 			error.email = 'Please enter a valid email';
 		} else if (form.email == $user.email) {
 			error.email = 'please use a different email form your current email';
+		} else if (
+			$organization.email_domain.length > 0 &&
+			!$organization.email_domain.some((x) => form.email.endsWith(x))
+		) {
+			error.email = `invalid ${$organization.name} email`;
 		}
 
 		Object.keys(error).length === 0 && submit();

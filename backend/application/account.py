@@ -12,6 +12,34 @@ bp = Blueprint("account", __name__)
 max_age = 3600
 
 
+organization = {
+    "name": 'Wragby',
+    "whatsapp": '2349087733358',
+    "linkedin": 'https://www.linkedin.com/in/wragbysolutions/',
+    "twitter": 'https://twitter.com/wragbyng',
+    "facebook": 'https://m.facebook.com/wragbysolutions',
+    "instagram": 'https://www.instagram.com/wragby_ng/',
+
+    "phone": "+2349087733358",
+    "email": "info@wragbysolutions.com",
+    "website": "www.wragbysolutions.com",
+    "address": [
+        {
+            "name": "lagos",
+            "address": """Plot 21A Olubunmi Rotimi Street, off Abike Sulaiman
+                Street, Lekki Phase 1, Lagos 105102, Nigeria.""",
+            "url": "https://maps.app.goo.gl/WZNYkkKXp8sU599W7"
+        },
+        {
+            "name": "abuja",
+            "address": "1338 Leo Stan Ekeh Way, Area 3, Abuja, Nigeria.",
+            "url": "https://maps.app.goo.gl/vn3VqzfyUXimDCYp7"
+        }
+    ],
+    "email_domain": ["@wragbysolutions.com"]
+}
+
+
 @bp.post("/init")
 def init():
     con, cur = db_open()
@@ -43,6 +71,7 @@ def init():
         "status": 200,
         "user": user_schema(user),
         "token": token,
+        "organization": organization
     })
 
 
@@ -80,6 +109,10 @@ def signup():
         error["email"] = "cannot be empty"
     elif not re.match(r"\S+@\S+\.\S+", request.json["email"]):
         error["email"] = "Please enter a valid email"
+    elif organization["email_domain"] != [] and not request.json[
+            "email"].endswith(tuple(organization["email_domain"])):
+        error["email"
+              ] = f"Please enter a valid {organization["name"]} email address"
     else:
         cur.execute('SELECT * FROM "user" WHERE email = %s;', (
             request.json["email"],))
@@ -163,7 +196,13 @@ def signup():
         "Welcome to my portfolio website! Complete your signup with this OTP",
         request.json['email_template'].format(
             name=user['firstname'],
-            otp=generate_otp(cur, user["key"], user["email"], "signup")
+            otp=generate_otp(
+                cur,
+                user["key"],
+                user["email"],
+                "signup"
+            ),
+            organization_name=organization["name"]
         )
     )
 
@@ -396,9 +435,14 @@ def forgot_1_email():
         user["email"],
         "Password Change Confirmation - One-Time Password (OTP)",
         request.json['email_template'].format(
-            name=user["name"],
+            firstname=user["firstname"],
             otp=generate_otp(
-                cur, user["key"], user["email"], "forgot password")
+                cur,
+                user["key"],
+                user["email"],
+                "forgot password"
+            ),
+            organization_name=organization["name"]
         )
     )
 

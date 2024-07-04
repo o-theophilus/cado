@@ -1,5 +1,4 @@
 <script>
-	import { page } from '$app/stores';
 	import { organization } from '$lib/store.js';
 
 	import Contact from './footer.contact.svelte';

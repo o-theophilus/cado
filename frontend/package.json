@@ -23,6 +23,7 @@
 	"type": "module",
 	"dependencies": {
 		"html2pdf.js": "^0.10.2",
-		"qrcode": "^1.5.3"
+		"qrcode": "^1.5.3",
+		"wkhtmltopdf": "^0.4.0"
 	}
 }

@@ -47,11 +47,6 @@
 		justify-content: flex-end;
 	}
 
-	.ititle {
-		color: var(--ft1);
-		font-size: x-large;
-	}
-
 	.avatar_place {
 		position: relative;
 		width: 148px;

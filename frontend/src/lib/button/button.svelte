@@ -32,9 +32,9 @@
 		align-items: center;
 		gap: var(--sp1);
 
-		padding: calc(var(--sp2) - 2px) var(--sp2);
+		padding: var(--sp2) var(--sp3);
 		border: none;
-		border-radius: var(--sp0);
+		border-radius: var(--sp1);
 		width: fit-content;
 
 		background-color: var(--button);
@@ -43,7 +43,7 @@
 		fill: currentColor;
 		text-decoration: none;
 		text-align: center;
-		font-weight: 700;
+		font-weight: 800;
 		cursor: pointer;
 
 		transition: background-color var(--trans), color var(--trans), opacity var(--trans);
@@ -51,12 +51,12 @@
 
 	.large {
 		padding: var(--sp2) var(--sp3);
-		font-size: large;
+		font-size: 1.2rem;
 	}
 	.small {
-		padding: var(--sp0);
+		padding: var(--sp1) var(--sp2);
 		gap: var(--sp0);
-		font-size: small;
+		font-size: 0.8rem;
 		min-width: 28px;
 	}
 	.wide {

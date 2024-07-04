@@ -19,27 +19,27 @@
 			{#if $user && $user.login}
 				<User />
 			{:else}
-			<Link
-			{home}
-			on:click={() => {
-				$module = {
-					module: Login
-				};
-			}}
+				<Link
+					{home}
+					on:click={() => {
+						$module = {
+							module: Login
+						};
+					}}
 				>
-				Login
-			</Link>
-			
-			<Link
-				{home}
-				on:click={() => {
-					$module = {
-						module: Signup
-					};
-				}}
-			>
-			Signup
-			</Link>
+					Login
+				</Link>
+
+				<Link
+					{home}
+					on:click={() => {
+						$module = {
+							module: Signup
+						};
+					}}
+				>
+					Signup
+				</Link>
 			{/if}
 		</div>
 	</div>
@@ -66,20 +66,6 @@
 	.links {
 		display: flex;
 		gap: var(--sp2);
-	}
-	a {
-		display: flex;
-		align-items: center;
-		gap: var(--sp1);
-
-		color: var(--ft1);
-		fill: var(--cl1);
-		font-size: large;
-		font-weight: 800;
-
-		text-decoration: none;
-
-		transition: color var(--trans);
 	}
 
 	.block,

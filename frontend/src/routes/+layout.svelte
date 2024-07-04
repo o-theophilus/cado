@@ -1,5 +1,5 @@
 <script>
-	import { user, settings, to_print } from '$lib/store.js';
+	import { user, organization, to_print } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import './layout/var.css';
@@ -15,21 +15,21 @@
 	export let data;
 	$user = data.locals.user;
 	$token = data.locals.token;
-	$settings.highlight = data.locals.posts;
+	$organization = data.locals.organization;
 </script>
+
+<main class:hide={$to_print}>
+	<Nav />
+	<slot />
+	<Footer />
+
+	<Module />
+	<Loading />
+	<Notification />
+</main>
 
 {#if $to_print}
 	<Print user={$to_print} />
-{:else}
-	<main>
-		<Nav />
-		<slot />
-		<Footer />
-
-		<Module />
-		<Loading />
-		<Notification />
-	</main>
 {/if}
 
 <style>
@@ -39,5 +39,9 @@
 		background-color: var(--bg1);
 		color: var(--ft2);
 		transition: background-color var(--trans), color var(--trans);
+	}
+
+	.hide {
+		display: none;
 	}
 </style>

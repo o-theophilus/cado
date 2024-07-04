@@ -68,10 +68,11 @@
 		fill: var(--ft2);
 		background-color: var(--bg2);
 
-		transition: fill var(--trans);
+		transition: background-color var(--trans), fill var(--trans);
 	}
 
 	a:hover {
-		fill: var(--cl1);
+		fill: var(--ft1_b);
+		background-color: var(--button);
 	}
 </style>

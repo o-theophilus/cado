@@ -4,7 +4,7 @@
 	import { module } from '$lib/store.js';
 
 	import Icon from '$lib/icon.svelte';
-	import Link from '$lib/button/link.svelte';
+	import Link from '$lib/button/button.svelte';
 	import Fold from '$lib/button/fold.svelte';
 
 	import Detail from './_detail.svelte';
@@ -38,91 +38,92 @@
 	</div>
 	{#if open}
 		<div class="links" transition:slide|local={{ delay: 0, duration: 200, easing: cubicInOut }}>
-			<br />
-			<Link
-				on:click={() => {
-					$module = {
-						module: Detail,
-						user,
-						update
-					};
-				}}
-			>
-				Edit Details
-			</Link>
+			<div class="line">
+				<Link
+					size="small"
+					on:click={() => {
+						$module = {
+							module: Detail,
+							user,
+							update
+						};
+					}}
+				>
+					Edit Details
+				</Link>
 
-			|
+				<Link
+					size="small"
+					on:click={() => {
+						$module = {
+							module: Photo,
+							user,
+							update: update_photo
+						};
+					}}
+				>
+					Edit Photo
+				</Link>
+			</div>
 
-			<Link
-				on:click={() => {
-					$module = {
-						module: Photo,
-						user,
-						update: update_photo
-					};
-				}}
-			>
-				Edit Photo
-			</Link>
+			<div class="line">
+				<Link
+					size="small"
+					on:click={() => {
+						$module = {
+							module: Email,
+							update
+						};
+					}}
+				>
+					Edit Email
+				</Link>
 
-			<br />
+				<Link
+					size="small"
+					on:click={() => {
+						$module = {
+							module: Social,
+							user,
+							update
+						};
+					}}
+				>
+					Edit Social Links
+				</Link>
+			</div>
 
-			<Link
-				on:click={() => {
-					$module = {
-						module: Email,
-						update
-					};
-				}}
-			>
-				Edit Email
-			</Link>
+			<div class="line">
+				<Link
+					size="small"
+					on:click={() => {
+						$module = {
+							module: Password
+						};
+					}}
+				>
+					Change Password
+				</Link>
 
-			|
-
-			<Link
-				on:click={() => {
-					$module = {
-						module: Social,
-						user,
-						update
-					};
-				}}
-			>
-				Edit Social Links
-			</Link>
-
-			<br />
-
-			<Link
-				on:click={() => {
-					$module = {
-						module: Password
-					};
-				}}
-			>
-				Change Password
-			</Link>
-
-			|
-
-			<Link
-				on:click={() => {
-					$module = {
-						module: Delete,
-						user
-					};
-				}}
-			>
-				Delete Account
-			</Link>
+				<Link
+					size="small"
+					on:click={() => {
+						$module = {
+							module: Delete,
+							user
+						};
+					}}
+				>
+					Delete Account
+				</Link>
+			</div>
 		</div>
 	{/if}
 </div>
 
 <style>
 	.settings {
-		margin: var(--sp4) 0;
+		margin: var(--sp2) 0;
 	}
 
 	.line {
@@ -133,5 +134,10 @@
 
 	.gap {
 		justify-content: space-between;
+	}
+
+	.links .line {
+		margin: var(--sp1) 0;
+		gap: var(--sp1);
 	}
 </style>

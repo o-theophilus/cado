@@ -81,7 +81,7 @@
 		height: var(--size);
 
 		text-align: center;
-		font-size: x-large;
+		font-size: 1.5rem;
 		color: var(--ft1);
 		outline: 2px solid var(--input);
 		border: none;

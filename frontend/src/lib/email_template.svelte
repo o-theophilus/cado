@@ -7,6 +7,7 @@
 width: 100%;
 max-width: 500px;
 margin: auto;
+line-height: 1.5
 "
 >
 	<div
@@ -16,20 +17,12 @@ margin: auto;
 		"
 	>
 		<img
-			src="{$page.url.origin}/favicon.png"
+			src="{$page.url.origin}/logo.png"
 			alt="favicon"
 			style="
-		width: 30px;
 		height: 30px;
 		"
 		/>
-		<b
-			style="
-		font-size: x-large;
-		margin-left: 10px;
-	"
-			>Loup
-		</b>
 	</div>
 
 	<div
@@ -49,8 +42,6 @@ margin: auto;
 	font-size: x-small;
 	color: grey;"
 	>
-		&copy Loup 2023. All rights reserved.
-		<br />
-		Design for impact
+		&copy 2024 Wragby Business Solutions and Technologies Limited.
 	</div>
 </section>

@@ -7,7 +7,6 @@
 	import Icon from '$lib/icon.svelte';
 
 	export let user;
-	console.log(user);
 
 	onMount(() => {
 		QRCode.toDataURL(
@@ -22,94 +21,89 @@
 		);
 	});
 
-	let print_area;
 	let src = '';
 
-
-	// window.onafterprint = () => {
-	// 	$to_print = null;
-	// };
+	window.onafterprint = () => {
+		$to_print = null;
+	};
 </script>
 
-{#if user}
-	<div class="print_area" bind:this={print_area}>
-		<div class="block">
-			<div class="card back">
-				<div class="row2">
-					<img src="/logo.png" alt="logo" />
-					<span class="slogan">
-						Wragby Business Solutions & Technologies Limited
-						<br />
-						Work smart, achieve more.
-					</span>
-				</div>
-
-				<div class="row3">
-					<Icon icon="language" size="12" />
-					{$organization.website}
-				</div>
-				<div class="row4" />
+<div class="print_area">
+	<div class="block">
+		<div class="card back">
+			<div class="row2">
+				<img src="/logo.png" alt="logo" />
+				<span class="slogan">
+					Wragby Business Solutions & Technologies Limited
+					<br />
+					Work smart, achieve more.
+				</span>
 			</div>
 
-			<div class=" card front">
-				<div class="col1">
-					<img src="/logo.png" alt="logo" />
-					<div class="slogan">Work Smart, Achieve More</div>
-					<img class="qr" {src} alt="qr_code" />
-				</div>
+			<div class="row3">
+				<Icon icon="language" size="1.2" />
+				{$organization.website}
+			</div>
+			<div class="row4" />
+		</div>
 
-				<div class="col2">
-					<div />
-					<div />
-				</div>
-				<div class="col3">
-					<div class="details">
-						<div class="name">
-							{user.firstname}
-							{user.lastname}
-						</div>
+		<div class=" card front">
+			<div class="col1">
+				<img src="/logo.png" alt="logo" />
+				<div class="slogan">Work Smart, Achieve More</div>
+				<img class="qr" {src} alt="qr_code" />
+			</div>
 
-						{#if user.role}
+			<div class="col2">
+				<div />
+				<div />
+			</div>
+			<div class="col3">
+				<div class="details">
+					<div class="name">
+						{user.firstname}
+						{user.lastname}
+					</div>
+
+					{#if user.role}
 						<div>
 							{user.role}
 						</div>
-						{/if}
+					{/if}
 
-						<div class="divider" />
+					<div class="divider" />
 
-						{#if user.phone}
+					{#if user.phone}
 						<div class="phone">
 							<div class="icon">
-								<Icon icon="phone" size="10" />
+								<Icon icon="phone" size="1.2" />
 							</div>
 							{user.phone}
 						</div>
-						{/if}
-						
-						
-						<div class="email">
-							<div class="icon">
-								<Icon icon="email" size="10" />
-							</div>
-							{user.email}
+					{/if}
+
+					<div class="email">
+						<div class="icon">
+							<Icon icon="email" size="1.2" />
 						</div>
-						
-						{#each $organization.address as a}
-						{#if a.name == user.office_location}
-						<div class="location">
-									<div class="icon">
-										<Icon icon="location_on" size="10" />
-									</div>
-									{a.address}
-								</div>
-								{/if}
-								{/each}
+						{user.email}
 					</div>
+
+					{#each $organization.address as a}
+						{#if a.name == user.office_location}
+							<div class="location">
+								<div class="icon">
+									<Icon icon="location_on" size="1.2" />
+								</div>
+								{a.address}
+							</div>
+						{/if}
+					{/each}
 				</div>
 			</div>
 		</div>
 	</div>
-{/if}
+</div>
 
 <style>
 	* {
@@ -117,7 +111,6 @@
 		print-color-adjust: exact !important;
 
 		font-size: 10px;
-		/* line-height: 100%; */
 	}
 
 	.block {
@@ -221,16 +214,12 @@
 	.slogan {
 		font-size: xx-small;
 		text-align: center;
-
-		/* line-height: 150%; */
 	}
 
 	.name {
 		font-weight: 800;
 		font-size: medium;
 		color: var(--ft1);
-
-		/* line-height: 150%; */
 	}
 
 	.divider {

@@ -4,7 +4,7 @@
 </script>
 
 <Template>
-	<b> Hello {'{'}name{'}'}, </b>
+	<b> Hello {'{'}firstname{'}'}, </b>
 	<br />
 	<br />
 	To reset your password, please use the following One-Time Password (OTP):
@@ -35,5 +35,5 @@
 	Best regards,
 	<br />
 	<br />
-	<b> Theophilus </b>
+	<b>{'{'}organization_name{'}'}</b>
 </Template>

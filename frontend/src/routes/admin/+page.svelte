@@ -4,7 +4,6 @@
 	import Meta from '$lib/meta.svelte';
 	import Content from '$lib/content.svelte';
 	import Button from '$lib/button/button.svelte';
-
 </script>
 
 <Meta title="Admin Dashboard" description="This contains this website settings" />
@@ -25,21 +24,20 @@
 	<br />
 	Todo
 	<br />
-	home hero image
-	<br />
+
 	Update email templates
-	<br />
-	update admin email sender email
 	<br />
 	admin menu show for only admin
 	<br />
-	primary button / button color
-	<br />
-	verify organization email domain
-	<br />
 	header photo
 	<br />
-	organisation info from backend
+	home hero image
+	<br />
+	update admin email sender email
+	<br />
+	unify error messages
+	<br />
+	handle deleted user - get / re signup
 	<br />
 </Content>
 

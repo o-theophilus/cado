@@ -3,7 +3,7 @@
 </script>
 
 <Template>
-	<b> Dear {'{'}name{'}'}, </b>
+	<b> Dear {'{'}firstname{'}'}, </b>
 	<br />
 	<br />
 	To change your password, please use the following One-Time Password (OTP):
@@ -35,5 +35,5 @@
 	Best regards,
 	<br />
 	<br />
-	<b> Theophilus </b>
+	<b>{'{'}organization_name{'}'}</b>
 </Template>

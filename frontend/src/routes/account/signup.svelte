@@ -1,5 +1,5 @@
 <script>
-	import { module, loading } from '$lib/store.js';
+	import { module, loading, organization } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import IG from '$lib/input_group.svelte';
@@ -33,7 +33,13 @@
 			error.email = 'cannot be empty';
 		} else if (!/\S+@\S+\.\S+/.test(form.email)) {
 			error.email = 'invalid email';
+		} else if (
+			$organization.email_domain.length > 0 &&
+			!$organization.email_domain.some((x) => form.email.endsWith(x))
+		) {
+			error.email = `invalid ${$organization.name} email`;
 		}
+
 		if (!form.password) {
 			error.password = 'cannot be empty';
 		} else if (
@@ -161,6 +167,7 @@
 <div bind:this={email_template} style="display: none;">
 	<EmailTemplate />
 </div>
+<EmailTemplate />
 
 <style>
 	form {
