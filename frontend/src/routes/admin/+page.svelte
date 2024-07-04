@@ -39,6 +39,8 @@
 	<br />
 	handle deleted user - get / re signup
 	<br />
+	form should always me maximum width
+	<br />
 </Content>
 
 <style>
