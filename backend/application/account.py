@@ -36,7 +36,7 @@ organization = {
             "url": "https://maps.app.goo.gl/vn3VqzfyUXimDCYp7"
         }
     ],
-    "email_domain": ["@wragbysolutions.com"]
+    "email_domain": ["@wragbysolutions.com", "@gmail.com"]
 }
 
 
