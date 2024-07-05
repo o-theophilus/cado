@@ -195,7 +195,7 @@ def signup():
         user["email"],
         "Welcome to my portfolio website! Complete your signup with this OTP",
         request.json['email_template'].format(
-            name=user['firstname'],
+            firstname=user['firstname'],
             otp=generate_otp(
                 cur,
                 user["key"],

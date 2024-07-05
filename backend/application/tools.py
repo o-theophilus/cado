@@ -95,25 +95,25 @@ def check_otp(cur, key, email, n="otp"):
 
 
 def send_mail(to, subject, body):
-    if current_app.config["DEBUG"]:
-        print(body)
-    else:
-        admin = os.environ["MAIL_USERNAME"]
+    # if current_app.config["DEBUG"]:
+    #     print(body)
+    # else:
+    admin = os.environ["MAIL_USERNAME"]
 
-        msg = MIMEMultipart()
-        msg['From'] = formataddr(("Meji", admin))
-        msg['To'] = to
-        msg['Subject'] = subject
-        msg.attach(MIMEText(body, 'html'))
+    msg = MIMEMultipart()
+    msg['From'] = formataddr(("Meji", admin))
+    msg['To'] = to
+    msg['Subject'] = subject
+    msg.attach(MIMEText(body, 'html'))
 
-        server = smtplib.SMTP('smtp.office365.com', 587)
-        server.starttls()
-        server.login(
-            admin,
-            os.environ["MAIL_PASSWORD"]
-        )
-        server.sendmail(admin, to, msg.as_bytes())
-        server.quit()
+    server = smtplib.SMTP('smtp.office365.com', 587)
+    server.starttls()
+    server.login(
+        admin,
+        os.environ["MAIL_PASSWORD"]
+    )
+    server.sendmail(admin, to, msg.as_bytes())
+    server.quit()
 
 
 def user_schema(user):
