@@ -100,6 +100,7 @@ def send_mail(to, subject, body):
     # else:
     admin = os.environ["MAIL_USERNAME"]
 
+    print("sending")
     msg = MIMEMultipart()
     msg['From'] = formataddr(("Meji", admin))
     msg['To'] = to

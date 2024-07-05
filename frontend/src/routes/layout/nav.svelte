@@ -20,7 +20,7 @@
 				<User />
 			{:else}
 				<Link
-					{home}
+				
 					on:click={() => {
 						$module = {
 							module: Login
@@ -31,7 +31,7 @@
 				</Link>
 
 				<Link
-					{home}
+				
 					on:click={() => {
 						$module = {
 							module: Signup
