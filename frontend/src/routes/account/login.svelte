@@ -31,10 +31,10 @@
 		error = {};
 
 		if (!form.email) {
-			error.email = 'cannot be empty';
+			error.email = 'this field is required';
 		}
 		if (!form.password) {
-			error.password = 'cannot be empty';
+			error.password = 'this field is required';
 		}
 
 		Object.keys(error).length === 0 && submit();

@@ -1,29 +1,14 @@
 <script>
-	import { page } from '$app/stores';
-	import { onMount } from 'svelte';
 </script>
 
-<div class="header">
-	<div class="block">
-		<!-- <canvas bind:this={canvas} /> -->
-	</div>
-</div>
+<img src="/bg2.jpg" alt="" />
 
 <style>
-	.header {
-		background-color: red;
-		print-color-adjust: exact;
-	}
-
-	.block {
-		display: flex;
-		justify-content: flex-end;
-		align-items: flex-end;
-
+	img {
 		height: 280px;
-		max-width: var(--mobileWidth);
 		width: 100%;
-		margin: auto;
-		padding: var(--sp2);
+
+		object-fit: cover;
+		background-color: #eae8e9;
 	}
 </style>

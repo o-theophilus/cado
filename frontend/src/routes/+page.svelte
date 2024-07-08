@@ -29,5 +29,20 @@
 
 <Meta title="Home" description="Welcome to my personal portfolio website." />
 
+<img src="/bg1.jpg" alt="" />
+
 <style>
+	img {
+		height: 480px;
+		width: 100%;
+
+		object-fit: cover;
+		background-color: #eae8e9;
+	}
+	
+	@media screen and (min-width: 900px) {
+		img {
+			object-fit: contain;
+		}
+	}
 </style>

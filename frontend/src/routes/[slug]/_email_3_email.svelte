@@ -19,7 +19,7 @@
 		error = {};
 
 		if (!form.email) {
-			error.email = 'cannot be empty';
+			error.email = 'this field is required';
 		} else if (!/\S+@\S+\.\S+/.test(form.email)) {
 			error.email = 'Please enter a valid email';
 		} else if (form.email == $user.email) {

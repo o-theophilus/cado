@@ -65,7 +65,7 @@ def generate_otp(cur, key, email, _from, clear=True):
 def check_otp(cur, key, email, n="otp"):
     error = None
     if n not in request.json or not request.json[n]:
-        error = "cannot be empty"
+        error = "this field is required"
     elif len(request.json[n]) != 6:
         error = "invalid OTP"
 
@@ -95,25 +95,25 @@ def check_otp(cur, key, email, n="otp"):
 
 
 def send_mail(to, subject, body):
-    # if current_app.config["DEBUG"]:
-    #     print(body)
-    # else:
-    admin = os.environ["MAIL_USERNAME"]
+    if current_app.config["DEBUG"]:
+        print(body)
+    else:
+        admin = os.environ["MAIL_USERNAME"]
 
-    msg = MIMEMultipart()
-    msg['From'] = formataddr(("Meji", admin))
-    msg['To'] = to
-    msg['Subject'] = subject
-    msg.attach(MIMEText(body, 'html'))
+        msg = MIMEMultipart()
+        msg['From'] = formataddr(("Urlinks", admin))
+        msg['To'] = to
+        msg['Subject'] = subject
+        msg.attach(MIMEText(body, 'html'))
 
-    server = smtplib.SMTP('smtp.office365.com', 587)
-    server.starttls()
-    server.login(
-        admin,
-        os.environ["MAIL_PASSWORD"]
-    )
-    server.sendmail(admin, to, msg.as_bytes())
-    server.quit()
+        server = smtplib.SMTP('smtp.office365.com', 587)
+        server.starttls()
+        server.login(
+            admin,
+            os.environ["MAIL_PASSWORD"]
+        )
+        server.sendmail(admin, to, msg.as_bytes())
+        server.quit()
 
 
 def user_schema(user):

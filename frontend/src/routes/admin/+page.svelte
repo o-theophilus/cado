@@ -24,20 +24,9 @@
 	<br />
 	Todo
 	<br />
-
 	Update email templates
 	<br />
 	admin menu show for only admin
-	<br />
-	header photo
-	<br />
-	home hero image
-	<br />
-	update admin email sender email
-	<br />
-	unify error messages
-	<br />
-	handle deleted user - get / re signup
 	<br />
 	form should always me maximum width
 	<br />

@@ -29,9 +29,9 @@ def edit_details(key):
     error = {}
 
     if "firstname" not in request.json or not request.json["firstname"]:
-        error['firstname'] = "cannot be empty"
+        error['firstname'] = "this field is required"
     if "lastname" not in request.json or not request.json["lastname"]:
-        error['lastname'] = "cannot be empty"
+        error['lastname'] = "this field is required"
 
     if error != {}:
         db_close(con, cur)
@@ -273,7 +273,7 @@ def email_3_new_email():
 
     error = None
     if "email" not in request.json or not request.json["email"]:
-        error = "cannot be empty"
+        error = "this field is required"
     elif not re.match(r"\S+@\S+\.\S+", request.json["email"]):
         error = "invalid email"
     elif organization["email_domain"] != [] and not request.json[
@@ -499,7 +499,7 @@ def password_3_password():
 
     error = {}
     if "password" not in request.json or not request.json["password"]:
-        error["password"] = "cannot be empty"
+        error["password"] = "this field is required"
     elif (
         not re.search("[a-z]", request.json["password"])
         or not re.search("[A-Z]", request.json["password"])
@@ -517,7 +517,7 @@ def password_3_password():
         "confirm_password" not in request.json
         or not request.json["confirm_password"]
     ):
-        error["confirm_password"] = "cannot be empty"
+        error["confirm_password"] = "this field is required"
     elif (
             request.json["password"]
             and request.json["confirm_password"] != request.json["password"]
@@ -561,7 +561,7 @@ def delete():
     error = {}
 
     if "password" not in request.json or not request.json["password"]:
-        error["password"] = "cannot be empty"
+        error["password"] = "this field is required"
 
     if error != {}:
         db_close(con, cur)
@@ -577,15 +577,7 @@ def delete():
             "error": "incorrect password"
         })
 
-    cur.execute("""
-        UPDATE "user"
-        SET status = 'deleted', login = %s, permissions = %s
-        WHERE key = %s;
-    """, (
-        False,
-        [],
-        user["key"]
-    ))
+    cur.execute("""DELETE FROM "user" WHERE key = %s;""", (user["key"],))
 
     cur.execute("""
         INSERT INTO "user" (key, version, email, password, setting_theme)
