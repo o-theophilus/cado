@@ -65,7 +65,7 @@
 	const submit = async () => {
 		form.email_template = email_template.innerHTML.replace(/&amp;/g, '&');
 
-		$loading = 'Loading . . .';
+		// $loading = 'Loading . . .';
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/signup`, {
 			method: 'post',
 			headers: {

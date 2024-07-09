@@ -112,7 +112,7 @@ def signup():
     elif organization["email_domain"] != [] and not request.json[
             "email"].endswith(tuple(organization["email_domain"])):
         error["email"
-              ] = f"Please enter a valid {organization["name"]} email address"
+              ] = f"Please enter a valid {organization['name']} email address"
     else:
         cur.execute('SELECT * FROM "user" WHERE email = %s;', (
             request.json["email"],))
@@ -321,9 +321,15 @@ def login():
             "Welcome to my portfolio website! \
             Complete your signup with this OTP",
             request.json['email_template'].format(
-                name=in_user["name"],
+                firstname=in_user["firstname"],
                 otp=generate_otp(
-                    cur, in_user["key"], in_user["email"], "login")
+                    cur,
+                    in_user["key"],
+                    in_user["email"],
+                    "login"
+                ),
+                organization_name=organization["name"]
+
             )
         )
         db_close(con, cur)

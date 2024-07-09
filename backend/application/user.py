@@ -204,8 +204,14 @@ def email_1_old_email():
         user["email"],
         "Email Change Confirmation - One-Time Password (OTP)",
         request.json['email_template'].format(
-            name=user["name"],
-            otp=generate_otp(cur, user["key"], user["email"], "change email")
+            firstname=user["firstname"],
+            otp=generate_otp(
+                cur,
+                user["key"],
+                user["email"],
+                "change email"
+            ),
+            organization_name=organization["name"]
         )
     )
 
@@ -279,7 +285,7 @@ def email_3_new_email():
     elif organization["email_domain"] != [] and not request.json[
             "email"].endswith(tuple(organization["email_domain"])):
         error["email"
-              ] = f"Please enter a valid {organization["name"]} email address"
+              ] = f"Please enter a valid {organization['name']} email address"
     if error:
         db_close(con, cur)
         return jsonify({
