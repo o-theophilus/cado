@@ -18,7 +18,7 @@
 		error = {};
 
 		if (!form.otp) {
-			error.otp = 'cannot be empty';
+			error.otp = 'this field is required';
 		} else if (form.otp.length != 6) {
 			error.otp = 'invalid OTP';
 		}

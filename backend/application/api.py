@@ -24,13 +24,13 @@ def send_email():
     error = {}
 
     if "name" not in request.json or not request.json["name"]:
-        error["name"] = "cannot be empty"
+        error["name"] = "this field is required"
     if "email" not in request.json or not request.json["email"]:
-        error["email"] = "cannot be empty"
+        error["email"] = "this field is required"
     elif not re.match(r"\S+@\S+\.\S+", request.json["email"]):
         error["email"] = "invalid email"
     if "message" not in request.json or not request.json["message"]:
-        error["message"] = "cannot be empty"
+        error["message"] = "this field is required"
 
     if error != {}:
         return jsonify({

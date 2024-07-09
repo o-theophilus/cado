@@ -101,12 +101,12 @@ def signup():
     error = {}
 
     if "firstname" not in request.json or not request.json["firstname"]:
-        error["firstname"] = "cannot be empty"
+        error["firstname"] = "this field is required"
     if "lastname" not in request.json or not request.json["lastname"]:
-        error["lastname"] = "cannot be empty"
+        error["lastname"] = "this field is required"
 
     if "email" not in request.json or not request.json["email"]:
-        error["email"] = "cannot be empty"
+        error["email"] = "this field is required"
     elif not re.match(r"\S+@\S+\.\S+", request.json["email"]):
         error["email"] = "Please enter a valid email"
     elif organization["email_domain"] != [] and not request.json[
@@ -120,7 +120,7 @@ def signup():
             error["email"] = "email taken"
 
     if "password" not in request.json or not request.json["password"]:
-        error["password"] = "cannot be empty"
+        error["password"] = "this field is required"
     elif (
         not re.search("[a-z]", request.json["password"])
         or not re.search("[A-Z]", request.json["password"])
@@ -133,7 +133,7 @@ def signup():
 
     if "confirm_password" not in request.json or not request.json[
             "confirm_password"]:
-        error["confirm_password"] = "cannot be empty"
+        error["confirm_password"] = "this field is required"
     elif (
             request.json["password"]
             and request.json["confirm_password"] != request.json["password"]
@@ -284,9 +284,9 @@ def login():
 
     error = {}
     if "email" not in request.json or not request.json["email"]:
-        error["email"] = "cannot be empty"
+        error["email"] = "this field is required"
     if "password" not in request.json or not request.json["password"]:
-        error["password"] = "cannot be empty"
+        error["password"] = "this field is required"
 
     if error != {}:
         db_close(con, cur)
@@ -416,7 +416,7 @@ def forgot_1_email():
 
     error = None
     if "email" not in request.json or not request.json["email"]:
-        error = "cannot be empty"
+        error = "this field is required"
     elif not re.match(r"\S+@\S+\.\S+", request.json["email"]):
         error = "invalid email"
     if error:
@@ -532,7 +532,7 @@ def forgot_3_password():
 
     error = {}
     if "password" not in request.json or not request.json["password"]:
-        error["password"] = "cannot be empty"
+        error["password"] = "this field is required"
     elif (
         not re.search("[a-z]", request.json["password"])
         or not re.search("[A-Z]", request.json["password"])
@@ -550,7 +550,7 @@ def forgot_3_password():
         "confirm_password" not in request.json
         or not request.json["confirm_password"]
     ):
-        error["confirm_password"] = "cannot be empty"
+        error["confirm_password"] = "this field is required"
     elif (
             request.json["password"]
             and request.json["confirm_password"] != request.json["password"]

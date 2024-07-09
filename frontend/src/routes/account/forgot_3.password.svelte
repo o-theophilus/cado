@@ -21,7 +21,7 @@
 		error = {};
 
 		if (!form.password) {
-			error.password = 'cannot be empty';
+			error.password = 'this field is required';
 		} else if (
 			!/[a-z]/.test(form.password) ||
 			!/[A-Z]/.test(form.password) ||
@@ -34,7 +34,7 @@
 		}
 
 		if (!form.confirm_password) {
-			error.confirm_password = 'cannot be empty';
+			error.confirm_password = 'this field is required';
 		} else if (form.password && form.password != form.confirm_password) {
 			error.confirm_password = 'Password and confirm password does not match';
 		}

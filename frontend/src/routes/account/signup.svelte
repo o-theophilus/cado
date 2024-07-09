@@ -24,13 +24,13 @@
 		error = {};
 
 		if (!form.firstname) {
-			error.firstname = 'cannot be empty';
+			error.firstname = 'this field is required';
 		}
 		if (!form.lastname) {
-			error.lastname = 'cannot be empty';
+			error.lastname = 'this field is required';
 		}
 		if (!form.email) {
-			error.email = 'cannot be empty';
+			error.email = 'this field is required';
 		} else if (!/\S+@\S+\.\S+/.test(form.email)) {
 			error.email = 'invalid email';
 		} else if (
@@ -41,7 +41,7 @@
 		}
 
 		if (!form.password) {
-			error.password = 'cannot be empty';
+			error.password = 'this field is required';
 		} else if (
 			!/[a-z]/.test(form.password) ||
 			!/[A-Z]/.test(form.password) ||
@@ -54,7 +54,7 @@
 		}
 
 		if (!form.confirm_password) {
-			error.confirm_password = 'cannot be empty';
+			error.confirm_password = 'this field is required';
 		} else if (form.password && form.password != form.confirm_password) {
 			error.confirm_password = 'does not match password';
 		}

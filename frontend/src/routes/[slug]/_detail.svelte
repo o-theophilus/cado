@@ -19,11 +19,11 @@
 	const validate = () => {
 		error = {};
 		if (!form.firstname) {
-			error.firstname = 'cannot be empty';
+			error.firstname = 'this field is required';
 		}
 
 		if (!form.lastname) {
-			error.lastname = 'cannot be empty';
+			error.lastname = 'this field is required';
 		}
 
 		Object.keys(error).length === 0 && submit();

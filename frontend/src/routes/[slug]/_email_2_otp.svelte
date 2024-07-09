@@ -18,7 +18,7 @@
 		error = {};
 
 		if (!form.otp_1) {
-			error.otp_1 = 'cannot be empty';
+			error.otp_1 = 'this field is required';
 		} else if (form.otp_1.length != 6) {
 			error.otp_1 = 'invalid OTP';
 		}
@@ -51,7 +51,7 @@
 	};
 </script>
 
-<form on:submit|preventDefault novalidate autocomplete="off" >
+<form on:submit|preventDefault novalidate autocomplete="off">
 	<strong class="ititle"> Change Email </strong>
 
 	{#if error.error}
