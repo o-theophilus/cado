@@ -46,7 +46,12 @@
 		{#if i > 0}
 			<div class="gap" />
 		{/if}
-		<Link href="https://maps.app.goo.gl/{a.url}" blank>{a.address}</Link>
+		<Link href="https://maps.app.goo.gl/{a.url}" blank>
+			
+
+				{a.address}
+			
+		</Link>
 	{/each}
 	</div>
 </div>

@@ -29,7 +29,6 @@
 		border: none;
 		background: none;
 		cursor: pointer;
-		width: fit-content;
 		fill: currentColor;
 
 		transition: color var(--trans);
