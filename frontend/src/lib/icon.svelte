@@ -11,9 +11,9 @@
 {#if svg}
 	<SVG {icon} {size} />
 {:else if $icon_loaded}
-<span class:fill class="material-symbols-outlined" style:font-size="{size}em"> {icon} </span>
+	<span class:fill class="material-symbols-outlined" style:font-size="{size}em"> {icon} </span>
 {:else}
-<span></span>
+	<span />
 {/if}
 
 <style>
