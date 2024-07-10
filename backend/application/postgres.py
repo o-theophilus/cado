@@ -7,7 +7,6 @@ import psycopg2.extras
 bp = Blueprint("postgres", __name__)
 
 
-# TODO: organization to organization_key
 user_table = """CREATE TABLE IF NOT EXISTS "user" (
     key CHAR(32) PRIMARY KEY,
     status VARCHAR(20) DEFAULT 'anonymous' NOT NULL,
@@ -19,7 +18,7 @@ user_table = """CREATE TABLE IF NOT EXISTS "user" (
     email VARCHAR(255) UNIQUE NOT NULL,
     phone VARCHAR(100),
     about_me TEXT,
-    organization VARCHAR(255),
+    organization_key VARCHAR(255),
     manager_email VARCHAR(255),
     role VARCHAR(100),
     office_location VARCHAR(255),
@@ -38,12 +37,12 @@ user_table = """CREATE TABLE IF NOT EXISTS "user" (
 );"""
 
 
-otp_table = """CREATE TABLE IF NOT EXISTS otp (
+code_table = """CREATE TABLE IF NOT EXISTS code (
     key CHAR(32) PRIMARY KEY,
     date TIMESTAMP NOT NULL,
 
     user_key CHAR(32) NOT NULL,
-    pin VARCHAR(10) NOT NULL,
+    code VARCHAR(10) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
 
     FOREIGN KEY (user_key) REFERENCES "user"(key)

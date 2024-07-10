@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from .postgres import db_open, db_close
 from .tools import (
     token_to_user, user_schema, send_mail, token_tool, reserved_words,
-    generate_otp, check_otp)
+    generate_code, check_code)
 from uuid import uuid4
 import re
 import os
@@ -202,10 +202,10 @@ def email_1_old_email():
 
     send_mail(
         user["email"],
-        "Email Change Confirmation - One-Time Password (OTP)",
+        "Email change code",
         request.json['email_template'].format(
             firstname=user["firstname"],
-            otp=generate_otp(
+            code=generate_code(
                 cur,
                 user["key"],
                 user["email"],
@@ -222,7 +222,7 @@ def email_1_old_email():
 
 
 @bp.post("/user/email/2")
-def email_2_old_otp():
+def email_2_old_code():
     con, cur = db_open()
 
     user = token_to_user(cur)
@@ -233,12 +233,12 @@ def email_2_old_otp():
             "error": "invalid token"
         })
 
-    error = check_otp(cur, user["key"], user["email"], "otp_1")
+    error = check_code(cur, user["key"], user["email"], "code_1")
     if error:
         db_close(con, cur)
         return jsonify({
             "status": 400,
-            "otp_1": error
+            "code_1": error
         })
 
     db_close(con, cur)
@@ -259,7 +259,7 @@ def email_3_new_email():
             "error": "invalid token"
         })
 
-    error = check_otp(cur, user["key"], user["email"], "otp_1")
+    error = check_code(cur, user["key"], user["email"], "code_1")
     if error:
         db_close(con, cur)
         return jsonify({
@@ -312,10 +312,10 @@ def email_3_new_email():
 
     send_mail(
         request.json["email"],
-        "Email Change Confirmation - One-Time Password (OTP)",
+        "Email change code",
         request.json['email_template'].format(
             firstname=user["firstname"],
-            otp=generate_otp(
+            code=generate_code(
                 cur,
                 user["key"],
                 request.json["email"],
@@ -333,7 +333,7 @@ def email_3_new_email():
 
 
 @bp.post("/user/email/4")
-def email_4_new_otp():
+def email_4_new_code():
     con, cur = db_open()
 
     user = token_to_user(cur)
@@ -344,7 +344,7 @@ def email_4_new_otp():
             "error": "invalid token"
         })
 
-    error = check_otp(cur, user["key"], user["email"], "otp_1")
+    error = check_code(cur, user["key"], user["email"], "code_1")
     if error:
         db_close(con, cur)
         return jsonify({
@@ -383,7 +383,7 @@ def email_4_new_otp():
             "error": "invalid request"
         })
 
-    error = check_otp(cur, user["key"], request.json["email"], "otp_2")
+    error = check_code(cur, user["key"], request.json["email"], "code_2")
     if error:
         db_close(con, cur)
         return jsonify({
@@ -392,7 +392,7 @@ def email_4_new_otp():
         })
 
     if user["email"] == os.environ["MAIL_USERNAME"]:
-        cur.execute("DELETE FROM otp WHERE user_key = %s;", (user["key"],))
+        cur.execute("DELETE FROM code WHERE user_key = %s;", (user["key"],))
         db_close(con, cur)
         return jsonify({
             "status": 400,
@@ -405,7 +405,7 @@ def email_4_new_otp():
         request.json["email"], user["key"]))
     user = cur.fetchone()
 
-    cur.execute("DELETE FROM otp WHERE user_key = %s;", (user["key"],))
+    cur.execute("DELETE FROM code WHERE user_key = %s;", (user["key"],))
 
     db_close(con, cur)
     return jsonify({
@@ -438,10 +438,10 @@ def password_1_email():
 
     send_mail(
         user["email"],
-        "Password Change Confirmation - One-Time Password (OTP)",
+        "Password change code",
         request.json['email_template'].format(
             firstname=user["firstname"],
-            otp=generate_otp(
+            code=generate_code(
                 cur,
                 user["key"],
                 user["email"],
@@ -458,7 +458,7 @@ def password_1_email():
 
 
 @ bp.post("/user/password/2")
-def password_2_otp():
+def password_2_code():
     con, cur = db_open()
 
     user = token_to_user(cur)
@@ -469,12 +469,12 @@ def password_2_otp():
             "error": "invalid token"
         })
 
-    error = check_otp(cur, user["key"], user["email"])
+    error = check_code(cur, user["key"], user["email"])
     if error:
         db_close(con, cur)
         return jsonify({
             "status": 400,
-            "otp": error
+            "code": error
         })
 
     db_close(con, cur)
@@ -495,7 +495,7 @@ def password_3_password():
             "error": "invalid token"
         })
 
-    error = check_otp(cur, user["key"], user["email"])
+    error = check_code(cur, user["key"], user["email"])
     if error:
         db_close(con, cur)
         return jsonify({
@@ -544,7 +544,7 @@ def password_3_password():
         user["key"]
     ))
 
-    cur.execute("DELETE FROM otp WHERE user_key = %s;", (user["key"],))
+    cur.execute("DELETE FROM code WHERE user_key = %s;", (user["key"],))
 
     db_close(con, cur)
     return jsonify({

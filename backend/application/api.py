@@ -3,7 +3,7 @@ import re
 import os
 from .tools import send_mail
 from .postgres import db_open, db_close
-from .postgres import user_table, otp_table
+from .postgres import user_table, code_table
 
 
 bp = Blueprint("api", __name__)
@@ -54,15 +54,14 @@ def send_email():
     })
 
 
-# @bp.get("/fix")
 def create_tables():
     con, cur = db_open()
 
     cur.execute(f"""
         DROP TABLE IF EXISTS "user" CASCADE;
-        DROP TABLE IF EXISTS otp CASCADE;
+        DROP TABLE IF EXISTS code CASCADE;
         {user_table}
-        {otp_table}
+        {code_table}
     """)
 
     db_close(con, cur)
@@ -71,6 +70,7 @@ def create_tables():
     })
 
 
+# @bp.get("/fix")
 def general_fix():
     con, cur = db_open()
 
@@ -99,8 +99,8 @@ def general_fix():
 
     cur.execute("""
         ALTER TABLE "user"
-        ADD COLUMN
-        office_location VARCHAR(255);
+        RENAME COLUMN organization
+        TO organization_key;
     """)
 
     db_close(con, cur)

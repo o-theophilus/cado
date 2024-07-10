@@ -6,7 +6,7 @@
 	<b> Dear {'{'}firstname{'}'}, </b>
 	<br />
 	<br />
-	To change your password, please use the following One-Time Password (OTP):
+	Please use the code below to change your password.
 	<br />
 	<br />
 	<div
@@ -18,21 +18,14 @@
 		border-radius: 4px;
 	"
 	>
-		<b> {'{'}otp{'}'} </b>
+		<b> {'{'}code{'}'} </b>
 	</div>
 	<br />
 	<br />
-	Please enter this OTP on the password change form to validate your request. Please note that the OTP
-	is only valid for a limited time.
+	This code is valid for a limited time. If you didn't request this, please disregard this message.
 	<br />
 	<br />
-	If you did not request this change, please disregard this message.
-	<br />
-	<br />
-	If you have any questions or need further assistance, please don't hesitate to reach out to me.
-	<br />
-	<br />
-	Best regards,
+	Warm regards,
 	<br />
 	<br />
 	<b>{'{'}organization_name{'}'}</b>

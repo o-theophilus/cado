@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from .tools import (
     token_tool, token_to_user, user_schema, send_mail, reserved_words,
-    generate_otp, check_otp)
+    generate_code, check_code)
 from uuid import uuid4
 import re
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -193,10 +193,10 @@ def signup():
 
     send_mail(
         user["email"],
-        "Welcome to my portfolio website! Complete your signup with this OTP",
+        "Email Confirmation code",
         request.json['email_template'].format(
             firstname=user['firstname'],
-            otp=generate_otp(
+            code=generate_code(
                 cur,
                 user["key"],
                 user["email"],
@@ -239,7 +239,7 @@ def confirm():
             "error": "invalid request"
         })
 
-    error = check_otp(cur, user["key"], user["email"])
+    error = check_code(cur, user["key"], user["email"])
     if error:
         db_close(con, cur)
         return jsonify({
@@ -251,7 +251,7 @@ def confirm():
         UPDATE "user" SET status = 'confirmed' WHERE key = %s;
     """, (user["key"],))
 
-    cur.execute("DELETE FROM otp WHERE user_key = %s;", (user["key"],))
+    cur.execute("DELETE FROM code WHERE user_key = %s;", (user["key"],))
 
     db_close(con, cur)
     return jsonify({
@@ -318,11 +318,10 @@ def login():
     if in_user["status"] != "confirmed":
         send_mail(
             in_user["email"],
-            "Welcome to my portfolio website! \
-            Complete your signup with this OTP",
+            "Email Confirmation code",
             request.json['email_template'].format(
                 firstname=in_user["firstname"],
-                otp=generate_otp(
+                code=generate_code(
                     cur,
                     in_user["key"],
                     in_user["email"],
@@ -439,10 +438,10 @@ def forgot_1_email():
 
     send_mail(
         user["email"],
-        "Password Change Confirmation - One-Time Password (OTP)",
+        "Password reset code",
         request.json['email_template'].format(
             firstname=user["firstname"],
-            otp=generate_otp(
+            code=generate_code(
                 cur,
                 user["key"],
                 user["email"],
@@ -459,7 +458,7 @@ def forgot_1_email():
 
 
 @bp.post("/forgot/2")
-def forgot_2_otp():
+def forgot_2_code():
     con, cur = db_open()
 
     if (
@@ -483,12 +482,12 @@ def forgot_2_otp():
             "error": "invalid request"
         })
 
-    error = check_otp(cur, user["key"], user["email"])
+    error = check_code(cur, user["key"], user["email"])
     if error:
         db_close(con, cur)
         return jsonify({
             "status": 400,
-            "otp": error
+            "code": error
         })
 
     db_close(con, cur)
@@ -522,7 +521,7 @@ def forgot_3_password():
             "error": "invalid request"
         })
 
-    error = check_otp(cur, user["key"], user["email"])
+    error = check_code(cur, user["key"], user["email"])
     if error:
         db_close(con, cur)
         return jsonify({
@@ -576,7 +575,7 @@ def forgot_3_password():
             UPDATE "user" SET status = 'confirmed' WHERE key = %s;
         """, (user["key"],))
 
-    cur.execute("DELETE FROM otp WHERE user_key = %s;", (user["key"],))
+    cur.execute("DELETE FROM code WHERE user_key = %s;", (user["key"],))
 
     db_close(con, cur)
     return jsonify({

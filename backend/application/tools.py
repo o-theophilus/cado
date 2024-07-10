@@ -41,55 +41,54 @@ def token_to_user(cur):
     return user
 
 
-def generate_otp(cur, key, email, _from, clear=True):
+def generate_code(cur, key, email, _from, clear=True):
     if clear:
-        cur.execute("DELETE FROM otp WHERE user_key = %s;", (key,))
+        cur.execute("DELETE FROM code WHERE user_key = %s;", (key,))
 
-    otp = f"{random.randint(100000, 999999)}"
-    otp_key = uuid4().hex
+    code = f"{random.randint(100000, 999999)}"
 
     cur.execute("""
-        INSERT INTO otp (key, date, user_key, pin, email)
+        INSERT INTO code (key, date, user_key, code, email)
         VALUES (%s, %s, %s, %s, %s);
     """, (
-        otp_key,
+        uuid4().hex,
         datetime.now(),
         key,
-        otp,
+        code,
         email
     ))
 
-    return otp
+    return code
 
 
-def check_otp(cur, key, email, n="otp"):
+def check_code(cur, key, email, n="code"):
     error = None
     if n not in request.json or not request.json[n]:
         error = "this field is required"
     elif len(request.json[n]) != 6:
-        error = "invalid OTP"
+        error = "invalid code"
 
     cur.execute("""
         SELECT *
-        FROM otp
+        FROM code
         WHERE
-            otp.user_key = %s
-            AND otp.pin = %s
-            AND otp.email = %s;
+            user_key = %s
+            AND code = %s
+            AND email = %s;
     """, (
         key,
         request.json[n],
         email
     ))
-    otp = cur.fetchone()
+    code = cur.fetchone()
 
-    if not otp:
-        error = "invalid OTP"
-    elif datetime.now() - otp["date"] > timedelta(minutes=15):
+    if not code:
+        error = "invalid code"
+    elif datetime.now() - code["date"] > timedelta(minutes=15):
         cur.execute("""
-            DELETE FROM otp WHERE user_key = %s
+            DELETE FROM code WHERE user_key = %s
         ;""", (key,))
-        error = "invalid OTP"
+        error = "invalid code"
 
     return error
 

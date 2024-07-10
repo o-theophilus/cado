@@ -10,6 +10,9 @@
 	import Login from './login.svelte';
 	import ShowPassword from './password_show.svelte';
 	import EmailTemplate from './confirm.template.svelte';
+	import EmailTemplate2 from './forgot.template.svelte';
+	import EmailTemplate3 from '../[slug]/_email.template.svelte';
+	import EmailTemplate4 from '../[slug]/_password.template.svelte';
 	import Confirm from './confirm.svelte';
 
 	let email_template;
@@ -167,6 +170,10 @@
 <div bind:this={email_template} style="display: none;">
 	<EmailTemplate />
 </div>
+<!-- <EmailTemplate /> -->
+<!-- <EmailTemplate2 /> -->
+<!-- <EmailTemplate3 /> -->
+<!-- <EmailTemplate4 /> -->
 
 <style>
 	form {

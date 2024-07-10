@@ -24,8 +24,6 @@
 	<br />
 	Todo
 	<br />
-	Update email templates
-	<br />
 	admin menu show for only admin
 	<br />
 	form should always me maximum width

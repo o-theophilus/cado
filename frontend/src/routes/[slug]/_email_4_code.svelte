@@ -1,13 +1,11 @@
 <script>
-	import { module, loading, user } from '$lib/store.js';
+	import { module, notification, loading } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import Button from '$lib/button/button.svelte';
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
-	import OTP from '$lib/input_otp.svelte';
-
-	import Password from './_password_3_password.svelte';
+	import Code from '$lib/input_code.svelte';
 
 	let form = {
 		...$module.form
@@ -17,10 +15,10 @@
 	const validate = () => {
 		error = {};
 
-		if (!form.otp) {
-			error.otp = 'this field is required';
-		} else if (form.otp.length != 6) {
-			error.otp = 'invalid OTP';
+		if (!form.code_2) {
+			error.code_2 = 'this field is required';
+		} else if (form.code_2.length != 6) {
+			error.code_2 = 'invalid code';
 		}
 
 		Object.keys(error).length === 0 && submit();
@@ -28,7 +26,7 @@
 
 	const submit = async () => {
 		$loading = 'loading . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/password/2`, {
+		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/email/4`, {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json',
@@ -40,10 +38,13 @@
 		$loading = false;
 
 		if (resp.status == 200) {
-			$module = {
-				module: Password,
-				form
+			$module.update(resp.user);
+
+			$notification = {
+				message: 'Email changed'
 			};
+
+			$module = null;
 		} else {
 			error = resp;
 		}
@@ -51,20 +52,18 @@
 </script>
 
 <form on:submit|preventDefault novalidate autocomplete="off">
-	<strong class="ititle"> Change Password </strong>
+	<strong class="ititle"> Change Email </strong>
 
 	{#if error.error}
 		<div class="error">
 			{error.error}
 		</div>
 	{/if}
-	<br />
 
-	<br />
-	<div class="message">OTP has been sent to: {$user.email}.</div>
+	<div class="message">Code has been sent to: {form.email}.</div>
 
-	<IG name="OTP" error={error.otp}>
-		<OTP bind:value={form.otp} />
+	<IG name="Code" error={error.code_2}>
+		<Code bind:value={form.code_2} />
 	</IG>
 
 	<Button primary on:click={validate}>
@@ -78,7 +77,8 @@
 		padding: var(--sp3);
 	}
 
-	.error {
+	.error,
+	.message {
 		margin: var(--sp2) 0;
 	}
 
