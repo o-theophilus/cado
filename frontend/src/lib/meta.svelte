@@ -28,5 +28,4 @@
 	<meta name="twitter:image:alt" content={title} />
 	<meta name="twitter:url" content={$page.url.href} />
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:site" content="@meji_ng" />
 </svelte:head>

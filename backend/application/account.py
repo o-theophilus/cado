@@ -153,7 +153,7 @@ def signup():
         cur.execute("""
             INSERT INTO "user" (
                 key, slug, firstname, lastname, email, password)
-            VALUES (%s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s)
             RETURNING *;
         """, (
             key,

@@ -9,51 +9,6 @@ from .postgres import user_table, code_table
 bp = Blueprint("api", __name__)
 
 
-@bp.post("/contact")
-def send_email():
-
-    if (
-        "email_template" not in request.json
-        or not request.json["email_template"]
-    ):
-        return jsonify({
-            "status": 400,
-            "error": "invalid request"
-        })
-
-    error = {}
-
-    if "name" not in request.json or not request.json["name"]:
-        error["name"] = "this field is required"
-    if "email" not in request.json or not request.json["email"]:
-        error["email"] = "this field is required"
-    elif not re.match(r"\S+@\S+\.\S+", request.json["email"]):
-        error["email"] = "invalid email"
-    if "message" not in request.json or not request.json["message"]:
-        error["message"] = "this field is required"
-
-    if error != {}:
-        return jsonify({
-            "status": 400,
-            **error
-        })
-
-    message = request.json['email_template'].format(
-        name=request.json["name"],
-        email=request.json["email"],
-        message=request.json["message"])
-
-    send_mail(
-        os.environ["MAIL_USERNAME"],
-        f"{request.json['name']} from Loup",
-        message
-    )
-
-    return jsonify({
-        "status": 200
-    })
-
-
 def create_tables():
     con, cur = db_open()
 

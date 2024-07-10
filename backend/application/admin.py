@@ -24,9 +24,9 @@ def default_admin():
                 VALUES (%s, %s, %s, %s, %s, %s);
             """, (
             key,
-            "tjoseph",
-            "Theophilus",
-            "Joseph",
+            "urlinks",
+            "UR",
+            "Links",
             email,
             generate_password_hash(
                 os.environ["MAIL_PASSWORD"], method="scrypt")
