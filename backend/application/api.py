@@ -1,7 +1,4 @@
-from flask import Blueprint, jsonify, request
-import re
-import os
-from .tools import send_mail
+from flask import Blueprint, jsonify
 from .postgres import db_open, db_close
 from .postgres import user_table, code_table
 
@@ -9,6 +6,7 @@ from .postgres import user_table, code_table
 bp = Blueprint("api", __name__)
 
 
+# @bp.get("/fix")
 def create_tables():
     con, cur = db_open()
 
@@ -25,7 +23,6 @@ def create_tables():
     })
 
 
-# @bp.get("/fix")
 def general_fix():
     con, cur = db_open()
 

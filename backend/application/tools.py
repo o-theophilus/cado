@@ -8,6 +8,8 @@ import os
 from uuid import uuid4
 import random
 from datetime import datetime, timedelta
+import re
+from mailjet_rest import Client
 
 
 reserved_words = ["app", "wragby", "home",
@@ -93,7 +95,7 @@ def check_code(cur, key, email, n="code"):
     return error
 
 
-def send_mail(to, subject, body):
+def send_mail_(to, subject, body):
     if current_app.config["DEBUG"]:
         print(body)
     else:
@@ -113,6 +115,43 @@ def send_mail(to, subject, body):
         )
         server.sendmail(admin, to, msg.as_bytes())
         server.quit()
+
+
+def send_mail(
+    to,
+    # name,
+    subject,
+    body
+):
+    data = {
+        'Messages': [
+            {
+                "From": {
+                    "Email": os.environ["MAILJET_USERNAME"],
+                    "Name": "URLinks"
+                },
+                "To": [
+                    {
+                        "Email": to,
+                        # "Name": name
+                    }
+                ],
+                "Subject": subject,
+                "HTMLPart": re.sub('&amp;', '&', body)
+            }
+        ]
+    }
+
+    if current_app.config["DEBUG"]:
+        print(data)
+    else:
+        mailjet = Client(auth=(
+            os.environ["MAILJET_API_KEY"],
+            os.environ["MAILJET_SECRET_KEY"]),
+            version='v3.1')
+
+        result = mailjet.send.create(data=data)
+        print(result.json())
 
 
 def user_schema(user):
