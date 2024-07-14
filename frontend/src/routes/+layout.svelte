@@ -10,7 +10,6 @@
 	import Module from './layout/_module.svelte';
 	import Loading from './layout/_loading.svelte';
 	import Notification from './layout/_notification.svelte';
-	import Icon from './layout/icon.svelte';
 	import Print from './[slug]/print.svelte';
 
 	export let data;
@@ -27,7 +26,6 @@
 	<Module />
 	<Loading />
 	<Notification />
-	<Icon />
 </main>
 
 {#if $to_print}

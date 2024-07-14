@@ -108,7 +108,7 @@
 		</div>
 	</div>
 
-	<!-- <Print {user} /> -->
+	<Print {user} />
 
 	{#if user.key == $me.key}
 		<Setting {user} {update} {update_photo} />

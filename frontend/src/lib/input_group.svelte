@@ -4,7 +4,6 @@
 
 	export let name = '';
 	export let icon = '';
-	export let svg = false;
 	export let icon_size = 1.2;
 	export let error = '';
 	let id = name.split(' ').join('_').toLowerCase();
@@ -37,7 +36,7 @@
 	<slot {id}>
 		<div class="input" class:left_pad={icon} class:disabled>
 			{#if icon}
-				<Icon {icon} {svg} size={icon_size} />
+				<Icon {icon} size={icon_size} />
 			{/if}
 			<Input bind:value {id} {type} {placeholder} {min} {disabled} on:blur on:input />
 			<slot name="right" />

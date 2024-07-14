@@ -55,47 +55,42 @@
 	<IG
 		type="text"
 		icon="whatsapp"
-		svg
 		icon_size="1"
 		placeholder="Whatsapp number"
 		error={error.whatsapp}
 		bind:value={form.whatsapp}
-		/>
-		
+	/>
+
 	<IG
 		type="text"
 		icon="linkedin"
-		svg
 		icon_size="1"
 		placeholder="Linkedin profile url"
 		error={error.linkedin}
 		bind:value={form.linkedin}
-		/>
-		
-		<IG
+	/>
+
+	<IG
 		type="text"
 		icon="twitter"
-		svg
 		icon_size="1"
 		placeholder="Twitter profile url"
 		error={error.twitter}
 		bind:value={form.twitter}
-		/>
-		
-		<IG
+	/>
+
+	<IG
 		type="text"
 		icon="facebook"
-		svg
 		icon_size="1"
 		placeholder="Facebook profile url"
 		error={error.facebook}
 		bind:value={form.facebook}
-		/>
-		
-		<IG
+	/>
+
+	<IG
 		type="text"
 		icon="instagram"
-		svg
 		icon_size="1"
 		placeholder="Instagram profile url"
 		error={error.instagram}

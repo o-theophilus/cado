@@ -4,7 +4,6 @@ import { invalidate } from '$app/navigation';
 
 export const user = writable();
 export const loading = writable(false);
-export const icon_loaded = writable(false);
 export const module = writable();
 export const notification = writable();
 export const organization = writable({});

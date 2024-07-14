@@ -23,9 +23,9 @@
 
 	let src = '';
 
-	window.onafterprint = () => {
-		$to_print = null;
-	};
+	// window.onafterprint = () => {
+	// 	$to_print = null;
+	// };
 </script>
 
 <div class="print_area">

@@ -7,39 +7,31 @@
 	<div class="block">
 		{#if links.whatsapp}
 			<a href="https://wa.me/{links.whatsapp}/?text=Hello%20{links.name}">
-				<Icon svg icon="whatsapp" />
+				<Icon icon="whatsapp" />
 			</a>
 		{/if}
 
 		{#if links.linkedin}
-			<a
-				href={links.linkedin}
-				target="_blank"
-				rel="noopener noreferrer"
-			>
-				<Icon svg icon="linkedin" />
+			<a href={links.linkedin} target="_blank" rel="noopener noreferrer">
+				<Icon icon="linkedin" />
 			</a>
 		{/if}
 
 		{#if links.twitter}
 			<a href={links.twitter} target="_blank" rel="noopener noreferrer">
-				<Icon svg icon="twitter" />
+				<Icon icon="twitter" />
 			</a>
 		{/if}
 
 		{#if links.facebook}
 			<a href={links.facebook} target="_blank" rel="noopener noreferrer">
-				<Icon svg icon="facebook" />
+				<Icon icon="facebook" />
 			</a>
 		{/if}
 
 		{#if links.instagram}
-			<a
-				href={links.instagram}
-				target="_blank"
-				rel="noopener noreferrer"
-			>
-				<Icon svg icon="instagram" />
+			<a href={links.instagram} target="_blank" rel="noopener noreferrer">
+				<Icon icon="instagram" />
 			</a>
 		{/if}
 	</div>
