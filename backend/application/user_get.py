@@ -17,7 +17,6 @@ def get(key):
         WHERE slug = %s OR email = %s OR key = %s;
     """, (key, key, key))
     user = cur.fetchone()
-    print(user)
 
     if not user:
         db_close(con, cur)

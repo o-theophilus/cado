@@ -12,7 +12,7 @@
 		QRCode.toDataURL(
 			$page.url.href,
 			{
-				margin: 3
+				margin: 0
 			},
 			(error, url) => {
 				if (error) console.error(error);
@@ -31,35 +31,26 @@
 <div class="print_area">
 	<div class="block">
 		<div class="card back">
-			<div class="row2">
+			<div class="row1">
 				<img src="/logo.png" alt="logo" />
 				<span class="slogan">
-					Wragby Business Solutions & Technologies Limited
+					Wragby Business Solutions & Technologies Limited.
 					<br />
 					Work smart, achieve more.
 				</span>
 			</div>
 
-			<div class="row3">
+			<div class="row2">
+				<div class="divider" />
 				<Icon icon="language" size="1.2" />
 				{$organization.website}
+				<div class="divider" />
 			</div>
-			<div class="row4" />
 		</div>
 
-		<div class=" card front">
-			<div class="col1">
-				<img src="/logo.png" alt="logo" />
-				<div class="slogan">Work Smart, Achieve More</div>
-				<img class="qr" {src} alt="qr_code" />
-			</div>
-
-			<div class="col2">
-				<div />
-				<div />
-			</div>
-			<div class="col3">
-				<div class="details">
+		<div class="card front">
+			<div class="row1">
+				<div class="left">
 					<div class="name">
 						{user.firstname}
 						{user.lastname}
@@ -70,13 +61,18 @@
 							{user.role}
 						</div>
 					{/if}
+				</div>
+				<img class="qr" {src} alt="qr_code" />
+			</div>
 
-					<div class="divider" />
+			<div class="divider" />
 
+			<div class="row2">
+				<div class="left">
 					{#if user.phone}
 						<div class="phone">
 							<div class="icon">
-								<Icon icon="phone" size="1.2" />
+								<Icon icon="phone" />
 							</div>
 							{user.phone}
 						</div>
@@ -84,7 +80,7 @@
 
 					<div class="email">
 						<div class="icon">
-							<Icon icon="email" size="1.2" />
+							<Icon icon="email" />
 						</div>
 						{user.email}
 					</div>
@@ -93,12 +89,17 @@
 						{#if a.name == user.office_location}
 							<div class="location">
 								<div class="icon">
-									<Icon icon="location_on" size="1.2" />
+									<Icon icon="location_on" />
 								</div>
 								{a.address}
 							</div>
 						{/if}
 					{/each}
+				</div>
+
+				<div class="right">
+					<img class="logo" src="/logo.png" alt="logo" />
+					<div class="slogan">Work Smart, Achieve More</div>
 				</div>
 			</div>
 		</div>
@@ -110,7 +111,7 @@
 		-webkit-print-color-adjust: exact !important;
 		print-color-adjust: exact !important;
 
-		font-size: 10px;
+		font-size: 0.6rem;
 	}
 
 	.block {
@@ -139,7 +140,7 @@
 		background-color: var(--ft1);
 	}
 
-	.row2 {
+	.back .row1 {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -147,90 +148,86 @@
 		color: var(--ft1_b);
 		height: 100%;
 		gap: var(--sp1);
+
+		line-height: 1.5;
 	}
-	.row2 img {
-		width: 50%;
+	.back .row1 img {
+		width: 40%;
 	}
 
-	.row3 {
+	.back .row2 {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		gap: var(--sp1);
+		flex-shrink: 0;
+
+		height: 15%;
+
 		color: var(--ft1_b);
-		padding-bottom: var(--sp1);
+		fill: currentColor;
+		background-color: var(--ft2_d);
 	}
 
-	.row4 {
-		height: 10%;
-		flex-shrink: 0;
+	.back .divider {
 		background-color: var(--cl1);
+		height: 2px;
+		width: 100%;
+		margin: 12px 0;
 	}
 
 	.front {
 		display: flex;
-	}
-
-	.col1 {
-		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-
-		background-color: var(--bg2);
 		padding: var(--sp2);
+	}
 
-		width: 40%;
+	.front > div {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		gap: var(--sp1);
+
+		width: 100%;
 		flex-shrink: 0;
 	}
-	.col1 img {
-		width: 100%;
-	}
-	.col1 .qr {
-		width: 50%;
-	}
-
-	.col2 {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-
-		width: 12px;
-	}
-
-	.col2 div {
-		height: 24px;
-		width: 100%;
-	}
-
-	.col3 {
-		padding: var(--sp2);
-		width: 100%;
-
-		display: flex;
-		align-items: center;
-	}
-
-	.slogan {
-		font-size: xx-small;
-		text-align: center;
-	}
-
-	.name {
+	.front .name {
 		font-weight: 800;
-		font-size: medium;
+		font-size: 1.2rem;
 		color: var(--ft1);
 	}
 
-	.divider {
+	.front .qr {
+		width: 15%;
+	}
+
+	.front .divider {
 		background-color: var(--cl1);
 		height: 2px;
-		width: 100px;
+		width: 100%;
 		margin: 12px 0;
 	}
 
+	.front .row2 .left {
+		max-width: 13rem;
+	}
+
+	.front .row2 .right {
+		width: 7rem;
+
+		display: flex;
+		flex-direction: column;
+		gap: var(--sp1);
+		align-items: flex-end;
+	}
+	.front .logo {
+		width: 100%;
+	}
+
 	.icon {
-		--size: 14px;
+		--size: 1rem;
 
 		display: flex;
 		justify-content: center;
@@ -240,8 +237,8 @@
 
 		width: var(--size);
 		height: var(--size);
-		border-radius: 50%;
-		background-color: var(--ft1);
+		border-radius: var(--sp0);
+		background-color: var(--ft2_d);
 		color: white;
 	}
 
@@ -251,6 +248,13 @@
 		display: flex;
 		gap: var(--sp2);
 		margin: var(--sp0) 0;
+
+		fill: currentColor;
+	}
+
+	.slogan {
+		font-size: xx-small;
+		text-align: center;
 	}
 
 	@media print {

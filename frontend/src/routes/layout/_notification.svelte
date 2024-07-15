@@ -68,6 +68,7 @@
 		background-color: var(--cl3);
 		border-radius: var(--sp0);
 		color: var(--ft1_b);
+		fill: currentColor;
 		font-size: 0.8rem;
 	}
 
