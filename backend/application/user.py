@@ -284,8 +284,7 @@ def email_3_new_email():
         error = "invalid email"
     elif organization["email_domain"] != [] and not request.json[
             "email"].endswith(tuple(organization["email_domain"])):
-        error["email"
-              ] = f"Please enter a valid {organization['name']} email address"
+        error = f"Please enter a valid {organization['name']} email address"
     if error:
         db_close(con, cur)
         return jsonify({

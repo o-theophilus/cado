@@ -5,13 +5,13 @@
 	import Meta from '$lib/meta.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Link from '$lib/button/link.svelte';
-	import Button from '$lib/button/button.svelte';
+	
 	import Header from './header.svelte';
 	import NameRole from './name_role.svelte';
 
 	import Socials from '../layout/socials.svelte';
 
-	import Print from './print_.svelte';
+	import Print from './business_card_area.svelte';
 	import Setting from './setting.svelte';
 
 	export let data;
@@ -90,29 +90,15 @@
 
 	<div class="social">
 		<Socials links={{ ...user, name: user.firstname }} />
-		<div class="business_card">
-			<Button
-				size="small"
-				on:click={() => {
-					// $to_print = user;
-					// setTimeout(() => {
-					// 	window.print();
-					// });
-					// setTimeout(() => {
-					// 	$to_print = null;
-					// });
-				}}
-			>
-				Business Card
-			</Button>
-		</div>
+		
 	</div>
 
-	<!-- <Print {user} /> -->
-
+	
 	{#if user.key == $me.key}
-		<Setting {user} {update} {update_photo} />
+	<Setting {user} {update} {update_photo} />
 	{/if}
+	
+	<Print {user} />
 </section>
 
 <style>
@@ -143,7 +129,4 @@
 		margin: var(--sp4) 0;
 	}
 
-	.business_card {
-		margin-top: var(--sp2);
-	}
 </style>

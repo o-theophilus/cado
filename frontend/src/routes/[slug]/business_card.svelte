@@ -5,6 +5,8 @@
 
 	import QRCode from 'qrcode';
 	import Icon from '$lib/icon.svelte';
+	import Button from '$lib/button/button.svelte';
+	import Fold from '$lib/button/fold.svelte';
 
 	export let user;
 
@@ -23,31 +25,13 @@
 
 	let src = '';
 
-	// window.onafterprint = () => {
-	// 	$to_print = null;
-	// };
+
 </script>
 
-<div class="print_area">
+
+
+
 	<div class="block">
-		<div class="card back">
-			<div class="row1">
-				<img src="/logo.png" alt="logo" />
-				<span class="slogan">
-					Wragby Business Solutions & Technologies Limited.
-					<br />
-					Work smart, achieve more.
-				</span>
-			</div>
-
-			<div class="row2">
-				<div class="divider" />
-				<Icon icon="language" size="1.2" />
-				{$organization.website}
-				<div class="divider" />
-			</div>
-		</div>
-
 		<div class="card front">
 			<div class="row1">
 				<div class="left">
@@ -103,8 +87,30 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="card back">
+			<div class="row1">
+				<img src="/logo.png" alt="logo" />
+				<span class="slogan">
+					Wragby Business Solutions & Technologies Limited.
+					<br />
+					Work smart, achieve more.
+				</span>
+			</div>
+
+			<div class="row2">
+				<div class="divider" />
+				<Icon icon="language" size="1.2" />
+				{$organization.website}
+				<div class="divider" />
+			</div>
+		</div>
+
+	
 	</div>
-</div>
+
+
+
 
 <style>
 	* {
@@ -123,7 +129,7 @@
 
 		padding: var(--sp2);
 
-		background-color: gray;
+		background-color: var(--bg2);
 	}
 
 	.card {
