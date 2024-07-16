@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import { user as me, to_print, organization } from '$lib/store.js';
+	import { user as me, organization } from '$lib/store.js';
 
 	import Meta from '$lib/meta.svelte';
 	import Icon from '$lib/icon.svelte';
@@ -11,7 +11,7 @@
 
 	import Socials from '../layout/socials.svelte';
 
-	import Print from './print.svelte';
+	import Print from './print_.svelte';
 	import Setting from './setting.svelte';
 
 	export let data;
@@ -94,13 +94,13 @@
 			<Button
 				size="small"
 				on:click={() => {
-					$to_print = user;
-					setTimeout(() => {
-						window.print();
-					});
-					setTimeout(() => {
-						$to_print = null;
-					});
+					// $to_print = user;
+					// setTimeout(() => {
+					// 	window.print();
+					// });
+					// setTimeout(() => {
+					// 	$to_print = null;
+					// });
 				}}
 			>
 				Business Card
@@ -108,7 +108,7 @@
 		</div>
 	</div>
 
-	<Print {user} />
+	<!-- <Print {user} /> -->
 
 	{#if user.key == $me.key}
 		<Setting {user} {update} {update_photo} />

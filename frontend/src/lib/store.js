@@ -8,8 +8,6 @@ export const module = writable();
 export const notification = writable();
 export const organization = writable({});
 
-export const to_print = writable(null);
-
 // tools
 export const isMobile = writable(false);
 

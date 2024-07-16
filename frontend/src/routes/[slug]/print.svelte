@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import { organization, to_print } from '$lib/store.js';
+	import { organization } from '$lib/store.js';
 
 	import QRCode from 'qrcode';
 	import Icon from '$lib/icon.svelte';
