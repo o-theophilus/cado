@@ -5,8 +5,6 @@
 
 	import QRCode from 'qrcode';
 	import Icon from '$lib/icon.svelte';
-	import Button from '$lib/button/button.svelte';
-	import Fold from '$lib/button/fold.svelte';
 
 	export let user;
 
@@ -25,17 +23,18 @@
 
 	let src = '';
 
+	let card_width=400
 
 </script>
 
 
 
 
-	<div class="block">
-		<div class="card front">
+	<div class="block" style:font-size="{(0.6 * card_width)/400}rem">
+		<div class="card front" bind:clientWidth={card_width}>
 			<div class="row1">
 				<div class="left">
-					<div class="name">
+					<div class="name" style:font-size="{(1.2 * card_width)/400}rem">
 						{user.firstname}
 						{user.lastname}
 					</div>
@@ -51,11 +50,12 @@
 
 			<div class="divider" />
 
-			<div class="row2">
+			<div class="row2" 
+			style:--size="{card_width/400}rem">
 				<div class="left">
 					{#if user.phone}
 						<div class="phone">
-							<div class="icon">
+							<div class="icon" >
 								<Icon icon="phone" />
 							</div>
 							{user.phone}
@@ -63,7 +63,7 @@
 					{/if}
 
 					<div class="email">
-						<div class="icon">
+						<div class="icon" >
 							<Icon icon="email" />
 						</div>
 						{user.email}
@@ -72,7 +72,7 @@
 					{#each $organization.address as a}
 						{#if a.name == user.office_location}
 							<div class="location">
-								<div class="icon">
+								<div class="icon" >
 									<Icon icon="location_on" />
 								</div>
 								{a.address}
@@ -117,15 +117,16 @@
 		-webkit-print-color-adjust: exact !important;
 		print-color-adjust: exact !important;
 
-		font-size: 0.6rem;
 	}
-
+	
 	.block {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 		gap: var(--sp2);
+
+		/* font-size: 0.6rem; */
 
 		padding: var(--sp2);
 
@@ -201,7 +202,7 @@
 	}
 	.front .name {
 		font-weight: 800;
-		font-size: 1.2rem;
+		/* font-size: 1.2rem; */
 		color: var(--ft1);
 	}
 
@@ -233,7 +234,7 @@
 	}
 
 	.icon {
-		--size: 1rem;
+		/* --size: 1rem; */
 
 		display: flex;
 		justify-content: center;
@@ -259,7 +260,7 @@
 	}
 
 	.slogan {
-		font-size: xx-small;
+		/* font-size: xx-small; */
 		text-align: center;
 	}
 
