@@ -4,7 +4,7 @@
 	import { organization } from '$lib/store.js';
 
 	import * as htmlToImage from 'html-to-image';
-	import { saveAs } from 'file-saver';
+	import { saveAs } from 'file-saver-es';
 	import QRCode from 'qrcode';
 
 	import Icon from '$lib/icon.svelte';
