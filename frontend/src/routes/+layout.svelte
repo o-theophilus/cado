@@ -6,6 +6,7 @@
 	import './layout/main.css';
 	import Nav from './layout/nav.svelte';
 	import Footer from './layout/footer.svelte';
+	import Footer2 from './layout/footer2.svelte';
 
 	import Module from './layout/_module.svelte';
 	import Loading from './layout/_loading.svelte';
@@ -18,9 +19,12 @@
 </script>
 
 <main>
-	<Nav />
-	<slot />
-	<Footer />
+	<div class="page">
+		<Nav />
+		<slot />
+		<Footer />
+	</div>
+	<Footer2 />
 
 	<Module />
 	<Loading />
@@ -34,5 +38,9 @@
 		background-color: var(--bg1);
 		color: var(--ft2);
 		transition: background-color var(--trans), color var(--trans);
+	}
+
+	.page {
+		min-height: 100vh;
 	}
 </style>

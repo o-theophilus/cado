@@ -92,7 +92,7 @@
 
 	<div class="social">
 		<Socials links={{ ...user, name: user.firstname }} />
-		<br />
+
 		<BusinessCard {user} bind:this={business_card} />
 		<Button
 			size="small"
@@ -100,7 +100,7 @@
 				business_card.download();
 			}}
 		>
-			Get Business Card
+			Save Business Card
 		</Button>
 	</div>
 
@@ -134,6 +134,9 @@
 	}
 
 	.social {
+		display: flex;
+		flex-direction: column;
 		margin: var(--sp4) 0;
+		gap: var(--sp1) ;
 	}
 </style>

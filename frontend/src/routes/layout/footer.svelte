@@ -18,10 +18,6 @@
 	</div>
 </footer>
 
-<div class="copyright">
-	<div class="block">© 2024 Wragby Business Solutions and Technologies Limited.</div>
-</div>
-
 <style>
 	.block {
 		max-width: var(--mobileWidth);
@@ -30,20 +26,9 @@
 		padding: 0 var(--sp2);
 	}
 
-
-
 	.ititle {
 		margin-top: var(--sp4);
 		margin-bottom: var(--sp3);
-	}
-
-	.copyright {
-		padding: var(--sp4) 0;
-
-		text-align: center;
-		color: var(--ft1_b);
-		font-size: 0.8rem;
-		background-color: var(--ft1_d);
 	}
 
 	.social {
