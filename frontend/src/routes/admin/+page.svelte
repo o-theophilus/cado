@@ -28,6 +28,10 @@
 	<br />
 	form should always me maximum width
 	<br />
+	email delivery is slow
+	<br />
+	svg all google icons
+	<br />
 </Content>
 
 <style>
