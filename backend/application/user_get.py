@@ -44,7 +44,7 @@ def get_many():
             "error": "invalid token"
         })
 
-    if "user:view" not in user["permissions"]:
+    if "user:view" not in user["access"]:
         db_close(con, cur)
         return jsonify({
             "status": 400,
@@ -52,21 +52,17 @@ def get_many():
         })
 
     order_by = {
-        'latest': 'log.date',
-        'oldest': 'log.date',
-        'name (a-z)': '"user".name',
-        'name (z-a)': '"user".name'
+        'name (a-z)': '"user".firstname',
+        'name (z-a)': '"user".firstname'
     }
 
     order_dir = {
-        'latest': 'DESC',
-        'oldest': 'ASC',
         'name (a-z)': 'ASC',
         'name (z-a)': 'DESC'
     }
 
     order = list(order_by.keys())[0]
-    status = ""
+    status = "confirmed"
     search = ""
     page_no = 1
     page_size = 24
@@ -84,20 +80,15 @@ def get_many():
 
     cur.execute("""
         SELECT
-            "user".*,
-            log.date AS date,
+            *,
             COUNT(*) OVER() AS _count
         FROM "user"
-        LEFT JOIN log ON
-            "user".key = log.user_key
-            AND log.action = 'created'
-            AND log.entity_type = 'account'
         WHERE
             (
-                %s = '' OR "user".status = %s
+                %s = '' OR status = %s
             ) AND (
                 %s = ''
-                OR CONCAT_WS(', ', "user".key, "user".name, "user".email
+                OR CONCAT_WS(', ', key, firstname, lastname, email
                 ) ILIKE %s
             )
         ORDER BY {} {}
@@ -110,6 +101,7 @@ def get_many():
         page_size, (page_no - 1) * page_size
     ))
     users = cur.fetchall()
+    print(users)
 
     db_close(con, cur)
     return jsonify({

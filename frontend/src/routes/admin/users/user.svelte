@@ -3,11 +3,12 @@
 	export let user;
 </script>
 
-<a href="/profile?search={user.key}">
-	<Avatar name={user.name} photo={user.photo} />
+<a href="/{user.slug}">
+	<Avatar name={user.firstname} photo={user.photo} />
 	<div class="details">
 		<div class="name">
-			{user.name}
+			{user.firstname}
+			{user.lastname}
 		</div>
 
 		<span>

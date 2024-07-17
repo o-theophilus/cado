@@ -32,7 +32,7 @@ user_table = """CREATE TABLE IF NOT EXISTS "user" (
     password VARCHAR(200) NOT NULL,
     photo VARCHAR(50),
 
-    admin BOOLEAN DEFAULT FALSE,
+    access TEXT[] DEFAULT ARRAY[]::TEXT[],
     login BOOLEAN DEFAULT FALSE
 );"""
 

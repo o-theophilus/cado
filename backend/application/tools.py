@@ -95,7 +95,7 @@ def check_code(cur, key, email, n="code"):
     return error
 
 
-def send_mail_(to, subject, body):
+def send_mail(to, subject, body):
     if current_app.config["DEBUG"]:
         print(body)
     else:
@@ -117,7 +117,7 @@ def send_mail_(to, subject, body):
         server.quit()
 
 
-def send_mail(
+def send_mail_(
     to,
     # name,
     subject,
@@ -127,7 +127,7 @@ def send_mail(
         'Messages': [
             {
                 "From": {
-                    "Email": os.environ["MAILJET_USERNAME"],
+                    "Email": os.environ["MAIL_USERNAME"],
                     "Name": "URLinks"
                 },
                 "To": [

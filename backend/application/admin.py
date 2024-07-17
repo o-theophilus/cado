@@ -2,12 +2,87 @@ from flask import Blueprint, jsonify, request
 from uuid import uuid4
 import os
 from .postgres import db_open, db_close
-from werkzeug.security import generate_password_hash
-from .tools import token_to_user
+from werkzeug.security import generate_password_hash, check_password_hash
+from .tools import token_to_user, user_schema
 from .storage import drive, storage
 
 
 bp = Blueprint("admin", __name__)
+
+access = {
+    "user": [
+        ['view', 1],
+        ['set_access', 3],
+        ['edit_details', 2],
+        ['edit_photo', 2],
+        ['edit_socials', 2],
+        ['delete', 2]
+    ],
+    # "admin": [
+    # ['manage_photo', 3]
+    # ]
+}
+
+
+@bp.get("/admin/access")
+@bp.get("/admin/access/<search>")
+def get_access(search=None):
+    _all = [f"{x}:{y[0]}" for x in access for y in access[x]]
+    if search:
+        _all = [x for x in _all if x.find(search) != -1]
+
+    return jsonify({
+        "status": 200,
+        "access": _all
+    })
+
+
+@bp.put("/admin/access/<key>")
+def set_access(key):
+    con, cur = db_open()
+
+    me = token_to_user(cur)
+    cur.execute('SELECT * FROM "user" WHERE key = %s;', (key,))
+    user = cur.fetchone()
+
+    error = None
+    if not me or "user:set_access" not in me["access"]:
+        error = "unauthorized access"
+    elif "password" not in request.json:
+        error = "cannot be empty"
+    elif not check_password_hash(me["password"], request.json["password"]):
+        error = "incorrect password"
+    elif (
+        not user
+        or me["key"] == user["key"]
+        or "access" not in request.json
+        or type(request.json["access"]) is not list
+        or user["email"] == os.environ["MAIL_USERNAME"]
+        or user["status"] != "confirmed"
+    ):
+        error = "invalid request"
+
+    if error:
+        db_close(con, cur)
+        return jsonify({
+            "status": 400,
+            "error": error
+        })
+
+    cur.execute("""
+        UPDATE "user"
+        SET access = %s
+        WHERE key = %s;
+    """, (
+        request.json["access"],
+        user["key"]
+    ))
+
+    db_close(con, cur)
+    return jsonify({
+        "status": 200,
+        "user": user_schema(user)
+    })
 
 
 @bp.get("/admin/init")
@@ -20,16 +95,19 @@ def default_admin():
         key = uuid4().hex
         cur.execute("""
                 INSERT INTO "user" (
-                    key, slug, firstname, lastname, email, password)
-                VALUES (%s, %s, %s, %s, %s, %s);
+                    key, status, slug, firstname,
+                    lastname, email, password, access)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s);
             """, (
             key,
+            "confirmed",
             "urlinks",
             "UR",
             "Links",
             email,
             generate_password_hash(
-                os.environ["MAIL_PASSWORD"], method="scrypt")
+                os.environ["MAIL_PASSWORD"], method="scrypt"),
+            [f"{x}:{y[0]}" for x in access for y in access[x]]
         ))
 
     db_close(con, cur)
@@ -50,7 +128,7 @@ def photo_error():
             "error": "invalid token"
         })
 
-    if "admin:manage_photo" not in user["permissions"]:
+    if "admin:manage_photo" not in user["access"]:
         db_close(con, cur)
         return jsonify({
             "status": 400,
@@ -116,7 +194,7 @@ def delete_photo():
             "error": "invalid token"
         })
 
-    if "admin:manage_photo" not in user["permissions"]:
+    if "admin:manage_photo" not in user["access"]:
         db_close(con, cur)
         return jsonify({
             "status": 400,

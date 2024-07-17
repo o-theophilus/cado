@@ -15,7 +15,7 @@
 	$: users = data.users;
 	$: total_page = data.total_page;
 	let { order_by } = data;
-	let { _status } = data;
+	// let { _status } = data;
 </script>
 
 <UpdateUrl />
@@ -30,7 +30,7 @@
 			</strong>
 		</div>
 
-		<DropPlus name="status" list={['all', ..._status]} default_value="all" />
+		<!-- <DropPlus name="status" list={['all', ..._status]} default_value="all" /> -->
 	</div>
 
 	<div class="search_bar">

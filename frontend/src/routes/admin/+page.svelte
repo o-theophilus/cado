@@ -11,26 +11,24 @@
 <Content>
 	<strong class="ititle"> Admin Dashboard</strong>
 	<br />
-	{#if $user.permissions.includes('user:view')}
+	{#if $user.access.includes('user:view')}
 		<br />
 		<Button href="/admin/users" size="wide">Users</Button>
 	{/if}
-	{#if $user.permissions.includes('admin:manage_photo')}
-		<br />
-		<Button href="/admin/photo_error" size="wide">Photo Error</Button>
-	{/if}
+
 	<br />
 	<br />
 	<br />
 	Todo
 	<br />
-	admin menu show for only admin
 	<br />
 	form should always me maximum width
 	<br />
 	email delivery is slow
 	<br />
-	svg all google icons
+	auto manage_photo
+	<br />
+	admin edit company info
 	<br />
 </Content>
 

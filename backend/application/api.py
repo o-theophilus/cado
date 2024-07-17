@@ -1,12 +1,13 @@
 from flask import Blueprint, jsonify
 from .postgres import db_open, db_close
 from .postgres import user_table, code_table
-
+from .admin import access
+import os
 
 bp = Blueprint("api", __name__)
 
 
-# @bp.get("/fix")
+@bp.get("/fix")
 def create_tables():
     con, cur = db_open()
 
@@ -51,9 +52,30 @@ def general_fix():
 
     cur.execute("""
         ALTER TABLE "user"
-        RENAME COLUMN organization
-        TO organization_key;
+        DROP COLUMN admin;
     """)
+    cur.execute("""
+        ALTER TABLE "user"
+        ADD COLUMN access TEXT[] DEFAULT ARRAY[]::TEXT[];
+    """)
+
+    db_close(con, cur)
+    return jsonify({
+        "status": 200
+    })
+
+
+def fix_permission():
+    con, cur = db_open()
+
+    cur.execute("""
+            UPDATE "user"
+            SET access = %s
+            WHERE email = %s;
+        """, (
+        [f"{x}:{y[0]}" for x in access for y in access[x]],
+        os.environ["MAIL_USERNAME"]
+    ))
 
     db_close(con, cur)
     return jsonify({

@@ -57,8 +57,8 @@ def init():
             """, (
             key,
             key,
-            f"user_{key[:4]}",
-            f"user_{key[-4:]}",
+            key[:4],
+            "user",
             uuid4().hex,
             generate_password_hash(uuid4().hex, method="scrypt"))
         )

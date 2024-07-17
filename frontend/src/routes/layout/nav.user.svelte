@@ -36,8 +36,7 @@
 			{#if $page.url.pathname != `/${$user.slug}`}
 				<Link href="/{$user.slug}">Profile</Link>
 			{/if}
-			<!-- {#if $user.admin && $page.url.pathname != '/admin'} -->
-			{#if $page.url.pathname != '/admin'}
+			{#if $page.url.pathname != '/admin' && $user.access.length != 0}
 				<Link href="/admin">Admin</Link>
 			{/if}
 			<Logout />
