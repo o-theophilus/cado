@@ -42,10 +42,10 @@
 		border-radius: 50%;
 
 		background-color: var(--bg2);
-		color: var(--ft2);
+		fill: var(--ft2);
 		cursor: pointer;
 
-		transition: background-color var(--trans), color var(--trans);
+		transition: background-color var(--trans), fill var(--trans);
 	}
 
 	.large {
@@ -63,10 +63,11 @@
 
 	:not(:disabled):hover {
 		background-color: var(--cl1);
-		color: var(--ft1_b);
+		fill: var(--ft1_b);
 	}
 	:not(:disabled).hover_red:hover {
 		background-color: var(--cl2);
+		fill: var(--ft1_b);
 	}
 
 	:not(:disabled).outline {

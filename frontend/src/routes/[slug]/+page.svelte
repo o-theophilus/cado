@@ -93,7 +93,7 @@
 	<div class="social">
 		<Socials links={{ ...user, name: user.firstname }} />
 
-		<BusinessCard {user} bind:this={business_card} />
+		<!-- <BusinessCard {user} bind:this={business_card} /> -->
 		<Button
 			size="small"
 			on:click={() => {

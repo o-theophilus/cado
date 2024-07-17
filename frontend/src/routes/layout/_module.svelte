@@ -11,9 +11,9 @@
 		<div class="block" transition:scale|local={{ delay: 0, duration: 200, easing: backInOut }}>
 			<div class="close">
 				<BRound
-					large
 					icon="close"
 					extra="hover_red"
+					large
 					on:click={() => {
 						$module = null;
 					}}
