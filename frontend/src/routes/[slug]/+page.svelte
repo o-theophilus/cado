@@ -5,16 +5,18 @@
 	import Meta from '$lib/meta.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Link from '$lib/button/link.svelte';
-	
+
 	import Header from './header.svelte';
 	import NameRole from './name_role.svelte';
 
 	import Socials from '../layout/socials.svelte';
 
-	import Print from './business_card_area.svelte';
+	import BusinessCard from './business_card.svelte';
+	import Button from '$lib/button/button.svelte';
 	import Setting from './setting.svelte';
 
 	export let data;
+	let business_card;
 	$: user = data.user;
 
 	const update = (data) => {
@@ -90,15 +92,21 @@
 
 	<div class="social">
 		<Socials links={{ ...user, name: user.firstname }} />
-		
+		<br />
+		<BusinessCard {user} bind:this={business_card} />
+		<Button
+			size="small"
+			on:click={() => {
+				business_card.download();
+			}}
+		>
+			Get Business Card
+		</Button>
 	</div>
 
-	
 	{#if user.key == $me.key}
-	<Setting {user} {update} {update_photo} />
+		<Setting {user} {update} {update_photo} />
 	{/if}
-	
-	<Print {user} />
 </section>
 
 <style>
@@ -128,5 +136,4 @@
 	.social {
 		margin: var(--sp4) 0;
 	}
-
 </style>
