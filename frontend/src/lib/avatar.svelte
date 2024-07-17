@@ -15,7 +15,7 @@
 </script>
 
 {#if photo}
-	<img src={photo || '/no_photo.png'} alt={name} style:--size="{size}px" class:square />
+	<img src={`${photo}/${size}` || '/no_photo.png'} alt={name} style:--size="{size}px" class:square />
 {:else}
 	<div
 		class="avatar"
@@ -41,6 +41,7 @@
 
 	img {
 		object-fit: cover;
+		display: block;
 	}
 
 	.avatar {

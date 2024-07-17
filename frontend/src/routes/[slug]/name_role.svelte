@@ -1,6 +1,5 @@
 <script>
 	import Avatar from '$lib/avatar.svelte';
-
 	export let user;
 </script>
 

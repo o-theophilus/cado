@@ -94,7 +94,7 @@
 
 	<IG
 		name="Phone Number"
-		icon="phone"
+		icon="call"
 		error={error.phone}
 		placeholder="Phone number here"
 		type="tel"

@@ -171,6 +171,7 @@
 		border-radius: var(--sp1);
 		outline: 2px solid transparent;
 		transition: outline-color var(--trans), transform var(--trans);
+		display: block;
 	}
 	img.edit_mode:hover,
 	.dragover.edit_mode {

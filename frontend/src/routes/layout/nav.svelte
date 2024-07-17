@@ -61,6 +61,7 @@
 
 	img {
 		height: 32px;
+		display: block;
 	}
 
 	.links {
