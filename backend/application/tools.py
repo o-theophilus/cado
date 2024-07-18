@@ -1,15 +1,10 @@
 from flask import request, current_app
 from itsdangerous import URLSafeTimedSerializer
-import smtplib
-from email.utils import formataddr
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 import os
 from uuid import uuid4
 import random
 from datetime import datetime, timedelta
-import re
-from mailjet_rest import Client
+from protonmail import ProtonMail
 
 
 reserved_words = ["app", "wragby", "home",
@@ -99,59 +94,16 @@ def send_mail(to, subject, body):
     if current_app.config["DEBUG"]:
         print(body)
     else:
-        admin = os.environ["MAIL_USERNAME"]
+        proton = ProtonMail()
+        proton.login(os.environ["MAIL_USERNAME"], os.environ["MAIL_PASSWORD"])
 
-        msg = MIMEMultipart()
-        msg['From'] = formataddr(("Urlinks", admin))
-        msg['To'] = to
-        msg['Subject'] = subject
-        msg.attach(MIMEText(body, 'html'))
-
-        server = smtplib.SMTP('smtp.office365.com', 587)
-        server.starttls()
-        server.login(
-            admin,
-            os.environ["MAIL_PASSWORD"]
+        proton.send_message(
+            proton.create_message(
+                recipients=[to],
+                subject=subject,
+                body=body,
+            )
         )
-        server.sendmail(admin, to, msg.as_bytes())
-        server.quit()
-
-
-def send_mail_(
-    to,
-    # name,
-    subject,
-    body
-):
-    data = {
-        'Messages': [
-            {
-                "From": {
-                    "Email": os.environ["MAIL_USERNAME"],
-                    "Name": "URLinks"
-                },
-                "To": [
-                    {
-                        "Email": to,
-                        # "Name": name
-                    }
-                ],
-                "Subject": subject,
-                "HTMLPart": re.sub('&amp;', '&', body)
-            }
-        ]
-    }
-
-    if current_app.config["DEBUG"]:
-        print(data)
-    else:
-        mailjet = Client(auth=(
-            os.environ["MAILJET_API_KEY"],
-            os.environ["MAILJET_SECRET_KEY"]),
-            version='v3.1')
-
-        result = mailjet.send.create(data=data)
-        print(result.json())
 
 
 def user_schema(user):
