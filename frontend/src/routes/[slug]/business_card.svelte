@@ -3,24 +3,11 @@
 	import { onMount } from 'svelte';
 	import { organization } from '$lib/store.js';
 
-	import * as htmlToImage from 'html-to-image';
-	//import { saveAs } from 'file-saver-es';
 	import QRCode from 'qrcode';
-
 	import Icon from '$lib/icon.svelte';
 
 	export let user;
-
-	export const download = () => {
-		htmlToImage.toBlob(document.getElementById('to_print')).then(function (blob) {
-			//saveAs(blob, `${user.firstname} ${user.lastname} business card.png`);
-		});
-	};
-
-
-
-export let ccc = ""
-export let ddd = ""
+	let src = '';
 
 	onMount(() => {
 		QRCode.toDataURL(
@@ -28,19 +15,12 @@ export let ddd = ""
 			{
 				margin: 0
 			},
-			(error, url) => {
+			(error, dataUrl) => {
 				if (error) console.error(error);
-				src = url;
+				src = dataUrl;
 			}
 		);
-
-htmlToImage.toPng(document.getElementById('to_print')).then(function (dataUrl) {
-ccc = dataUrl
-			ddd =`${user.firstname} ${user.lastname} business card.png`
-		});
 	});
-
-	let src = '';
 
 	let cw = 400;
 	let _cw = 400;

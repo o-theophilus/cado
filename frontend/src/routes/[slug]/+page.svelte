@@ -1,6 +1,7 @@
 <script>
 	import { page } from '$app/stores';
 	import { user as me, organization } from '$lib/store.js';
+	import * as htmlToImage from 'html-to-image';
 
 	import Meta from '$lib/meta.svelte';
 	import Icon from '$lib/icon.svelte';
@@ -16,7 +17,6 @@
 	import Setting from './setting.svelte';
 
 	export let data;
-	let business_card;
 	$: user = data.user;
 
 	const update = (data) => {
@@ -93,11 +93,16 @@
 	<div class="social">
 		<Socials links={{ ...user, name: user.firstname }} />
 
-		<BusinessCard {user} bind:this={business_card} />
+		<BusinessCard {user} />
 		<Button
 			size="small"
 			on:click={() => {
-				business_card.download();
+				htmlToImage.toPng(document.getElementById('to_print')).then(function (dataUrl) {
+					var a = document.createElement('a');
+					a.download = `${user.firstname} ${user.lastname} business card.png`;
+					a.href = dataUrl;
+					a.click();
+				});
 			}}
 		>
 			Save Business Card
@@ -137,6 +142,6 @@
 		display: flex;
 		flex-direction: column;
 		margin: var(--sp4) 0;
-		gap: var(--sp1) ;
+		gap: var(--sp1);
 	}
 </style>
