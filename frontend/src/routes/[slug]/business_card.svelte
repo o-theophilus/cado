@@ -4,7 +4,7 @@
 	import { organization } from '$lib/store.js';
 
 	import * as htmlToImage from 'html-to-image';
-	import { saveAs } from 'file-saver-es';
+	//import { saveAs } from 'file-saver-es';
 	import QRCode from 'qrcode';
 
 	import Icon from '$lib/icon.svelte';
@@ -13,9 +13,14 @@
 
 	export const download = () => {
 		htmlToImage.toBlob(document.getElementById('to_print')).then(function (blob) {
-			saveAs(blob, `${user.firstname} ${user.lastname} business card.png`);
+			//saveAs(blob, `${user.firstname} ${user.lastname} business card.png`);
 		});
 	};
+
+
+
+export let ccc = ""
+export let ddd = ""
 
 	onMount(() => {
 		QRCode.toDataURL(
@@ -28,6 +33,11 @@
 				src = url;
 			}
 		);
+
+htmlToImage.toPng(document.getElementById('to_print')).then(function (dataUrl) {
+ccc = dataUrl
+			ddd =`${user.firstname} ${user.lastname} business card.png`
+		});
 	});
 
 	let src = '';
