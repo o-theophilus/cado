@@ -33,11 +33,17 @@
 
 <style>
 	.block {
-		margin: var(--sp2) 0;
-		padding: var(--sp3);
-		border-radius: var(--sp2);
-
+		margin: var(--sp1) 0;
+		padding: var(--sp2);
+		border-radius: var(--sp1);
+		
 		border: 2px solid var(--bg2);
+	}
+	@media screen and (min-width: 500px) {
+		.block {
+			padding: var(--sp3);
+			border-radius: var(--sp2);
+		}
 	}
 
 	.line {
@@ -50,7 +56,7 @@
 		justify-content: space-between;
 	}
 
-	.ititle{
+	.ititle {
 		font-size: 1.2rem;
 	}
 </style>
