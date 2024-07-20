@@ -31,6 +31,12 @@
 	<Organization {user} />
 	<Contact {user} />
 	<Social {user} />
+
+	<br />
+	<hr />
+	<br />
+	<strong class="ititle"> Advanced </strong>
+
 	<Email />
 	<Password />
 	<Delete />
