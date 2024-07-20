@@ -67,7 +67,7 @@ def personal(key):
             slug = %s,
             firstname = %s,
             lastname = %s,
-            about_me = %s,
+            about_me = %s
         WHERE key = %s
         RETURNING *;
     """, (
@@ -109,7 +109,7 @@ def _organization(key):
         UPDATE "user"
         SET
             role = %s,
-            manager_email = %s,
+            manager_email = %s
         WHERE key = %s
         RETURNING *;
     """, (
@@ -148,13 +148,7 @@ def contact(key):
     cur.execute("""
         UPDATE "user"
         SET
-            slug = %s,
-            firstname = %s,
-            lastname = %s,
-            role = %s,
             phone = %s,
-            manager_email = %s,
-            about_me = %s,
             office_location = %s
         WHERE key = %s
         RETURNING *;

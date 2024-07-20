@@ -1,5 +1,5 @@
 <script>
-	import { module, notification, loading, organization } from '$lib/store.js';
+	import { notification, loading, organization } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import IG from '$lib/input_group.svelte';
@@ -32,7 +32,7 @@
 
 	const submit = async () => {
 		$loading = 'Saving Post . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/personal/${$module.user.key}`, {
+		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/personal/${user.key}`, {
 			method: 'put',
 			headers: {
 				'Content-Type': 'application/json',
@@ -44,12 +44,10 @@
 		$loading = false;
 
 		if (resp.status == 200) {
-			window.history.replaceState(history.state, '', `/${resp.user.slug}`);
-			$module.update(resp.user);
-			$module = null;
 			$notification = {
 				message: 'Details Saved'
 			};
+			window.history.replaceState(history.state, '', `/${resp.user.slug}/setting`);
 		} else {
 			error = resp;
 		}
