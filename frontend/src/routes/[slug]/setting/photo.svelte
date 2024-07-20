@@ -1,11 +1,12 @@
 <script>
-	import { loading, notification, module } from '$lib/store.js';
+	import { loading, notification, user as me } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import Button from '$lib/button/button.svelte';
 	import Icon from '$lib/icon.svelte';
+	import Card from './card.svelte';
 
-	let user = { ...$module.user };
+	export let user;
 	let edit_mode = true;
 	let error = {};
 	let input;
@@ -39,7 +40,9 @@
 
 		if (resp.status == 200) {
 			user = resp.user;
-			$module.update(resp.user.photo);
+			if (user.key == $me.key) {
+				$me = user;
+			}
 			$notification = {
 				message: 'Photo added'
 			};
@@ -66,7 +69,9 @@
 
 		if (resp.status == 200) {
 			user.photo = null;
-			$module.update(null);
+			if (user.key == $me.key) {
+				$me = user;
+			}
 			$notification = {
 				message: 'Photo removed'
 			};
@@ -85,9 +90,9 @@
 	}
 </script>
 
-<div class="comp">
-	<strong class="ititle"> User Photo </strong>
-	<br />
+<Card>
+	<svelte:fragment slot="title">Photo</svelte:fragment>
+
 	<br />
 	<img
 		src={user.photo || '/no_photo.png'}
@@ -134,6 +139,8 @@
 			</div>
 		{/if}
 
+		<br />
+
 		{#if !user.photo}
 			<Button
 				primary
@@ -155,13 +162,9 @@
 			</Button>
 		{/if}
 	{/if}
-</div>
+</Card>
 
 <style>
-	.comp {
-		padding: var(--sp3);
-	}
-
 	.error {
 		margin: var(--sp2) 0;
 	}
@@ -169,7 +172,7 @@
 	img {
 		width: 100%;
 		border-radius: var(--sp1);
-		outline: 2px solid transparent;
+		outline: 2px solid var(--bg2);
 		transition: outline-color var(--trans), transform var(--trans);
 		display: block;
 	}

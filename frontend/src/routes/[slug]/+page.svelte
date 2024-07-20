@@ -1,5 +1,4 @@
 <script>
-	import { page } from '$app/stores';
 	import { user as me, organization } from '$lib/store.js';
 	import * as htmlToImage from 'html-to-image';
 
@@ -14,30 +13,12 @@
 
 	import BusinessCard from './business_card.svelte';
 	import Button from '$lib/button/button.svelte';
-	import Setting from './setting.svelte';
 
 	export let data;
-	$: user = data.user;
-
-	const update = (data) => {
-		user = data;
-		if (user.key == $me.key) {
-			$me = user;
-		}
-	};
-
-	const update_photo = (data) => {
-		user.photo = data;
-		if (user.key == $me.key) {
-			$me = user;
-		}
-	};
+	let user = data.user;
 </script>
 
-{#key `${$page.url.pathname}${$page.url.search}`}
-	<Meta title={user?.firstname || data.error} />
-{/key}
-
+<Meta title={user?.firstname} />
 <Header />
 <NameRole {user} />
 
@@ -94,6 +75,7 @@
 		<Socials links={{ ...user, name: user.firstname }} />
 
 		<BusinessCard {user} />
+
 		<Button
 			size="small"
 			on:click={() => {
@@ -107,11 +89,11 @@
 		>
 			Save Business Card
 		</Button>
-	</div>
 
-	{#if user.key == $me.key}
-		<Setting {user} {update} {update_photo} />
-	{/if}
+		{#if user.key == $me.key}
+			<Link href="/{user.slug}/setting">Setting ></Link>
+		{/if}
+	</div>
 </section>
 
 <style>

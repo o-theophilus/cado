@@ -15,6 +15,14 @@
 		<br />
 		<Button href="/admin/users" size="wide">Users</Button>
 	{/if}
+	{#if $user.access.includes('user:set_access')}
+		<br />
+		<Button href="/admin/admin_users" size="wide">Admin Users</Button>
+	{/if}
+	{#if $user.access.includes('admin:view_photo_error')}
+		<br />
+		<Button href="/admin/photo_error" size="wide">Photo Error</Button>
+	{/if}
 
 	<br />
 	<br />
@@ -23,10 +31,6 @@
 	<br />
 	<br />
 	form should always me maximum width
-	<br />
-	email delivery is slow
-	<br />
-	auto manage_photo
 	<br />
 	admin edit company info
 	<br />

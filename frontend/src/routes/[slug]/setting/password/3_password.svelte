@@ -1,14 +1,17 @@
 <script>
-	import { module, loading, notification } from '$lib/store.js';
+	import { createEventDispatcher } from 'svelte';
+	import { loading, notification } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import IG from '$lib/input_group.svelte';
-	import Password from '../account/password_checker.svelte';
 	import Button from '$lib/button/button.svelte';
-	import ShowPassword from '../account/password_show.svelte';
+	import Password from '../../../account/password_checker.svelte';
+	import ShowPassword from '../../../account/password_show.svelte';
 
+	let emit = createEventDispatcher();
+	export let code;
 	let form = {
-		...$module.form
+		code: code
 	};
 	let error = {};
 	let show_password = false;
@@ -55,7 +58,7 @@
 			$notification = {
 				message: 'Password changed'
 			};
-			$module = null;
+			emit('ok');
 		} else {
 			error = resp;
 		}
@@ -63,8 +66,6 @@
 </script>
 
 <form on:submit|preventDefault novalidate autocomplete="off">
-	<strong class="ititle"> Change Password </strong>
-
 	{#if error.error}
 		<div class="error">
 			{error.error}
@@ -102,9 +103,6 @@
 </form>
 
 <style>
-	form {
-		padding: var(--sp3);
-	}
 	.error {
 		margin: var(--sp2) 0;
 	}

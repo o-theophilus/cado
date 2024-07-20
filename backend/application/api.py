@@ -1,10 +1,18 @@
 from flask import Blueprint, jsonify
 from .postgres import db_open, db_close
 from .postgres import user_table, code_table
-from .admin import access
+from .admin import access, clean_photo
 import os
 
 bp = Blueprint("api", __name__)
+
+
+@bp.get("/cron")
+def cron():
+    clean_photo()
+    return jsonify({
+        "status": 200
+    })
 
 
 def create_tables():
@@ -64,8 +72,8 @@ def general_fix():
     })
 
 
-# @bp.get("/fix")
-def fix_permission():
+@bp.get("/fix")
+def fix_access():
     con, cur = db_open()
 
     cur.execute("""

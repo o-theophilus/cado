@@ -69,8 +69,13 @@
 <style>
 	.line {
 		display: flex;
-		gap: var(--sp1);
+		gap: 2px;
 		margin-top: var(--sp1);
+	}
+	@media screen and (min-width: 400px) {
+		.line {
+			gap: var(--sp1);
+		}
 	}
 
 	input {

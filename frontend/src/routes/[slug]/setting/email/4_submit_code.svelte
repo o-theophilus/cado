@@ -1,26 +1,29 @@
 <script>
-	import { module, loading, user } from '$lib/store.js';
+	import { user, notification, loading } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
+	import { createEventDispatcher } from 'svelte';
 
 	import Button from '$lib/button/button.svelte';
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Code from '$lib/input_code.svelte';
 
-	import Email from './_email_3_email.svelte';
-
+	let emit = createEventDispatcher();
+	export let code;
+	export let email;
 	let form = {
-		...$module.form
+		code_1: code,
+		email: email
 	};
 	let error = {};
 
 	const validate = () => {
 		error = {};
 
-		if (!form.code_1) {
-			error.code_1 = 'this field is required';
-		} else if (form.code_1.length != 6) {
-			error.code_1 = 'invalid code';
+		if (!form.code_2) {
+			error.code_2 = 'this field is required';
+		} else if (form.code_2.length != 6) {
+			error.code_2 = 'invalid code';
 		}
 
 		Object.keys(error).length === 0 && submit();
@@ -28,7 +31,7 @@
 
 	const submit = async () => {
 		$loading = 'loading . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/email/2`, {
+		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/email/4`, {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json',
@@ -40,11 +43,13 @@
 		$loading = false;
 
 		if (resp.status == 200) {
-			$module = {
-				module: Email,
-				form,
-				update: $module.update
+			$user = resp.user;
+
+			$notification = {
+				message: 'Email changed'
 			};
+
+			emit('ok');
 		} else {
 			error = resp;
 		}
@@ -52,20 +57,16 @@
 </script>
 
 <form on:submit|preventDefault novalidate autocomplete="off">
-	<strong class="ititle"> Change Email </strong>
-
 	{#if error.error}
 		<div class="error">
 			{error.error}
 		</div>
 	{/if}
-	<br />
 
-	<br />
-	<div class="message">Code has been sent to: {$user.email}.</div>
+	<div class="message">Code has been sent to: {form.email}.</div>
 
-	<IG name="Code" error={error.code_1}>
-		<Code bind:value={form.code_1} />
+	<IG name="Code" error={error.code_2}>
+		<Code bind:value={form.code_2} />
 	</IG>
 
 	<Button primary on:click={validate}>
@@ -75,11 +76,8 @@
 </form>
 
 <style>
-	form {
-		padding: var(--sp3);
-	}
-
-	.error {
+	.error,
+	.message {
 		margin: var(--sp2) 0;
 	}
 

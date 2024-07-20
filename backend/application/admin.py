@@ -16,11 +16,11 @@ access = {
         ['edit_details', 2],
         ['edit_photo', 2],
         ['edit_socials', 2],
-        ['delete', 2]
+        ['delete', 3]
     ],
-    # "admin": [
-    # ['manage_photo', 3]
-    # ]
+    "admin": [
+        ['view_photo_error', 2]
+    ]
 }
 
 
@@ -128,36 +128,18 @@ def photo_error():
             "error": "invalid token"
         })
 
-    if "admin:manage_photo" not in user["access"]:
+    if "admin:view_photo_error" not in user["access"]:
         db_close(con, cur)
         return jsonify({
             "status": 400,
             "error": "unauthorized access"
         })
 
-    cur.execute("""
-        SELECT photo
-        FROM "user";
-    """)
-    users_photo = cur.fetchall()
-    users_photo = [x["photo"] for x in users_photo if x["photo"]]
-
-    cur.execute("""
-        SELECT photos
-        FROM post;
-    """)
-    temp = cur.fetchall()
-    posts_photos = []
-    for x in temp:
-        if x["photos"] != []:
-            posts_photos += x["photos"]
-
-    all_used_photos = users_photo + posts_photos
     paths = drive().list()["names"]
     all_stored_photos = [x.split('/')[1] for x in paths]
 
     cur.execute("""
-        SELECT "user".key, "user".name
+        SELECT slug, firstname, lastname
         FROM "user"
         WHERE
             photo IS NOT NULL
@@ -165,25 +147,14 @@ def photo_error():
     """, (all_stored_photos,))
     _users = cur.fetchall()
 
-    cur.execute("""
-        SELECT post.key, post.title
-        FROM post
-        WHERE NOT ARRAY[%s] @> photos;
-    """, (all_stored_photos,))
-    _posts = cur.fetchall()
-
     db_close(con, cur)
     return jsonify({
         "status": 200,
-        "unused": [f"{request.host_url}photo/{x}"
-                   for x in all_stored_photos if x not in all_used_photos],
-        "users": _users,
-        "posts": _posts
+        "users": _users
     })
 
 
-@bp.delete("/photo/error")
-def delete_photo():
+def clean_photo():
     con, cur = db_open()
 
     user = token_to_user(cur)
@@ -201,19 +172,16 @@ def delete_photo():
             "error": "unauthorized access"
         })
 
-    if (
-        "photos" not in request.json
-        or type(request.json["photos"]) is not list
-    ):
-        db_close(con, cur)
-        return jsonify({
-            "status": 400,
-            "error": "invalid request"
-        })
+    cur.execute("""
+        SELECT photo
+        FROM "user";
+    """)
+    users_photo = [x["photo"] for x in cur.fetchall() if x["photo"]]
 
-    for x in request.json["photos"]:
-        pass
-        storage(x.split("/")[-1], delete=True)
+    paths = drive().list()["names"]
+    for x in paths:
+        if x.split('/')[1] not in users_photo:
+            storage(x, delete=True)
 
     db_close(con, cur)
     return jsonify({

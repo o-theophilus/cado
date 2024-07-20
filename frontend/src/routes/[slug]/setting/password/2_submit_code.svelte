@@ -1,17 +1,15 @@
 <script>
-	import { module, loading, user } from '$lib/store.js';
+	import { loading, user } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
+	import { createEventDispatcher } from 'svelte';
 
 	import Button from '$lib/button/button.svelte';
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Code from '$lib/input_code.svelte';
 
-	import Password from './_password_3_password.svelte';
-
-	let form = {
-		...$module.form
-	};
+	let emit = createEventDispatcher();
+	let form = {};
 	let error = {};
 
 	const validate = () => {
@@ -40,10 +38,7 @@
 		$loading = false;
 
 		if (resp.status == 200) {
-			$module = {
-				module: Password,
-				form
-			};
+			emit('ok', form.code);
 		} else {
 			error = resp;
 		}
@@ -51,17 +46,15 @@
 </script>
 
 <form on:submit|preventDefault novalidate autocomplete="off">
-	<strong class="ititle"> Change Password </strong>
-
 	{#if error.error}
+		<br />
 		<div class="error">
 			{error.error}
 		</div>
 	{/if}
-	<br />
 
 	<br />
-	<div class="message">Code has been sent to: {$user.email}.</div>
+	<div class="message">Code has been sent to: {$user.email}</div>
 
 	<IG name="Code" error={error.code}>
 		<Code bind:value={form.code} />
@@ -74,18 +67,15 @@
 </form>
 
 <style>
-	form {
-		padding: var(--sp3);
-	}
-
 	.error {
 		margin: var(--sp2) 0;
 	}
 
 	.message {
-		background-color: var(--cl1_l);
-		color: var(--ft1_b);
-		padding: var(--sp1);
-		width: 100%;
+		padding: var(--sp2);
+		font-size: 0.8rem;
+		background-color: var(--bg2);
+
+		border-radius: var(--sp0);
 	}
 </style>

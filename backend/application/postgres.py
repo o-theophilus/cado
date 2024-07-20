@@ -15,12 +15,14 @@ user_table = """CREATE TABLE IF NOT EXISTS "user" (
 
     firstname VARCHAR(100) NOT NULL,
     lastname VARCHAR(100) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    phone VARCHAR(100),
     about_me TEXT,
+
+    role VARCHAR(100),
     organization_key VARCHAR(255),
     manager_email VARCHAR(255),
-    role VARCHAR(100),
+
+    email VARCHAR(255) UNIQUE NOT NULL,
+    phone VARCHAR(100),
     office_location VARCHAR(255),
 
     whatsapp VARCHAR(100),
@@ -34,6 +36,30 @@ user_table = """CREATE TABLE IF NOT EXISTS "user" (
 
     access TEXT[] DEFAULT ARRAY[]::TEXT[],
     login BOOLEAN DEFAULT FALSE
+);"""
+
+organization_table = """CREATE TABLE IF NOT EXISTS organization (
+    key CHAR(32) PRIMARY KEY,
+
+    slug VARCHAR(255) UNIQUE NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    fullname TEXT,
+    slogan TEXT,
+
+    logo VARCHAR(50),
+    icon VARCHAR(50),
+
+    email VARCHAR(255) UNIQUE NOT NULL,
+    phone VARCHAR(100),
+    website VARCHAR(100),
+    address JSONB[] DEFAULT ARRAY[]::JSONB[],
+    email_domains TEXT[] DEFAULT ARRAY[]::TEXT[],
+
+    whatsapp VARCHAR(100),
+    linkedin VARCHAR(100),
+    facebook VARCHAR(100),
+    twitter VARCHAR(100),
+    instagram VARCHAR(100)
 );"""
 
 

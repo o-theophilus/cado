@@ -5,7 +5,8 @@
 	import Button from '$lib/button/button.svelte';
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
-	import ShowPassword from '../account/password_show.svelte';
+	import ShowPassword from '../../account/password_show.svelte';
+	import Card from './card.svelte';
 
 	let form = {};
 	let error = {};
@@ -43,40 +44,40 @@
 	};
 </script>
 
-<form on:submit|preventDefault novalidate autocomplete="off">
-	<strong class="ititle"> Delete Account </strong>
-	<br />
-	Are you sure you want to delete account?
+<Card>
+	<svelte:fragment slot="title">Delete Account</svelte:fragment>
 
-	{#if error.error}
-		<div class="error">
-			{error.error}
-		</div>
-	{/if}
+	<form on:submit|preventDefault novalidate autocomplete="off">
+		<br />
+		Are you sure you want to delete account?
 
-	<IG
-		name="Password"
-		icon="key"
-		error={error.password}
-		bind:value={form.password}
-		type={show_password ? 'text' : 'password'}
-		placeholder="Password here"
-	>
-		<svelte:fragment slot="right">
-			<ShowPassword bind:show_password />
-		</svelte:fragment>
-	</IG>
+		{#if error.error}
+			<div class="error">
+				{error.error}
+			</div>
+		{/if}
 
-	<Button on:click={validate}>
-		<Icon icon="delete" />
-		Delete
-	</Button>
-</form>
+		<IG
+			name="Password"
+			icon="key"
+			error={error.password}
+			bind:value={form.password}
+			type={show_password ? 'text' : 'password'}
+			placeholder="Password here"
+		>
+			<svelte:fragment slot="right">
+				<ShowPassword bind:show_password />
+			</svelte:fragment>
+		</IG>
+
+		<Button on:click={validate}>
+			<Icon icon="delete" />
+			Delete
+		</Button>
+	</form>
+</Card>
 
 <style>
-	form {
-		padding: var(--sp3);
-	}
 	.error {
 		margin: var(--sp2) 0;
 	}

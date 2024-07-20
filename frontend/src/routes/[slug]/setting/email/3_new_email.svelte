@@ -1,16 +1,17 @@
 <script>
 	import { module, user, loading, organization } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
+	import { createEventDispatcher } from 'svelte';
 
 	import Button from '$lib/button/button.svelte';
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
-	import EmailTemplate from './_email.template.svelte';
+	import EmailTemplate from './email_template.svelte';
 
-	import Code from './_email_4_code.svelte';
-
+	let emit = createEventDispatcher();
+	export let code;
 	let form = {
-		...$module.form
+		code_1: code
 	};
 	let error = {};
 	let email_template;
@@ -48,11 +49,7 @@
 		$loading = false;
 
 		if (resp.status == 200) {
-			$module = {
-				module: Code,
-				form,
-				update: $module.update
-			};
+			emit('ok', form.email);
 		} else {
 			error = resp;
 		}
@@ -60,8 +57,6 @@
 </script>
 
 <form on:submit|preventDefault novalidate autocomplete="off">
-	<strong class="ititle"> Change Email </strong>
-
 	{#if error.error}
 		<div class="error">
 			{error.error}
@@ -88,10 +83,6 @@
 </div>
 
 <style>
-	form {
-		padding: var(--sp3);
-	}
-
 	.error {
 		margin: var(--sp2) 0;
 	}

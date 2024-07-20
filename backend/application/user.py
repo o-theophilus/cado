@@ -14,8 +14,8 @@ from .account import organization
 bp = Blueprint("user", __name__)
 
 
-@bp.put("/user/details/<key>")
-def edit_details(key):
+@bp.put("/user/personal/<key>")
+def personal(key):
     con, cur = db_open()
 
     user = token_to_user(cur)
@@ -40,21 +40,9 @@ def edit_details(key):
             **error
         })
 
-    role = None
-    phone = None
-    manager_email = None
     about_me = None
-    office_location = None
-    if "role" in request.json and request.json["role"]:
-        role = request.json["role"]
-    if "phone" in request.json and request.json["phone"]:
-        phone = request.json["phone"]
-    if "manager_email" in request.json and request.json["manager_email"]:
-        manager_email = request.json["manager_email"]
     if "about_me" in request.json and request.json["about_me"]:
         about_me = request.json["about_me"]
-    if "office_location" in request.json and request.json["office_location"]:
-        office_location = request.json["office_location"]
 
     slug = user["slug"]
     if (
@@ -79,6 +67,90 @@ def edit_details(key):
             slug = %s,
             firstname = %s,
             lastname = %s,
+            about_me = %s,
+        WHERE key = %s
+        RETURNING *;
+    """, (
+        slug,
+        request.json["firstname"],
+        request.json["lastname"],
+        about_me,
+        user["key"]
+    ))
+    user = cur.fetchone()
+
+    db_close(con, cur)
+    return jsonify({
+        "status": 200,
+        "user": user_schema(user)
+    })
+
+
+@bp.put("/user/organization/<key>")
+def _organization(key):
+    con, cur = db_open()
+
+    user = token_to_user(cur)
+    if not user or user["key"] != key:
+        db_close(con, cur)
+        return jsonify({
+            "status": 400,
+            "error": "invalid token"
+        })
+
+    role = None
+    manager_email = None
+    if "role" in request.json and request.json["role"]:
+        role = request.json["role"]
+    if "manager_email" in request.json and request.json["manager_email"]:
+        manager_email = request.json["manager_email"]
+
+    cur.execute("""
+        UPDATE "user"
+        SET
+            role = %s,
+            manager_email = %s,
+        WHERE key = %s
+        RETURNING *;
+    """, (
+        role,
+        manager_email,
+        user["key"]
+    ))
+    user = cur.fetchone()
+
+    db_close(con, cur)
+    return jsonify({
+        "status": 200,
+        "user": user_schema(user)
+    })
+
+
+@bp.put("/user/contact/<key>")
+def contact(key):
+    con, cur = db_open()
+
+    user = token_to_user(cur)
+    if not user or user["key"] != key:
+        db_close(con, cur)
+        return jsonify({
+            "status": 400,
+            "error": "invalid token"
+        })
+
+    phone = None
+    office_location = None
+    if "phone" in request.json and request.json["phone"]:
+        phone = request.json["phone"]
+    if "office_location" in request.json and request.json["office_location"]:
+        office_location = request.json["office_location"]
+
+    cur.execute("""
+        UPDATE "user"
+        SET
+            slug = %s,
+            firstname = %s,
+            lastname = %s,
             role = %s,
             phone = %s,
             manager_email = %s,
@@ -87,13 +159,7 @@ def edit_details(key):
         WHERE key = %s
         RETURNING *;
     """, (
-        slug,
-        request.json["firstname"],
-        request.json["lastname"],
-        role,
         phone,
-        manager_email,
-        about_me,
         office_location,
         user["key"]
     ))
@@ -106,8 +172,8 @@ def edit_details(key):
     })
 
 
-@bp.put("/user/links/<key>")
-def edit_links(key):
+@bp.put("/user/social/<key>")
+def social(key):
     con, cur = db_open()
 
     user = token_to_user(cur)
