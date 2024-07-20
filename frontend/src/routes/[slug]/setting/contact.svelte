@@ -66,6 +66,16 @@
 			bind:value={form.phone}
 		/>
 
+		<IG
+			name="Email"
+			icon="email"
+			error={error.email}
+			type="email"
+			bind:value={form.email}
+			placeholder="Email here"
+			disabled
+		/>
+
 		<label for="location">Office Location</label>
 		<div class="dropdown">
 			<Dropdown

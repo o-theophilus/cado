@@ -1,5 +1,5 @@
 <script>
-	import { module, user, loading, organization } from '$lib/store.js';
+	import { user, loading, organization } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 	import { createEventDispatcher } from 'svelte';
 
@@ -9,9 +9,9 @@
 	import EmailTemplate from './email_template.svelte';
 
 	let emit = createEventDispatcher();
-	export let code;
+	export let code_1;
 	let form = {
-		code_1: code
+		code_1: code_1
 	};
 	let error = {};
 	let email_template;
@@ -37,6 +37,7 @@
 
 	const submit = async () => {
 		$loading = 'Requesting Code . . .';
+		form.email_template = email_template.innerHTML.replace(/&amp;/g, '&');
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/email/3`, {
 			method: 'post',
 			headers: {

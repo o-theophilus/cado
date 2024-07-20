@@ -38,7 +38,7 @@
 		$loading = false;
 
 		if (resp.status == 200) {
-			emit('ok', form.code);
+			emit('ok', form.code_1);
 		} else {
 			error = resp;
 		}

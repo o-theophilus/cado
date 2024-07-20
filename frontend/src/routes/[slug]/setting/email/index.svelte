@@ -6,7 +6,7 @@
 	import NewEmail from './3_new_email.svelte';
 	import SubmitCode2 from './4_submit_code.svelte';
 
-	let code;
+	let code_1;
 	let email;
 	let state = 0;
 </script>
@@ -23,13 +23,13 @@
 	{:else if state == 1}
 		<SubmitCode1
 			on:ok={(e) => {
-				code = e.detail;
+				code_1 = e.detail;
 				state = 2;
 			}}
 		/>
 	{:else if state == 2}
 		<NewEmail
-			{code}
+			{code_1}
 			on:ok={(e) => {
 				email = e.detail;
 				state = 3;
@@ -37,7 +37,7 @@
 		/>
 	{:else if state == 3}
 		<SubmitCode2
-			{code}
+			{code_1}
 			{email}
 			on:ok={(e) => {
 				state = 0;

@@ -9,10 +9,10 @@
 	import Code from '$lib/input_code.svelte';
 
 	let emit = createEventDispatcher();
-	export let code;
+	export let code_1;
 	export let email;
 	let form = {
-		code_1: code,
+		code_1: code_1,
 		email: email
 	};
 	let error = {};
@@ -82,9 +82,10 @@
 	}
 
 	.message {
-		background-color: var(--cl1_l);
-		color: var(--ft1_b);
-		padding: var(--sp1);
-		width: 100%;
+		padding: var(--sp2);
+		font-size: 0.8rem;
+		background-color: var(--bg2);
+
+		border-radius: var(--sp0);
 	}
 </style>
