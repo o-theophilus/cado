@@ -142,21 +142,17 @@
 
 		<br />
 
-		<Button
-			primary
-			on:click={() => {
-				input.click();
-			}}
-		>
-			<Icon icon="add" />
-			{#if user.photo}
-				Change
-			{:else}
+		{#if !user.photo}
+			<Button
+				primary
+				on:click={() => {
+					input.click();
+				}}
+			>
+				<Icon icon="add" />
 				Add
-			{/if}
-		</Button>
-
-		{#if user.photo}
+			</Button>
+		{:else}
 			<Button
 				on:click={() => {
 					remove('delete');

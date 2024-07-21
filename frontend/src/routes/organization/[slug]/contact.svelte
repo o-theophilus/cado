@@ -1,5 +1,5 @@
 <script>
-	import { notification, loading, organization } from '$lib/store.js';
+	import { notification, loading } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import IG from '$lib/input_group.svelte';
@@ -8,14 +8,11 @@
 	import Dropdown from '$lib/dropdown.svelte';
 	import Card from './card.svelte';
 
-	export let user;
+	export let organization;
 	export let open;
 	let form = {
-		...user
+		...organization
 	};
-	if (form.office_location == null) {
-		form.office_location = $organization.address[0].name;
-	}
 
 	let error = {};
 
@@ -27,19 +24,22 @@
 
 	const submit = async () => {
 		$loading = 'Saving Post . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/contact/${user.key}`, {
-			method: 'put',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: $token
-			},
-			body: JSON.stringify(form)
-		});
+		let resp = await fetch(
+			`${import.meta.env.VITE_BACKEND}/organization/contact/${organization.key}`,
+			{
+				method: 'put',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: $token
+				},
+				body: JSON.stringify(form)
+			}
+		);
 		resp = await resp.json();
 		$loading = false;
 
 		if (resp.status == 200) {
-			user = resp.user;
+			organization = resp.organization;
 			open = false;
 			$notification = {
 				message: 'Details Saved'
@@ -76,32 +76,26 @@
 			type="email"
 			bind:value={form.email}
 			placeholder="Email here"
-			disabled
 		/>
 
-		<label for="location">Office Location</label>
-		<div class="dropdown">
-			<Dropdown
-				list={$organization.address.map((a) => a.name)}
-				id="location"
+		<IG
+			name="Website"
+			icon="language"
+			error={error.website}
+			type="text"
+			bind:value={form.website}
+			placeholder="Website here"
+		/>
+
+		<!-- {#each Array(form.address.length + 1) as _, i}
+			<IG
+				name="Location {i + 1}"
 				icon="location_on"
-				wide
-				default_value={form.office_location}
-				on:change={(e) => {
-					form.office_location = e.target.value;
-				}}
+				type="textarea"
+				bind:value={form.address}
+				placeholder="Address here"
 			/>
-
-			<div>
-				{#each $organization.address as a}
-					{#if a.name == form.office_location}
-						{a.address}
-					{/if}
-				{/each}
-			</div>
-		</div>
-
-		<br />
+		{/each} -->
 
 		<Button on:click={validate}>
 			Submit

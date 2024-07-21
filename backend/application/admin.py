@@ -12,15 +12,26 @@ bp = Blueprint("admin", __name__)
 access = {
     "user": [
         ['view', 1],
-        ['set_access', 3],
-        ['edit_details', 2],
         ['edit_photo', 2],
-        ['edit_socials', 2],
+        ['edit_personal', 2],
+        ['edit_organization', 2],
+        ['edit_contact', 2],
+        ['edit_social_media', 2],
+        ['edit_access', 3],
         ['delete', 3]
     ],
     "admin": [
         ['view_photo_error', 2]
-    ]
+    ],
+    "organization": [
+        ['view', 1],
+        ['add', 2],
+        # ['edit_photo', 2],
+        ['edit_organization', 2],
+        ['edit_contact', 2],
+        ['edit_social_media', 2],
+        # ['delete', 3]
+    ],
 }
 
 

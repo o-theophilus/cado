@@ -75,9 +75,10 @@
 		flex-direction: column;
 		gap: var(--sp1);
 
-		background-color: var(--bg2);
+		background-color: var(--bg1);
 
 		padding: var(--sp2);
 		border-radius: var(--sp0);
+		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 	}
 </style>

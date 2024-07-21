@@ -31,6 +31,7 @@
 			{code}
 			on:ok={() => {
 				state = 0;
+				open = false;
 			}}
 		/>
 	{/if}

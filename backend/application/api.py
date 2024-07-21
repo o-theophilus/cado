@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 from .postgres import db_open, db_close
-from .postgres import user_table, code_table
+from .postgres import user_table, code_table, organization_table
 from .admin import access, clean_photo
 import os
 
@@ -20,8 +20,10 @@ def create_tables():
 
     cur.execute(f"""
         DROP TABLE IF EXISTS "user" CASCADE;
+        DROP TABLE IF EXISTS organization CASCADE;
         DROP TABLE IF EXISTS code CASCADE;
         {user_table}
+        {organization_table}
         {code_table}
     """)
 
@@ -57,13 +59,9 @@ def general_fix():
     #     ADD COLUMN price FLOAT DEFAULT 0 NOT NULL;
     # """)
 
-    cur.execute("""
-        ALTER TABLE "user"
-        DROP COLUMN admin;
-    """)
-    cur.execute("""
-        ALTER TABLE "user"
-        ADD COLUMN access TEXT[] DEFAULT ARRAY[]::TEXT[];
+    cur.execute(f"""
+        DROP TABLE IF EXISTS organization CASCADE;
+        {organization_table}
     """)
 
     db_close(con, cur)
@@ -72,7 +70,7 @@ def general_fix():
     })
 
 
-# @bp.get("/fix")
+@bp.get("/fix")
 def fix_access():
     con, cur = db_open()
 

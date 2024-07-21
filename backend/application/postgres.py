@@ -40,26 +40,27 @@ user_table = """CREATE TABLE IF NOT EXISTS "user" (
 
 organization_table = """CREATE TABLE IF NOT EXISTS organization (
     key CHAR(32) PRIMARY KEY,
+    status VARCHAR(20) DEFAULT 'live' NOT NULL,
 
     slug VARCHAR(255) UNIQUE NOT NULL,
     name VARCHAR(100) NOT NULL,
     fullname TEXT,
     slogan TEXT,
 
-    logo VARCHAR(50),
-    icon VARCHAR(50),
-
-    email VARCHAR(255) UNIQUE NOT NULL,
     phone VARCHAR(100),
+    email VARCHAR(255) UNIQUE NOT NULL,
     website VARCHAR(100),
     address JSONB[] DEFAULT ARRAY[]::JSONB[],
-    email_domains TEXT[] DEFAULT ARRAY[]::TEXT[],
 
     whatsapp VARCHAR(100),
     linkedin VARCHAR(100),
     facebook VARCHAR(100),
     twitter VARCHAR(100),
-    instagram VARCHAR(100)
+    instagram VARCHAR(100),
+
+    logo VARCHAR(50),
+    icon VARCHAR(50),
+    email_domains TEXT[] DEFAULT ARRAY[]::TEXT[]
 );"""
 
 

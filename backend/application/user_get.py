@@ -23,7 +23,7 @@ def get(key):
         db_close(con, cur)
         return jsonify({
             "status": 400,
-            "error": "invalid token"
+            "error": "invalid request"
         })
 
     db_close(con, cur)

@@ -40,8 +40,9 @@
 		<SubmitCode2
 			{code_1}
 			{email}
-			on:ok={(e) => {
+			on:ok={() => {
 				state = 0;
+				open = false;
 			}}
 		/>
 	{/if}

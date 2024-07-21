@@ -19,12 +19,34 @@ def personal(key):
     con, cur = db_open()
 
     user = token_to_user(cur)
-    if not user or user["key"] != key:
+    if not user:
         db_close(con, cur)
         return jsonify({
             "status": 400,
             "error": "invalid token"
         })
+
+    if user["key"] != key:
+        if "user:edit_personal" not in user["access"]:
+            db_close(con, cur)
+            return jsonify({
+                "status": 400,
+                "error": "unauthorized access"
+            })
+        else:
+            cur.execute("""
+                SELECT *
+                FROM "user"
+                WHERE slug = %s OR email = %s OR key = %s;
+            """, (key, key, key))
+            user = cur.fetchone()
+
+            if not user:
+                db_close(con, cur)
+                return jsonify({
+                    "status": 400,
+                    "error": "invalid request"
+                })
 
     error = {}
 
@@ -91,12 +113,34 @@ def _organization(key):
     con, cur = db_open()
 
     user = token_to_user(cur)
-    if not user or user["key"] != key:
+    if not user:
         db_close(con, cur)
         return jsonify({
             "status": 400,
             "error": "invalid token"
         })
+
+    if user["key"] != key:
+        if "user:edit_organization" not in user["access"]:
+            db_close(con, cur)
+            return jsonify({
+                "status": 400,
+                "error": "unauthorized access"
+            })
+        else:
+            cur.execute("""
+                SELECT *
+                FROM "user"
+                WHERE slug = %s OR email = %s OR key = %s;
+            """, (key, key, key))
+            user = cur.fetchone()
+
+            if not user:
+                db_close(con, cur)
+                return jsonify({
+                    "status": 400,
+                    "error": "invalid request"
+                })
 
     role = None
     manager_email = None
@@ -131,12 +175,34 @@ def contact(key):
     con, cur = db_open()
 
     user = token_to_user(cur)
-    if not user or user["key"] != key:
+    if not user:
         db_close(con, cur)
         return jsonify({
             "status": 400,
             "error": "invalid token"
         })
+
+    if user["key"] != key:
+        if "user:edit_contact" not in user["access"]:
+            db_close(con, cur)
+            return jsonify({
+                "status": 400,
+                "error": "unauthorized access"
+            })
+        else:
+            cur.execute("""
+                SELECT *
+                FROM "user"
+                WHERE slug = %s OR email = %s OR key = %s;
+            """, (key, key, key))
+            user = cur.fetchone()
+
+            if not user:
+                db_close(con, cur)
+                return jsonify({
+                    "status": 400,
+                    "error": "invalid request"
+                })
 
     phone = None
     office_location = None
@@ -171,12 +237,34 @@ def social(key):
     con, cur = db_open()
 
     user = token_to_user(cur)
-    if not user or user["key"] != key:
+    if not user:
         db_close(con, cur)
         return jsonify({
             "status": 400,
             "error": "invalid token"
         })
+
+    if user["key"] != key:
+        if "user:edit_social_media" not in user["access"]:
+            db_close(con, cur)
+            return jsonify({
+                "status": 400,
+                "error": "unauthorized access"
+            })
+        else:
+            cur.execute("""
+                SELECT *
+                FROM "user"
+                WHERE slug = %s OR email = %s OR key = %s;
+            """, (key, key, key))
+            user = cur.fetchone()
+
+            if not user:
+                db_close(con, cur)
+                return jsonify({
+                    "status": 400,
+                    "error": "invalid request"
+                })
 
     whatsapp = None
     linkedin = None
@@ -193,23 +281,6 @@ def social(key):
         facebook = request.json["facebook"]
     if "instagram" in request.json and request.json["instagram"]:
         instagram = request.json["instagram"]
-
-    slug = user["slug"]
-    if (
-        user["firstname"] != request.json["firstname"]
-        or user["lastname"] != request.json["lastname"]
-    ):
-        _name = f"{request.json['firstname'][0]}{request.json['lastname']}"
-        slug = re.sub(
-            '-+', '-', re.sub(
-                '[^a-zA-Z0-9]', '-',
-                _name.lower()
-            )
-        )
-        cur.execute('SELECT * FROM "user" WHERE key != %s AND slug = %s;',
-                    (user["key"], slug))
-        if cur.fetchone() or slug in reserved_words:
-            slug = f"{slug}-{str(uuid4().hex)[:10]}"
 
     cur.execute("""
         UPDATE "user"
@@ -611,8 +682,8 @@ def password_3_password():
     })
 
 
-@ bp.delete("/user")
-def delete():
+@ bp.delete("/user/<key>")
+def delete(key):
     con, cur = db_open()
 
     user = token_to_user(cur)
@@ -623,16 +694,11 @@ def delete():
             "error": "invalid token"
         })
 
-    error = {}
-
     if "password" not in request.json or not request.json["password"]:
-        error["password"] = "this field is required"
-
-    if error != {}:
         db_close(con, cur)
         return jsonify({
             "status": 400,
-            **error
+            "password": "this field is required"
         })
 
     if not check_password_hash(user["password"], request.json["password"]):
@@ -641,6 +707,28 @@ def delete():
             "status": 400,
             "error": "incorrect password"
         })
+
+    if user["key"] != key:
+        if "user:delete" not in user["access"]:
+            db_close(con, cur)
+            return jsonify({
+                "status": 400,
+                "error": "unauthorized access"
+            })
+        else:
+            cur.execute("""
+                SELECT *
+                FROM "user"
+                WHERE slug = %s OR email = %s OR key = %s;
+            """, (key, key, key))
+            user = cur.fetchone()
+
+            if not user:
+                db_close(con, cur)
+                return jsonify({
+                    "status": 400,
+                    "error": "invalid request"
+                })
 
     cur.execute("""DELETE FROM "user" WHERE key = %s;""", (user["key"],))
 
@@ -663,8 +751,8 @@ def delete():
     })
 
 
-@ bp.put("/user/photo")
-def add_photo():
+@ bp.put("/user/photo/<key>")
+def add_photo(key):
     con, cur = db_open()
 
     user = token_to_user(cur)
@@ -674,6 +762,28 @@ def add_photo():
             "status": 400,
             "error": "invalid token"
         })
+
+    if user["key"] != key:
+        if "user:edit_photo" not in user["access"]:
+            db_close(con, cur)
+            return jsonify({
+                "status": 400,
+                "error": "unauthorized access"
+            })
+        else:
+            cur.execute("""
+                SELECT *
+                FROM "user"
+                WHERE slug = %s OR email = %s OR key = %s;
+            """, (key, key, key))
+            user = cur.fetchone()
+
+            if not user:
+                db_close(con, cur)
+                return jsonify({
+                    "status": 400,
+                    "error": "invalid request"
+                })
 
     if 'file' not in request.files:
         db_close(con, cur)
@@ -714,8 +824,8 @@ def add_photo():
     })
 
 
-@ bp.delete("/user/photo")
-def delete_photo():
+@ bp.delete("/user/photo/<key>")
+def delete_photo(key):
     con, cur = db_open()
 
     user = token_to_user(cur)
@@ -725,6 +835,28 @@ def delete_photo():
             "status": 400,
             "error": "invalid token"
         })
+
+    if user["key"] != key:
+        if "user:edit_photo" not in user["access"]:
+            db_close(con, cur)
+            return jsonify({
+                "status": 400,
+                "error": "unauthorized access"
+            })
+        else:
+            cur.execute("""
+                SELECT *
+                FROM "user"
+                WHERE slug = %s OR email = %s OR key = %s;
+            """, (key, key, key))
+            user = cur.fetchone()
+
+            if not user:
+                db_close(con, cur)
+                return jsonify({
+                    "status": 400,
+                    "error": "invalid request"
+                })
 
     if user["photo"]:
         storage(user["photo"].split("/")[-1], delete=True)

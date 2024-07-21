@@ -1,14 +1,19 @@
-import { get } from 'svelte/store';
-import { state } from "$lib/store.js"
+import { error } from '@sveltejs/kit';
 
 export const load = async ({ fetch, params, parent }) => {
-    let _state = get(state)
-    let i = _state.findIndex(x => x.name == "post_item");
-    if (i != -1 && _state[i].data.slug == params.slug) {
-        return { post: _state[i].data }
+    let a = await parent();
+    if (!a.locals.user.access.some((x) => [
+        "user:edit_photo",
+        "user:edit_personal",
+        "user:edit_organization",
+        "user:edit_contact",
+        "user:edit_social_media",
+        "user:edit_access",
+        "user:delete",
+    ].includes(x))) {
+        throw error(400, "unauthorized access")
     }
 
-    let a = await parent();
     let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/${params.slug}`, {
         method: 'get',
         headers: {

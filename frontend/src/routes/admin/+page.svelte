@@ -15,13 +15,17 @@
 		<br />
 		<Button href="/admin/users" size="wide">Users</Button>
 	{/if}
-	{#if $user.access.includes('user:set_access')}
+	{#if $user.access.includes('user:edit_access')}
 		<br />
 		<Button href="/admin/admin_users" size="wide">Admin Users</Button>
 	{/if}
 	{#if $user.access.includes('admin:view_photo_error')}
 		<br />
 		<Button href="/admin/photo_error" size="wide">Photo Error</Button>
+	{/if}
+	{#if $user.access.includes('organization:view')}
+		<br />
+		<Button href="/admin/organizations" size="wide">Organizations</Button>
 	{/if}
 
 	<br />
@@ -33,6 +37,8 @@
 	form should always me maximum width
 	<br />
 	admin edit company info
+	<br />
+	loading and notification messages
 	<br />
 </Content>
 

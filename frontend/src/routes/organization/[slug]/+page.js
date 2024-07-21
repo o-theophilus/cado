@@ -1,6 +1,11 @@
+import { error } from '@sveltejs/kit';
+
 export const load = async ({ fetch, params, parent }) => {
     let a = await parent();
-    let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/${params.slug}`, {
+    if (!a.locals.user.access.includes("organization:view")) {
+        throw error(400, "unauthorized access")
+    }
+    let resp = await fetch(`${import.meta.env.VITE_BACKEND}/organization/${params.slug}`, {
         method: 'get',
         headers: {
             'Content-Type': 'application/json',
@@ -10,6 +15,6 @@ export const load = async ({ fetch, params, parent }) => {
     resp = await resp.json();
 
     if (resp.status == 200) {
-        return resp
+        return { ...resp }
     }
 }

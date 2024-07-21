@@ -1,4 +1,6 @@
 <script>
+	import { user as me } from '$lib/store.js';
+
 	import Content from '$lib/content.svelte';
 	import Meta from '$lib/meta.svelte';
 	import Back from '$lib/button/back.svelte';
@@ -28,65 +30,86 @@
 			</div>
 		</div>
 
-		<Photo
-			{user}
-			open={open == 'photo'}
-			on:open={() => {
-				open = 'photo';
-			}}
-		/>
-		<Personal
-			{user}
-			open={open == 'personal'}
-			on:open={() => {
-				open = 'personal';
-			}}
-		/>
-		<Organization
-			{user}
-			open={open == 'organization'}
-			on:open={() => {
-				open = 'organization';
-			}}
-		/>
-		<Contact
-			{user}
-			open={open == 'contact'}
-			on:open={() => {
-				open = 'contact';
-			}}
-		/>
-		<Social
-			{user}
-			open={open == 'social'}
-			on:open={() => {
-				open = 'social';
-			}}
-		/>
+		{#if $me.key == user.key || $me.access.includes('user:edit_photo')}
+			<Photo
+				{user}
+				open={open == 'photo'}
+				on:open={() => {
+					open = 'photo';
+				}}
+			/>
+		{/if}
 
-		<!-- <br /> -->
-		<hr />
-		<!-- <br /> -->
+		{#if $me.key == user.key || $me.access.includes('user:edit_personal')}
+			<Personal
+				{user}
+				open={open == 'personal'}
+				on:open={() => {
+					open = 'personal';
+				}}
+			/>
+		{/if}
+
+		{#if $me.key == user.key || $me.access.includes('user:edit_organization')}
+			<Organization
+				{user}
+				open={open == 'organization'}
+				on:open={() => {
+					open = 'organization';
+				}}
+			/>
+		{/if}
+
+		{#if $me.key == user.key || $me.access.includes('user:edit_contact')}
+			<Contact
+				{user}
+				open={open == 'contact'}
+				on:open={() => {
+					open = 'contact';
+				}}
+			/>
+		{/if}
+
+		{#if $me.key == user.key || $me.access.includes('user:edit_social_media')}
+			<Social
+				{user}
+				open={open == 'social'}
+				on:open={() => {
+					open = 'social';
+				}}
+			/>
+		{/if}
+
+		<br />
 		<strong class="ititle title"> Advanced </strong>
 
-		<Email
-			open={open == 'email'}
-			on:open={() => {
-				open = 'email';
-			}}
-		/>
-		<Password
-			open={open == 'password'}
-			on:open={() => {
-				open = 'password';
-			}}
-		/>
-		<Delete
-			open={open == 'delete'}
-			on:open={() => {
-				open = 'delete';
-			}}
-		/>
+		{#if $me.key == user.key}
+			<Email
+				open={open == 'email'}
+				on:open={() => {
+					open = 'email';
+				}}
+			/>
+		{/if}
+
+		{#if $me.key == user.key}
+			<Password
+				open={open == 'password'}
+				on:open={() => {
+					open = 'password';
+				}}
+			/>
+		{/if}
+
+		{#if $me.key == user.key || $me.access.includes('user:delete')}
+			<Delete
+				{user}
+				open={open == 'delete'}
+				on:open={() => {
+					open = 'delete';
+				}}
+			/>
+		{/if}
 	</Content>
 </div>
 
@@ -95,7 +118,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-bottom: var(--sp3);
+		padding: var(--sp3) 0;
 	}
 	.left {
 		display: flex;
@@ -103,11 +126,7 @@
 		gap: var(--sp2);
 	}
 	.bg {
-		padding: var(--sp3) 0;
 		background-color: var(--bg2);
-	}
-
-	hr {
-		margin: var(--sp3) 0;
+		padding-bottom: var(--sp3);
 	}
 </style>

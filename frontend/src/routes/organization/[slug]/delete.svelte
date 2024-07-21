@@ -8,7 +8,6 @@
 	import ShowPassword from '../../account/password_show.svelte';
 	import Card from './card.svelte';
 
-	export let user;
 	export let open;
 	let form = {};
 	let error = {};
@@ -26,7 +25,7 @@
 
 	const submit = async () => {
 		$loading = 'deleting . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/${user.key}`, {
+		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user`, {
 			method: 'delete',
 			headers: {
 				'Content-Type': 'application/json',

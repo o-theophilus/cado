@@ -1,5 +1,5 @@
 <script>
-	import { module, notification, loading } from '$lib/store.js';
+	import { notification, loading } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import IG from '$lib/input_group.svelte';
@@ -7,10 +7,10 @@
 	import Icon from '$lib/icon.svelte';
 	import Card from './card.svelte';
 
-	export let user;
+	export let organization;
 	export let open;
 	let form = {
-		user
+		...organization
 	};
 
 	let error = {};
@@ -23,19 +23,22 @@
 
 	const submit = async () => {
 		$loading = 'Saving Links . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/social/${user.key}`, {
-			method: 'put',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: $token
-			},
-			body: JSON.stringify(form)
-		});
+		let resp = await fetch(
+			`${import.meta.env.VITE_BACKEND}/organization/social/${organization.key}`,
+			{
+				method: 'put',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: $token
+				},
+				body: JSON.stringify(form)
+			}
+		);
 		resp = await resp.json();
 		$loading = false;
 
 		if (resp.status == 200) {
-			user = resp.user;
+			organization = resp.organization;
 			open = false;
 			$notification = {
 				message: 'Links Saved'

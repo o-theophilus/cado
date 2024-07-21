@@ -38,6 +38,8 @@
 		$loading = false;
 
 		if (resp.status == 200) {
+			user = resp.user;
+			open = false;
 			$notification = {
 				message: 'Details Saved'
 			};

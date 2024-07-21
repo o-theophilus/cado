@@ -1,5 +1,5 @@
 <script>
-	import { notification, loading, organization, user as me } from '$lib/store.js';
+	import { notification, loading } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import IG from '$lib/input_group.svelte';
@@ -7,33 +7,23 @@
 	import Icon from '$lib/icon.svelte';
 	import Card from './card.svelte';
 
-	export let user;
+	export let organization;
 	export let open;
 	let form = {
-		...user
+		...organization
 	};
-	if (form.office_location == null) {
-		form.office_location = $organization.address[0].name;
-	}
 
 	let error = {};
 
 	const validate = () => {
 		error = {};
-		if (!form.firstname) {
-			error.firstname = 'this field is required';
-		}
-
-		if (!form.lastname) {
-			error.lastname = 'this field is required';
-		}
 
 		Object.keys(error).length === 0 && submit();
 	};
 
 	const submit = async () => {
 		$loading = 'Saving Post . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/personal/${user.key}`, {
+		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/organization/org/${organization.key}`, {
 			method: 'put',
 			headers: {
 				'Content-Type': 'application/json',
@@ -45,15 +35,11 @@
 		$loading = false;
 
 		if (resp.status == 200) {
-			user = resp.user;
+			organization = resp.organization;
 			open = false;
 			$notification = {
 				message: 'Details Saved'
 			};
-			window.history.replaceState(history.state, '', `/${resp.user.slug}/setting`);
-			if ($me.key == user.key) {
-				$me = resp.user;
-			}
 		} else {
 			error = resp;
 		}
@@ -61,7 +47,7 @@
 </script>
 
 <Card {open} on:open>
-	<svelte:fragment slot="title">Personal</svelte:fragment>
+	<svelte:fragment slot="title">Organization</svelte:fragment>
 
 	<form on:submit|preventDefault novalidate autocomplete="off">
 		{#if error.error}
@@ -71,31 +57,30 @@
 		{/if}
 
 		<IG
-			name="Firstname"
-			icon="person"
-			error={error.firstname}
-			placeholder="Firstname here"
+			name="Name"
+			icon="work"
+			error={error.name}
+			placeholder="Name here"
 			type="text"
-			bind:value={form.firstname}
-			required
+			bind:value={form.name}
 		/>
 
 		<IG
-			name="Lastname"
-			icon="person"
-			error={error.lastname}
-			placeholder="Lastname here"
+			name="Fullname"
+			icon="work"
+			error={error.fullname}
+			placeholder="Fullname here"
 			type="text"
-			bind:value={form.lastname}
-			required
+			bind:value={form.fullname}
 		/>
 
 		<IG
-			name="About Me"
-			error={error.about_me}
-			type="textarea"
-			placeholder="About me here"
-			bind:value={form.about_me}
+			name="Slogan"
+			icon="work"
+			error={error.slogan}
+			placeholder="Slogan here"
+			type="text"
+			bind:value={form.slogan}
 		/>
 
 		<Button on:click={validate}>

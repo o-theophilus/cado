@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from protonmail import ProtonMail
 
 
-reserved_words = ["app", "wragby", "home",
+reserved_words = ["app", "home",
                   "terms", "admin", "user", "users", "all"]
 
 
