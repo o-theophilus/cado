@@ -1,31 +1,35 @@
 <script>
 	import { slide } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
-	import { module } from '$lib/store.js';
 
 	import Icon from '$lib/icon.svelte';
 	import Fold from '$lib/button/fold.svelte';
+	import { createEventDispatcher } from 'svelte';
 
-	let open = false;
+	let emit = createEventDispatcher();
+	export let open = false;
 </script>
 
 <div class="block">
-	<div class="line gap">
+	<div
+		class="line title"
+		role="presentation"
+		on:click={() => {
+			emit('open');
+			open = !open;
+		}}
+	>
 		<div class="line">
-			<Icon icon="settings" size="1.2" />
+			<!-- <Icon icon="settings" size="1.2" /> -->
 			<strong class="ititle">
 				<slot name="title" />
 			</strong>
 		</div>
-		<Fold
-			{open}
-			on:click={() => {
-				open = !open;
-			}}
-		/>
+		<Fold {open} />
 	</div>
+
 	{#if open}
-		<div class="links" transition:slide|local={{ delay: 0, duration: 200, easing: cubicInOut }}>
+		<div class="content" transition:slide|local={{ delay: 0, duration: 200, easing: cubicInOut }}>
 			<slot />
 		</div>
 	{/if}
@@ -34,16 +38,12 @@
 <style>
 	.block {
 		margin: var(--sp1) 0;
-		padding: var(--sp2);
-		border-radius: var(--sp1);
-		
-		border: 2px solid var(--bg2);
-	}
-	@media screen and (min-width: 500px) {
-		.block {
-			padding: var(--sp3);
-			border-radius: var(--sp2);
-		}
+		border-radius: var(--sp0);
+
+		/* border: 1px solid var(--bg2); */
+		box-shadow: 0px 0px 10px rgba(126, 126, 126, 0.1);
+
+		background-color: var(--bg1);
 	}
 
 	.line {
@@ -52,11 +52,28 @@
 		gap: var(--sp2);
 	}
 
-	.gap {
+	.title {
 		justify-content: space-between;
+		padding: var(--sp2);
 	}
 
 	.ititle {
-		font-size: 1.2rem;
+		font-size: 1.1rem;
+	}
+
+	.content {
+		border-top: 1px solid var(--bg2);
+		padding: var(--sp2);
+		padding-top: 0;
+	}
+
+	@media screen and (min-width: 500px) {
+		.title {
+			padding: var(--sp3);
+		}
+		.content {
+			padding: var(--sp3);
+			padding-top: 0;
+		}
 	}
 </style>

@@ -8,6 +8,7 @@
 	import ShowPassword from '../../account/password_show.svelte';
 	import Card from './card.svelte';
 
+	export let open;
 	let form = {};
 	let error = {};
 	let show_password = false;
@@ -44,7 +45,7 @@
 	};
 </script>
 
-<Card>
+<Card {open} on:open>
 	<svelte:fragment slot="title">Delete Account</svelte:fragment>
 
 	<form on:submit|preventDefault novalidate autocomplete="off">

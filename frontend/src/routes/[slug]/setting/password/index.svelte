@@ -5,11 +5,12 @@
 	import SubmitCode from './2_submit_code.svelte';
 	import Password from './3_password.svelte';
 
+	export let open;
 	let code;
 	let state = 0;
 </script>
 
-<Card>
+<Card {open} on:open>
 	<svelte:fragment slot="title">Change Password</svelte:fragment>
 
 	{#if state == 0}

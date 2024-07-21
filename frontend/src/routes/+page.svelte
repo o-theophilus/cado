@@ -33,14 +33,15 @@
 
 <style>
 	img {
+		display: block;
+
 		height: 480px;
 		width: 100%;
-		
+
 		object-fit: cover;
 		background-color: #eae8e9;
-
 	}
-	
+
 	@media screen and (min-width: 900px) {
 		img {
 			object-fit: contain;

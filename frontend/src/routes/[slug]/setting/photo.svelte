@@ -7,6 +7,7 @@
 	import Card from './card.svelte';
 
 	export let user;
+	export let open;
 	let edit_mode = true;
 	let error = {};
 	let input;
@@ -90,7 +91,7 @@
 	}
 </script>
 
-<Card>
+<Card {open} on:open>
 	<svelte:fragment slot="title">Photo</svelte:fragment>
 
 	<br />

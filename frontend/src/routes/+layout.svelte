@@ -22,6 +22,7 @@
 	<div class="page">
 		<Nav />
 		<slot />
+		<hr />
 		<Footer />
 	</div>
 	<Footer2 />

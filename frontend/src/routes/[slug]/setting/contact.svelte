@@ -9,6 +9,7 @@
 	import Card from './card.svelte';
 
 	export let user;
+	export let open;
 	let form = {
 		...user
 	};
@@ -47,7 +48,7 @@
 	};
 </script>
 
-<Card>
+<Card {open} on:open>
 	<svelte:fragment slot="title">Contact</svelte:fragment>
 
 	<form on:submit|preventDefault novalidate autocomplete="off">

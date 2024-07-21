@@ -6,12 +6,13 @@
 	import NewEmail from './3_new_email.svelte';
 	import SubmitCode2 from './4_submit_code.svelte';
 
+	export let open;
 	let code_1;
 	let email;
 	let state = 0;
 </script>
 
-<Card>
+<Card {open} on:open>
 	<svelte:fragment slot="title">Change Email</svelte:fragment>
 
 	{#if state == 0}
