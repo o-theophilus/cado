@@ -4,10 +4,8 @@
         {
             "src": "./index.py",
             "use": "@vercel/python",
-            "functions": {
-                "*": {
-                    "maxDuration": 60
-                }
+            "config": {
+                "maxDuration": 60
             }
         }
     ],
