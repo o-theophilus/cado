@@ -21,7 +21,6 @@
 	$: organizations = data.organizations;
 	$: total_page = data.total_page;
 	let { order_by } = data;
-	// let { _status } = data;
 </script>
 
 <UpdateUrl />
@@ -49,7 +48,6 @@
 				Add</Button
 			>
 		{/if}
-		<!-- <DropPlus name="status" list={['all', ..._status]} default_value="all" /> -->
 	</div>
 
 	<div class="search_bar">

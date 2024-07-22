@@ -3,12 +3,11 @@
 	export let org;
 </script>
 
-<a href="/{org.slug}">
-	<Avatar name={org.firstname} photo={org.photo} />
+<a href="/organization/{org.slug}">
+	<Avatar name={org.name} photo={org.photo} />
 	<div class="details">
 		<div class="name">
-			{org.firstname}
-			{org.lastname}
+			{org.name}
 		</div>
 
 		<span>
