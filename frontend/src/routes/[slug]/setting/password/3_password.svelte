@@ -5,8 +5,8 @@
 
 	import IG from '$lib/input_group.svelte';
 	import Button from '$lib/button/button.svelte';
-	import Password from '../../../account/password_checker.svelte';
-	import ShowPassword from '../../../account/password_show.svelte';
+	import Password from '../../../organization/[slug]/account/password_checker.svelte';
+	import ShowPassword from '../../../organization/[slug]/account/password_show.svelte';
 
 	let emit = createEventDispatcher();
 	export let code;

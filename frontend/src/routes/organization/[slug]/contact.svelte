@@ -1,12 +1,14 @@
 <script>
-	import { notification, loading } from '$lib/store.js';
+	import { notification, loading, organization as org } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import IG from '$lib/input_group.svelte';
 	import Button from '$lib/button/button.svelte';
+	import BRound from '$lib/button/round.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Dropdown from '$lib/dropdown.svelte';
-	import Card from './card.svelte';
+	import Card from '$lib/card.svelte';
+	import Address from './contact.address.svelte';
 
 	export let organization;
 	export let open;
@@ -18,6 +20,32 @@
 
 	const validate = () => {
 		error = {};
+
+		if (!form.email) {
+			error.email = 'this field is required';
+		} else if (!/\S+@\S+\.\S+/.test(form.email)) {
+			error.email = 'Please enter a valid email';
+		} else if (
+			$org.email_domains.length > 0 &&
+			!$org.email_domains.some((x) => form.email.endsWith(x))
+		) {
+			error.email = `invalid ${$org.name} email`;
+		}
+
+		for (const i in form.address) {
+			if (!form.address[i].name) {
+				if (!error[i]) {
+					error[i] = {};
+				}
+				error[i].name = 'this field is required';
+			}
+			if (!form.address[i].address) {
+				if (!error[i]) {
+					error[i] = {};
+				}
+				error[i].address = 'this field is required';
+			}
+		}
 
 		Object.keys(error).length === 0 && submit();
 	};
@@ -87,15 +115,34 @@
 			placeholder="Website here"
 		/>
 
-		<!-- {#each Array(form.address.length + 1) as _, i}
-			<IG
-				name="Location {i + 1}"
-				icon="location_on"
-				type="textarea"
-				bind:value={form.address}
-				placeholder="Address here"
+		<div class="line">
+			<label>Address</label>
+			<BRound
+				icon="add"
+				on:click={() => {
+					form.address.push({
+						name: '',
+						address: '',
+						url: ''
+					});
+					form = form;
+				}}
 			/>
-		{/each} -->
+		</div>
+
+		{#each form.address as one, i}
+			<Address
+				bind:one
+				{error}
+				{i}
+				on:remove={() => {
+					form.address.splice(i, 1);
+					form = form;
+				}}
+			/>
+		{/each}
+
+		<br />
 
 		<Button on:click={validate}>
 			Submit
@@ -120,5 +167,11 @@
 		background-color: var(--bg2);
 
 		border-radius: var(--sp0);
+	}
+
+	.line {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 	}
 </style>

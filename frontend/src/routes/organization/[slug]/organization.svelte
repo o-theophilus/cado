@@ -5,12 +5,13 @@
 	import IG from '$lib/input_group.svelte';
 	import Button from '$lib/button/button.svelte';
 	import Icon from '$lib/icon.svelte';
-	import Card from './card.svelte';
+	import Card from '$lib/card.svelte';
 
 	export let organization;
 	export let open;
 	let form = {
-		...organization
+		...organization,
+		email_domains: organization.email_domains.join(', ')
 	};
 
 	let error = {};
@@ -18,18 +19,44 @@
 	const validate = () => {
 		error = {};
 
+		if (!form.name) {
+			error.name = 'this field is required';
+		}
+
+		let domains = form.email_domains
+			.split(',')
+			.map((item) => item.trim())
+			.filter(Boolean);
+
+		for (const x of domains) {
+			if (!/@\S+\.\S+/.test(x)) {
+				if (!error.email_domains) {
+					error.email_domains = `invalid domain: ${x}`;
+				} else {
+					error.email_domains = `${error.email_domains}, ${x}`;
+				}
+			}
+		}
+
 		Object.keys(error).length === 0 && submit();
 	};
 
 	const submit = async () => {
 		$loading = 'Saving Post . . .';
+
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/organization/org/${organization.key}`, {
 			method: 'put',
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: $token
 			},
-			body: JSON.stringify(form)
+			body: JSON.stringify({
+				...form,
+				email_domains: form.email_domains
+					.split(',')
+					.map((item) => item.trim())
+					.filter(Boolean)
+			})
 		});
 		resp = await resp.json();
 		$loading = false;
@@ -81,6 +108,15 @@
 			placeholder="Slogan here"
 			type="text"
 			bind:value={form.slogan}
+		/>
+
+		<IG
+			name="Email Domains"
+			icon="email"
+			error={error.email_domains}
+			placeholder="Email Domains here"
+			type="text"
+			bind:value={form.email_domains}
 		/>
 
 		<Button on:click={validate}>

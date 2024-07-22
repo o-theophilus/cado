@@ -1,13 +1,14 @@
 <script>
-	import { loading, notification, user as me } from '$lib/store.js';
+	import { loading, notification } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import Button from '$lib/button/button.svelte';
 	import Icon from '$lib/icon.svelte';
-	import Card from './card.svelte';
+	import Card from '$lib/card.svelte';
 
-	export let user;
+	export let organization;
 	export let open;
+	export let type;
 	let edit_mode = true;
 	let error = {};
 	let input;
@@ -29,23 +30,23 @@
 		formData.append('file', file);
 
 		$loading = 'uploading . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/photo`, {
-			method: 'put',
-			headers: {
-				Authorization: $token
-			},
-			body: formData
-		});
+		let resp = await fetch(
+			`${import.meta.env.VITE_BACKEND}/organization/${organization.key}/${type}`,
+			{
+				method: 'put',
+				headers: {
+					Authorization: $token
+				},
+				body: formData
+			}
+		);
 		resp = await resp.json();
 		$loading = false;
 
 		if (resp.status == 200) {
-			user = resp.user;
-			if (user.key == $me.key) {
-				$me = user;
-			}
+			organization = resp.organization;
 			$notification = {
-				message: 'Photo added'
+				message: `${type} added`
 			};
 
 			error.error = resp.error;
@@ -58,23 +59,23 @@
 		error = {};
 
 		$loading = 'removing . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/photo`, {
-			method: 'delete',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: $token
+		let resp = await fetch(
+			`${import.meta.env.VITE_BACKEND}/organization/${organization.key}/${type}`,
+			{
+				method: 'delete',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: $token
+				}
 			}
-		});
+		);
 		resp = await resp.json();
 		$loading = false;
 
 		if (resp.status == 200) {
-			user.photo = null;
-			if (user.key == $me.key) {
-				$me = user;
-			}
+			organization[type] = null;
 			$notification = {
-				message: 'Photo removed'
+				message: `${type} removed`
 			};
 		} else {
 			error = resp;
@@ -84,7 +85,7 @@
 	let dim = [1 / 1];
 	$: {
 		dim = [1 / 1];
-		let match = user.photo?.match(/_(\d+)x(\d+)\./);
+		let match = organization[type]?.match(/_(\d+)x(\d+)\./);
 		if (match) {
 			dim = [parseInt(match[1]), parseInt(match[2])];
 		}
@@ -92,12 +93,12 @@
 </script>
 
 <Card {open} on:open>
-	<svelte:fragment slot="title">Photo</svelte:fragment>
+	<svelte:fragment slot="title">{type}</svelte:fragment>
 
 	<br />
 	<img
-		src={user.photo || '/no_photo.png'}
-		alt={user.name}
+		src={organization[type] || '/no_photo.png'}
+		alt={organization.name}
 		class:dragover
 		class:edit_mode
 		style:--ar={dim[0] / dim[1]}
@@ -142,7 +143,7 @@
 
 		<br />
 
-		{#if !user.photo}
+		{#if !organization[type]}
 			<Button
 				primary
 				on:click={() => {

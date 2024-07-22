@@ -25,6 +25,11 @@ def get(key):
             "error": "invalid token"
         })
 
+    if org["logo"]:
+        org["logo"] = f"{request.host_url}photo/{org['logo']}"
+    if org["icon"]:
+        org["icon"] = f"{request.host_url}photo/{org['icon']}"
+
     db_close(con, cur)
     return jsonify({
         "status": 200,

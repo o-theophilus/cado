@@ -413,8 +413,8 @@ def email_3_new_email():
         error = "this field is required"
     elif not re.match(r"\S+@\S+\.\S+", request.json["email"]):
         error = "invalid email"
-    elif organization["email_domain"] != [] and not request.json[
-            "email"].endswith(tuple(organization["email_domain"])):
+    elif organization["email_domains"] != [] and not request.json[
+            "email"].endswith(tuple(organization["email_domains"])):
         error = f"Please enter a valid {organization['name']} email address"
     if error:
         db_close(con, cur)
@@ -486,8 +486,8 @@ def email_4_new_code():
         "email" not in request.json or not request.json["email"]
         or not re.match(r"\S+@\S+\.\S+", request.json["email"])
         or (
-            organization["email_domain"] != [] and not request.json[
-            "email"].endswith(tuple(organization["email_domain"]))
+            organization["email_domains"] != [] and not request.json[
+            "email"].endswith(tuple(organization["email_domains"]))
         )
     ):
         db_close(con, cur)

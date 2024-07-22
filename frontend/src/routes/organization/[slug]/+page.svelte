@@ -1,18 +1,21 @@
 <script>
+	import { user } from '$lib/store.js';
+
 	import Content from '$lib/content.svelte';
 	import Meta from '$lib/meta.svelte';
 	import Back from '$lib/button/back.svelte';
 
-	// import Photo from './photo.svelte';
+	import Photo from './photo.svelte';
 	import Organization from './organization.svelte';
 	import Contact from './contact.svelte';
 	import Social from './social.svelte';
 	// import Delete from './delete.svelte';
 
 	export let data;
-	console.log(data.organization);
 	let organization = data.organization;
 	let open = null;
+
+	let types = ['logo', 'icon'];
 </script>
 
 <Meta title={organization.name} />
@@ -26,40 +29,51 @@
 			</div>
 		</div>
 
-		<!-- <Photo
-			{user}
-			open={open == 'photo'}
-			on:open={() => {
-				open = 'photo';
-			}}
-		/> -->
+		{#each types as type}
+			{#if $user.access.includes(`organization:edit_${type}`)}
+				<Photo
+					{type}
+					{organization}
+					open={open == type}
+					on:open={() => {
+						open = type;
+					}}
+				/>
+			{/if}
+		{/each}
 
-		<Organization
-			{organization}
-			open={open == 'organization'}
-			on:open={() => {
-				open = 'organization';
-			}}
-		/>
+		{#if $user.access.includes('organization:edit_organization')}
+			<Organization
+				{organization}
+				open={open == 'organization'}
+				on:open={() => {
+					open = 'organization';
+				}}
+			/>
+		{/if}
 
-		<Contact
-			{organization}
-			open={open == 'contact'}
-			on:open={() => {
-				open = 'contact';
-			}}
-		/>
+		{#if $user.access.includes('organization:edit_contact')}
+			<Contact
+				{organization}
+				open={open == 'contact'}
+				on:open={() => {
+					open = 'contact';
+				}}
+			/>
+		{/if}
 
-		<Social
-			{organization}
-			open={open == 'social'}
-			on:open={() => {
-				open = 'social';
-			}}
-		/>
+		{#if $user.access.includes('organization:edit_social_media')}
+			<Social
+				{organization}
+				open={open == 'social'}
+				on:open={() => {
+					open = 'social';
+				}}
+			/>
+		{/if}
 
-		<br />
-		<strong class="ititle title"> Advanced </strong>
+		<!-- <br /> -->
+		<!-- <strong class="ititle title"> Advanced </strong> -->
 
 		<!-- <Delete
 			open={open == 'delete'}

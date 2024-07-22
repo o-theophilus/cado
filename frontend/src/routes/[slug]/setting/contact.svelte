@@ -6,7 +6,7 @@
 	import Button from '$lib/button/button.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Dropdown from '$lib/dropdown.svelte';
-	import Card from './card.svelte';
+	import Card from '$lib/card.svelte';
 
 	export let user;
 	export let open;

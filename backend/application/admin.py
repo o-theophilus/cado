@@ -26,7 +26,8 @@ access = {
     "organization": [
         ['view', 1],
         ['add', 2],
-        # ['edit_photo', 2],
+        ['edit_logo', 2],
+        ['edit_icon', 2],
         ['edit_organization', 2],
         ['edit_contact', 2],
         ['edit_social_media', 2],

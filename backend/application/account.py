@@ -36,7 +36,7 @@ organization = {
             "url": "https://maps.app.goo.gl/vn3VqzfyUXimDCYp7"
         }
     ],
-    "email_domain": ["@wragbysolutions.com", "@gmail.com"]
+    "email_domains": ["@wragbysolutions.com", "@gmail.com"]
 }
 
 
@@ -109,8 +109,8 @@ def signup():
         error["email"] = "this field is required"
     elif not re.match(r"\S+@\S+\.\S+", request.json["email"]):
         error["email"] = "Please enter a valid email"
-    elif organization["email_domain"] != [] and not request.json[
-            "email"].endswith(tuple(organization["email_domain"])):
+    elif organization["email_domains"] != [] and not request.json[
+            "email"].endswith(tuple(organization["email_domains"])):
         error["email"
               ] = f"Please enter a valid {organization['name']} email address"
     else:

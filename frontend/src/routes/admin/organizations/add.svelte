@@ -41,7 +41,6 @@
 		$loading = false;
 
 		if (resp.status == 200) {
-			console.log(resp);
 			$notification = {
 				message: 'Organization Created'
 			};

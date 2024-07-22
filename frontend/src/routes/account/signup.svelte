@@ -34,8 +34,8 @@
 		} else if (!/\S+@\S+\.\S+/.test(form.email)) {
 			error.email = 'invalid email';
 		} else if (
-			$organization.email_domain.length > 0 &&
-			!$organization.email_domain.some((x) => form.email.endsWith(x))
+			$organization.email_domains.length > 0 &&
+			!$organization.email_domains.some((x) => form.email.endsWith(x))
 		) {
 			error.email = `invalid ${$organization.name} email`;
 		}
