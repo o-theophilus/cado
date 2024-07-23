@@ -15,6 +15,7 @@ def cron():
     })
 
 
+@bp.get("/fix")
 def create_tables():
     con, cur = db_open()
 
@@ -70,7 +71,6 @@ def general_fix():
     })
 
 
-@bp.get("/fix")
 def fix_access():
     con, cur = db_open()
 

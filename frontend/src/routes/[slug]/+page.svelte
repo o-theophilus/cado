@@ -1,5 +1,4 @@
 <script>
-	import { onMount } from 'svelte';
 	import { user as me, organization } from '$lib/store.js';
 	import * as htmlToImage from 'html-to-image';
 
@@ -16,17 +15,7 @@
 	import Button from '$lib/button/button.svelte';
 
 	export let data;
-	let user = data.user;
-	let admin = false;
-
-	onMount(async () => {
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/admin/access/user:edit`);
-		resp = await resp.json();
-		if (resp.status == 200) {
-			let access = [...resp.access, 'user:delete'];
-			admin = $me.access.some((x) => access.includes(x));
-		}
-	});
+	$: user = data.user;
 </script>
 
 <Meta title={user?.firstname} />
@@ -101,7 +90,7 @@
 			Save Business Card
 		</Button>
 
-		{#if user.key == $me.key || admin}
+		{#if user.key == $me.key || $me.access.some( (x) => ['user:edit_photo', 'user:edit_personal', 'user:edit_organization', 'user:edit_contact', 'user:edit_social_media', 'user:edit_access', 'user:delete'].includes(x) )}
 			<Link href="/{user.slug}/setting">Setting ></Link>
 		{/if}
 	</div>

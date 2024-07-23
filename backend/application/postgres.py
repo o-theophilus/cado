@@ -47,7 +47,7 @@ organization_table = """CREATE TABLE IF NOT EXISTS organization (
     name VARCHAR(100) NOT NULL,
     fullname TEXT,
     slogan TEXT,
-    email_domains TEXT[] DEFAULT ARRAY[]::TEXT[]
+    email_domains TEXT[] DEFAULT ARRAY[]::TEXT[],
 
     phone VARCHAR(100),
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -61,7 +61,7 @@ organization_table = """CREATE TABLE IF NOT EXISTS organization (
     instagram VARCHAR(100),
 
     logo VARCHAR(50),
-    icon VARCHAR(50),
+    icon VARCHAR(50)
 );"""
 
 
