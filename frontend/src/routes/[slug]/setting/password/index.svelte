@@ -1,5 +1,5 @@
 <script>
-	import Card from '.$lib/card.svelte';
+	import Card from '$lib/card.svelte';
 
 	import RequestCode from './1_request_code.svelte';
 	import SubmitCode from './2_submit_code.svelte';
