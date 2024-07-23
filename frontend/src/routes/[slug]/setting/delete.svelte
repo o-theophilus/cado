@@ -5,7 +5,7 @@
 	import Button from '$lib/button/button.svelte';
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
-	import ShowPassword from '../../organization/[slug]/account/password_show.svelte';
+	import ShowPassword from '../../account/password_show.svelte';
 	import Card from '$lib/card.svelte';
 
 	export let user;
