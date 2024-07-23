@@ -73,7 +73,7 @@
 
 		display: flex;
 		flex-direction: column;
-		gap: var(--sp1);
+		gap: var(--sp2);
 
 		background-color: var(--bg1);
 

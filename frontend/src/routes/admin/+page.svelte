@@ -10,23 +10,21 @@
 
 <Content>
 	<strong class="ititle"> Admin Dashboard</strong>
-	<br />
-	{#if $user.access.includes('user:view')}
-		<br />
-		<Button href="/admin/users" size="wide">Users</Button>
-	{/if}
-	{#if $user.access.includes('user:edit_access')}
-		<br />
-		<Button href="/admin/admin_users" size="wide">Admin Users</Button>
-	{/if}
-	{#if $user.access.includes('admin:view_photo_error')}
-		<br />
-		<Button href="/admin/photo_error" size="wide">Photo Error</Button>
-	{/if}
-	{#if $user.access.includes('organization:view')}
-		<br />
-		<Button href="/admin/organizations" size="wide">Organizations</Button>
-	{/if}
+
+	<div class="buttons">
+		{#if $user.access.includes('user:view')}
+			<Button href="/admin/users" size="wide">Users</Button>
+		{/if}
+		{#if $user.access.includes('user:edit_access')}
+			<Button href="/admin/admin_users" size="wide">Admin Users</Button>
+		{/if}
+		{#if $user.access.includes('admin:view_photo_error')}
+			<Button href="/admin/photo_error" size="wide">Photo Error</Button>
+		{/if}
+		{#if $user.access.includes('organization:view')}
+			<Button href="/admin/organizations" size="wide">Organizations</Button>
+		{/if}
+	</div>
 
 	<br />
 	<br />
@@ -45,4 +43,12 @@
 </Content>
 
 <style>
+	.buttons {
+		display: flex;
+		flex-direction: column;
+		gap: var(--sp1);
+
+		max-width: 400px;
+		margin: var(--sp3) 0;
+	}
 </style>
