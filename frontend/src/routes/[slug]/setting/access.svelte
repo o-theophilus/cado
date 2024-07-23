@@ -84,6 +84,7 @@
 	<div class="grid">
 		<span>
 			<Link
+				small
 				on:click={() => {
 					select_group();
 				}}
@@ -95,6 +96,7 @@
 		{#each [1, 2, 3] as x}
 			<span>
 				<Link
+					small
 					on:click={() => {
 						select_group(x);
 					}}
@@ -107,6 +109,7 @@
 		{#each Object.entries(raw_access) as [_type, _actions]}
 			<span>
 				<Link
+					small
 					on:click={() => {
 						select_group(_type);
 					}}
