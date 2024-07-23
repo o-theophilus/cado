@@ -62,7 +62,7 @@
 
 	<IG
 		name="Name"
-		icon="email"
+		icon="corporate_fare"
 		error={error.name}
 		type="text"
 		bind:value={form.name}
