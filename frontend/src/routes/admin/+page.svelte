@@ -36,7 +36,7 @@
 	<br />
 	module should always me maximum width
 	<br />
-	admin edit company info
+	use company info from db
 	<br />
 	loading and notification messages
 	<br />

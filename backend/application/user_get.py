@@ -125,7 +125,7 @@ def get_admins():
             "error": "invalid token"
         })
 
-    if "user:set_access" not in user["access"]:
+    if "user:edit_access" not in user["access"]:
         db_close(con, cur)
         return jsonify({
             "status": 400,
