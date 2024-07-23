@@ -2,7 +2,7 @@ import { error } from '@sveltejs/kit';
 
 export const load = async ({ fetch, params, parent }) => {
     let a = await parent();
-    if (!a.locals.user.access.some((x) => [
+    if (a.locals.user.slug != params.slug && !a.locals.user.access.some((x) => [
         "user:edit_photo",
         "user:edit_personal",
         "user:edit_organization",
