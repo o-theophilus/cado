@@ -34,11 +34,13 @@
 	Todo
 	<br />
 	<br />
-	form should always me maximum width
+	module should always me maximum width
 	<br />
 	admin edit company info
 	<br />
 	loading and notification messages
+	<br />
+	auto clean photo
 	<br />
 </Content>
 

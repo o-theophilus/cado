@@ -12,6 +12,7 @@
 	import Social from './social.svelte';
 	import Email from './email/index.svelte';
 	import Password from './password/index.svelte';
+	import Access from './access.svelte';
 	import Delete from './delete.svelte';
 
 	export let data;
@@ -97,6 +98,16 @@
 				open={open == 'password'}
 				on:open={() => {
 					open = 'password';
+				}}
+			/>
+		{/if}
+
+		{#if $me.key != user.key && $me.access.includes('user:edit_access')}
+			<Access
+				{user}
+				open={open == 'access'}
+				on:open={() => {
+					open = 'access';
 				}}
 			/>
 		{/if}

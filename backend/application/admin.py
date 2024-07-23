@@ -39,13 +39,15 @@ access = {
 @bp.get("/admin/access")
 @bp.get("/admin/access/<search>")
 def get_access(search=None):
-    _all = [f"{x}:{y[0]}" for x in access for y in access[x]]
+    out = access
     if search:
-        _all = [x for x in _all if x.find(search) != -1]
+        out = [f"{x}:{y[0]}" for x in access for y in access[x]]
+        if search != "all":
+            out = [x for x in out if x.find(search) != -1]
 
     return jsonify({
         "status": 200,
-        "access": _all
+        "access": out
     })
 
 
@@ -58,7 +60,7 @@ def set_access(key):
     user = cur.fetchone()
 
     error = None
-    if not me or "user:set_access" not in me["access"]:
+    if not me or "user:edit_access" not in me["access"]:
         error = "unauthorized access"
     elif "password" not in request.json:
         error = "cannot be empty"
