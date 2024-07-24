@@ -79,7 +79,7 @@
 
 				<div class="right">
 					<img class="logo" src="/logo.png" alt="logo" />
-					<div class="slogan">Work Smart, Achieve More</div>
+					<div class="slogan">{@html $organization.slogan.split(' ').join('&nbsp;')}</div>
 				</div>
 			</div>
 		</div>
@@ -88,15 +88,17 @@
 			<div class="row1">
 				<img src="/logo.png" alt="logo" />
 				<span class="slogan">
-					Wragby&nbsp;Business&nbsp;Solutions&nbsp;&&nbsp;Technologies&nbsp;Limited.
+					{@html $organization.fullname.split(' ').join('&nbsp;')}
 				</span>
 			</div>
 
 			<div class="row2">
 				<div class="divider" />
-				<Icon icon="language" size="1.2" />
-				{$organization.website}
-				<div class="divider" />
+				{#if $organization.website}
+					<Icon icon="language" size="1.2" />
+					{$organization.website}
+					<div class="divider" />
+				{/if}
 			</div>
 		</div>
 	</div>

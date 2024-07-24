@@ -25,23 +25,6 @@
 			<Button href="/admin/organizations" size="wide">Organizations</Button>
 		{/if}
 	</div>
-
-	<br />
-	<br />
-	<br />
-	Todo
-	<br />
-	<br />
-	module should always me maximum width
-	<br />
-	use company info from db
-	<br />
-	loading and notification messages
-	<br />
-	auto clean photo
-	<br />
-	delete organization
-	<br />
 </Content>
 
 <style>
