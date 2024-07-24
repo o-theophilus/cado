@@ -66,12 +66,21 @@ def init():
 
         token = token_tool().dumps(user["key"])
 
+    cur.execute("""SELECT * FROM organization WHERE slug = %s;""", ("wragby",))
+    org = cur.fetchone()
+    if not org:
+        org = {}
+    if org["logo"]:
+        org["logo"] = f"{request.host_url}photo/{org['logo']}"
+    if org["icon"]:
+        org["icon"] = f"{request.host_url}photo/{org['icon']}"
+
     db_close(con, cur)
     return jsonify({
         "status": 200,
         "user": user_schema(user),
         "token": token,
-        "organization": organization
+        "organization": org
     })
 
 

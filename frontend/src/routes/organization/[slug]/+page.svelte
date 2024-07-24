@@ -13,9 +13,16 @@
 
 	export let data;
 	let organization = data.organization;
+	let types = ['logo', 'icon'];
 	let open = null;
 
-	let types = ['logo', 'icon'];
+	const set_open = (name, state) => {
+		if (state) {
+			open = name;
+		} else {
+			open = null;
+		}
+	};
 </script>
 
 <Meta title={organization.name} />
@@ -35,8 +42,8 @@
 					{type}
 					{organization}
 					open={open == type}
-					on:open={() => {
-						open = type;
+					on:open={(e) => {
+						set_open(type, e.detail);
 					}}
 				/>
 			{/if}
@@ -46,8 +53,8 @@
 			<Organization
 				{organization}
 				open={open == 'organization'}
-				on:open={() => {
-					open = 'organization';
+				on:open={(e) => {
+					set_open('organization', e.detail);
 				}}
 			/>
 		{/if}
@@ -56,8 +63,8 @@
 			<Contact
 				{organization}
 				open={open == 'contact'}
-				on:open={() => {
-					open = 'contact';
+				on:open={(e) => {
+					set_open('contact', e.detail);
 				}}
 			/>
 		{/if}
@@ -66,19 +73,19 @@
 			<Social
 				{organization}
 				open={open == 'social'}
-				on:open={() => {
-					open = 'social';
+				on:open={(e) => {
+					set_open('social', e.detail);
 				}}
 			/>
-		{/if}
-
-		<!-- <br /> -->
-		<!-- <strong class="ititle title"> Advanced </strong> -->
-
-		<!-- <Delete
+			{/if}
+			
+			<!-- <br /> -->
+			<!-- <strong class="ititle title"> Advanced </strong> -->
+			
+			<!-- <Delete
 			open={open == 'delete'}
-			on:open={() => {
-				open = 'delete';
+			on:open={(e) => {
+				set_open('delete', e.detail);
 			}}
 		/> -->
 	</Content>

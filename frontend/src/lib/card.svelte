@@ -1,10 +1,9 @@
 <script>
+	import { createEventDispatcher } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
 
-	import Icon from '$lib/icon.svelte';
 	import Fold from '$lib/button/fold.svelte';
-	import { createEventDispatcher } from 'svelte';
 
 	let emit = createEventDispatcher();
 	export let open = false;
@@ -15,12 +14,10 @@
 		class="line title"
 		role="presentation"
 		on:click={() => {
-			emit('open');
-			open = !open;
+			emit('open', !open);
 		}}
 	>
 		<div class="line">
-			<!-- <Icon icon="settings" size="1.2" /> -->
 			<strong class="ititle">
 				<slot name="title" />
 			</strong>

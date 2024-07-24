@@ -12,12 +12,20 @@
 	import Social from './social.svelte';
 	import Email from './email/index.svelte';
 	import Password from './password/index.svelte';
-	import Access from './access.svelte';
+	import Access from './access/index.svelte';
 	import Delete from './delete.svelte';
 
 	export let data;
 	let user = data.user;
 	let open = null;
+
+	const set_open = (name, state) => {
+		if (state) {
+			open = name;
+		} else {
+			open = null;
+		}
+	};
 </script>
 
 <Meta title={user?.firstname || data.error} />
@@ -35,8 +43,8 @@
 			<Photo
 				{user}
 				open={open == 'photo'}
-				on:open={() => {
-					open = 'photo';
+				on:open={(e) => {
+					set_open('photo', e.detail);
 				}}
 			/>
 		{/if}
@@ -45,8 +53,8 @@
 			<Personal
 				{user}
 				open={open == 'personal'}
-				on:open={() => {
-					open = 'personal';
+				on:open={(e) => {
+					set_open('personal', e.detail);
 				}}
 			/>
 		{/if}
@@ -55,8 +63,8 @@
 			<Organization
 				{user}
 				open={open == 'organization'}
-				on:open={() => {
-					open = 'organization';
+				on:open={(e) => {
+					set_open('organization', e.detail);
 				}}
 			/>
 		{/if}
@@ -65,8 +73,8 @@
 			<Contact
 				{user}
 				open={open == 'contact'}
-				on:open={() => {
-					open = 'contact';
+				on:open={(e) => {
+					set_open('contact', e.detail);
 				}}
 			/>
 		{/if}
@@ -75,8 +83,8 @@
 			<Social
 				{user}
 				open={open == 'social'}
-				on:open={() => {
-					open = 'social';
+				on:open={(e) => {
+					set_open('social', e.detail);
 				}}
 			/>
 		{/if}
@@ -87,8 +95,8 @@
 		{#if $me.key == user.key}
 			<Email
 				open={open == 'email'}
-				on:open={() => {
-					open = 'email';
+				on:open={(e) => {
+					set_open('email', e.detail);
 				}}
 			/>
 		{/if}
@@ -96,8 +104,8 @@
 		{#if $me.key == user.key}
 			<Password
 				open={open == 'password'}
-				on:open={() => {
-					open = 'password';
+				on:open={(e) => {
+					set_open('password', e.detail);
 				}}
 			/>
 		{/if}
@@ -106,8 +114,8 @@
 			<Access
 				{user}
 				open={open == 'access'}
-				on:open={() => {
-					open = 'access';
+				on:open={(e) => {
+					set_open('access', e.detail);
 				}}
 			/>
 		{/if}
@@ -116,8 +124,8 @@
 			<Delete
 				{user}
 				open={open == 'delete'}
-				on:open={() => {
-					open = 'delete';
+				on:open={(e) => {
+					set_open('delete', e.detail);
 				}}
 			/>
 		{/if}

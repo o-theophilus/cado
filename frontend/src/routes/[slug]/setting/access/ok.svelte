@@ -1,14 +1,18 @@
 <script>
-	import { module, notification, loading } from '$lib/store.js';
+	import { createEventDispatcher } from 'svelte';
+	import { notification, loading } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import Icon from '$lib/icon.svelte';
 	import Button from '$lib/button/button.svelte';
-	import ShowPassword from '../../account/password_show.svelte';
+	import ShowPassword from '../../../account/password_show.svelte';
 	import IG from '$lib/input_group.svelte';
 
+	let emit = createEventDispatcher();
+	export let user_key;
+	export let access;
 	let form = {
-		access: $module.user_access
+		access
 	};
 	let error = {};
 	let show_password = false;
@@ -26,7 +30,7 @@
 	const submit = async () => {
 		error = {};
 		$loading = 'saving . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/admin/access/${$module.key}`, {
+		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/admin/access/${user_key}`, {
 			method: 'put',
 			headers: {
 				'Content-Type': 'application/json',
@@ -38,8 +42,7 @@
 		$loading = false;
 
 		if (resp.status == 200) {
-			$module.update();
-			$module = null;
+			emit('ok', false);
 			$notification = {
 				message: 'Permissions saved'
 			};
@@ -50,7 +53,6 @@
 </script>
 
 <form on:submit|preventDefault novalidate autocomplete="off">
-	<strong class="ititle"> Accept Permissions </strong>
 	{#if error.error}
 		<div class="error">
 			{error.error}
@@ -72,22 +74,33 @@
 		</svelte:fragment>
 	</IG>
 
-	<Button on:click={validate}>
-		Submit
-		<Icon icon="send" />
-	</Button>
+	<div class="line">
+		<Button on:click={validate}>
+			Submit
+			<Icon icon="send" />
+		</Button>
+		<Button
+			on:click={() => {
+				emit('ok', true);
+			}}
+		>
+			Cancel
+			<Icon icon="close" />
+		</Button>
+	</div>
 </form>
 
 <style>
-	form {
-		padding: var(--sp3);
-	}
-
 	.error {
 		margin: var(--sp2) 0;
 	}
 
 	.right {
 		padding-right: var(--sp2);
+	}
+
+	.line {
+		display: flex;
+		gap: var(--sp1);
 	}
 </style>

@@ -1,5 +1,6 @@
 <script>
-	import { notification, loading } from '$lib/store.js';
+	import { createEventDispatcher } from 'svelte';
+	import { notification, loading, organization as org  } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import IG from '$lib/input_group.svelte';
@@ -7,6 +8,7 @@
 	import Icon from '$lib/icon.svelte';
 	import Card from '$lib/card.svelte';
 
+	let emit = createEventDispatcher();
 	export let organization;
 	export let open;
 	let form = {
@@ -39,7 +41,8 @@
 
 		if (resp.status == 200) {
 			organization = resp.organization;
-			open = false;
+			$org = resp.organization;
+			emit('open', false);
 			$notification = {
 				message: 'Links Saved'
 			};

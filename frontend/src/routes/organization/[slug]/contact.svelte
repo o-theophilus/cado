@@ -1,4 +1,5 @@
 <script>
+	import { createEventDispatcher } from 'svelte';
 	import { notification, loading, organization as org } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
@@ -10,6 +11,7 @@
 	import Card from '$lib/card.svelte';
 	import Address from './contact.address.svelte';
 
+	let emit = createEventDispatcher();
 	export let organization;
 	export let open;
 	let form = {
@@ -68,7 +70,8 @@
 
 		if (resp.status == 200) {
 			organization = resp.organization;
-			open = false;
+			$org = resp.organization;
+			emit('open', false);
 			$notification = {
 				message: 'Details Saved'
 			};
@@ -104,6 +107,7 @@
 			type="email"
 			bind:value={form.email}
 			placeholder="Email here"
+			required
 		/>
 
 		<IG

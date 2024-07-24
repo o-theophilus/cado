@@ -1,5 +1,6 @@
 <script>
-	import { notification, loading, organization } from '$lib/store.js';
+	import { createEventDispatcher } from 'svelte';
+	import { notification, loading, organization as org } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import IG from '$lib/input_group.svelte';
@@ -8,13 +9,14 @@
 	import Dropdown from '$lib/dropdown.svelte';
 	import Card from '$lib/card.svelte';
 
+	let emit = createEventDispatcher();
 	export let user;
 	export let open;
 	let form = {
 		...user
 	};
 	if (form.office_location == null) {
-		form.office_location = $organization.address[0].name;
+		form.office_location = $org.address[0]?.name;
 	}
 
 	let error = {};
@@ -40,7 +42,7 @@
 
 		if (resp.status == 200) {
 			user = resp.user;
-			open = false;
+			emit('open', false);
 			$notification = {
 				message: 'Details Saved'
 			};
@@ -82,7 +84,7 @@
 		<label for="location">Office Location</label>
 		<div class="dropdown">
 			<Dropdown
-				list={$organization.address.map((a) => a.name)}
+				list={$org.address.map((a) => a.name)}
 				id="location"
 				icon="location_on"
 				wide
@@ -93,7 +95,7 @@
 			/>
 
 			<div>
-				{#each $organization.address as a}
+				{#each $org.address as a}
 					{#if a.name == form.office_location}
 						{a.address}
 					{/if}

@@ -1,5 +1,5 @@
 <script>
-	import { loading, notification } from '$lib/store.js';
+	import { loading, notification, organization as org } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import Button from '$lib/button/button.svelte';
@@ -45,19 +45,20 @@
 
 		if (resp.status == 200) {
 			organization = resp.organization;
+			$org = resp.organization;
 			$notification = {
 				message: `${type} added`
 			};
-
+			
 			error.error = resp.error;
 		} else {
 			error = resp;
 		}
 	};
-
+	
 	const remove = async () => {
 		error = {};
-
+		
 		$loading = 'removing . . .';
 		let resp = await fetch(
 			`${import.meta.env.VITE_BACKEND}/organization/${organization.key}/${type}`,
@@ -74,6 +75,7 @@
 
 		if (resp.status == 200) {
 			organization[type] = null;
+			$org = resp.organization;
 			$notification = {
 				message: `${type} removed`
 			};

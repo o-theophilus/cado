@@ -1,5 +1,6 @@
 <script>
-	import { notification, loading, organization } from '$lib/store.js';
+	import { createEventDispatcher } from 'svelte';
+	import { notification, loading } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import IG from '$lib/input_group.svelte';
@@ -7,14 +8,12 @@
 	import Icon from '$lib/icon.svelte';
 	import Card from '$lib/card.svelte';
 
+	let emit = createEventDispatcher();
 	export let user;
 	export let open;
 	let form = {
 		...user
 	};
-	if (form.office_location == null) {
-		form.office_location = $organization.address[0].name;
-	}
 
 	let error = {};
 
@@ -39,7 +38,7 @@
 
 		if (resp.status == 200) {
 			user = resp.user;
-			open = false;
+			emit('open', false);
 			$notification = {
 				message: 'Details Saved'
 			};

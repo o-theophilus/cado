@@ -40,6 +40,8 @@
 	<br />
 	auto clean photo
 	<br />
+	delete organization
+	<br />
 </Content>
 
 <style>

@@ -1,4 +1,5 @@
 <script>
+	import { createEventDispatcher } from 'svelte';
 	import Card from '$lib/card.svelte';
 
 	import RequestCode from './1_request_code.svelte';
@@ -6,6 +7,7 @@
 	import NewEmail from './3_new_email.svelte';
 	import SubmitCode2 from './4_submit_code.svelte';
 
+	let emit = createEventDispatcher();
 	export let open;
 	let code_1;
 	let email;
@@ -42,7 +44,7 @@
 			{email}
 			on:ok={() => {
 				state = 0;
-				open = false;
+				emit('open', false);
 			}}
 		/>
 	{/if}

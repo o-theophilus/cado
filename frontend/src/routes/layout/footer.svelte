@@ -1,5 +1,4 @@
 <script>
-	// import { page } from '$app/stores';
 	import { organization } from '$lib/store.js';
 
 	import Contact from './footer.contact.svelte';
@@ -7,11 +6,7 @@
 </script>
 
 <footer class="footer block">
-	<!-- {#if $page.url.pathname != '/'}
-		
-	{/if} -->
-
-	<div class="ititle"><strong> Contact Wragby </strong></div>
+	<div class="ititle"><strong> Contact {$organization.name}</strong></div>
 	<Contact />
 	<div class="social">
 		<Socials links={$organization} />
