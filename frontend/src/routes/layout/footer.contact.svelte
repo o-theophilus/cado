@@ -35,7 +35,7 @@
 	</div>
 {/if}
 
-{#if $organization.address.length != 0}
+{#if $organization.address && $organization.address.length != 0}
 	<div class="group">
 		<Icon icon="location_on" size="1.3" />
 		<div>

@@ -487,8 +487,8 @@ def delete_photo(key, _type):
     })
 
 
-@ bp.delete("/organization/<key>")
-def delete(key):
+@ bp.delete("/organization/")
+def delete():
     con, cur = db_open()
 
     user = token_to_user(cur)
@@ -499,11 +499,7 @@ def delete(key):
             "error": "invalid token"
         })
 
-    if (
-
-        "organization:delete" not in user["access"]
-        or user["organization_key"] != key
-    ):
+    if "organization:delete" not in user["access"]:
         db_close(con, cur)
         return jsonify({
             "status": 400,
@@ -513,8 +509,8 @@ def delete(key):
     cur.execute("""
         SELECT *
         FROM organization
-        WHERE slug = %s OR key = %s;
-    """, (key, key))
+        WHERE key = %s;
+    """, (user["organization_key"],))
     org = cur.fetchone()
     if not org:
         db_close(con, cur)

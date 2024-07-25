@@ -73,8 +73,7 @@
 			</div>
 		{/if}
 
-		<!-- TODO: wragby fix -->
-		<IG name="Organization" icon="corporate_fare" error={error.role}>
+		<!-- <IG name="Organization" icon="corporate_fare" error={error.role}>
 			<Dropdown
 				list={orgs}
 				default_value={user.organization_key}
@@ -83,7 +82,7 @@
 					form.organization_key = e.target.value;
 				}}
 			/>
-		</IG>
+		</IG> -->
 
 		<IG
 			name="Role"

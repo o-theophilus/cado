@@ -6,7 +6,9 @@
 </script>
 
 <footer class="footer block">
-	<div class="ititle"><strong> Contact {$organization.name}</strong></div>
+	{#if $organization.name}
+		<div class="ititle"><strong> Contact {$organization.name}</strong></div>
+	{/if}
 	<Contact />
 	<div class="social">
 		<Socials links={$organization} />

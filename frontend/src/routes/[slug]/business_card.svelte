@@ -65,16 +65,18 @@
 						{user.email}
 					</div>
 
-					{#each $organization.address as a}
-						{#if a.name == user.office_location}
-							<div class="location">
-								<div class="icon">
-									<Icon icon="location_on" />
+					{#if $organization.address}
+						{#each $organization.address as a}
+							{#if a.name == user.office_location}
+								<div class="location">
+									<div class="icon">
+										<Icon icon="location_on" />
+									</div>
+									{a.address}
 								</div>
-								{a.address}
-							</div>
-						{/if}
-					{/each}
+							{/if}
+						{/each}
+					{/if}
 				</div>
 
 				<div class="right">
@@ -85,7 +87,9 @@
 						onerror="this.onerror=null; this.src='/logo.png';"
 					/>
 
-					<div class="slogan">{@html $organization.slogan.split(' ').join('&nbsp;')}</div>
+					{#if $organization.slogan}
+						<div class="slogan">{@html $organization.slogan.split(' ').join('&nbsp;')}</div>
+					{/if}
 				</div>
 			</div>
 		</div>
@@ -98,9 +102,11 @@
 					onerror="this.onerror=null; this.src='/logo.png';"
 				/>
 
-				<span class="slogan">
-					{@html $organization.fullname.split(' ').join('&nbsp;')}
-				</span>
+				{#if $organization.fullname}
+					<span class="slogan">
+						{@html $organization.fullname.split(' ').join('&nbsp;')}
+					</span>
+				{/if}
 			</div>
 
 			<div class="row2">

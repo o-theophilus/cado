@@ -1,5 +1,6 @@
 <script>
-	import { loading } from '$lib/store.js';
+	import { goto } from '$app/navigation';
+	import { loading, organization } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import Button from '$lib/button/button.svelte';
@@ -37,8 +38,8 @@
 		$loading = false;
 
 		if (resp.status == 200) {
-			$token = resp.data.token;
-			document.location = '/';
+			$organization = resp.organization;
+			goto('/admin');
 		} else {
 			error = resp;
 		}

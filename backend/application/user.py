@@ -145,14 +145,13 @@ def organization(key):
     role = None
     manager_email = None
 
-    # TODO: disable this for wragby
-    if "organization_key" in request.json and request.json["organization_key"]:
-        cur.execute("""
-            SELECT * FROM organization WHERE key = %s;
-        """, (request.json["organization_key"],))
-        org = cur.fetchone()
-        if org:
-            organization_key = org["key"]
+    # if "organization_key" in request.json and request.json["organization_key"]:
+    #     cur.execute("""
+    #         SELECT * FROM organization WHERE key = %s;
+    #     """, (request.json["organization_key"],))
+    #     org = cur.fetchone()
+    #     if org:
+    #         organization_key = org["key"]
 
     if "role" in request.json and request.json["role"]:
         role = request.json["role"]
