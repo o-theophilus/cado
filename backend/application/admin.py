@@ -114,7 +114,7 @@ def add_wragby(cur):
             "address": "1338 Leo Stan Ekeh Way, Area 3, Abuja, Nigeria.",
             "url": "https://maps.app.goo.gl/vn3VqzfyUXimDCYp7"
         }
-    ],
+    ]
 
     cur.execute('SELECT * FROM organization WHERE email = %s;', (email,))
     if not cur.fetchone():

@@ -101,7 +101,6 @@ def get_many():
         page_size, (page_no - 1) * page_size
     ))
     orgs = cur.fetchall()
-    print(orgs)
 
     db_close(con, cur)
     return jsonify({

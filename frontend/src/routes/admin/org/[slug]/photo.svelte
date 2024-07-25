@@ -45,7 +45,6 @@
 
 		if (resp.status == 200) {
 			organization = resp.organization;
-			console.log(resp.organization);
 			$org = resp.organization;
 			$notification = {
 				message: `${type.charAt(0).toUpperCase()}${type.slice(1)} Photo Uploaded`
