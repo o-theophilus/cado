@@ -1,4 +1,5 @@
 <script>
+	import { organization } from '$lib/store.js';
 	import { page } from '$app/stores';
 </script>
 
@@ -17,8 +18,8 @@ line-height: 1.5
 		"
 	>
 		<img
-			src="{$page.url.origin}/logo.png"
-			alt="favicon"
+			src={$organization.logo || `${$page.url.origin}/logo.png`}
+			alt="{$organization.name} logo"
 			style="
 		height: 30px;
 		"
@@ -34,14 +35,17 @@ line-height: 1.5
 	>
 		<slot />
 	</div>
-	<div
-		class="footer"
-		style="
+
+	{#if $organization.fullname}
+		<div
+			class="footer"
+			style="
 	text-align: center;
 	padding: 20px 40px;
 	font-size: x-small;
 	color: grey;"
-	>
-		&copy 2024 Wragby Business Solutions and Technologies Limited.
-	</div>
+		>
+			© 2024 | {$organization.fullname}
+		</div>
+	{/if}
 </section>

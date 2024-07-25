@@ -24,7 +24,7 @@
 	};
 
 	const submit = async () => {
-		$loading = 'Saving Links . . .';
+		$loading = 'Saving Social Links . . .';
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/social/${user.key}`, {
 			method: 'put',
 			headers: {
@@ -40,7 +40,7 @@
 			user = resp.user;
 			emit('open', false);
 			$notification = {
-				message: 'Links Saved'
+				message: 'Social Links Saved'
 			};
 		} else {
 			error = resp;
@@ -49,7 +49,7 @@
 </script>
 
 <Card {open} on:open>
-	<svelte:fragment slot="title">Social Media Links</svelte:fragment>
+	<svelte:fragment slot="title">Social Links</svelte:fragment>
 
 	<form on:submit|preventDefault novalidate autocomplete="off">
 		{#if error.error}

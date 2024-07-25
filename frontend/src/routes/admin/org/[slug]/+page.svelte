@@ -9,7 +9,7 @@
 	import Organization from './organization.svelte';
 	import Contact from './contact.svelte';
 	import Social from './social.svelte';
-	// import Delete from './delete.svelte';
+	import Delete from './delete.svelte';
 
 	export let data;
 	let organization = data.organization;
@@ -77,17 +77,20 @@
 					set_open('social', e.detail);
 				}}
 			/>
-			{/if}
-			
-			<!-- <br /> -->
-			<!-- <strong class="ititle title"> Advanced </strong> -->
-			
-			<!-- <Delete
-			open={open == 'delete'}
-			on:open={(e) => {
-				set_open('delete', e.detail);
-			}}
-		/> -->
+		{/if}
+
+		{#if $user.access.includes('organization:delete')}
+			<!-- TODO: Make functional -->
+			<br />
+			<strong class="ititle title"> Advanced </strong>
+
+			<Delete
+				open={open == 'delete'}
+				on:open={(e) => {
+					set_open('delete', e.detail);
+				}}
+			/>
+		{/if}
 	</Content>
 </div>
 

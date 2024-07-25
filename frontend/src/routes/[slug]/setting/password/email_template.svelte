@@ -1,4 +1,5 @@
 <script>
+	import { organization } from '$lib/store.js';
 	import Template from '$lib/email_template.svelte';
 </script>
 
@@ -25,8 +26,8 @@
 	This code is valid for a limited time. If you didn't request this, please disregard this message.
 	<br />
 	<br />
-	Warm regards,
-	<br />
-	<br />
-	<b>{'{'}organization_name{'}'}</b>
+	Warm regards{#if $organization.name},
+		<br /><br />
+		<b>{$organization.name}</b>
+	{/if}
 </Template>

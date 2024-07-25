@@ -2,8 +2,10 @@
 	import { createEventDispatcher } from 'svelte';
 	import { notification, loading } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
+	import { onMount } from 'svelte';
 
 	import IG from '$lib/input_group.svelte';
+	import Dropdown from '$lib/dropdown.svelte';
 	import Button from '$lib/button/button.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Card from '$lib/card.svelte';
@@ -11,6 +13,7 @@
 	let emit = createEventDispatcher();
 	export let user;
 	export let open;
+	let orgs = [];
 	let form = {
 		...user
 	};
@@ -24,7 +27,7 @@
 	};
 
 	const submit = async () => {
-		$loading = 'Saving Post . . .';
+		$loading = 'Saving Organization . . .';
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/organization/${user.key}`, {
 			method: 'put',
 			headers: {
@@ -40,12 +43,24 @@
 			user = resp.user;
 			emit('open', false);
 			$notification = {
-				message: 'Details Saved'
+				message: 'Organization Saved'
 			};
 		} else {
 			error = resp;
 		}
 	};
+
+	onMount(async () => {
+		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/organizations/2`);
+		resp = await resp.json();
+		if (resp.status == 200) {
+			orgs = resp.organizations;
+			orgs.unshift({
+				key: 'None',
+				value: ''
+			});
+		}
+	});
 </script>
 
 <Card {open} on:open>
@@ -57,6 +72,18 @@
 				{error.error}
 			</div>
 		{/if}
+
+		<!-- TODO: wragby fix -->
+		<IG name="Organization" icon="corporate_fare" error={error.role}>
+			<Dropdown
+				list={orgs}
+				default_value={user.organization_key}
+				wide
+				on:change={(e) => {
+					form.organization_key = e.target.value;
+				}}
+			/>
+		</IG>
 
 		<IG
 			name="Role"

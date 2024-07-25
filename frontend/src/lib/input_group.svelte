@@ -6,7 +6,10 @@
 	export let icon = '';
 	export let icon_size = 1.2;
 	export let error = '';
-	let id = name.split(' ').join('_').toLowerCase();
+	let id = '';
+	if (name) {
+		id = name.split(' ').join('_').toLowerCase();
+	}
 
 	export let value = '';
 	export let type = '';
@@ -33,16 +36,18 @@
 		</div>
 	{/if}
 
-	<slot {id}>
-		<div class="input" class:left_pad={icon} class:disabled>
-			{#if icon}
-				<Icon {icon} size={icon_size} />
-			{/if}
-			<Input bind:value {id} {type} {placeholder} {min} {disabled} on:blur on:input />
-			<slot name="right" />
-		</div>
-		<slot name="down" />
-	</slot>
+	<div class="gap">
+		<slot {id}>
+			<div class="input" class:left_pad={icon} class:disabled>
+				{#if icon}
+					<Icon {icon} size={icon_size} />
+				{/if}
+				<Input bind:value {id} {type} {placeholder} {min} {disabled} on:blur on:input />
+				<slot name="right" />
+			</div>
+			<slot name="down" />
+		</slot>
+	</div>
 </div>
 
 <style>
@@ -59,7 +64,6 @@
 
 		width: 100%;
 
-		margin-top: var(--sp1);
 		border-radius: var(--sp0);
 		border: none;
 
@@ -68,6 +72,9 @@
 		fill: currentColor;
 
 		transition: outline-color var(--trans);
+	}
+	.gap {
+		margin-top: var(--sp1);
 	}
 
 	.input.disabled {

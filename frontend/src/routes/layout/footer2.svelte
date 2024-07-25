@@ -1,14 +1,12 @@
 <script>
-	import { page } from '$app/stores';
 	import { organization } from '$lib/store.js';
-
-	import Contact from './footer.contact.svelte';
-	import Socials from './socials.svelte';
 </script>
 
-<div class="copyright">
-	<div class="block">© 2024 Wragby Business Solutions and Technologies Limited.</div>
-</div>
+{#if $organization.fullname}
+	<div class="copyright">
+		<div class="block">© 2024 | {$organization.fullname}</div>
+	</div>
+{/if}
 
 <style>
 	.block {

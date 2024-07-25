@@ -5,7 +5,7 @@
 	import Button from '$lib/button/button.svelte';
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
-	import ShowPassword from './account/password_show.svelte';
+	import ShowPassword from '../../../account/password_show.svelte';
 	import Card from '$lib/card.svelte';
 
 	export let open;
@@ -24,8 +24,8 @@
 	};
 
 	const submit = async () => {
-		$loading = 'deleting . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user`, {
+		$loading = 'Deleting Organization . . .';
+		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/organization`, {
 			method: 'delete',
 			headers: {
 				'Content-Type': 'application/json',
@@ -46,11 +46,11 @@
 </script>
 
 <Card {open} on:open>
-	<svelte:fragment slot="title">Delete Account</svelte:fragment>
+	<svelte:fragment slot="title">Delete Organization</svelte:fragment>
 
 	<form on:submit|preventDefault novalidate autocomplete="off">
 		<br />
-		Are you sure you want to delete account?
+		Are you sure you want to delete organization?
 
 		{#if error.error}
 			<div class="error">
@@ -67,7 +67,9 @@
 			placeholder="Password here"
 		>
 			<svelte:fragment slot="right">
-				<ShowPassword bind:show_password />
+				<div class="right">
+					<ShowPassword bind:show_password />
+				</div>
 			</svelte:fragment>
 		</IG>
 
@@ -81,5 +83,8 @@
 <style>
 	.error {
 		margin: var(--sp2) 0;
+	}
+	.right {
+		padding-right: var(--sp2);
 	}
 </style>

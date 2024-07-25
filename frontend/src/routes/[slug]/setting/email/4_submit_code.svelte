@@ -30,7 +30,7 @@
 	};
 
 	const submit = async () => {
-		$loading = 'loading . . .';
+		$loading = 'Verifying Code / Saving Email . . .';
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/email/4`, {
 			method: 'post',
 			headers: {

@@ -25,7 +25,7 @@
 	};
 
 	const submit = async () => {
-		$loading = 'deleting . . .';
+		$loading = 'Deleting Account . . .';
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/${user.key}`, {
 			method: 'delete',
 			headers: {
@@ -68,7 +68,9 @@
 			placeholder="Password here"
 		>
 			<svelte:fragment slot="right">
-				<ShowPassword bind:show_password />
+				<div class="right">
+					<ShowPassword bind:show_password />
+				</div>
 			</svelte:fragment>
 		</IG>
 
@@ -82,5 +84,8 @@
 <style>
 	.error {
 		margin: var(--sp2) 0;
+	}
+	.right {
+		padding-right: var(--sp2);
 	}
 </style>

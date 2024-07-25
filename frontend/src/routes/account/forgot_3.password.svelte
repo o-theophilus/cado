@@ -43,7 +43,7 @@
 	};
 
 	const submit = async () => {
-		$loading = 'loading . . .';
+		$loading = 'Saving Password . . .';
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/forgot/3`, {
 			method: 'post',
 			headers: {

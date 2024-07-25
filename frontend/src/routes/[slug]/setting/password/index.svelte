@@ -39,6 +39,3 @@
 		/>
 	{/if}
 </Card>
-
-<style>
-</style>

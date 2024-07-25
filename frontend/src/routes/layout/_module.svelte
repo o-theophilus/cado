@@ -6,6 +6,7 @@
 	import BRound from '$lib/button/round.svelte';
 </script>
 
+<!-- TODO: module should always me maximum width -->
 {#if $module}
 	<section>
 		<div class="block" transition:scale|local={{ delay: 0, duration: 200, easing: backInOut }}>

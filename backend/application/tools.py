@@ -106,10 +106,18 @@ def send_mail(to, subject, body):
         )
 
 
-def user_schema(user):
-    del user["password"]
-    user["photo"] = (
-        f"{request.host_url}photo/{user['photo']}"
-        if user["photo"] else None
+def user_schema(a):
+    del a["password"]
+    a["photo"] = (
+        f"{request.host_url}photo/{a['photo']}"
+        if a["photo"] else None
     )
-    return user
+    return a
+
+
+def org_schema(a):
+    if "logo" in a and a["logo"]:
+        a["logo"] = f"{request.host_url}photo/{a['logo']}"
+    if "icon" in a and a["icon"]:
+        a["icon"] = f"{request.host_url}photo/{a['icon']}"
+    return a

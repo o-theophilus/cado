@@ -1,5 +1,5 @@
 <script>
-	import { user, module } from '$lib/store.js';
+	import { user, module, organization } from '$lib/store.js';
 	import { page } from '$app/stores';
 
 	import Link from './nav.btn.svelte';
@@ -13,14 +13,17 @@
 <nav class:home>
 	<div class="block">
 		<a href="/">
-			<img src="/logo.png" alt="Wragby Logo" />
+			<img
+				src={$organization.logo || '/logo.png'}
+				alt="{$organization.name} logo"
+				onerror="this.onerror=null; this.src='/logo.png';"
+			/>
 		</a>
 		<div class="links">
 			{#if $user && $user.login}
 				<User />
 			{:else}
 				<Link
-				
 					on:click={() => {
 						$module = {
 							module: Login
@@ -31,7 +34,6 @@
 				</Link>
 
 				<Link
-				
 					on:click={() => {
 						$module = {
 							module: Signup

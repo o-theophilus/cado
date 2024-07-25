@@ -1,10 +1,9 @@
 from flask import Blueprint, jsonify, request
 from .postgres import db_open, db_close
-from .tools import (
-    token_to_user, user_schema,  token_tool, reserved_words)
+from .tools import org_schema, token_to_user, reserved_words
 from uuid import uuid4
 import re
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 from .storage import storage
 import json
 
@@ -79,12 +78,12 @@ def add():
     db_close(con, cur)
     return jsonify({
         "status": 200,
-        "organization": org
+        "organization": org_schema(org)
     })
 
 
 @ bp.put("/organization/org/<key>")
-def _organization(key):
+def organization(key):
     con, cur = db_open()
 
     user = token_to_user(cur)
@@ -184,7 +183,7 @@ def _organization(key):
     db_close(con, cur)
     return jsonify({
         "status": 200,
-        "organization": org
+        "organization": org_schema(org)
     })
 
 
@@ -288,7 +287,7 @@ def contact(key):
     db_close(con, cur)
     return jsonify({
         "status": 200,
-        "organization": org
+        "organization": org_schema(org)
     })
 
 
@@ -363,7 +362,7 @@ def social(key):
     db_close(con, cur)
     return jsonify({
         "status": 200,
-        "organization": org
+        "organization": org_schema(org)
     })
 
 
@@ -431,15 +430,10 @@ def add_photo(key, _type):
     ))
     org = cur.fetchone()
 
-    if org["logo"]:
-        org["logo"] = f"{request.host_url}photo/{org['logo']}"
-    if org["icon"]:
-        org["icon"] = f"{request.host_url}photo/{org['icon']}"
-
     db_close(con, cur)
     return jsonify({
         "status": 200,
-        "organization": org
+        "organization": org_schema(org)
     })
 
 
@@ -481,14 +475,15 @@ def delete_photo(key, _type):
         cur.execute("""
             UPDATE organization
             SET {} = NULL
-            WHERE key = %s;
-        """.format(_type), (
-            user["key"],
-        ))
+            WHERE key = %s
+            RETURNING *;
+        """.format(_type), (org["key"],))
+        org = cur.fetchone()
 
     db_close(con, cur)
     return jsonify({
-        "status": 200
+        "status": 200,
+        "organization": org_schema(org)
     })
 
 
@@ -502,6 +497,30 @@ def delete(key):
         return jsonify({
             "status": 400,
             "error": "invalid token"
+        })
+
+    if (
+
+        "organization:delete" not in user["access"]
+        or user["organization_key"] != key
+    ):
+        db_close(con, cur)
+        return jsonify({
+            "status": 400,
+            "error": "unauthorized access"
+        })
+
+    cur.execute("""
+        SELECT *
+        FROM organization
+        WHERE slug = %s OR key = %s;
+    """, (key, key))
+    org = cur.fetchone()
+    if not org:
+        db_close(con, cur)
+        return jsonify({
+            "status": 400,
+            "error": "invalid request"
         })
 
     if "password" not in request.json or not request.json["password"]:
@@ -518,44 +537,10 @@ def delete(key):
             "error": "incorrect password"
         })
 
-    if user["key"] != key:
-        if "user:delete" not in user["access"]:
-            db_close(con, cur)
-            return jsonify({
-                "status": 400,
-                "error": "unauthorized access"
-            })
-        else:
-            cur.execute("""
-                SELECT *
-                FROM "user"
-                WHERE slug = %s OR email = %s OR key = %s;
-            """, (key, key, key))
-            user = cur.fetchone()
+    cur.execute("""DELETE FROM organization WHERE key = %s;""", (org["key"],))
 
-            if not user:
-                db_close(con, cur)
-                return jsonify({
-                    "status": 400,
-                    "error": "invalid request"
-                })
-
-    cur.execute("""DELETE FROM "user" WHERE key = %s;""", (user["key"],))
-
-    cur.execute("""
-        INSERT INTO "user" (key, version, email, password, setting_theme)
-        VALUES (%s, %s, %s, %s, %s)
-        RETURNING *;
-    """, (
-        uuid4().hex, uuid4().hex, uuid4().hex,
-        generate_password_hash(uuid4().hex, method="scrypt"),
-        user["setting_theme"]
-    ))
-    anon_user = cur.fetchone()
-
-    db_close(con, cur)
+    # db_close(con, cur)
     return jsonify({
         "status": 200,
-        "user": user_schema(anon_user),
-        "token": token_tool().dumps(anon_user["key"])
+        "organization": {}
     })

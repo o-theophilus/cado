@@ -24,7 +24,7 @@
 	};
 
 	const submit = async () => {
-		$loading = 'Saving Links . . .';
+		$loading = 'Saving Social Links . . .';
 		let resp = await fetch(
 			`${import.meta.env.VITE_BACKEND}/organization/social/${organization.key}`,
 			{
@@ -44,7 +44,7 @@
 			$org = resp.organization;
 			emit('open', false);
 			$notification = {
-				message: 'Links Saved'
+				message: 'Social Links Saved'
 			};
 		} else {
 			error = resp;

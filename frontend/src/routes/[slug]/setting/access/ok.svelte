@@ -29,7 +29,7 @@
 
 	const submit = async () => {
 		error = {};
-		$loading = 'saving . . .';
+		$loading = 'Saving Access . . .';
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/admin/access/${user_key}`, {
 			method: 'put',
 			headers: {
@@ -44,7 +44,7 @@
 		if (resp.status == 200) {
 			emit('ok', false);
 			$notification = {
-				message: 'Permissions saved'
+				message: 'Access Saved'
 			};
 		} else {
 			error = resp;
@@ -98,7 +98,6 @@
 	.right {
 		padding-right: var(--sp2);
 	}
-
 	.line {
 		display: flex;
 		gap: var(--sp1);

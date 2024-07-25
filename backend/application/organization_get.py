@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from .tools import token_to_user
+from .tools import token_to_user, org_schema
 from math import ceil
 from .postgres import db_close, db_open
 
@@ -25,15 +25,10 @@ def get(key):
             "error": "invalid token"
         })
 
-    if org["logo"]:
-        org["logo"] = f"{request.host_url}photo/{org['logo']}"
-    if org["icon"]:
-        org["icon"] = f"{request.host_url}photo/{org['icon']}"
-
     db_close(con, cur)
     return jsonify({
         "status": 200,
-        "organization": org
+        "organization": org_schema(org)
     })
 
 
@@ -110,8 +105,22 @@ def get_many():
     db_close(con, cur)
     return jsonify({
         "status": 200,
-        "organizations": orgs,
+        "organizations": [org_schema(x) for x in orgs],
         "order_by": list(order_by.keys()),
         "_status": ['live', 'draft'],
         "total_page": ceil(orgs[0]["_count"] / page_size) if orgs else 0
+    })
+
+
+@bp.get("/organizations/2")
+def get_micro():
+    con, cur = db_open()
+
+    cur.execute("SELECT key as value, name as key FROM organization;")
+    orgs = cur.fetchall()
+
+    db_close(con, cur)
+    return jsonify({
+        "status": 200,
+        "organizations": orgs
     })

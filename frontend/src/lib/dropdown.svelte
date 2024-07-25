@@ -5,7 +5,14 @@
 	export let icon = '';
 	export let wide = false;
 	export let button = false;
-	export let default_value = list[0] || '';
+	export let default_value = '';
+	if (!default_value && list[0]) {
+		if (list[0] instanceof Object) {
+			default_value = list[0]['value'];
+		} else {
+			default_value = list[0];
+		}
+	}
 	export let id = '';
 	let value = default_value;
 
@@ -21,8 +28,8 @@
 		</div>
 		<select bind:value on:change {id}>
 			{#each list as x}
-				<option value={x}>
-					{x}
+				<option value={x instanceof Object ? x.value : x}>
+					{x instanceof Object ? x.key : x}
 				</option>
 			{/each}
 		</select>
@@ -36,8 +43,8 @@
 		{/if}
 		<select bind:value class:has_icon={icon} on:change {id}>
 			{#each list as x}
-				<option value={x}>
-					{x}
+				<option value={x instanceof Object ? x.value : x}>
+					{x instanceof Object ? x.key : x}
 				</option>
 			{/each}
 		</select>

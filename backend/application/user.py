@@ -8,7 +8,6 @@ import re
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
 from .storage import storage
-from .account import organization
 
 
 bp = Blueprint("user", __name__)
@@ -109,7 +108,7 @@ def personal(key):
 
 
 @bp.put("/user/organization/<key>")
-def _organization(key):
+def organization(key):
     con, cur = db_open()
 
     user = token_to_user(cur)
@@ -142,8 +141,19 @@ def _organization(key):
                     "error": "invalid request"
                 })
 
+    organization_key = None
     role = None
     manager_email = None
+
+    # TODO: disable this for wragby
+    if "organization_key" in request.json and request.json["organization_key"]:
+        cur.execute("""
+            SELECT * FROM organization WHERE key = %s;
+        """, (request.json["organization_key"],))
+        org = cur.fetchone()
+        if org:
+            organization_key = org["key"]
+
     if "role" in request.json and request.json["role"]:
         role = request.json["role"]
     if "manager_email" in request.json and request.json["manager_email"]:
@@ -152,11 +162,13 @@ def _organization(key):
     cur.execute("""
         UPDATE "user"
         SET
+            organization_key = %s,
             role = %s,
             manager_email = %s
         WHERE key = %s
         RETURNING *;
     """, (
+        organization_key,
         role,
         manager_email,
         user["key"]
@@ -341,8 +353,7 @@ def email_1_old_email():
                 user["key"],
                 user["email"],
                 "change email"
-            ),
-            organization_name=organization["name"]
+            )
         )
     )
 
@@ -408,14 +419,22 @@ def email_3_new_email():
             "error": "invalid request"
         })
 
+    cur.execute("""
+        SELECT * FROM organization WHERE key = %s;
+    """, (user["organization_key"], user["organization_key"]))
+    org = cur.fetchone()
+
     error = None
     if "email" not in request.json or not request.json["email"]:
         error = "this field is required"
     elif not re.match(r"\S+@\S+\.\S+", request.json["email"]):
         error = "invalid email"
-    elif organization["email_domains"] != [] and not request.json[
-            "email"].endswith(tuple(organization["email_domains"])):
-        error = f"Please enter a valid {organization['name']} email address"
+    elif (
+        org
+        and org["email_domains"] != []
+        and not request.json["email"].endswith(tuple(org["email_domains"]))
+    ):
+        error = f"Please enter a valid {org['name']} email address"
     if error:
         db_close(con, cur)
         return jsonify({
@@ -451,8 +470,7 @@ def email_3_new_email():
                 request.json["email"],
                 "change email",
                 False
-            ),
-            organization_name=organization["name"]
+            )
         )
     )
 
@@ -482,12 +500,18 @@ def email_4_new_code():
             "error": "invalid request"
         })
 
+    cur.execute("""
+        SELECT * FROM organization WHERE key = %s;
+    """, (user["organization_key"], user["organization_key"]))
+    org = cur.fetchone()
+
     if (
         "email" not in request.json or not request.json["email"]
         or not re.match(r"\S+@\S+\.\S+", request.json["email"])
         or (
-            organization["email_domains"] != [] and not request.json[
-            "email"].endswith(tuple(organization["email_domains"]))
+            org
+            and org["email_domains"] != []
+            and not request.json["email"].endswith(tuple(org["email_domains"]))
         )
     ):
         db_close(con, cur)
@@ -576,8 +600,7 @@ def password_1_email():
                 user["key"],
                 user["email"],
                 "change password"
-            ),
-            organization_name=organization["name"]
+            )
         )
     )
 

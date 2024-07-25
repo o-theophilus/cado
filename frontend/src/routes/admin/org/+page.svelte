@@ -14,7 +14,7 @@
 	import DropPlus from '$lib/dropdown_plus.svelte';
 	import Search from '$lib/search.svelte';
 
-	import Org from './org.svelte';
+	import One from './one.svelte';
 	import Add from './add.svelte';
 
 	export let data;
@@ -57,7 +57,7 @@
 
 	{#each organizations as x (x.key)}
 		<div animate:flip={{ delay: 0, duration: 250, easing: cubicInOut }}>
-			<Org org={x} />
+			<One org={x} />
 		</div>
 	{:else}
 		no item here

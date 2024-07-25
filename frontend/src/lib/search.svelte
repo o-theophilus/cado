@@ -45,6 +45,7 @@
 	$: set($page.url);
 </script>
 
+<!-- TODO: fix style bug -->
 <IG type="text" {placeholder} bind:value={search} no_pad>
 	<svelte:fragment slot="right">
 		<div class="right">

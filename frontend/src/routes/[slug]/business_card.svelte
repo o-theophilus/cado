@@ -78,7 +78,13 @@
 				</div>
 
 				<div class="right">
-					<img class="logo" src="/logo.png" alt="logo" />
+					<img
+						class="logo"
+						src={$organization.logo || '/logo.png'}
+						alt="{$organization.name} logo"
+						onerror="this.onerror=null; this.src='/logo.png';"
+					/>
+
 					<div class="slogan">{@html $organization.slogan.split(' ').join('&nbsp;')}</div>
 				</div>
 			</div>
@@ -86,7 +92,12 @@
 
 		<div class="card back">
 			<div class="row1">
-				<img src="/logo.png" alt="logo" />
+				<img
+					src={$organization.logo || '/logo.png'}
+					alt="{$organization.name} logo"
+					onerror="this.onerror=null; this.src='/logo.png';"
+				/>
+
 				<span class="slogan">
 					{@html $organization.fullname.split(' ').join('&nbsp;')}
 				</span>

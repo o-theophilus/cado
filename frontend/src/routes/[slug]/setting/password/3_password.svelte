@@ -42,7 +42,7 @@
 	};
 
 	const submit = async () => {
-		$loading = 'loading . . .';
+		$loading = 'Saving Password . . .';
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/password/3`, {
 			method: 'post',
 			headers: {
@@ -56,7 +56,7 @@
 
 		if (resp.status == 200) {
 			$notification = {
-				message: 'Password changed'
+				message: 'Password Changed'
 			};
 			emit('ok');
 		} else {

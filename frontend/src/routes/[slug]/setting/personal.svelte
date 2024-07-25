@@ -31,7 +31,7 @@
 	};
 
 	const submit = async () => {
-		$loading = 'Saving Post . . .';
+		$loading = 'Saving Information . . .';
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/personal/${user.key}`, {
 			method: 'put',
 			headers: {
@@ -50,7 +50,7 @@
 			}
 			emit('open', false);
 			$notification = {
-				message: 'Details Saved'
+				message: 'Information Saved'
 			};
 			window.history.replaceState(history.state, '', `/${resp.user.slug}/setting`);
 		} else {

@@ -10,7 +10,7 @@
 	import Icon from '$lib/icon.svelte';
 	import Signup from './signup.svelte';
 	import Forgot from './forgot_1.email.svelte';
-	import PasswordShow from './password_show.svelte';
+	import ShowPassword from './password_show.svelte';
 	import EmailTemplate from './confirm.template.svelte';
 	import Confirm from './confirm.svelte';
 
@@ -99,7 +99,7 @@
 	>
 		<svelte:fragment slot="right">
 			<div class="right">
-				<PasswordShow bind:show_password />
+				<ShowPassword bind:show_password />
 			</div>
 		</svelte:fragment>
 	</IG>

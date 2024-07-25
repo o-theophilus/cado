@@ -27,6 +27,7 @@
 	}
 </script>
 
+<!-- TODO: fix loading bar -->
 {#if $notification}
 	<section
 		class:bad={$notification.status == 400}

@@ -18,6 +18,14 @@
 	$organization = data.locals.organization;
 </script>
 
+<svelte:head>
+	{#if $organization.icon}
+		<link rel="icon" href={$organization.icon} />
+	{:else}
+		<link rel="icon" href="/favicon.png" />
+	{/if}
+</svelte:head>
+
 <main>
 	<div class="page">
 		<Nav />

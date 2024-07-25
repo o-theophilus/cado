@@ -1,11 +1,14 @@
 <script>
+	import { organization } from '$lib/store.js';
 	import { page } from '$app/stores';
 
 	export let title;
 	export let description;
 	export let image = `${$page.url.origin}/image/hero_image.png`;
 
-	title = `${title} | Wragby`;
+	if ($organization.name) {
+		title = `${title} | ${$organization.name}`;
+	}
 	description = description ? description : title;
 </script>
 
@@ -22,7 +25,6 @@
 	<meta property="og:url" content={$page.url.href} />
 	<meta property="og:type" content="website" />
 
-	
 	<meta name="twitter:title" content={title} />
 	<meta name="twitter:description" content={description} />
 	<meta name="twitter:image" content={image} />

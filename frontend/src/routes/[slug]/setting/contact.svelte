@@ -28,7 +28,7 @@
 	};
 
 	const submit = async () => {
-		$loading = 'Saving Post . . .';
+		$loading = 'Saving Contact . . .';
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/contact/${user.key}`, {
 			method: 'put',
 			headers: {
@@ -44,7 +44,7 @@
 			user = resp.user;
 			emit('open', false);
 			$notification = {
-				message: 'Details Saved'
+				message: 'Contact Saved'
 			};
 		} else {
 			error = resp;

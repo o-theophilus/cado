@@ -28,7 +28,7 @@
 		let formData = new FormData();
 		formData.append('file', file);
 
-		$loading = 'uploading . . .';
+		$loading = 'Uploading Photo . . .';
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/photo`, {
 			method: 'put',
 			headers: {
@@ -45,7 +45,7 @@
 				$me = user;
 			}
 			$notification = {
-				message: 'Photo added'
+				message: 'Photo Uploaded'
 			};
 
 			error.error = resp.error;
@@ -57,7 +57,7 @@
 	const remove = async () => {
 		error = {};
 
-		$loading = 'removing . . .';
+		$loading = 'Deleting Photo . . .';
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/photo`, {
 			method: 'delete',
 			headers: {
@@ -74,7 +74,7 @@
 				$me = user;
 			}
 			$notification = {
-				message: 'Photo removed'
+				message: 'Photo Deleted'
 			};
 		} else {
 			error = resp;

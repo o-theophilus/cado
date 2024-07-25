@@ -29,7 +29,7 @@
 		let formData = new FormData();
 		formData.append('file', file);
 
-		$loading = 'uploading . . .';
+		$loading = 'Uploading Photo . . .';
 		let resp = await fetch(
 			`${import.meta.env.VITE_BACKEND}/organization/${organization.key}/${type}`,
 			{
@@ -45,21 +45,22 @@
 
 		if (resp.status == 200) {
 			organization = resp.organization;
+			console.log(resp.organization);
 			$org = resp.organization;
 			$notification = {
-				message: `${type} added`
+				message: `${type.charAt(0).toUpperCase()}${type.slice(1)} Photo Uploaded`
 			};
-			
+
 			error.error = resp.error;
 		} else {
 			error = resp;
 		}
 	};
-	
+
 	const remove = async () => {
 		error = {};
-		
-		$loading = 'removing . . .';
+
+		$loading = 'Deleting Photo . . .';
 		let resp = await fetch(
 			`${import.meta.env.VITE_BACKEND}/organization/${organization.key}/${type}`,
 			{
@@ -77,7 +78,7 @@
 			organization[type] = null;
 			$org = resp.organization;
 			$notification = {
-				message: `${type} removed`
+				message: `${type.charAt(0).toUpperCase()}${type.slice(1)} Photo Deleted`
 			};
 		} else {
 			error = resp;

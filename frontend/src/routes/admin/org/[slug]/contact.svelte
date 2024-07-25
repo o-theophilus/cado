@@ -53,7 +53,7 @@
 	};
 
 	const submit = async () => {
-		$loading = 'Saving Post . . .';
+		$loading = 'Saving Contact . . .';
 		let resp = await fetch(
 			`${import.meta.env.VITE_BACKEND}/organization/contact/${organization.key}`,
 			{
@@ -73,7 +73,7 @@
 			$org = resp.organization;
 			emit('open', false);
 			$notification = {
-				message: 'Details Saved'
+				message: 'Contact Saved'
 			};
 		} else {
 			error = resp;
@@ -120,7 +120,7 @@
 		/>
 
 		<div class="line">
-			<label>Address</label>
+			<span class="label">Address</span>
 			<BRound
 				icon="add"
 				on:click={() => {
@@ -159,20 +159,9 @@
 	.error {
 		margin: var(--sp2) 0;
 	}
-	label {
+	.label {
 		font-size: 0.8em;
 	}
-	.dropdown {
-		margin-top: var(--sp1);
-	}
-	.dropdown div {
-		padding: var(--sp2);
-		font-size: 0.8rem;
-		background-color: var(--bg2);
-
-		border-radius: var(--sp0);
-	}
-
 	.line {
 		display: flex;
 		align-items: center;

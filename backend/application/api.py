@@ -7,6 +7,7 @@ import os
 bp = Blueprint("api", __name__)
 
 
+# TODO: test this
 @bp.get("/cron")
 def cron():
     clean_photo()
@@ -15,7 +16,6 @@ def cron():
     })
 
 
-@bp.get("/fix")
 def create_tables():
     con, cur = db_open()
 
@@ -71,6 +71,7 @@ def general_fix():
     })
 
 
+@bp.get("/fix")
 def fix_access():
     con, cur = db_open()
 

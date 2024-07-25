@@ -1,43 +1,13 @@
 from flask import Blueprint, jsonify, request
 from .tools import (
     token_tool, token_to_user, user_schema, send_mail, reserved_words,
-    generate_code, check_code)
+    generate_code, check_code, org_schema)
 from uuid import uuid4
 import re
 from werkzeug.security import generate_password_hash, check_password_hash
 from .postgres import db_open, db_close
 
 bp = Blueprint("account", __name__)
-
-max_age = 3600
-
-
-organization = {
-    "name": 'Wragby',
-    "whatsapp": '2349087733358',
-    "linkedin": 'https://www.linkedin.com/in/wragbysolutions/',
-    "twitter": 'https://twitter.com/wragbyng',
-    "facebook": 'https://m.facebook.com/wragbysolutions',
-    "instagram": 'https://www.instagram.com/wragby_ng/',
-
-    "phone": "+2349087733358",
-    "email": "info@wragbysolutions.com",
-    "website": "www.wragbysolutions.com",
-    "address": [
-        {
-            "name": "lagos",
-            "address": """Plot 21A Olubunmi Rotimi Street, off Abike Sulaiman
-                Street, Lekki Phase 1, Lagos 105102, Nigeria.""",
-            "url": "https://maps.app.goo.gl/WZNYkkKXp8sU599W7"
-        },
-        {
-            "name": "abuja",
-            "address": "1338 Leo Stan Ekeh Way, Area 3, Abuja, Nigeria.",
-            "url": "https://maps.app.goo.gl/vn3VqzfyUXimDCYp7"
-        }
-    ],
-    "email_domains": ["@wragbysolutions.com", "@gmail.com"]
-}
 
 
 @bp.post("/init")
@@ -66,21 +36,20 @@ def init():
 
         token = token_tool().dumps(user["key"])
 
-    cur.execute("""SELECT * FROM organization WHERE slug = %s;""", ("wragby",))
+    # TODO: wragby fix
+    cur.execute(
+        """SELECT * FROM organization WHERE email = %s;""",
+        ("info@wragbysolutions.com",))
     org = cur.fetchone()
     if not org:
         org = {}
-    if org["logo"]:
-        org["logo"] = f"{request.host_url}photo/{org['logo']}"
-    if org["icon"]:
-        org["icon"] = f"{request.host_url}photo/{org['icon']}"
 
     db_close(con, cur)
     return jsonify({
         "status": 200,
         "user": user_schema(user),
         "token": token,
-        "organization": org
+        "organization": org_schema(org)
     })
 
 
@@ -118,10 +87,7 @@ def signup():
         error["email"] = "this field is required"
     elif not re.match(r"\S+@\S+\.\S+", request.json["email"]):
         error["email"] = "Please enter a valid email"
-    elif organization["email_domains"] != [] and not request.json[
-            "email"].endswith(tuple(organization["email_domains"])):
-        error["email"
-              ] = f"Please enter a valid {organization['name']} email address"
+
     else:
         cur.execute('SELECT * FROM "user" WHERE email = %s;', (
             request.json["email"],))
@@ -183,15 +149,22 @@ def signup():
     if cur.fetchone() or slug in reserved_words:
         slug = f"{slug}-{str(uuid4().hex)[:10]}"
 
+    # TODO: wragby fix
+    cur.execute(
+        """SELECT * FROM organization WHERE email = %s;""",
+        ("info@wragbysolutions.com",))
+    org = cur.fetchone()
+
     cur.execute("""
         UPDATE "user"
         SET
-            slug = %s, firstname = %s, lastname = %s, email = %s,
-            password = %s, status = 'signedup'
+            slug = %s, organization_key = %s, firstname = %s, lastname = %s,
+            email = %s, password = %s, status = 'signedup'
         WHERE key = %s
         RETURNING *;
     """, (
         slug,
+        org["key"] if org else None,
         request.json["firstname"],
         request.json["lastname"],
         request.json["email"],
@@ -210,8 +183,7 @@ def signup():
                 user["key"],
                 user["email"],
                 "signup"
-            ),
-            organization_name=organization["name"]
+            )
         )
     )
 
@@ -335,9 +307,7 @@ def login():
                     in_user["key"],
                     in_user["email"],
                     "login"
-                ),
-                organization_name=organization["name"]
-
+                )
             )
         )
         db_close(con, cur)
@@ -455,8 +425,7 @@ def forgot_1_email():
                 user["key"],
                 user["email"],
                 "forgot password"
-            ),
-            organization_name=organization["name"]
+            )
         )
     )
 
