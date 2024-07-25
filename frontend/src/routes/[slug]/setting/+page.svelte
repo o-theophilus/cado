@@ -18,6 +18,7 @@
 	export let data;
 	let user = data.user;
 	let open = null;
+	let back = '';
 
 	const set_open = (name, state) => {
 		if (state) {
@@ -34,7 +35,7 @@
 	<Content>
 		<div class="title">
 			<div class="left">
-				<Back />
+				<Back {back} />
 				<strong class="ititle"> Setting </strong>
 			</div>
 		</div>
@@ -55,6 +56,9 @@
 				open={open == 'personal'}
 				on:open={(e) => {
 					set_open('personal', e.detail);
+				}}
+				on:back={(e) => {
+					back = e.detail;
 				}}
 			/>
 		{/if}

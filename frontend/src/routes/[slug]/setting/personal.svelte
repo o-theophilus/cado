@@ -49,6 +49,7 @@
 				$me = resp.user;
 			}
 			emit('open', false);
+			emit('back', `/${resp.user.slug}`);
 			$notification = {
 				message: 'Information Saved'
 			};

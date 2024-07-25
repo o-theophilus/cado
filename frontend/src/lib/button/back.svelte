@@ -1,6 +1,8 @@
 <script>
+	import { goto } from '$app/navigation';
 	import BRound from '$lib/button/round.svelte';
 
+	export let back = '';
 	let disabled = false;
 </script>
 
@@ -8,9 +10,12 @@
 	icon="arrow_back"
 	large
 	on:click={() => {
-		window.history.back();
-		disabled = true;
+		if (back) {
+			goto(back);
+		} else {
+			window.history.back();
+			disabled = true;
+		}
 	}}
 	{disabled}
 />
-
