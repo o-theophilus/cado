@@ -15,6 +15,7 @@
 	let organization = data.organization;
 	let types = ['logo', 'icon'];
 	let open = null;
+	let back = '';
 
 	const set_open = (name, state) => {
 		if (state) {
@@ -31,7 +32,7 @@
 	<Content>
 		<div class="title">
 			<div class="left">
-				<Back />
+				<Back {back} />
 				<strong class="ititle"> Setting </strong>
 			</div>
 		</div>
@@ -55,6 +56,9 @@
 				open={open == 'organization'}
 				on:open={(e) => {
 					set_open('organization', e.detail);
+				}}
+				on:back={(e) => {
+					back = e.detail;
 				}}
 			/>
 		{/if}

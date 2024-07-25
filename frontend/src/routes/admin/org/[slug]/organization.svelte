@@ -67,10 +67,11 @@
 			organization = resp.organization;
 			$org = resp.organization;
 			emit('open', false);
+			emit('back', '/admin');
 			$notification = {
 				message: 'Information Saved'
 			};
-			window.history.replaceState(history.state, '', `/organization/${resp.organization.slug}`);
+			window.history.replaceState(history.state, '', `/admin/org/${resp.organization.slug}`);
 		} else {
 			error = resp;
 		}
