@@ -38,7 +38,7 @@
 		$loading = false;
 
 		if (resp.status == 200) {
-			$token = resp.data.token;
+			$token = resp.token;
 			document.location = '/';
 		} else {
 			error = resp;

@@ -145,7 +145,8 @@ def organization(key):
     role = None
     manager_email = None
 
-    # if "organization_key" in request.json and request.json["organization_key"]:
+    # if "organization_key" in
+    #  request.json and request.json["organization_key"]:
     #     cur.execute("""
     #         SELECT * FROM organization WHERE key = %s;
     #     """, (request.json["organization_key"],))
@@ -754,15 +755,20 @@ def delete(key):
 
     cur.execute("""DELETE FROM "user" WHERE key = %s;""", (user["key"],))
 
+    key = uuid4().hex
     cur.execute("""
-        INSERT INTO "user" (key, version, email, password, setting_theme)
-        VALUES (%s, %s, %s, %s, %s)
-        RETURNING *;
-    """, (
-        uuid4().hex, uuid4().hex, uuid4().hex,
-        generate_password_hash(uuid4().hex, method="scrypt"),
-        user["setting_theme"]
-    ))
+            INSERT INTO "user" (
+                key, slug, firstname, lastname, email, password)
+            VALUES (%s, %s, %s, %s, %s, %s)
+            RETURNING *;
+        """, (
+        key,
+        key,
+        key[:4],
+        "user",
+        uuid4().hex,
+        generate_password_hash(uuid4().hex, method="scrypt"))
+    )
     anon_user = cur.fetchone()
 
     db_close(con, cur)

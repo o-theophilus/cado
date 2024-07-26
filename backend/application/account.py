@@ -317,6 +317,7 @@ def login():
 
     print(7)
     if in_user["status"] != "confirmed":
+        print(7.5)
         send_mail(
             in_user["email"],
             "Email Confirmation code",
