@@ -91,9 +91,11 @@ def check_code(cur, key, email, n="code"):
 
 
 def send_mail(to, subject, body):
+    print(1)
     if current_app.config["DEBUG"]:
         print(body)
     else:
+        print(2)
         proton = ProtonMail()
         proton.login(os.environ["MAIL_USERNAME"], os.environ["MAIL_PASSWORD"])
 
