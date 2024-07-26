@@ -30,7 +30,7 @@
 			form.password.length > 18
 		) {
 			error.password =
-				'Password must include at least 1 lowercase letter, 1 uppercase letter, 1 number and must contain 8 - 18 characters';
+				'must include at least 1 lowercase letter, 1 uppercase letter, 1 number and must contain 8 - 18 characters';
 		}
 
 		if (!form.confirm_password) {

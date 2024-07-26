@@ -84,7 +84,6 @@
 		{/if}
 
 		{#if $user.access.includes('organization:delete')}
-			<!-- TODO: Make functional -->
 			<br />
 			<strong class="ititle title"> Advanced </strong>
 

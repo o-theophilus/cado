@@ -6,9 +6,10 @@
 	import BRound from '$lib/button/round.svelte';
 </script>
 
-<!-- TODO: module should always me maximum width -->
 {#if $module}
 	<section>
+		<div />
+
 		<div class="block" transition:scale|local={{ delay: 0, duration: 200, easing: backInOut }}>
 			<div class="close">
 				<BRound
@@ -24,6 +25,8 @@
 				<svelte:component this={$module.module} />
 			</div>
 		</div>
+
+		<div />
 	</section>
 {/if}
 
@@ -31,7 +34,7 @@
 	section {
 		display: grid;
 		align-items: center;
-		justify-content: center;
+		grid-template-columns: 1fr min(400px, 100%) 1fr;
 
 		position: fixed;
 		inset: 0;
