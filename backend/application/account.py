@@ -57,30 +57,25 @@ def init():
 def signup():
     con, cur = db_open()
 
-    print(1)
     user = token_to_user(cur)
     if not user:
-        print(2)
         db_close(con, cur)
         return jsonify({
             "status": 400,
             "error": "invalid token"
         })
 
-    print(3)
     if (
         user["login"]
         or "email_template" not in request.json
         or not request.json["email_template"]
     ):
-        print(4)
         db_close(con, cur)
         return jsonify({
             "status": 400,
             "error": "invalid request"
         })
 
-    print(5)
     error = {}
 
     if "firstname" not in request.json or not request.json["firstname"]:
@@ -121,16 +116,13 @@ def signup():
         error["confirm_password"] = """password and confirm password does not
         match"""
 
-    print(6)
     if error != {}:
-        print(7)
         db_close(con, cur)
         return jsonify({
             "status": 400,
             **error
         })
 
-    print(8)
     if user["status"] != "anonymous":
         key = uuid4().hex
         cur.execute("""
@@ -146,7 +138,6 @@ def signup():
             uuid4().hex,
             generate_password_hash(uuid4().hex, method="scrypt")))
 
-    print(9)
     _name = f"{request.json['firstname'][0]}{request.json['lastname']}"
     slug = re.sub(
         '-+', '-', re.sub(
@@ -159,13 +150,11 @@ def signup():
         slug = f"{slug}-{str(uuid4().hex)[:10]}"
 
     # TODO: wragby fix
-    print(10)
     cur.execute(
         """SELECT * FROM organization WHERE email = %s;""",
         ("info@wragbysolutions.com",))
     org = cur.fetchone()
 
-    print(11)
     cur.execute("""
         UPDATE "user"
         SET
@@ -183,7 +172,6 @@ def signup():
         user["key"]
     ))
     user = cur.fetchone()
-    print(12)
 
     send_mail(
         user["email"],
@@ -198,7 +186,6 @@ def signup():
             )
         )
     )
-    print(13)
 
     db_close(con, cur)
     return jsonify({
@@ -257,30 +244,25 @@ def confirm():
 def login():
     con, cur = db_open()
 
-    print(1)
     out_user = token_to_user(cur)
     if not out_user:
-        print(2)
         db_close(con, cur)
         return jsonify({
             "status": 400,
             "error": "invalid token"
         })
 
-    print(3)
     if (
         out_user["login"]
         or "email_template" not in request.json
         or not request.json["email_template"]
     ):
-        print(4)
         db_close(con, cur)
         return jsonify({
             "status": 400,
             "error": "invalid request"
         })
 
-    print(5)
     error = {}
     if "email" not in request.json or not request.json["email"]:
         error["email"] = "this field is required"
@@ -288,7 +270,6 @@ def login():
         error["password"] = "this field is required"
 
     if error != {}:
-        print(6)
         db_close(con, cur)
         return jsonify({
             "status": 400,
@@ -315,9 +296,7 @@ def login():
             "error": "your email or password is incorrect"
         })
 
-    print(7)
     if in_user["status"] != "confirmed":
-        print(7.5)
         send_mail(
             in_user["email"],
             "Email Confirmation code",
@@ -331,20 +310,17 @@ def login():
                 )
             )
         )
-        print(8)
         db_close(con, cur)
         return jsonify({
             "status": 400,
             "error": "not confirmed"
         })
 
-    print(9)
     cur.execute("""
         UPDATE "user" SET login = %s
         WHERE key = %s RETURNING *;""", (
         True, in_user["key"]
     ))
-    print(10)
     cur.execute("""
         UPDATE "user"
         SET status = 'deleted', login = %s
@@ -353,7 +329,6 @@ def login():
         False, out_user["key"]
     ))
 
-    print(11)
     db_close(con, cur)
     return jsonify({
         "status": 200,
