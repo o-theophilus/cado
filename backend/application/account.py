@@ -257,25 +257,30 @@ def confirm():
 def login():
     con, cur = db_open()
 
+    print(1)
     out_user = token_to_user(cur)
     if not out_user:
+        print(2)
         db_close(con, cur)
         return jsonify({
             "status": 400,
             "error": "invalid token"
         })
 
+    print(3)
     if (
         out_user["login"]
         or "email_template" not in request.json
         or not request.json["email_template"]
     ):
+        print(4)
         db_close(con, cur)
         return jsonify({
             "status": 400,
             "error": "invalid request"
         })
 
+    print(5)
     error = {}
     if "email" not in request.json or not request.json["email"]:
         error["email"] = "this field is required"
@@ -283,6 +288,7 @@ def login():
         error["password"] = "this field is required"
 
     if error != {}:
+        print(6)
         db_close(con, cur)
         return jsonify({
             "status": 400,
@@ -309,6 +315,7 @@ def login():
             "error": "your email or password is incorrect"
         })
 
+    print(7)
     if in_user["status"] != "confirmed":
         send_mail(
             in_user["email"],
@@ -323,17 +330,20 @@ def login():
                 )
             )
         )
+        print(8)
         db_close(con, cur)
         return jsonify({
             "status": 400,
             "error": "not confirmed"
         })
 
+    print(9)
     cur.execute("""
         UPDATE "user" SET login = %s
         WHERE key = %s RETURNING *;""", (
         True, in_user["key"]
     ))
+    print(10)
     cur.execute("""
         UPDATE "user"
         SET status = 'deleted', login = %s
@@ -342,6 +352,7 @@ def login():
         False, out_user["key"]
     ))
 
+    print(11)
     db_close(con, cur)
     return jsonify({
         "status": 200,
