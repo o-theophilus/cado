@@ -316,7 +316,7 @@ def edit_slug(key):
     error = {}
     if "slug" not in request.json or not request.json["slug"]:
         error["error"] = "invalid request"
-    elif user["key"] != key and "user:edit_slug" not in user["access"]:
+    elif "user:edit_slug" not in user["access"]:
         error["error"] = "unauthorized access"
 
     if "password" not in request.json or not request.json["password"]:

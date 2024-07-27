@@ -91,7 +91,7 @@
 		</Button>
 	</div>
 
-	{#if user.key == $me.key || $me.access.some( (x) => ['user:edit_photo', 'user:edit_personal', 'user:edit_organization', 'user:edit_contact', 'user:edit_social_media', 'user:edit_access', 'user:delete'].includes(x) )}
+	{#if user.key == $me.key || $me.access.some( (x) => ['user:edit_photo', 'user:edit_personal', 'user:edit_organization', 'user:edit_contact', 'user:edit_social_media', 'user:edit_slug', 'user:edit_access', 'user:delete'].includes(x) )}
 		<div class="settings">
 			<Link href="/{user.slug}/setting">
 				<div class="row">

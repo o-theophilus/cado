@@ -18,6 +18,7 @@ export const load = async ({ fetch, params, parent }) => {
             "user:edit_organization",
             "user:edit_contact",
             "user:edit_social_media",
+            "user:edit_slug",
             "user:edit_access",
             "user:delete",
         ].includes(x))) {

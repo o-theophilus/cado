@@ -94,7 +94,7 @@
 		<br />
 		<strong class="ititle title"> Advanced </strong>
 
-		{#if $me.key == user.key || $me.access.includes('user:edit_slug')}
+		{#if $me.access.includes('user:edit_slug')}
 			<Slug
 				{user}
 				open={open == 'slug'}
