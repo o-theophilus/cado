@@ -180,7 +180,7 @@
 		width: 100%;
 	}
 	.front .name {
-		font-weight: 800;
+		font-weight: 700;
 		font-size: calc(1.2rem * var(--size));
 		color: var(--ft1);
 	}

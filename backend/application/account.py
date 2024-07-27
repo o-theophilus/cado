@@ -10,6 +10,24 @@ from .postgres import db_open, db_close
 bp = Blueprint("account", __name__)
 
 
+def anon(cur):
+    key = uuid4().hex
+    cur.execute("""
+            INSERT INTO "user" (
+                key, slug, firstname, lastname, email, password)
+            VALUES (%s, %s, %s, %s, %s, %s)
+            RETURNING *;
+        """, (
+        key,
+        key,
+        key[:4],
+        "user",
+        uuid4().hex,
+        generate_password_hash(uuid4().hex, method="scrypt"))
+    )
+    return cur.fetchone()
+
+
 @bp.post("/init")
 def init():
     con, cur = db_open()
@@ -18,22 +36,7 @@ def init():
     user = token_to_user(cur)
 
     if not user or user["status"] == "confirmed" and not user["login"]:
-        key = uuid4().hex
-        cur.execute("""
-                INSERT INTO "user" (
-                    key, slug, firstname, lastname, email, password)
-                VALUES (%s, %s, %s, %s, %s, %s)
-                RETURNING *;
-            """, (
-            key,
-            key,
-            key[:4],
-            "user",
-            uuid4().hex,
-            generate_password_hash(uuid4().hex, method="scrypt"))
-        )
-        user = cur.fetchone()
-
+        user = anon(cur)
         token = token_tool().dumps(user["key"])
 
     # TODO: wragby fix
@@ -83,15 +86,17 @@ def signup():
     if "lastname" not in request.json or not request.json["lastname"]:
         error["lastname"] = "this field is required"
 
+    _user = None
+
     if "email" not in request.json or not request.json["email"]:
         error["email"] = "this field is required"
     elif not re.match(r"\S+@\S+\.\S+", request.json["email"]):
         error["email"] = "Please enter a valid email"
-
     else:
         cur.execute('SELECT * FROM "user" WHERE email = %s;', (
             request.json["email"],))
-        if cur.fetchone():
+        _user = cur.fetchone()
+        if _user and _user["status"] == "confirmed":
             error["email"] = "email taken"
 
     if "password" not in request.json or not request.json["password"]:
@@ -123,29 +128,17 @@ def signup():
             **error
         })
 
-    if user["status"] != "anonymous":
-        key = uuid4().hex
-        cur.execute("""
-            INSERT INTO "user" (
-                key, slug, firstname, lastname, email, password)
-            VALUES (%s, %s, %s, %s, %s, %s)
-            RETURNING *;
-        """, (
-            key,
-            key,
-            f"user_{key[:4]}",
-            f"user_{key[-4:]}",
-            uuid4().hex,
-            generate_password_hash(uuid4().hex, method="scrypt")))
+    if _user:
+        user = _user
+    elif user["status"] != "anonymous":
+        user = anon(cur)
 
-    _name = f"{request.json['firstname'][0]}{request.json['lastname']}"
-    slug = re.sub(
-        '-+', '-', re.sub(
-            '[^a-zA-Z0-9]', '-',
-            _name.lower()
-        )
+    slug = re.sub('-+', '-', re.sub(
+        '[^a-zA-Z0-9]', '-',
+        f"{request.json['firstname'][0]}{request.json['lastname']}".lower())
     )
-    cur.execute('SELECT * FROM "user" WHERE slug = %s;', (slug,))
+    cur.execute('SELECT * FROM "user" WHERE key != %s AND slug = %s;',
+                (user["key"], slug))
     if cur.fetchone() or slug in reserved_words:
         slug = f"{slug}-{str(uuid4().hex)[:10]}"
 
@@ -158,17 +151,19 @@ def signup():
     cur.execute("""
         UPDATE "user"
         SET
-            slug = %s, organization_key = %s, firstname = %s, lastname = %s,
-            email = %s, password = %s, status = 'signedup'
+            slug = %s, firstname = %s, lastname = %s,
+            email = %s, password = %s,
+            organization_key = %s, office_location = %s
         WHERE key = %s
         RETURNING *;
     """, (
         slug,
-        org["key"] if org else None,
         request.json["firstname"],
         request.json["lastname"],
         request.json["email"],
         generate_password_hash(request.json["password"], method="scrypt"),
+        org["key"] if org else None,
+        org["address"][0]["name"] if org and org["address"] != [] else None,
         user["key"]
     ))
     user = cur.fetchone()
@@ -213,7 +208,7 @@ def confirm():
         SELECT * FROM "user" WHERE email = %s
     ;""", (request.json["email"],))
     user = cur.fetchone()
-    if not user or user["status"] != 'signedup':
+    if not user:
         db_close(con, cur)
         return jsonify({
             "status": 400,
@@ -244,17 +239,8 @@ def confirm():
 def login():
     con, cur = db_open()
 
-    out_user = token_to_user(cur)
-    if not out_user:
-        db_close(con, cur)
-        return jsonify({
-            "status": 400,
-            "error": "invalid token"
-        })
-
     if (
-        out_user["login"]
-        or "email_template" not in request.json
+        "email_template" not in request.json
         or not request.json["email_template"]
     ):
         db_close(con, cur)
@@ -276,19 +262,16 @@ def login():
             **error
         })
 
-    in_user = None
-    if out_user["email"] == request.json["email"]:
-        in_user = out_user
-    else:
-        cur.execute('SELECT * FROM "user" WHERE email = %s;',
-                    (request.json["email"],))
-        in_user = cur.fetchone()
+    cur.execute(
+        'SELECT * FROM "user" WHERE email = %s;',
+        (request.json["email"],)
+    )
+    user = cur.fetchone()
 
     if (
-        not in_user
-        or in_user["status"] not in ['signedup', 'confirmed']
+        not user
         or not check_password_hash(
-            in_user["password"], request.json["password"])
+            user["password"], request.json["password"])
     ):
         db_close(con, cur)
         return jsonify({
@@ -296,16 +279,16 @@ def login():
             "error": "your email or password is incorrect"
         })
 
-    if in_user["status"] != "confirmed":
+    if user["status"] != "confirmed":
         send_mail(
-            in_user["email"],
+            user["email"],
             "Email Confirmation code",
             request.json['email_template'].format(
-                firstname=in_user["firstname"],
+                firstname=user["firstname"],
                 code=generate_code(
                     cur,
-                    in_user["key"],
-                    in_user["email"],
+                    user["key"],
+                    user["email"],
                     "login"
                 )
             )
@@ -319,20 +302,20 @@ def login():
     cur.execute("""
         UPDATE "user" SET login = %s
         WHERE key = %s RETURNING *;""", (
-        True, in_user["key"]
+        True, user["key"]
     ))
-    cur.execute("""
-        UPDATE "user"
-        SET status = 'deleted', login = %s
-        WHERE key = %s AND status = 'anonymous'
-        RETURNING *;""", (
-        False, out_user["key"]
-    ))
+
+    out_user = token_to_user(cur)
+    if out_user and out_user["status"] == 'anonymous':
+        cur.execute(
+            """DELETE FROM "user" WHERE key = %s;""",
+            (out_user["key"],)
+        )
 
     db_close(con, cur)
     return jsonify({
         "status": 200,
-        "token": token_tool().dumps(in_user["key"])
+        "token": token_tool().dumps(user["key"])
     })
 
 
@@ -354,27 +337,68 @@ def logout():
         False, user["key"]
     ))
 
-    key = uuid4().hex
-    cur.execute("""
-        INSERT INTO "user" (
-            key, slug, firstname, lastname, email, password)
-        VALUES (%s, %s, %s, %s, %s, %s)
-        RETURNING *;
-    """, (
-        key,
-        key,
-        f"user_{key[:4]}",
-        f"user_{key[-4:]}",
-        uuid4().hex,
-        generate_password_hash(uuid4().hex, method="scrypt")
-    ))
-    anon_user = cur.fetchone()
+    user = anon(cur)
 
     db_close(con, cur)
     return jsonify({
         "status": 200,
-        "user": user_schema(anon_user),
-        "token": token_tool().dumps(anon_user["key"])
+        "user": user_schema(user),
+        "token": token_tool().dumps(user["key"])
+    })
+
+
+@ bp.delete("/user/<key>")
+def delete(key):
+    con, cur = db_open()
+
+    user = token_to_user(cur)
+    if not user:
+        db_close(con, cur)
+        return jsonify({
+            "status": 400,
+            "error": "invalid token"
+        })
+
+    if "password" not in request.json or not request.json["password"]:
+        db_close(con, cur)
+        return jsonify({
+            "status": 400,
+            "password": "this field is required"
+        })
+
+    if not check_password_hash(user["password"], request.json["password"]):
+        db_close(con, cur)
+        return jsonify({
+            "status": 400,
+            "error": "incorrect password"
+        })
+
+    if user["key"] != key:
+        if "user:delete" not in user["access"]:
+            db_close(con, cur)
+            return jsonify({
+                "status": 400,
+                "error": "unauthorized access"
+            })
+        else:
+            cur.execute("""SELECT * FROM "user" WHERE key = %s;""", (key,))
+            user = cur.fetchone()
+            if not user:
+                db_close(con, cur)
+                return jsonify({
+                    "status": 400,
+                    "error": "invalid request"
+                })
+
+    cur.execute("""DELETE FROM "user" WHERE key = %s;""", (user["key"],))
+
+    user = anon(cur)
+
+    db_close(con, cur)
+    return jsonify({
+        "status": 200,
+        "user": user_schema(user),
+        "token": token_tool().dumps(user["key"])
     })
 
 
@@ -408,7 +432,7 @@ def forgot_1_email():
         SELECT * FROM "user" WHERE email = %s
     ;""", (request.json["email"],))
     user = cur.fetchone()
-    if not user or user["status"] not in ['signedup', 'confirmed']:
+    if not user:
         db_close(con, cur)
         return jsonify({
             "status": 400,
@@ -453,7 +477,7 @@ def forgot_2_code():
         SELECT * FROM "user" WHERE email = %s
     ;""", (request.json["email"],))
     user = cur.fetchone()
-    if not user or user["status"] not in ['signedup', 'confirmed']:
+    if not user:
         db_close(con, cur)
         return jsonify({
             "status": 400,
@@ -492,7 +516,7 @@ def forgot_3_password():
         SELECT * FROM "user" WHERE email = %s
     ;""", (request.json["email"],))
     user = cur.fetchone()
-    if not user or user["status"] not in ['signedup', 'confirmed']:
+    if not user:
         db_close(con, cur)
         return jsonify({
             "status": 400,
@@ -542,16 +566,15 @@ def forgot_3_password():
         })
 
     cur.execute("""
-        UPDATE "user" SET password = %s WHERE key = %s;
+        UPDATE "user"
+        SET
+            password = %s,
+            status = 'confirmed'
+        WHERE key = %s;
     """, (
         generate_password_hash(request.json["password"], method="scrypt"),
         user["key"]
     ))
-
-    if user["status"] != "confirmed":
-        cur.execute("""
-            UPDATE "user" SET status = 'confirmed' WHERE key = %s;
-        """, (user["key"],))
 
     cur.execute("DELETE FROM code WHERE user_key = %s;", (user["key"],))
 

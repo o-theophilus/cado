@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from .postgres import db_open, db_close
 from .tools import (
-    token_to_user, user_schema, send_mail, token_tool, reserved_words,
+    token_to_user, user_schema, send_mail, reserved_words,
     generate_code, check_code)
 from uuid import uuid4
 import re
@@ -702,80 +702,6 @@ def password_3_password():
     db_close(con, cur)
     return jsonify({
         "status": 200
-    })
-
-
-@ bp.delete("/user/<key>")
-def delete(key):
-    con, cur = db_open()
-
-    user = token_to_user(cur)
-    if not user:
-        db_close(con, cur)
-        return jsonify({
-            "status": 400,
-            "error": "invalid token"
-        })
-
-    if "password" not in request.json or not request.json["password"]:
-        db_close(con, cur)
-        return jsonify({
-            "status": 400,
-            "password": "this field is required"
-        })
-
-    if not check_password_hash(user["password"], request.json["password"]):
-        db_close(con, cur)
-        return jsonify({
-            "status": 400,
-            "error": "incorrect password"
-        })
-
-    if user["key"] != key:
-        if "user:delete" not in user["access"]:
-            db_close(con, cur)
-            return jsonify({
-                "status": 400,
-                "error": "unauthorized access"
-            })
-        else:
-            cur.execute("""
-                SELECT *
-                FROM "user"
-                WHERE slug = %s OR email = %s OR key = %s;
-            """, (key, key, key))
-            user = cur.fetchone()
-
-            if not user:
-                db_close(con, cur)
-                return jsonify({
-                    "status": 400,
-                    "error": "invalid request"
-                })
-
-    cur.execute("""DELETE FROM "user" WHERE key = %s;""", (user["key"],))
-
-    key = uuid4().hex
-    cur.execute("""
-            INSERT INTO "user" (
-                key, slug, firstname, lastname, email, password)
-            VALUES (%s, %s, %s, %s, %s, %s)
-            RETURNING *;
-        """, (
-        key,
-        key,
-        key[:4],
-        "user",
-        uuid4().hex,
-        generate_password_hash(uuid4().hex, method="scrypt"))
-    )
-    anon_user = cur.fetchone()
-
-    db_close(con, cur)
-    return jsonify({
-        "status": 200,
-        "user": user_schema(anon_user),
-        "token": token_tool().dumps(anon_user["key"])
     })
 
 

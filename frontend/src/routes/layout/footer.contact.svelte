@@ -36,7 +36,7 @@
 {/if}
 
 {#if $organization.address && $organization.address.length != 0}
-	<div class="group">
+	<div class="group address">
 		<Icon icon="location_on" size="1.3" />
 		<div>
 			<div class="label">Address:</div>
@@ -68,5 +68,9 @@
 	.gap {
 		grid-column: 1 / 3;
 		height: var(--sp1);
+	}
+
+	.address {
+		max-width: 500px;
 	}
 </style>
