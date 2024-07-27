@@ -1,10 +1,13 @@
 <script>
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import { module } from '$lib/store.js';
+	import { module, user } from '$lib/store.js';
 
 	import Meta from '$lib/meta.svelte';
+	import Icon from '$lib/icon.svelte';
+	import Button from '$lib/button/button.svelte';
 	import Dialogue from '$lib/dialogue.svelte';
+	import Login from './account/login.svelte';
 
 	onMount(() => {
 		if ($page.url.searchParams.has('module')) {
@@ -39,6 +42,20 @@
 				Store and manage all your essential contact information and social media links. Share your
 				profile with a simple QR code scan, making networking and staying in touch easier than ever.
 			</div>
+
+			{#if !$user.login}
+				<Button
+					primary
+					on:click={() => {
+						$module = {
+							module: Login
+						};
+					}}
+				>
+					Get Started
+					<Icon icon="arrow_forward" />
+				</Button>
+			{/if}
 		</div>
 	</div>
 </div>
@@ -65,6 +82,7 @@
 		max-width: 300px;
 
 		text-shadow: 0 0 10px #0e141b;
+		margin: var(--sp3) 0;
 	}
 
 	.copy {

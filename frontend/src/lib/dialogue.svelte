@@ -17,11 +17,11 @@
 	class:warning={status == 201}
 >
 	{#if status == 200}
-		<Icon icon="check_circle" />
+		<Icon icon="check_circle" size="2" />
 	{:else if status == 400}
-		<Icon icon="cancel" />
+		<Icon icon="cancel" size="2" />
 	{:else if status == 201}
-		<Icon icon="error" />
+		<Icon icon="error" size="2" />
 	{/if}
 	{title}
 </div>
@@ -56,6 +56,8 @@
 		padding-right: var(--sp4);
 
 		color: var(--ft1_b);
+		fill: currentColor;
+		font-weight: 700;
 		text-transform: capitalize;
 	}
 

@@ -32,7 +32,7 @@
 
 	{#if error}
 		<div class="error">
-			{error}
+			{@html error}
 		</div>
 	{/if}
 

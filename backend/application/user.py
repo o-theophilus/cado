@@ -264,7 +264,16 @@ def social(key):
     facebook = None
     instagram = None
     if "whatsapp" in request.json and request.json["whatsapp"]:
-        whatsapp = request.json["whatsapp"]
+        whatsapp = request.json["whatsapp"].replace(' ', '')
+        if not re.match(r'^\+\d{1,3}\d*$', whatsapp):
+            db_close(con, cur)
+            return jsonify({
+                "status": 400,
+                "whatsapp":  """Invalid phone number. Phone number should \
+                    start with a "+" followed by the country code and then \
+                    the phone number. For example, +2348012345678."""
+            })
+
     if "linkedin" in request.json and request.json["linkedin"]:
         linkedin = request.json["linkedin"]
     if "twitter" in request.json and request.json["twitter"]:

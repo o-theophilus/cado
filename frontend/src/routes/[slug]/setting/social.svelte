@@ -12,13 +12,17 @@
 	export let user;
 	export let open;
 	let form = {
-		user
+		...user
 	};
 
 	let error = {};
 
 	const validate = () => {
 		error = {};
+		if (form.whatsapp && !/^\+\d{1,3}[\d]*$/.test(form.whatsapp.replace(/\s+/g, ''))) {
+			error.whatsapp =
+				'Invalid phone number. Phone number should start with a "+" followed by the country code and then the phone number. For example, +2348012345678.';
+		}
 
 		Object.keys(error).length === 0 && submit();
 	};
@@ -62,7 +66,7 @@
 			type="text"
 			icon="whatsapp"
 			icon_size="1"
-			placeholder="Whatsapp number"
+			placeholder="Whatsapp number (e.g. +2348012345678)"
 			error={error.whatsapp}
 			bind:value={form.whatsapp}
 		/>
