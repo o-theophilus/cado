@@ -10,6 +10,7 @@
 	import Organization from './organization.svelte';
 	import Contact from './contact.svelte';
 	import Social from './social.svelte';
+	import Slug from './slug/index.svelte';
 	import Email from './email/index.svelte';
 	import Password from './password/index.svelte';
 	import Access from './access/index.svelte';
@@ -57,9 +58,6 @@
 				on:open={(e) => {
 					set_open('personal', e.detail);
 				}}
-				on:back={(e) => {
-					back = e.detail;
-				}}
 			/>
 		{/if}
 
@@ -95,6 +93,19 @@
 
 		<br />
 		<strong class="ititle title"> Advanced </strong>
+
+		{#if $me.key == user.key || $me.access.includes('user:edit_slug')}
+			<Slug
+				{user}
+				open={open == 'slug'}
+				on:open={(e) => {
+					set_open('slug', e.detail);
+				}}
+				on:back={(e) => {
+					back = e.detail;
+				}}
+			/>
+		{/if}
 
 		{#if $me.key == user.key}
 			<Email

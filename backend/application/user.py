@@ -3,7 +3,6 @@ from .postgres import db_open, db_close
 from .tools import (
     token_to_user, user_schema, send_mail, reserved_words,
     generate_code, check_code)
-from uuid import uuid4
 import re
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -65,36 +64,17 @@ def personal(key):
     if "about_me" in request.json and request.json["about_me"]:
         about_me = request.json["about_me"]
 
-    slug = user["slug"]
-    if (
-        user["firstname"] != request.json["firstname"]
-        or user["lastname"] != request.json["lastname"]
-    ):
-        _name = f"{request.json['firstname'][0]}{request.json['lastname']}"
-        slug = re.sub(
-            '-+', '-', re.sub(
-                '[^a-zA-Z0-9]', '-',
-                _name.lower()
-            )
-        )
-        cur.execute('SELECT * FROM "user" WHERE key != %s AND slug = %s;',
-                    (user["key"], slug))
-        if cur.fetchone() or slug in reserved_words:
-            slug = f"{slug}-{str(uuid4().hex)[:10]}"
-
     cur.execute("""
         UPDATE "user"
         SET
-            slug = %s,
             firstname = %s,
             lastname = %s,
             about_me = %s
         WHERE key = %s
         RETURNING *;
     """, (
-        slug,
-        request.json["firstname"],
-        request.json["lastname"],
+        request.json["firstname"].strip(),
+        request.json["lastname"].strip(),
         about_me,
         user["key"]
     ))
@@ -312,6 +292,77 @@ def social(key):
         instagram,
         user["key"]
     ))
+    user = cur.fetchone()
+
+    db_close(con, cur)
+    return jsonify({
+        "status": 200,
+        "user": user_schema(user)
+    })
+
+
+@bp.put("/user/slug/<key>")
+def edit_slug(key):
+    con, cur = db_open()
+
+    user = token_to_user(cur)
+    if not user:
+        db_close(con, cur)
+        return jsonify({
+            "status": 400,
+            "error": "invalid token"
+        })
+
+    error = {}
+    if "slug" not in request.json or not request.json["slug"]:
+        error["error"] = "invalid request"
+    elif user["key"] != key and "user:edit_slug" not in user["access"]:
+        error["error"] = "unauthorized access"
+
+    if "password" not in request.json or not request.json["password"]:
+        error["password"] = "this field is required"
+    elif not check_password_hash(user["password"], request.json["password"]):
+        error["password"] = "incorrect password"
+
+    if error != {}:
+        db_close(con, cur)
+        return jsonify({
+            "status": 400,
+            **error
+        })
+
+    if user["key"] != key:
+        cur.execute("""
+            SELECT *
+            FROM "user"
+            WHERE slug = %s OR email = %s OR key = %s;
+        """, (key, key, key))
+        user = cur.fetchone()
+        if not user:
+            db_close(con, cur)
+            return jsonify({
+                "status": 400,
+                "error": "invalid request"
+            })
+
+    slug = re.sub(
+        '-+', '-', re.sub(
+            '[^a-zA-Z0-9]', '-',
+            request.json["slug"].strip().lower()
+        )
+    )
+    cur.execute('SELECT * FROM "user" WHERE key != %s AND slug = %s;',
+                (user["key"], slug))
+    if cur.fetchone() or slug in reserved_words:
+        db_close(con, cur)
+        return jsonify({
+            "status": 400,
+            "slug": "not available"
+        })
+
+    cur.execute("""
+        UPDATE "user" SET slug = %s WHERE key = %s RETURNING *;
+    """, (slug, user["key"]))
     user = cur.fetchone()
 
     db_close(con, cur)

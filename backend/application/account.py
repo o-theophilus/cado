@@ -133,9 +133,11 @@ def signup():
     elif user["status"] != "anonymous":
         user = anon(cur)
 
+    _name = f"{request.json['firstname'].strip()[0]}{
+        request.json['lastname'].strip()}"
     slug = re.sub('-+', '-', re.sub(
         '[^a-zA-Z0-9]', '-',
-        f"{request.json['firstname'][0]}{request.json['lastname']}".lower())
+        _name.lower())
     )
     cur.execute('SELECT * FROM "user" WHERE key != %s AND slug = %s;',
                 (user["key"], slug))
@@ -158,8 +160,8 @@ def signup():
         RETURNING *;
     """, (
         slug,
-        request.json["firstname"],
-        request.json["lastname"],
+        request.json["firstname"].strip(),
+        request.json["lastname"].strip(),
         request.json["email"],
         generate_password_hash(request.json["password"], method="scrypt"),
         org["key"] if org else None,

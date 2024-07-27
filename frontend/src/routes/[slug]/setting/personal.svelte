@@ -49,11 +49,9 @@
 				$me = resp.user;
 			}
 			emit('open', false);
-			emit('back', `/${resp.user.slug}`);
 			$notification = {
 				message: 'Information Saved'
 			};
-			window.history.replaceState(history.state, '', `/${resp.user.slug}/setting`);
 		} else {
 			error = resp;
 		}

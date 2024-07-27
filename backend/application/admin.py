@@ -18,6 +18,7 @@ access = {
         ['edit_organization', 2],
         ['edit_contact', 2],
         ['edit_social_media', 2],
+        ['edit_slug', 2],
         ['edit_access', 3],
         ['delete', 3]
     ],
@@ -63,8 +64,8 @@ def set_access(key):
     error = None
     if not me or "user:edit_access" not in me["access"]:
         error = "unauthorized access"
-    elif "password" not in request.json:
-        error = "cannot be empty"
+    elif "password" not in request.json or not request.json["password"]:
+        error = "this field is required"
     elif not check_password_hash(me["password"], request.json["password"]):
         error = "incorrect password"
     elif (

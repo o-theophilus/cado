@@ -29,7 +29,7 @@
 		formData.append('file', file);
 
 		$loading = 'Uploading Photo . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/photo`, {
+		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/photo/${user.key}`, {
 			method: 'put',
 			headers: {
 				Authorization: $token
@@ -58,7 +58,7 @@
 		error = {};
 
 		$loading = 'Deleting Photo . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/photo`, {
+		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/photo/${user.key}`, {
 			method: 'delete',
 			headers: {
 				'Content-Type': 'application/json',
@@ -142,30 +142,31 @@
 
 		<br />
 
-		<Button
-			primary
-			on:click={() => {
-				input.click();
-			}}
-		>
-			<Icon icon="add" />
-			{#if user.photo}
-				Change
-			{:else}
-				Add
-			{/if}
-		</Button>
-
-		{#if user.photo}
+		<div class="line">
 			<Button
 				on:click={() => {
-					remove('delete');
+					input.click();
 				}}
 			>
-				<Icon icon="delete" />
-				Delete
+				<Icon icon="add" />
+				{#if user.photo}
+					Change
+				{:else}
+					Add
+				{/if}
 			</Button>
-		{/if}
+
+			{#if user.photo}
+				<Button
+					on:click={() => {
+						remove('delete');
+					}}
+				>
+					<Icon icon="delete" />
+					Delete
+				</Button>
+			{/if}
+		</div>
 	{/if}
 </Card>
 
@@ -185,5 +186,10 @@
 	.dragover.edit_mode {
 		outline-color: var(--cl1);
 		cursor: pointer;
+	}
+
+	.line {
+		display: flex;
+		gap: var(--sp1);
 	}
 </style>

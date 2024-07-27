@@ -42,7 +42,7 @@
 {/if}
 <br />
 
-<Button primary on:click={submit}>
+<Button on:click={submit}>
 	Request Code
 	<Icon icon="send" />
 </Button>
