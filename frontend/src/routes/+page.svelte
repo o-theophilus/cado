@@ -82,12 +82,14 @@
 		max-width: 300px;
 
 		text-shadow: 0 0 10px #0e141b;
-		margin: var(--sp3) 0;
 	}
 
 	.copy {
 		font-size: 2rem;
 		font-weight: 700;
+	}
+	.sub_copy {
+		margin: var(--sp3) 0;
 	}
 
 	.divider {
