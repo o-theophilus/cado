@@ -54,7 +54,7 @@
 		display: flex;
 		align-items: center;
 
-		padding: var(--sp2);
+		padding: var(--sp3);
 		max-width: var(--mobileWidth);
 		margin: auto;
 	}
