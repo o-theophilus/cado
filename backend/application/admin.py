@@ -118,7 +118,8 @@ def add_wragby(cur):
     ]
 
     cur.execute('SELECT * FROM organization WHERE email = %s;', (email,))
-    if not cur.fetchone():
+    org = cur.fetchone()
+    if not org:
         key = uuid4().hex
         cur.execute("""
                 INSERT INTO organization (
@@ -132,7 +133,7 @@ def add_wragby(cur):
                     %s, %s, %s, %s,
                     %s, %s, %s, %s::JSONB[],
                     %s, %s, %s, %s, %s
-                );
+                ) RETURNING *;
             """, (
             key,
             "wragby",
@@ -154,20 +155,23 @@ def add_wragby(cur):
             'https://www.instagram.com/wragby_ng/',
         ))
 
+    return org["key"]
+
 
 @bp.get("/admin/init")
 def default_admin():
     con, cur = db_open()
-    email = os.environ["MAIL_USERNAME"]
+    org_key = add_wragby(cur)
 
+    email = os.environ["MAIL_USERNAME"]
     cur.execute('SELECT * FROM "user" WHERE email = %s;', (email,))
     if not cur.fetchone():
         key = uuid4().hex
         cur.execute("""
                 INSERT INTO "user" (
-                    key, status, slug, firstname,
-                    lastname, email, password, access)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s);
+                    key, status, slug, firstname, lastname,
+                    email, password, access, organization_key)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);
             """, (
             key,
             "confirmed",
@@ -177,10 +181,9 @@ def default_admin():
             email,
             generate_password_hash(
                 os.environ["MAIL_PASSWORD"], method="scrypt"),
-            [f"{x}:{y[0]}" for x in access for y in access[x]]
+            [f"{x}:{y[0]}" for x in access for y in access[x]],
+            org_key
         ))
-
-    add_wragby(cur)
 
     db_close(con, cur)
     return jsonify({
