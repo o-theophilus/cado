@@ -23,12 +23,15 @@
 
 <div class="inputGroup" class:no_pad>
 	<slot name="label">
-		<label for={id}>{name}</label>
+		<div class="label">
+			<label for={id}>
+				{name}
+				{#if required}
+					<span class="error">*</span>
+				{/if}
+			</label>
+		</div>
 	</slot>
-
-	{#if required}
-		<span class="error">*</span>
-	{/if}
 
 	{#if error}
 		<div class="error">
@@ -85,9 +88,9 @@
 		padding-left: var(--sp2);
 	}
 
-	label,
+	.label,
 	.error {
 		font-size: 0.8rem;
-		margin-bottom: var(--sp1);
+		margin: var(--sp1) 0;
 	}
 </style>

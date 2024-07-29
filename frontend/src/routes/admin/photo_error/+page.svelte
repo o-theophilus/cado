@@ -16,6 +16,7 @@
 <Meta title="Manage Photos" description="Here you will find missing or excess images" />
 
 <Content>
+	<br />
 	<div class="left">
 		<Back />
 		<strong class="ititle"> Photo Error </strong>

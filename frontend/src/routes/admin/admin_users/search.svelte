@@ -37,6 +37,8 @@
 			user_key = '';
 			type = 'all';
 			action = 'all';
+			drop_1.set(type);
+			drop_2.set(action);
 		}
 
 		let check = `${search}`;
@@ -72,22 +74,24 @@
 		/>
 	</div>
 
-	<Search
-		non_default
-		placeholder="Search for User"
-		bind:search={user_key}
-		on:clear={() => {
-			user_key = '';
-		}}
-	>
-		<Button
-			disabled={`${user_key}:${type}:${action}` == search}
-			on:click={() => {
-				submit();
+	<div class="row">
+		<Search
+			non_default
+			placeholder="Search for User"
+			bind:search={user_key}
+			on:clear={() => {
+				user_key = '';
 			}}
 		>
-			<Icon icon="search" />
-		</Button>
+			<Button
+				disabled={`${user_key}:${type}:${action}` == search}
+				on:click={() => {
+					submit();
+				}}
+			>
+				<Icon icon="search" />
+			</Button>
+		</Search>
 		<Button
 			extra="hover_red"
 			disabled={`${user_key}:${type}:${action}` == ':all:all'}
@@ -97,7 +101,7 @@
 		>
 			<Icon icon="close" />
 		</Button>
-	</Search>
+	</div>
 </section>
 
 <style>

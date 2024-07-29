@@ -9,6 +9,7 @@
 <Meta title="Admin Dashboard" description="This contains this website settings" />
 
 <Content>
+	<br />
 	<strong class="ititle"> Admin Dashboard</strong>
 
 	<div class="buttons">
@@ -21,9 +22,9 @@
 		<!-- {#if $user.access.includes('admin:view_photo_error')}
 			<Button href="/admin/photo_error" size="wide">Photo Error</Button>
 		{/if} -->
-		{#if $user.access.includes('organization:view')}
+		<!-- {#if $user.access.includes('organization:view')}
 			<Button href="/admin/org" size="wide">Organizations</Button>
-		{/if}
+		{/if} -->
 		{#if $user.organization_key && $user.access.some( (x) => ['organization:edit_logo', 'organization:edit_icon', 'organization:edit_organization', 'organization:edit_contact', 'organization:edit_social_media', 'organization:delete'].includes(x) )}
 			<Button href="/admin/org/{$user.organization_key}" size="wide">Organization Setting</Button>
 		{/if}

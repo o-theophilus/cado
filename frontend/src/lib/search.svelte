@@ -81,6 +81,7 @@
 		display: flex;
 		align-items: center;
 		margin-right: 2px;
+		gap: 2px;
 	}
 	.close {
 		margin-right: var(--sp1);
