@@ -21,6 +21,7 @@
 		<Slug
 			{slug}
 			{error}
+			user_key={user.key}
 			on:ok={(e) => {
 				slug = e.detail;
 				state = 1;

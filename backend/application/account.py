@@ -172,7 +172,7 @@ def signup():
 
     send_mail(
         user["email"],
-        "Email Confirmation code",
+        "Email Verification Code",
         request.json['email_template'].format(
             firstname=user['firstname'],
             code=generate_code(
@@ -284,7 +284,7 @@ def login():
     if user["status"] != "confirmed":
         send_mail(
             user["email"],
-            "Email Confirmation code",
+            "Email Verification Code",
             request.json['email_template'].format(
                 firstname=user["firstname"],
                 code=generate_code(
@@ -443,7 +443,7 @@ def forgot_1_email():
 
     send_mail(
         user["email"],
-        "Password reset code",
+        "Password Reset Verification Code",
         request.json['email_template'].format(
             firstname=user["firstname"],
             code=generate_code(

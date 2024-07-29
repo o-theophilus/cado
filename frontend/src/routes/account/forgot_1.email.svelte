@@ -30,7 +30,7 @@
 	};
 
 	const submit = async () => {
-		$loading = 'Requesting Code . . .';
+		$loading = 'Requesting Verification Code . . .';
 		form.email_template = email_template.innerHTML.replace(/&amp;/g, '&');
 
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/forgot/1`, {
@@ -73,8 +73,8 @@
 		placeholder="Email here"
 	/>
 
-	<Button primary on:click={validate}
-		>Submit
+	<Button primary on:click={validate}>
+		Submit
 		<Icon icon="send" />
 	</Button>
 

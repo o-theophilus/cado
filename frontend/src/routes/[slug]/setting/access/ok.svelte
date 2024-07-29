@@ -59,6 +59,10 @@
 		</div>
 	{/if}
 
+	<div class="note">
+		To save this user's access, please enter your password below to confirm your identity.
+	</div>
+
 	<IG
 		name="Password"
 		icon="key"
@@ -93,6 +97,15 @@
 <style>
 	.error {
 		margin: var(--sp2) 0;
+	}
+
+	.note {
+		padding: var(--sp2);
+		margin: var(--sp2) 0;
+		background-color: var(--bg2);
+
+		font-size: 0.8rem;
+		border-radius: var(--sp0);
 	}
 
 	.right {

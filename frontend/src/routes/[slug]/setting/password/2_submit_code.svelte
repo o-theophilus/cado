@@ -18,7 +18,7 @@
 		if (!form.code) {
 			error.code = 'this field is required';
 		} else if (form.code.length != 6) {
-			error.code = 'invalid code';
+			error.code = 'invalid verification code';
 		}
 
 		Object.keys(error).length === 0 && submit();
@@ -54,9 +54,14 @@
 	{/if}
 
 	<br />
-	<div class="message">Code has been sent to: {$user.email}</div>
+	<div class="note">
+		Verification Code has been sent to:
+		<span>
+			{$user.email}
+		</span>
+	</div>
 
-	<IG name="Code" error={error.code}>
+	<IG name="Verification Code" error={error.code}>
 		<Code bind:value={form.code} />
 	</IG>
 
@@ -71,11 +76,15 @@
 		margin: var(--sp2) 0;
 	}
 
-	.message {
+	.note {
 		padding: var(--sp2);
 		font-size: 0.8rem;
 		background-color: var(--bg2);
 
 		border-radius: var(--sp0);
+	}
+
+	.note span {
+		font-weight: 800;
 	}
 </style>

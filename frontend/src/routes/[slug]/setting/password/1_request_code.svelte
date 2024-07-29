@@ -12,7 +12,7 @@
 	let email_template;
 
 	const submit = async () => {
-		$loading = 'Requesting Code . . .';
+		$loading = 'Requesting Verification Code . . .';
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/password/1`, {
 			method: 'post',
 			headers: {
@@ -40,7 +40,14 @@
 		{error.error}
 	</div>
 {/if}
-<br />
+
+<div class="note">
+	To change your password, please click the button below to request
+	a verification code.
+	<br />
+	<br />
+	This code will be sent to your current email address to confirm that you are the owner of this account.
+</div>
 
 <Button on:click={submit}>
 	Request Code
@@ -54,5 +61,14 @@
 <style>
 	.error {
 		margin: var(--sp2) 0;
+	}
+
+	.note {
+		padding: var(--sp2);
+		margin: var(--sp2) 0;
+		background-color: var(--bg2);
+
+		font-size: 0.8rem;
+		border-radius: var(--sp0);
 	}
 </style>

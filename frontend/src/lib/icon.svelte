@@ -1,7 +1,6 @@
 <script>
 	export let icon;
 	export let size = 1;
-	export let fill = false;
 </script>
 
 {#if icon == 'whatsapp'}
@@ -235,19 +234,11 @@
 	<!-- ----------------------- -->
 	<!-- ----------------------- -->
 	<!-- ----------------------- -->
-{:else}
-	<span class:fill class="material-symbols-outlined" style:font-size="{size}em"> {icon} </span>
 {/if}
 
 <style>
 	svg {
 		flex-shrink: 0;
-	}
-	.material-symbols-outlined {
-		pointer-events: none;
-	}
-
-	.fill {
-		font-variation-settings: 'FILL' 1;
+		/* fill: currentColor; */
 	}
 </style>

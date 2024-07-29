@@ -140,7 +140,7 @@ def add_wragby(cur):
             "Wragby",
             "Wragby Business Solutions and Technologies Limited.",
             "Work Smart, Achieve More.",
-            ["@wragbysolutions.com", "@gmail.com"],
+            ["@wragbysolutions.com"],
 
             "+2349087733358",
             email,

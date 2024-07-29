@@ -36,7 +36,7 @@
 	};
 
 	const submit = async () => {
-		$loading = 'Requesting Code . . .';
+		$loading = 'Requesting Verification Code . . .';
 		form.email_template = email_template.innerHTML.replace(/&amp;/g, '&');
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/email/3`, {
 			method: 'post',
@@ -64,6 +64,13 @@
 		</div>
 	{/if}
 
+	<div class="note">
+		Enter your new email address and click the button below.
+		<br />
+		<br />
+		A verification code will be sent to that address to confirm your ownership.
+	</div>
+
 	<IG
 		name="New Email"
 		icon="email"
@@ -74,7 +81,7 @@
 	/>
 
 	<Button primary on:click={validate}>
-		Submit
+		Request Code
 		<Icon icon="send" />
 	</Button>
 </form>
@@ -86,5 +93,14 @@
 <style>
 	.error {
 		margin: var(--sp2) 0;
+	}
+
+	.note {
+		padding: var(--sp2);
+		margin: var(--sp2) 0;
+		background-color: var(--bg2);
+		font-size: 0.8rem;
+
+		border-radius: var(--sp0);
 	}
 </style>

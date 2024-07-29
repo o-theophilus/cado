@@ -7,7 +7,7 @@
 	<b> Dear {'{'}firstname{'}'}, </b>
 	<br />
 	<br />
-	Please use the code below to change your password.
+	Please use the verification code below to change your password.
 	<br />
 	<br />
 	<div
@@ -23,7 +23,7 @@
 	</div>
 	<br />
 	<br />
-	This code is valid for a limited time. If you didn't request this, please disregard this message.
+	This verification code is valid for a limited time. If you didn't request this, please disregard this message.
 	<br />
 	<br />
 	Warm regards{#if $organization.name},

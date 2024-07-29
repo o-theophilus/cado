@@ -7,7 +7,7 @@
 	<b> Hello {'{'}firstname{'}'}, </b>
 	<br />
 	<br />
-	Please use the code below to reset your password.
+	Please use the verification code below to reset your password.
 	<br />
 	<br />
 	<div
@@ -22,7 +22,7 @@
 		<b> {'{'}code{'}'} </b>
 	</div>
 	<br />
-	This code is valid for a limited time. If you didn't request this, please disregard this message.
+	This verification code is valid for a limited time. If you didn't request this, please disregard this message.
 	<br />
 	<br />
 	Warm regards{#if $organization.name},

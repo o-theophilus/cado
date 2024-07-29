@@ -405,7 +405,7 @@ def email_1_old_email():
 
     send_mail(
         user["email"],
-        "Email change code",
+        "Email Verification Code",
         request.json['email_template'].format(
             firstname=user["firstname"],
             code=generate_code(
@@ -481,7 +481,7 @@ def email_3_new_email():
 
     cur.execute("""
         SELECT * FROM organization WHERE key = %s;
-    """, (user["organization_key"], user["organization_key"]))
+    """, (user["organization_key"],))
     org = cur.fetchone()
 
     error = None
@@ -521,7 +521,7 @@ def email_3_new_email():
 
     send_mail(
         request.json["email"],
-        "Email change code",
+        "New Email Verification Code",
         request.json['email_template'].format(
             firstname=user["firstname"],
             code=generate_code(
@@ -652,7 +652,7 @@ def password_1_email():
 
     send_mail(
         user["email"],
-        "Password change code",
+        "Password Verification Code",
         request.json['email_template'].format(
             firstname=user["firstname"],
             code=generate_code(

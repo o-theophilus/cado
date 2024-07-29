@@ -6,7 +6,7 @@
 <Template>
 	<b>Hello {'{'}firstname{'}'},</b>
 	<br /><br />
-	Please use the code below to complete you signup.
+	Please use the verification code below to complete you signup.
 	<br /><br />
 	<div
 		style="
@@ -20,7 +20,7 @@
 		<b>{'{'}code{'}'}</b>
 	</div>
 	<br />
-	This code is valid for a limited time. If you didn't request this, please disregard this message.
+	This verification code is valid for a limited time. If you didn't request this, please disregard this message.
 	<br /><br />
 	Warm regards{#if $organization.name},
 		<br /><br />

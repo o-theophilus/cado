@@ -20,7 +20,7 @@
 		if (!form.code) {
 			error.code = 'this field is required';
 		} else if (form.code.length != 6) {
-			error.code = 'invalid code';
+			error.code = 'invalid verification code';
 		}
 
 		Object.keys(error).length === 0 && submit();
@@ -59,7 +59,7 @@
 		</div>
 	{/if}
 
-	<IG name="Code" error={error.code}>
+	<IG name="Verification Code" error={error.code}>
 		<Code bind:value={form.code} />
 	</IG>
 
