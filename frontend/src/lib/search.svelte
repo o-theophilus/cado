@@ -45,7 +45,6 @@
 	$: set($page.url);
 </script>
 
-<!-- TODO: fix style bug -->
 <IG type="text" {placeholder} bind:value={search} no_pad>
 	<svelte:fragment slot="right">
 		<div class="right">
@@ -81,6 +80,7 @@
 	.right {
 		display: flex;
 		align-items: center;
+		margin-right: 2px;
 	}
 	.close {
 		margin-right: var(--sp1);

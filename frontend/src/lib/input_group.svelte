@@ -36,18 +36,16 @@
 		</div>
 	{/if}
 
-	<div class="gap">
-		<slot {id}>
-			<div class="input" class:left_pad={icon} class:disabled>
-				{#if icon}
-					<Icon {icon} size={icon_size} />
-				{/if}
-				<Input bind:value {id} {type} {placeholder} {min} {disabled} on:blur on:input />
-				<slot name="right" />
-			</div>
-			<slot name="down" />
-		</slot>
-	</div>
+	<slot {id}>
+		<div class="input" class:left_pad={icon} class:disabled>
+			{#if icon}
+				<Icon {icon} size={icon_size} />
+			{/if}
+			<Input bind:value {id} {type} {placeholder} {min} {disabled} on:blur on:input />
+			<slot name="right" />
+		</div>
+		<slot name="down" />
+	</slot>
 </div>
 
 <style>
@@ -73,9 +71,6 @@
 
 		transition: outline-color var(--trans);
 	}
-	.gap {
-		margin-top: var(--sp1);
-	}
 
 	.input.disabled {
 		opacity: 0.4;
@@ -93,5 +88,6 @@
 	label,
 	.error {
 		font-size: 0.8rem;
+		margin-bottom: var(--sp1);
 	}
 </style>

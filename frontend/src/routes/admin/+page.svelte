@@ -18,9 +18,9 @@
 		{#if $user.access.includes('user:edit_access')}
 			<Button href="/admin/admin_users" size="wide">Admin Users</Button>
 		{/if}
-		{#if $user.access.includes('admin:view_photo_error')}
+		<!-- {#if $user.access.includes('admin:view_photo_error')}
 			<Button href="/admin/photo_error" size="wide">Photo Error</Button>
-		{/if}
+		{/if} -->
 		{#if $user.access.includes('organization:view')}
 			<Button href="/admin/org" size="wide">Organizations</Button>
 		{/if}

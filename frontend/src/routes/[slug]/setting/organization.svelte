@@ -93,14 +93,14 @@
 			bind:value={form.role}
 		/>
 
-		<IG
+		<!-- <IG
 			name="Manager's Email"
 			icon="email"
 			error={error.manager_email}
 			type="email"
 			bind:value={form.manager_email}
 			placeholder="Email here"
-		/>
+		/> -->
 
 		<Button on:click={validate}>
 			Submit

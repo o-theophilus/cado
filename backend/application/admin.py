@@ -147,7 +147,7 @@ def add_wragby(cur):
             "www.wragbysolutions.com",
             [json.dumps(x) for x in address],
 
-            '2349087733358',
+            '+2349087733358',
             'https://www.linkedin.com/in/wragbysolutions/',
             'https://m.facebook.com/wragbysolutions',
             'https://twitter.com/wragbyng',
