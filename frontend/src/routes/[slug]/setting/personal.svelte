@@ -89,6 +89,15 @@
 		/>
 
 		<IG
+			name="Role"
+			icon="work"
+			error={error.role}
+			placeholder="Role here"
+			type="text"
+			bind:value={form.role}
+		/>
+
+		<IG
 			name="About Me"
 			error={error.about_me}
 			type="textarea"

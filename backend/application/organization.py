@@ -11,78 +11,7 @@ import json
 bp = Blueprint("org", __name__)
 
 
-@bp.post("/organization")
-def add():
-    con, cur = db_open()
-
-    user = token_to_user(cur)
-    if not user:
-        db_close(con, cur)
-        return jsonify({
-            "status": 400,
-            "error": "invalid token"
-        })
-
-    if "organization:add" not in user["access"]:
-        db_close(con, cur)
-        return jsonify({
-            "status": 400,
-            "error": "unauthorized access"
-        })
-
-    error = {}
-
-    if "name" not in request.json or not request.json["name"]:
-        error["name"] = "this field is required"
-
-    if "email" not in request.json or not request.json["email"]:
-        error["email"] = "this field is required"
-    elif not re.match(r"\S+@\S+\.\S+", request.json["email"]):
-        error["email"] = "invalid email"
-    if "email" not in error:
-        cur.execute('SELECT * FROM organization WHERE email = %s;', (
-            request.json["email"],))
-        if cur.fetchone():
-            error["email"] = "email taken"
-
-    if error != {}:
-        db_close(con, cur)
-        return jsonify({
-            "status": 400,
-            **error
-        })
-
-    slug = re.sub(
-        '-+', '-', re.sub(
-            '[^a-zA-Z0-9]', '-',
-            request.json['name'].lower()
-        )
-    )
-    cur.execute('SELECT * FROM organization WHERE slug = %s;', (slug,))
-    if cur.fetchone() or slug in reserved_words:
-        slug = f"{slug}-{str(uuid4().hex)[:10]}"
-
-    cur.execute("""
-            INSERT INTO organization (
-                key, slug, name, email)
-            VALUES (%s, %s, %s, %s)
-            RETURNING *;
-        """, (
-        uuid4().hex,
-        slug,
-        request.json["name"],
-        request.json["email"]
-    ))
-    org = cur.fetchone()
-
-    db_close(con, cur)
-    return jsonify({
-        "status": 200,
-        "organization": org_schema(org)
-    })
-
-
-@ bp.put("/organization/org/<key>")
+@bp.put("/organization/org/<key>")
 def organization(key):
     con, cur = db_open()
 
@@ -187,7 +116,7 @@ def organization(key):
     })
 
 
-@ bp.put("/organization/contact/<key>")
+@bp.put("/organization/contact/<key>")
 def contact(key):
     con, cur = db_open()
 
@@ -291,7 +220,7 @@ def contact(key):
     })
 
 
-@ bp.put("/organization/social/<key>")
+@bp.put("/organization/social/<key>")
 def social(key):
     con, cur = db_open()
 
@@ -366,7 +295,7 @@ def social(key):
     })
 
 
-@ bp.put("/organization/<key>/<_type>")
+@bp.put("/organization/photo/<key>/<_type>")
 def add_photo(key, _type):
     con, cur = db_open()
 
@@ -415,9 +344,9 @@ def add_photo(key, _type):
         })
 
     if org[_type]:
-        storage(org[_type], delete=True)
+        storage("delete", org[_type])
 
-    file_name = storage(file)
+    file_name = storage("save", file)
 
     cur.execute("""
         UPDATE organization
@@ -437,7 +366,7 @@ def add_photo(key, _type):
     })
 
 
-@ bp.delete("/organization/<key>/<_type>")
+@bp.delete("/organization/photo/<key>/<_type>")
 def delete_photo(key, _type):
     con, cur = db_open()
 
@@ -470,7 +399,7 @@ def delete_photo(key, _type):
         })
 
     if org[_type]:
-        storage(org[_type].split("/")[-1], delete=True)
+        storage("delete", org[_type].split("/")[-1])
 
         cur.execute("""
             UPDATE organization
@@ -487,8 +416,8 @@ def delete_photo(key, _type):
     })
 
 
-@ bp.delete("/organization/")
-def delete():
+@bp.delete("/organization/<key>")
+def delete(key):
     con, cur = db_open()
 
     user = token_to_user(cur)
@@ -507,10 +436,8 @@ def delete():
         })
 
     cur.execute("""
-        SELECT *
-        FROM organization
-        WHERE key = %s;
-    """, (user["organization_key"],))
+        SELECT * FROM organization WHERE key = %s;
+    """, (key,))
     org = cur.fetchone()
     if not org:
         db_close(con, cur)
@@ -533,9 +460,12 @@ def delete():
             "error": "incorrect password"
         })
 
+    cur.execute("""
+        DELETE FROM user_organization WHERE organization_key = %s;
+    """, (org["key"],))
     cur.execute("""DELETE FROM organization WHERE key = %s;""", (org["key"],))
 
-    # db_close(con, cur)
+    db_close(con, cur)
     return jsonify({
         "status": 200,
         "organization": {}

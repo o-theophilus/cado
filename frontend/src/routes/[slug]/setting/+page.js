@@ -12,7 +12,7 @@ export const load = async ({ fetch, params, parent }) => {
     resp = await resp.json();
 
     if (resp.status == 200) {
-        if (resp.user.slug != params.slug && !resp.user.access.some((x) => [
+        if (a.locals.user.slug != params.slug && !a.locals.user.access.some((x) => [
             "user:edit_photo",
             "user:edit_personal",
             "user:edit_organization",
@@ -22,6 +22,7 @@ export const load = async ({ fetch, params, parent }) => {
             "user:edit_access",
             "user:delete",
         ].includes(x))) {
+            console.log(2);
             throw error(400, "unauthorized access")
         }
 

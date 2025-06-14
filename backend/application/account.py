@@ -349,7 +349,7 @@ def logout():
     })
 
 
-@ bp.delete("/user/<key>")
+@bp.delete("/user/<key>")
 def delete(key):
     con, cur = db_open()
 

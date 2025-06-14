@@ -88,6 +88,7 @@
 			<strong class="ititle title"> Advanced </strong>
 
 			<Delete
+				{organization}
 				open={open == 'delete'}
 				on:open={(e) => {
 					set_open('delete', e.detail);

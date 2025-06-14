@@ -1,5 +1,5 @@
 <script>
-	import { user as me, organization } from '$lib/store.js';
+	import { organization } from '$lib/store.js';
 	import * as htmlToImage from 'html-to-image';
 
 	import Meta from '$lib/meta.svelte';
@@ -90,18 +90,6 @@
 			Save Business Card
 		</Button>
 	</div>
-
-	{#if user.key == $me.key || $me.access.some( (x) => ['user:edit_photo', 'user:edit_personal', 'user:edit_organization', 'user:edit_contact', 'user:edit_social_media', 'user:edit_slug', 'user:edit_access', 'user:delete'].includes(x) )}
-		<div class="settings">
-			<Link href="/{user.slug}/setting">
-				<div class="row">
-					<Icon icon="settings" />
-					Settings
-					<Icon icon="arrow_forward" />
-				</div>
-			</Link>
-		</div>
-	{/if}
 </section>
 
 <style>
@@ -137,16 +125,5 @@
 
 	.address {
 		max-width: 500px;
-	}
-
-	.settings {
-		margin: var(--sp4) 0;
-		width: min-content;
-	}
-
-	.row {
-		display: flex;
-		align-items: center;
-		gap: var(--sp2);
 	}
 </style>

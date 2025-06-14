@@ -22,18 +22,38 @@ access = {
         ['edit_access', 3],
         ['delete', 3]
     ],
-    "admin": [
-        ['view_photo_error', 2]
-    ],
     "organization": [
-        ['view', 1],
-        ['add', 2],
         ['edit_logo', 2],
         ['edit_icon', 2],
         ['edit_organization', 2],
         ['edit_contact', 2],
         ['edit_social_media', 2],
         ['delete', 3]
+    ],
+
+    "admin": [
+        ['view_photo_error', 2]
+    ],
+    "admin_user": [
+        ['view', 1],
+        ['edit_photo', 2],
+        ['edit_personal', 2],
+        ['edit_organization', 2],
+        ['edit_contact', 2],
+        ['edit_social_media', 2],
+        ['edit_slug', 2],
+        ['edit_access', 3],
+        ['delete', 3]
+    ],
+    "admin_organization": [
+        ['view', 1],  # TODO: review this, super user only
+        ['delete', 3],
+
+        ['edit_logo', 2],
+        ['edit_icon', 2],
+        ['edit_organization', 2],
+        ['edit_contact', 2],
+        ['edit_social_media', 2]
     ],
 }
 
@@ -256,7 +276,7 @@ def clean_photo():
     paths = drive().list()["names"]
     for x in paths:
         if x.split('/')[1] not in users_photo:
-            storage(x, delete=True)
+            storage("delete", x)
 
     db_close(con, cur)
     return jsonify({

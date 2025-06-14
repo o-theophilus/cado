@@ -63,18 +63,23 @@ def personal(key):
     about_me = None
     if "about_me" in request.json and request.json["about_me"]:
         about_me = request.json["about_me"]
+    role = None
+    if "role" in request.json and request.json["role"]:
+        role = request.json["role"]
 
     cur.execute("""
         UPDATE "user"
         SET
             firstname = %s,
             lastname = %s,
+            role = %s,
             about_me = %s
         WHERE key = %s
         RETURNING *;
     """, (
         request.json["firstname"].strip(),
         request.json["lastname"].strip(),
+        role,
         about_me,
         user["key"]
     ))
@@ -87,8 +92,9 @@ def personal(key):
     })
 
 
-@bp.put("/user/organization/<key>")
-def organization(key):
+# TODO: remove this if not using manager's email
+@bp.put("/user/role/<key>")
+def role(key):
     con, cur = db_open()
 
     user = token_to_user(cur)
@@ -121,6 +127,7 @@ def organization(key):
                     "error": "invalid request"
                 })
 
+    # TODO: role to job title
     organization_key = None
     role = None
     manager_email = None
@@ -628,7 +635,7 @@ def email_4_new_code():
     })
 
 
-@ bp.post("/user/password/1")
+@bp.post("/user/password/1")
 def password_1_email():
     con, cur = db_open()
 
@@ -670,7 +677,7 @@ def password_1_email():
     })
 
 
-@ bp.post("/user/password/2")
+@bp.post("/user/password/2")
 def password_2_code():
     con, cur = db_open()
 
@@ -696,7 +703,7 @@ def password_2_code():
     })
 
 
-@ bp.post("/user/password/3")
+@bp.post("/user/password/3")
 def password_3_password():
     con, cur = db_open()
 
@@ -765,7 +772,7 @@ def password_3_password():
     })
 
 
-@ bp.put("/user/photo/<key>")
+@bp.put("/user/photo/<key>")
 def add_photo(key):
     con, cur = db_open()
 
@@ -816,9 +823,9 @@ def add_photo(key):
         })
 
     if user["photo"]:
-        storage(user["photo"], delete=True)
+        storage("delete", user["photo"])
 
-    file_name = storage(file)
+    file_name = storage("save", file)
 
     cur.execute("""
         UPDATE "user"
@@ -838,7 +845,7 @@ def add_photo(key):
     })
 
 
-@ bp.delete("/user/photo/<key>")
+@bp.delete("/user/photo/<key>")
 def delete_photo(key):
     con, cur = db_open()
 
@@ -873,7 +880,7 @@ def delete_photo(key):
                 })
 
     if user["photo"]:
-        storage(user["photo"].split("/")[-1], delete=True)
+        storage("delete", user["photo"].split("/")[-1])
 
         cur.execute("""
             UPDATE "user"

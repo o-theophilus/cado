@@ -9,24 +9,70 @@ bp = Blueprint("user_get", __name__)
 
 
 @bp.get("/user/<key>")
-def get(key):
-    con, cur = db_open()
+def get(key, cur=None):
+
+    close_conn = not cur
+    if not cur:
+        con, cur = db_open()
 
     cur.execute("""
-        SELECT *
+        WITH
+        org AS (
+            SELECT
+                user_organization.user_key,
+                user_organization.status AS _status,
+                organization.*
+
+            FROM user_organization
+            LEFT JOIN organization
+                ON user_organization.organization_key = organization.key
+            WHERE organization.status = 'live'
+        )
+
+        SELECT "user".*,
+            org._status as organization_status,
+            jsonb_build_object(
+                'key', org.key,
+                'status', org.status,
+                'slug', org.slug,
+                'name', org.name,
+                'fullname', org.fullname,
+                'slogan', org.slogan,
+                'email_domains', org.email_domains,
+                'phone', org.phone,
+                'email', org.email,
+                'website', org.website,
+                'address', org.address,
+                'whatsapp', org.whatsapp,
+                'linkedin', org.linkedin,
+                'facebook', org.facebook,
+                'twitter', org.twitter,
+                'instagram', org.instagram,
+                'logo', org.logo,
+                'icon', org.icon
+            ) AS organization
         FROM "user"
-        WHERE slug = %s OR email = %s OR key = %s;
-    """, (key, key, key))
+        LEFT JOIN org
+            ON "user".key = "org".user_key
+        WHERE "user".slug = %s OR "user".email = %s OR "user".key = %s
+        GROUP BY "user".key, org.user_key, org._status,
+        org.key, org.status, org.slug, org.name, org.fullname,
+        org.slogan, org.email_domains, org.phone, org.email,
+        org.website, org.address, org.whatsapp, org.linkedin,
+        org.facebook, org.twitter, org.instagram, org.logo, org.icon
+    ;""", (key, key, key))
     user = cur.fetchone()
 
     if not user:
-        db_close(con, cur)
+        if close_conn:
+            db_close(con, cur)
         return jsonify({
             "status": 400,
             "error": "invalid request"
         })
 
-    db_close(con, cur)
+    if close_conn:
+        db_close(con, cur)
     return jsonify({
         "status": 200,
         "user": user_schema(user)

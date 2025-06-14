@@ -1,6 +1,6 @@
 <script>
 	import { flip } from 'svelte/animate';
-	import { module, loading, user } from '$lib/store.js';
+	import { module, user } from '$lib/store.js';
 
 	import { cubicInOut } from 'svelte/easing';
 
@@ -15,7 +15,6 @@
 	import Search from '$lib/search.svelte';
 
 	import One from './one.svelte';
-	import Add from './add.svelte';
 
 	export let data;
 	$: organizations = data.organizations;
@@ -35,20 +34,6 @@
 				Organization{organizations.length > 1 ? 's' : ''}
 			</strong>
 		</div>
-
-		{#if $user.access.includes('organization:add')}
-			<Button
-				size="small"
-				on:click={() => {
-					$module = {
-						module: Add
-					};
-				}}
-			>
-				<Icon icon="add" />
-				Add</Button
-			>
-		{/if}
 	</div>
 
 	<div class="search_bar">

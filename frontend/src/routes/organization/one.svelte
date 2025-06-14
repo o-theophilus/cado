@@ -3,7 +3,7 @@
 	export let org;
 </script>
 
-<a href="/admin/org/{org.slug}">
+<a href="/organization/{org.slug}">
 	<Avatar name={org.name} photo={org.photo} />
 	<div class="details">
 		<div class="name">

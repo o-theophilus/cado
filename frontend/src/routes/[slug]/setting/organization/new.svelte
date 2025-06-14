@@ -1,14 +1,17 @@
 <script>
-	import { goto } from '$app/navigation';
-	import { module, loading, notification } from '$lib/store.js';
+	import { loading } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
+	import { createEventDispatcher } from 'svelte';
 
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Button from '$lib/button/button.svelte';
+	import EmailTemplate from './email_template.svelte';
 
 	let form = {};
 	let error = {};
+	let email_template;
+	let emit = createEventDispatcher();
 
 	const validate = () => {
 		error = {};
@@ -27,9 +30,10 @@
 	};
 
 	const submit = async () => {
-		$loading = 'Creating Organization . . .';
+		$loading = 'Requesting Verification Code . . .';
+		form.email_template = email_template.innerHTML.replace(/&amp;/g, '&');
 
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/organization`, {
+		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/organization/add/1`, {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json',
@@ -41,10 +45,7 @@
 		$loading = false;
 
 		if (resp.status == 200) {
-			$notification = {
-				message: 'Organization Created'
-			};
-			goto(`/organization/${resp.organization.slug}`);
+			emit('ok', form);
 		} else {
 			error = resp;
 		}
@@ -78,18 +79,34 @@
 		placeholder="Email here"
 	/>
 
-	<Button primary on:click={validate}
-		>Submit
-		<Icon icon="send" />
-	</Button>
+	<div class="line">
+		<Button primary on:click={validate}
+			>Submit
+			<Icon icon="send" />
+		</Button>
+
+		<Button
+			on:click={() => {
+				emit('x');
+			}}
+		>
+			back
+			<Icon icon="close" />
+		</Button>
+	</div>
 </form>
 
-<style>
-	form {
-		padding: var(--sp3);
-	}
+<div bind:this={email_template} style="display: none;">
+	<EmailTemplate />
+</div>
 
+<style>
 	.error {
 		margin: var(--sp2) 0;
+	}
+
+	.line {
+		display: flex;
+		gap: var(--sp1);
 	}
 </style>

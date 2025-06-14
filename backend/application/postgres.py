@@ -7,7 +7,7 @@ import psycopg2.extras
 bp = Blueprint("postgres", __name__)
 
 
-user_table = """CREATE TABLE IF NOT EXISTS "user" (
+user = """CREATE TABLE IF NOT EXISTS "user" (
     key CHAR(32) PRIMARY KEY,
     status VARCHAR(20) DEFAULT 'anonymous' NOT NULL,
 
@@ -18,7 +18,6 @@ user_table = """CREATE TABLE IF NOT EXISTS "user" (
     about_me TEXT,
 
     role VARCHAR(100),
-    organization_key VARCHAR(255),
     manager_email VARCHAR(255),
 
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -38,7 +37,8 @@ user_table = """CREATE TABLE IF NOT EXISTS "user" (
     login BOOLEAN DEFAULT FALSE
 );"""
 
-organization_table = """CREATE TABLE IF NOT EXISTS organization (
+# TODO: block user from member request
+organization = """CREATE TABLE IF NOT EXISTS organization (
     key CHAR(32) PRIMARY KEY,
     status VARCHAR(20) DEFAULT 'live' NOT NULL,
 
@@ -64,8 +64,20 @@ organization_table = """CREATE TABLE IF NOT EXISTS organization (
     icon VARCHAR(50)
 );"""
 
+# TODO: pending, approved, rejected
+user_organization = """CREATE TABLE IF NOT EXISTS user_organization (
+    key CHAR(32) PRIMARY KEY,
+    status VARCHAR(20) DEFAULT 'pending' NOT NULL,
 
-code_table = """CREATE TABLE IF NOT EXISTS code (
+    user_key CHAR(32) UNIQUE NOT NULL,
+    organization_key CHAR(32) NOT NULL,
+
+    FOREIGN KEY (user_key) REFERENCES "user"(key) ON DELETE CASCADE,
+    FOREIGN KEY (organization_key) REFERENCES organization(key)
+);"""
+
+
+code = """CREATE TABLE IF NOT EXISTS code (
     key CHAR(32) PRIMARY KEY,
     date TIMESTAMP NOT NULL,
 

@@ -7,7 +7,7 @@
 
 	import Photo from './photo.svelte';
 	import Personal from './personal.svelte';
-	import Organization from './organization.svelte';
+	import Organization from './organization/index.svelte';
 	import Contact from './contact.svelte';
 	import Social from './social.svelte';
 	import Slug from './slug/index.svelte';
@@ -18,6 +18,7 @@
 
 	export let data;
 	let user = data.user;
+	
 	let open = null;
 	let back = '';
 
@@ -61,27 +62,18 @@
 			/>
 		{/if}
 
-		{#if $me.key == user.key || $me.access.includes('user:edit_organization')}
-			<Organization
-				{user}
-				open={open == 'organization'}
-				on:open={(e) => {
-					set_open('organization', e.detail);
-				}}
-			/>
-		{/if}
-
+		
 		{#if $me.key == user.key || $me.access.includes('user:edit_contact')}
-			<Contact
+		<Contact
 				{user}
 				open={open == 'contact'}
 				on:open={(e) => {
 					set_open('contact', e.detail);
 				}}
 			/>
-		{/if}
-
-		{#if $me.key == user.key || $me.access.includes('user:edit_social_media')}
+			{/if}
+			
+			{#if $me.key == user.key || $me.access.includes('user:edit_social_media')}
 			<Social
 				{user}
 				open={open == 'social'}
@@ -93,10 +85,20 @@
 
 		<br />
 		<strong class="ititle title"> Advanced </strong>
+		
+		{#if $me.key == user.key || $me.access.includes('user:edit_organization')}
+			<Organization
+				{user}
+				open={open == 'organization'}
+				on:open={(e) => {
+					set_open('organization', e.detail);
+				}}
+			/>
+		{/if}
 
 		{#if $me.access.includes('user:edit_slug')}
 			<Slug
-				{user}
+			{user}
 				open={open == 'slug'}
 				on:open={(e) => {
 					set_open('slug', e.detail);
@@ -105,8 +107,8 @@
 					back = e.detail;
 				}}
 			/>
-		{/if}
-
+			{/if}
+			
 		{#if $me.key == user.key}
 			<Email
 				open={open == 'email'}

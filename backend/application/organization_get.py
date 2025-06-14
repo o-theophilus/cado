@@ -22,7 +22,7 @@ def get(key):
         db_close(con, cur)
         return jsonify({
             "status": 400,
-            "error": "invalid token"
+            "error": "not found"
         })
 
     db_close(con, cur)
@@ -112,11 +112,11 @@ def get_many():
     })
 
 
-@bp.get("/organizations/2")
+@bp.get("/organizations/name")
 def get_micro():
     con, cur = db_open()
 
-    cur.execute("SELECT key as value, name as key FROM organization;")
+    cur.execute("SELECT key, name as value FROM organization;")
     orgs = cur.fetchall()
 
     db_close(con, cur)

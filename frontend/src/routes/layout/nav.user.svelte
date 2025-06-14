@@ -7,6 +7,7 @@
 	import Link from './nav.btn.svelte';
 	import Logout from '../account/logout.svelte';
 	import Avatar from '$lib/avatar.svelte';
+	import Icon from '$lib/icon.svelte';
 
 	let open = false;
 	let self = false;
@@ -39,6 +40,16 @@
 			{#if $page.url.pathname != '/admin' && $user.access.length != 0}
 				<Link href="/admin">Admin</Link>
 			{/if}
+
+			{#if $page.route.id == '/[slug]' && ($page.data.user.key == $user.key || $user.access.some( (x) => ['user:edit_photo', 'user:edit_personal', 'user:edit_organization', 'user:edit_contact', 'user:edit_social_media', 'user:edit_slug', 'user:edit_access', 'user:delete'].includes(x) ))}
+				<Link href="/{$page.data.user.slug}/setting">
+					<div class="row">
+						<Icon icon="settings" size="1.2" />
+						Settings
+					</div>
+				</Link>
+			{/if}
+
 			<Logout />
 		</div>
 	{/if}
@@ -51,7 +62,6 @@
 	}
 
 	button {
-		/* line-height: 0; */
 		border-radius: 50%;
 		border: none;
 		cursor: pointer;
@@ -80,5 +90,11 @@
 		padding: var(--sp2);
 		border-radius: var(--sp0);
 		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	}
+
+	.row {
+		display: flex;
+		align-items: center;
+		gap: var(--sp0);
 	}
 </style>

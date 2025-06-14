@@ -1,15 +1,16 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { loading, organization } from '$lib/store.js';
+	import { loading } from '$lib/store.js';
 	import { token } from '$lib/cookie.js';
 
 	import Button from '$lib/button/button.svelte';
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
-	import ShowPassword from '../../../account/password_show.svelte';
+	import ShowPassword from '../../account/password_show.svelte';
 	import Card from '$lib/card.svelte';
 
 	export let open;
+	export let organization;
 	let form = {};
 	let error = {};
 	let show_password = false;
@@ -26,7 +27,7 @@
 
 	const submit = async () => {
 		$loading = 'Deleting Organization . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/organization`, {
+		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/organization/${organization.key}`, {
 			method: 'delete',
 			headers: {
 				'Content-Type': 'application/json',
@@ -38,8 +39,8 @@
 		$loading = false;
 
 		if (resp.status == 200) {
-			$organization = resp.organization;
-			goto('/admin');
+			// $organization = resp.organization;
+			goto('/');
 		} else {
 			error = resp;
 		}
