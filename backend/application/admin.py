@@ -174,6 +174,7 @@ def add_wragby(cur):
             'https://twitter.com/wragbyng',
             'https://www.instagram.com/wragby_ng/',
         ))
+        org = cur.fetchone()
 
     return org["key"]
 
@@ -181,7 +182,7 @@ def add_wragby(cur):
 @bp.get("/admin/init")
 def default_admin():
     con, cur = db_open()
-    org_key = add_wragby(cur)
+    add_wragby(cur)
 
     email = os.environ["MAIL_USERNAME"]
     cur.execute('SELECT * FROM "user" WHERE email = %s;', (email,))
@@ -190,8 +191,8 @@ def default_admin():
         cur.execute("""
                 INSERT INTO "user" (
                     key, status, slug, firstname, lastname,
-                    email, password, access, organization_key)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);
+                    email, password, access)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s);
             """, (
             key,
             "confirmed",
@@ -201,8 +202,7 @@ def default_admin():
             email,
             generate_password_hash(
                 os.environ["MAIL_PASSWORD"], method="scrypt"),
-            [f"{x}:{y[0]}" for x in access for y in access[x]],
-            org_key
+            [f"{x}:{y[0]}" for x in access for y in access[x]]
         ))
 
     db_close(con, cur)
