@@ -15,6 +15,7 @@ def cron():
     })
 
 
+# @bp.get("/fix")
 def create_tables():
     con, cur = db_open()
 
@@ -37,7 +38,6 @@ def create_tables():
     })
 
 
-# @bp.get("/fix")
 def fix():
     con, cur = db_open()
 
