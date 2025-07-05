@@ -7,7 +7,7 @@
 	import Back from '$lib/button/back.svelte';
 	import Meta from '$lib/meta.svelte';
 	import Pagination from '$lib/pagination.svelte';
-	import DropPlus from '$lib/dropdown_plus.svelte';
+	import DropPlus from '$lib/dropdown.svelte';
 	import Search from '$lib/search.svelte';
 	import User from './user.svelte';
 
