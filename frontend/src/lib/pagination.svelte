@@ -54,9 +54,9 @@
 			<input
 				style:width="calc({width}px + 4px)"
 				type="text"
-				oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+				oninput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
 				bind:value
-				on:keypress={(e) => {
+				onkeypress={(e) => {
 					if (e.key == 'Enter') {
 						submit(value);
 					}
