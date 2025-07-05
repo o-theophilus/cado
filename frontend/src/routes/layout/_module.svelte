@@ -2,31 +2,24 @@
 	import { scale } from 'svelte/transition';
 	import { backInOut } from 'svelte/easing';
 
-	import { module } from '$lib/store.js';
+	import { module } from '$lib/store.svelte.js';
 	import BRound from '$lib/button/round.svelte';
 </script>
 
-{#if $module}
+{#if module.module}
 	<section>
-		<div />
+		<div></div>
 
 		<div class="block" transition:scale|local={{ delay: 0, duration: 200, easing: backInOut }}>
 			<div class="close">
-				<BRound
-					icon="close"
-					extra="hover_red"
-					large
-					on:click={() => {
-						$module = null;
-					}}
-				/>
+				<BRound icon="close" extra="hover_red" large onclick={() => module.close()} />
 			</div>
 			<div class="content">
-				<svelte:component this={$module.module} />
+				<svelte:component this={module.module} />
 			</div>
 		</div>
 
-		<div />
+		<div></div>
 	</section>
 {/if}
 
@@ -39,7 +32,7 @@
 		position: fixed;
 		inset: 0;
 
-		padding: var(--sp4) var(--sp3);
+		padding: var(--sp5) var(--sp3);
 		overflow-y: auto;
 
 		color: var(--ft1);

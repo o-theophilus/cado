@@ -1,17 +1,16 @@
 <script>
-	import { loading, notification, user as me } from '$lib/store.js';
-	import { token } from '$lib/cookie.js';
+	import { loading, notify, token } from '$lib/store.svelte.js';
 
 	import Button from '$lib/button/button.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Card from '$lib/card.svelte';
 
-	export let user;
-	export let open;
-	let edit_mode = true;
-	let error = {};
+	let { entity, _type, name = 'photo', active_card, update } = $props();
+
+	let error = $state({});
 	let input;
-	let dragover = false;
+	let dragover = $state(false);
+
 	const validate = () => {
 		error = {};
 		let file = input.files[0];
@@ -28,98 +27,92 @@
 		let formData = new FormData();
 		formData.append('file', file);
 
-		$loading = 'Uploading Photo . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/photo/${user.key}`, {
-			method: 'put',
+		loading.open('Uploading Photo . . .');
+		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/photo/${_type}/${entity.key}/${name}`, {
+			method: 'post',
 			headers: {
-				Authorization: $token
+				Authorization: token.value
 			},
 			body: formData
 		});
 		resp = await resp.json();
-		$loading = false;
+		loading.close();
 
 		if (resp.status == 200) {
-			user = resp.user;
-			if (user.key == $me.key) {
-				$me = user;
-			}
-			$notification = {
-				message: 'Photo Uploaded'
-			};
-
-			error.error = resp.error;
+			active_card.close();
+			update(resp[_type]);
+			notify.open('Photo Uploaded');
 		} else {
 			error = resp;
+			input.value = '';
 		}
 	};
 
 	const remove = async () => {
 		error = {};
 
-		$loading = 'Deleting Photo . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/photo/${user.key}`, {
+		loading.open('Deleting Photo . . .');
+		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/photo/${_type}/${entity.key}/${name}`, {
 			method: 'delete',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: $token
+				Authorization: token.value
 			}
 		});
 		resp = await resp.json();
-		$loading = false;
+		loading.close();
 
 		if (resp.status == 200) {
-			user.photo = null;
-			if (user.key == $me.key) {
-				$me = user;
-			}
-			$notification = {
-				message: 'Photo Deleted'
-			};
+			active_card.close();
+			update(resp[_type]);
+			notify.open('Photo Deleted');
 		} else {
 			error = resp;
 		}
 	};
 
-	let dim = [1 / 1];
-	$: {
-		dim = [1 / 1];
-		let match = user.photo?.match(/_(\d+)x(\d+)\./);
+	let ar = $derived.by(() => {
+		let temp = 1;
+		let match = entity[name]?.match(/_(\d+)x(\d+)\./);
 		if (match) {
-			dim = [parseInt(match[1]), parseInt(match[2])];
+			temp = parseInt(match[1]) / parseInt(match[2]);
 		}
-	}
+		return temp;
+	});
 </script>
 
-<Card {open} on:open>
-	<svelte:fragment slot="title">Photo</svelte:fragment>
+<Card open={active_card.value == name} onopen={() => active_card.set(name)}>
+	{#snippet title()}
+		<span class="capitalize">
+			{name}
+		</span>
+	{/snippet}
 
 	<br />
 	<img
-		src={user.photo || '/no_photo.png'}
-		alt={user.name}
+		src={entity[name] || '/no_photo.png'}
+		alt={entity.name}
 		class:dragover
-		class:edit_mode
-		style:--ar={dim[0] / dim[1]}
-		on:click={() => {
-			if (edit_mode) {
-				input.click();
-			}
+		style:--ar={ar}
+		onclick={() => {
+			input.click();
 		}}
-		on:dragover|preventDefault={() => {
+		ondragover={(e) => {
+			e.preventDefault();
 			dragover = true;
 		}}
-		on:dragenter
-		on:dragleave|preventDefault={() => {
+		ondragenter={() => {
+			e.preventDefault();
+		}}
+		ondragleave={() => {
+			e.preventDefault();
 			dragover = false;
 		}}
-		on:drop={(e) => {
+		ondrop={(e) => {
 			dragover = false;
-			if (edit_mode) {
-				e.preventDefault();
-				input.files = e.dataTransfer.files;
-				validate();
-			}
+			e.preventDefault();
+			input.files = e.dataTransfer.files;
+			validate();
 		}}
 		role="presentation"
 	/>
@@ -128,62 +121,65 @@
 		type="file"
 		accept="image/*"
 		bind:this={input}
-		on:change={(e) => {
+		onchange={() => {
 			validate();
 		}}
 	/>
 
-	{#if edit_mode}
-		{#if error.error}
-			<div class="error">
-				{@html error.error}
-			</div>
-		{/if}
-
-		<br />
-
-		<div class="line">
-			<Button
-				on:click={() => {
-					input.click();
-				}}
-			>
-				<Icon icon="add" />
-				{#if user.photo}
-					Change
-				{:else}
-					Add
-				{/if}
-			</Button>
-
-			{#if user.photo}
-				<Button
-					on:click={() => {
-						remove('delete');
-					}}
-				>
-					<Icon icon="delete" />
-					Delete
-				</Button>
-			{/if}
+	{#if error.error}
+		<div class="error">
+			{@html error.error}
 		</div>
 	{/if}
+
+	<br />
+
+	<div class="line">
+		<Button
+			onclick={() => {
+				input.click();
+			}}
+		>
+			<Icon icon="add" />
+			{#if entity[name]}
+				Change
+			{:else}
+				Add
+			{/if}
+		</Button>
+
+		{#if entity[name]}
+			<Button
+				onclick={() => {
+					remove('delete');
+				}}
+			>
+				<Icon icon="delete" />
+				Delete
+			</Button>
+		{/if}
+	</div>
 </Card>
 
 <style>
 	.error {
-		margin: var(--sp2) 0;
+		margin-top: var(--sp2);
+		font-size: small;
 	}
 
 	img {
 		width: 100%;
+		max-width: 200px;
 		border-radius: var(--sp1);
 		outline: 2px solid var(--bg2);
-		transition: outline-color var(--trans), transform var(--trans);
+		transition:
+			outline-color var(--trans),
+			transform var(--trans);
 		display: block;
+		aspect-ratio: var(--ar);
 	}
-	img.edit_mode:hover,
-	.dragover.edit_mode {
+	img:hover,
+	.dragover {
 		outline-color: var(--cl1);
 		cursor: pointer;
 	}
@@ -191,5 +187,9 @@
 	.line {
 		display: flex;
 		gap: var(--sp1);
+		flex-wrap: wrap;
+	}
+	.capitalize {
+		text-transform: capitalize;
 	}
 </style>

@@ -1,5 +1,5 @@
 <script>
-	export let password = '';
+	let { password } = $props();
 </script>
 
 <div class="block main">
@@ -55,7 +55,9 @@
 		font-size: 0.6rem;
 		color: var(--ft2);
 		background-color: var(--bg2);
-		transition: background-color var(--trans), color var(--trans);
+		transition:
+			background-color var(--trans),
+			color var(--trans);
 
 		width: 100%;
 	}

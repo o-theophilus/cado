@@ -8,6 +8,7 @@ from .admin import access
 bp = Blueprint("user_get", __name__)
 
 
+# TODO: this is not used, remove it
 @bp.get("/user/<key>")
 def get(key, cur=None):
 
@@ -54,13 +55,13 @@ def get(key, cur=None):
         FROM "user"
         LEFT JOIN org
             ON "user".key = "org".user_key
-        WHERE "user".slug = %s OR "user".email = %s OR "user".key = %s
+        WHERE "user".key = %s
         GROUP BY "user".key, org.user_key, org._status,
         org.key, org.status, org.slug, org.name, org.fullname,
         org.slogan, org.email_domains, org.phone, org.email,
         org.website, org.address, org.whatsapp, org.linkedin,
         org.facebook, org.twitter, org.instagram, org.logo, org.icon
-    ;""", (key, key, key))
+    ;""", (key))
     user = cur.fetchone()
 
     if not user:

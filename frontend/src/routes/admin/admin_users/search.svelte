@@ -1,7 +1,7 @@
 <script>
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { onMount } from 'svelte';
-	import { set_state } from '$lib/store.js';
+	import { set_state } from '$lib/store.svelte.js';
 
 	import Search from '$lib/search.svelte';
 	import Icon from '$lib/icon.svelte';
@@ -18,8 +18,8 @@
 	let drop_2;
 
 	onMount(() => {
-		if ($page.url.searchParams.has('search')) {
-			let temp = $page.url.searchParams.get('search');
+		if (page.url.searchParams.has('search')) {
+			let temp = page.url.searchParams.get('search');
 			temp = temp.split(':');
 			if (temp.length == 3) {
 				user_key = temp[0];
@@ -85,7 +85,7 @@
 		>
 			<Button
 				disabled={`${user_key}:${type}:${action}` == search}
-				on:click={() => {
+				onclick={() => {
 					submit();
 				}}
 			>
@@ -95,7 +95,7 @@
 		<Button
 			extra="hover_red"
 			disabled={`${user_key}:${type}:${action}` == ':all:all'}
-			on:click={() => {
+			onclick={() => {
 				submit(true);
 			}}
 		>

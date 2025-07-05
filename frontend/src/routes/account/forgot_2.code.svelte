@@ -1,6 +1,5 @@
 <script>
-	import { module, loading } from '$lib/store.js';
-	import { token } from '$lib/cookie.js';
+	import { module, loading, token } from '$lib/store.svelte.js';
 
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
@@ -9,10 +8,8 @@
 
 	import Password from './forgot_3.password.svelte';
 
-	let form = {
-		...$module.form
-	};
-	let error = {};
+	let form = $state({ ...module.value });
+	let error = $state({});
 
 	const validate_submit = async () => {
 		error = {};
@@ -27,30 +24,27 @@
 	};
 
 	const submit = async () => {
-		$loading = 'Verifying Code . . .';
+		loading.open('Verifying Code . . .');
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/forgot/2`, {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: $token
+				Authorization: token.value
 			},
 			body: JSON.stringify(form)
 		});
 		resp = await resp.json();
-		$loading = false;
+		loading.close();
 
 		if (resp.status == 200) {
-			$module = {
-				module: Password,
-				form
-			};
+			module.open(Password, form);
 		} else {
 			error = resp;
 		}
 	};
 </script>
 
-<form on:submit|preventDefault novalidate autocomplete="off">
+<form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
 	<strong class="ititle"> Forgot Password </strong>
 
 	{#if error.error}
@@ -59,11 +53,22 @@
 		</div>
 	{/if}
 
+	<div>
+		<br />
+		Verification Code has been sent to:
+
+		<b>
+			{form.email}
+		</b>
+	</div>
+
 	<IG name="Verification Code" error={error.code}>
-		<Code bind:value={form.code} />
+		{#snippet input()}
+			<Code bind:value={form.code} />
+		{/snippet}
 	</IG>
 
-	<Button primary on:click={validate_submit}
+	<Button primary onclick={validate_submit}
 		>Submit
 		<Icon icon="send" />
 	</Button>

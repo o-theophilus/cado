@@ -1,113 +1,63 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
-	import { notification, loading } from '$lib/store.js';
-	import { token } from '$lib/cookie.js';
+	import { notify, loading, token } from '$lib/store.svelte.js';
 
-	import IG from '$lib/input_group.svelte';
 	import Button from '$lib/button/button.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Card from '$lib/card.svelte';
+	import Social from './social.add.svelte';
 
-	let emit = createEventDispatcher();
-	export let user;
-	export let open;
-	let form = {
-		...user
-	};
+	let { entity, _type, active_card, update } = $props();
 
-	let error = {};
+	let form = $state({
+		social_links: entity.social_links
+	});
+	let error = $state({});
 
 	const validate = () => {
-		error = {};
-		if (form.whatsapp && !/^\+\d{1,3}[\d]*$/.test(form.whatsapp.replace(/\s+/g, ''))) {
-			error.whatsapp =
-				'Invalid phone number. Phone number should start with a "+" followed by the country code and then the phone number. For example, +2348012345678.';
-		}
-
 		Object.keys(error).length === 0 && submit();
 	};
 
 	const submit = async () => {
-		$loading = 'Saving Social Links . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/social/${user.key}`, {
+		loading.open('Saving Social Links . . .');
+		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/${_type}/${entity.key}`, {
 			method: 'put',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: $token
+				Authorization: token.value
 			},
 			body: JSON.stringify(form)
 		});
 		resp = await resp.json();
-		$loading = false;
+		loading.close();
 
 		if (resp.status == 200) {
-			user = resp.user;
-			emit('open', false);
-			$notification = {
-				message: 'Social Links Saved'
-			};
+			active_card.close();
+			update(resp[_type]);
+			notify.open('Social Links Saved');
 		} else {
 			error = resp;
 		}
 	};
+
+	let name = 'social';
 </script>
 
-<Card {open} on:open>
-	<svelte:fragment slot="title">Social Links</svelte:fragment>
+<Card open={active_card.value == name} onopen={() => active_card.set(name)}>
+	{#snippet title()}
+		Social Links
+	{/snippet}
 
-	<form on:submit|preventDefault novalidate autocomplete="off">
+	<form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
 		{#if error.error}
 			<div class="error">
 				{error.error}
 			</div>
 		{/if}
 
-		<IG
-			type="text"
-			icon="whatsapp"
-			icon_size="1"
-			placeholder="Whatsapp number (e.g. +2348012345678)"
-			error={error.whatsapp}
-			bind:value={form.whatsapp}
-		/>
+		<Social bind:value={form.social_links}></Social>
+		<br />
 
-		<IG
-			type="text"
-			icon="linkedin"
-			icon_size="1"
-			placeholder="Linkedin profile url"
-			error={error.linkedin}
-			bind:value={form.linkedin}
-		/>
-
-		<IG
-			type="text"
-			icon="twitter"
-			icon_size="1"
-			placeholder="Twitter profile url"
-			error={error.twitter}
-			bind:value={form.twitter}
-		/>
-
-		<IG
-			type="text"
-			icon="facebook"
-			icon_size="1"
-			placeholder="Facebook profile url"
-			error={error.facebook}
-			bind:value={form.facebook}
-		/>
-
-		<IG
-			type="text"
-			icon="instagram"
-			icon_size="1"
-			placeholder="Instagram profile url"
-			error={error.instagram}
-			bind:value={form.instagram}
-		/>
-
-		<Button on:click={validate}>
+		<Button onclick={validate}>
 			Submit
 			<Icon icon="send" />
 		</Button>

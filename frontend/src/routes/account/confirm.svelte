@@ -1,5 +1,5 @@
 <script>
-	import { module, loading } from '$lib/store.js';
+	import { module, loading } from '$lib/store.svelte.js';
 
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
@@ -9,10 +9,8 @@
 	import Dialogue from '$lib/dialogue.svelte';
 	import Login from './login.svelte';
 
-	let form = {
-		email: $module.email
-	};
-	let error = {};
+	let form = $state({ email: module.value.email });
+	let error = $state({});
 
 	const validate = () => {
 		error = {};
@@ -27,7 +25,7 @@
 	};
 
 	const submit = async () => {
-		$loading = 'Verifying Code . . .';
+		loading.open('Verifying Code . . .');
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/confirm`, {
 			method: 'post',
 			headers: {
@@ -36,11 +34,10 @@
 			body: JSON.stringify(form)
 		});
 		resp = await resp.json();
-		$loading = false;
+		loading.close();
 
 		if (resp.status == 200) {
-			$module = {
-				module: Dialogue,
+			module.open(Dialogue, {
 				title: 'Signup Complete',
 				message: 'Your email has been confirmed successfully.',
 				buttons: [
@@ -48,21 +45,18 @@
 						name: 'Login',
 						icon: 'login',
 						fn: () => {
-							$module = {
-								module: Login,
-								email: form.email
-							};
+							module.open(Login, { email: form.email });
 						}
 					}
 				]
-			};
+			});
 		} else {
 			error = resp;
 		}
 	};
 </script>
 
-<form on:submit|preventDefault novalidate autocomplete="off">
+<form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
 	<strong class="ititle"> Confirm Email </strong>
 	<br />
 	A Verification Code has been sent to your email.
@@ -75,10 +69,12 @@
 	{/if}
 
 	<IG name="Verification Code" error={error.code}>
-		<Code bind:value={form.code} />
+		{#snippet input()}
+			<Code bind:value={form.code} />
+		{/snippet}
 	</IG>
 
-	<Button primary on:click={validate}>
+	<Button primary onclick={validate}>
 		Submit <Icon icon="send" />
 	</Button>
 </form>

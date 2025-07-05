@@ -9,7 +9,7 @@ button {
 }
 
 * {
-	/* line-height: 80%; */
+	line-height: 150%;
 	margin: 0;
 	padding: 0;
 	
@@ -38,4 +38,18 @@ hr {
 .ititle {
 	color: var(--ft1);
 	font-size: 1.5rem;
+}
+
+.page_title {
+	font-size: x-large;
+	font-weight: 800;
+	/* color: var(--ft1);	 */
+}
+
+.hline {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: var(--sp2);
+	flex-wrap: wrap;
 }

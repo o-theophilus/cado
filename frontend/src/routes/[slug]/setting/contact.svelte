@@ -1,25 +1,32 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
-	import { notification, loading, organization as org } from '$lib/store.js';
-	import { token } from '$lib/cookie.js';
+	import { notify, loading, token } from '$lib/store.svelte.js';
 
 	import IG from '$lib/input_group.svelte';
 	import Button from '$lib/button/button.svelte';
 	import Icon from '$lib/icon.svelte';
-	import Dropdown from '$lib/dropdown.svelte';
 	import Card from '$lib/card.svelte';
+	import Dropdown from '$lib/dropdown.svelte';
 
-	let emit = createEventDispatcher();
-	export let user;
-	export let open;
-	let form = {
-		...user
-	};
-	if (form.office_location == null) {
-		form.office_location = $org.address[0]?.name;
+	let { card, active_card, update } = $props();
+
+	let error = $state({});
+	let form = $state({
+		phone: card.phone,
+		office_location_id: card.office_location_id
+	});
+
+	let list = [
+		{
+			key: 'none',
+			value: 0
+		}
+	];
+	for (let x = 0; x < card.org.address.length; x++) {
+		list.push({
+			key: card.org.address[x].address,
+			value: x + 1
+		});
 	}
-
-	let error = {};
 
 	const validate = () => {
 		error = {};
@@ -28,34 +35,36 @@
 	};
 
 	const submit = async () => {
-		$loading = 'Saving Contact . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/contact/${user.key}`, {
+		loading.open('Saving Contact . . .');
+		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/card/${card.key}`, {
 			method: 'put',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: $token
+				Authorization: token.value
 			},
 			body: JSON.stringify(form)
 		});
 		resp = await resp.json();
-		$loading = false;
+		loading.close();
 
 		if (resp.status == 200) {
-			user = resp.user;
-			emit('open', false);
-			$notification = {
-				message: 'Contact Saved'
-			};
+			update(resp.card);
+			active_card.close();
+			notify.open('Contact Saved');
 		} else {
 			error = resp;
 		}
 	};
+
+	let name = 'contact';
 </script>
 
-<Card {open} on:open>
-	<svelte:fragment slot="title">Contact</svelte:fragment>
+<Card open={active_card.value == name} onopen={() => active_card.set(name)}>
+	{#snippet title()}
+		Contact
+	{/snippet}
 
-	<form on:submit|preventDefault novalidate autocomplete="off">
+	<form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
 		{#if error.error}
 			<div class="error">
 				{error.error}
@@ -81,31 +90,25 @@
 			disabled
 		/>
 
-		<label for="location">Office Location</label>
-		<div class="dropdown">
-			<Dropdown
-				list={$org.address.map((a) => a.name)}
-				id="location"
-				icon="location_on"
-				wide
-				default_value={form.office_location}
-				on:change={(e) => {
-					form.office_location = e.target.value;
-				}}
-			/>
-
-			<div>
-				{#each $org.address as a}
-					{#if a.name == form.office_location}
-						{a.address}
-					{/if}
-				{/each}
-			</div>
-		</div>
+		{#if card.status == 'live'}
+			<IG name="Office Location" error={error.office_location_id}>
+				{#snippet input(id)}
+					<Dropdown
+						{list}
+						bind:value={form.office_location_id}
+						default_value={card.org.address.length >= card.office_location_id - 1
+							? card.office_location_id
+							: 0}
+						{id}
+						wide
+					></Dropdown>
+				{/snippet}
+			</IG>
+		{/if}
 
 		<br />
 
-		<Button on:click={validate}>
+		<Button onclick={validate}>
 			Submit
 			<Icon icon="send" />
 		</Button>
@@ -115,18 +118,5 @@
 <style>
 	.error {
 		margin: var(--sp2) 0;
-	}
-	label {
-		font-size: 0.8em;
-	}
-	.dropdown {
-		margin-top: var(--sp1);
-	}
-	.dropdown div {
-		padding: var(--sp2);
-		font-size: 0.8rem;
-		background-color: var(--bg2);
-
-		border-radius: var(--sp0);
 	}
 </style>

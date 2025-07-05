@@ -1,0 +1,73 @@
+<script>
+	import Meta from '$lib/meta.svelte';
+	import BRound from '$lib/button/round.svelte';
+
+	import Photo from '../../[slug]/setting/photo.svelte';
+	import Info from './info.svelte';
+	import Contact from './contact.svelte';
+	import Social from '../../[slug]/setting/social.svelte';
+	import Domain from './domain.svelte';
+	import Slug from './slug.svelte';
+	import Email from '../../[slug]/setting/email/index.svelte';
+	import Delete from '../../[slug]/setting/delete.svelte';
+
+	let { data } = $props();
+	let org = $state(data.org);
+	let active_card = $state({
+		value: null,
+		set(v) {
+			if (this.value == v) {
+				this.value = null;
+			} else {
+				this.value = v;
+			}
+		},
+		close() {
+			this.value = null;
+		}
+	});
+
+	const update = (n) => {
+		org = n;
+	};
+</script>
+
+<Meta title={org.firstname} />
+
+<section class="page">
+	<div class="title">
+		<BRound icon="arrow_back" href="/@{org.slug}" />
+		<strong class="ititle"> Organization Setting </strong>
+	</div>
+
+	<br />
+
+	<Info {org} bind:active_card {update} />
+	<Photo entity={org} _type="org" bind:active_card {update} />
+	<Contact {org} bind:active_card {update} />
+	<Social entity={org} _type="org" bind:active_card {update} />
+	<Domain {org} bind:active_card {update} />
+
+	<br />
+	<strong class="ititle title"> Advanced </strong>
+	<br />
+
+	<Slug {org} bind:active_card {update} />
+	<Email entity={org} _type="org" bind:active_card {update} />
+	<Delete entity={org} _type="org" bind:active_card />
+</section>
+
+<style>
+	.page {
+		max-width: var(--mobileWidth);
+		width: 100%;
+		margin: auto;
+		padding: 0 var(--sp2);
+	}
+
+	.title {
+		display: flex;
+		gap: var(--sp2);
+		align-items: center;
+	}
+</style>

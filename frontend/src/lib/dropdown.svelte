@@ -1,24 +1,33 @@
 <script>
 	import Icon from '$lib/icon.svelte';
+	import { onMount } from 'svelte';
 
-	export let list = [];
-	export let icon = '';
-	export let wide = false;
-	export let button = false;
-	export let default_value = '';
-	if (!default_value && list[0]) {
-		if (list[0] instanceof Object) {
-			default_value = list[0]['value'];
-		} else {
-			default_value = list[0];
+	let {
+		icon = null,
+		wide = false,
+		button = false,
+		id = null,
+
+		list = [],
+		value = $bindable(),
+		default_value = null,
+
+		onchange
+	} = $props();
+
+	onMount(() => {
+		if (list[0]) {
+			if (list[0] instanceof Object) {
+				value = list[0]['value'];
+			} else {
+				value = list[0];
+			}
 		}
-	}
-	export let id = '';
-	let value = default_value;
 
-	export const set = (x) => {
-		value = x;
-	};
+		if (default_value) {
+			value = default_value;
+		}
+	});
 </script>
 
 {#if button}
@@ -26,7 +35,7 @@
 		<div class="icon">
 			<Icon {icon} size="1.2" />
 		</div>
-		<select bind:value on:change {id}>
+		<select bind:value {onchange} {id}>
 			{#each list as x}
 				<option value={x instanceof Object ? x.value : x}>
 					{x instanceof Object ? x.key : x}
@@ -41,7 +50,7 @@
 				<Icon {icon} size="1.2" />
 			</div>
 		{/if}
-		<select bind:value class:has_icon={icon} on:change {id}>
+		<select bind:value class:has_icon={icon} {onchange} {id}>
 			{#each list as x}
 				<option value={x instanceof Object ? x.value : x}>
 					{x instanceof Object ? x.key : x}
@@ -114,7 +123,9 @@
 		background-color: var(--input);
 		color: var(--ft2);
 
-		transition: color var(--trans), outline-color var(--trans);
+		transition:
+			color var(--trans),
+			outline-color var(--trans);
 	}
 	.button:hover:not(:disabled) {
 		color: var(--ft1);

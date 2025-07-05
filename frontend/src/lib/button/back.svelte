@@ -9,7 +9,7 @@
 <BRound
 	icon="arrow_back"
 	large
-	on:click={() => {
+	onclick={() => {
 		if (back) {
 			goto(back);
 		} else {

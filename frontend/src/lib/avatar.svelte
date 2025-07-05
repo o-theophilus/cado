@@ -1,8 +1,5 @@
 <script>
-	export let size = 40;
-	export let name;
-	export let photo;
-	export let square = false;
+	let { size = 40, name, photo, square = false } = $props();
 
 	function hashString(str) {
 		let hash = 5381;
@@ -11,11 +8,18 @@
 		}
 		return hash;
 	}
-	$: hue = Math.abs(hashString(name)) % 361;
+	let hue = $derived(Math.abs(hashString(name)) % 361);
 </script>
 
 {#if photo}
-	<img src={`${photo}/${size}` || '/no_photo.png'} alt={name} style:--size="{size}px" class:square />
+<!-- #TODO: Handle case when photo is not a valid URL -->
+	<img
+		src={`${photo}/${size}` || '/no_photo.png'}
+		alt={name}
+		style:--size="{size}px"
+		class:square
+		onerror={() => photo = null}
+	/>
 {:else}
 	<div
 		class="avatar"

@@ -1,6 +1,5 @@
 <script>
-	import { module, loading } from '$lib/store.js';
-	import { token } from '$lib/cookie.js';
+	import { module, loading, token } from '$lib/store.svelte.js';
 
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
@@ -11,13 +10,11 @@
 	import Dialogue from '$lib/dialogue.svelte';
 	import Login from './login.svelte';
 
-	let form = {
-		...$module.form
-	};
-	let error = {};
-	let show_password = false;
+	let form = $state({ ...module.value });
+	let error = $state({});
+	let show_password = $state(false);
 
-	const validate_submit = async () => {
+	const validate = async () => {
 		error = {};
 
 		if (!form.password) {
@@ -43,42 +40,38 @@
 	};
 
 	const submit = async () => {
-		$loading = 'Saving Password . . .';
+		loading.open('Saving Password . . .');
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/forgot/3`, {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: $token
+				Authorization: token.value
 			},
 			body: JSON.stringify(form)
 		});
 		resp = await resp.json();
-		$loading = false;
+		loading.close();
 
 		if (resp.status == 200) {
-			$module = {
-				module: Dialogue,
+			module.open(Dialogue, {
 				message: 'Password Successfully changed',
 				buttons: [
 					{
 						name: 'Login',
 						icon: 'login',
 						fn: () => {
-							$module = {
-								module: Login,
-								email: form.email
-							};
+							module.open(Login, { email: form.email });
 						}
 					}
 				]
-			};
+			});
 		} else {
 			error = resp;
 		}
 	};
 </script>
 
-<form on:submit|preventDefault novalidate autocomplete="off">
+<form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
 	<strong class="ititle"> Forgot Password </strong>
 
 	{#if error.error}
@@ -95,14 +88,14 @@
 		type={show_password ? 'text' : 'password'}
 		placeholder="Password here"
 	>
-		<svelte:fragment slot="right">
+		{#snippet right()}
 			<div class="right">
 				<ShowPassword bind:show_password />
 			</div>
-		</svelte:fragment>
-		<svelte:fragment slot="down">
+		{/snippet}
+		{#snippet down()}
 			<Password password={form.password} />
-		</svelte:fragment>
+		{/snippet}
 	</IG>
 
 	<IG
@@ -114,8 +107,8 @@
 		placeholder="Password here"
 	/>
 
-	<Button primary on:click={validate_submit}
-		>Submit
+	<Button primary onclick={validate}>
+		Submit
 		<Icon icon="send" />
 	</Button>
 </form>

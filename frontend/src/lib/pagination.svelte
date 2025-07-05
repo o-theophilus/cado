@@ -1,7 +1,7 @@
 <script>
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { onMount } from 'svelte';
-	import { set_state } from '$lib/store.js';
+	import { set_state } from '$lib/store.svelte.js';
 
 	import Icon from '$lib/icon.svelte';
 
@@ -31,9 +31,9 @@
 	};
 
 	onMount(() => {
-		set($page.url);
+		set(page.url);
 	});
-	$: set($page.url);
+	$: set(page.url);
 </script>
 
 {#if total_page > 1}
@@ -42,7 +42,7 @@
 	<section>
 		{#if _value > 1}
 			<button
-				on:click={() => {
+				onclick={() => {
 					submit(_value - 1);
 				}}
 			>
@@ -80,7 +80,7 @@
 
 		{#if value != _value}
 			<button
-				on:click={() => {
+				onclick={() => {
 					submit(value);
 				}}
 			>
@@ -90,7 +90,7 @@
 
 		{#if _value < total_page}
 			<button
-				on:click={() => {
+				onclick={() => {
 					submit(parseInt(_value) + 1);
 				}}
 			>
@@ -165,7 +165,9 @@
 		cursor: pointer;
 		font-weight: 700;
 
-		transition: color var(--trans), background-color var(--trans);
+		transition:
+			color var(--trans),
+			background-color var(--trans);
 	}
 
 	button:hover {

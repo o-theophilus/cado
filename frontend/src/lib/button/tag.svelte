@@ -1,14 +1,27 @@
 <script>
-	export let disabled = false;
-	export let active = false;
-	export let no_grow = false;
+	let {
+		disabled = false,
+		active = false,
+		no_grow = false,
+		href = '',
+		onclick,
+		children
+	} = $props();
 </script>
 
-<button class:active class:grow={!no_grow} on:click {disabled}>
-	<slot />
-</button>
+<svelte:element
+	this={href ? 'a' : 'button'}
+	class:active
+	class:grow={!no_grow}
+	{onclick}
+	{disabled}
+	role="presentation"
+>
+	{@render children()}
+</svelte:element>
 
 <style>
+	a,
 	button {
 		--size: 24px;
 
@@ -21,10 +34,13 @@
 		cursor: pointer;
 		background-color: var(--cl1_l);
 
+		text-decoration: none;
 		text-transform: capitalize;
 		color: var(--ft2);
 
-		transition: color var(--trans), background-color var(--trans);
+		transition:
+			color var(--trans),
+			background-color var(--trans);
 	}
 	.grow {
 		flex-grow: 1;

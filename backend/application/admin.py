@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, request
 from uuid import uuid4
 import os
-import json
 from .postgres import db_open, db_close
 from werkzeug.security import generate_password_hash, check_password_hash
 from .tools import token_to_user, user_schema
@@ -82,7 +81,9 @@ def set_access(key):
     user = cur.fetchone()
 
     error = None
-    if not me or "user:edit_access" not in me["access"]:
+    if not request.json:
+        error = "invalid request"
+    elif not me or "user:edit_access" not in me["access"]:
         error = "unauthorized access"
     elif "password" not in request.json or not request.json["password"]:
         error = "this field is required"
@@ -106,9 +107,7 @@ def set_access(key):
         })
 
     cur.execute("""
-        UPDATE "user"
-        SET access = %s
-        WHERE key = %s;
+        UPDATE "user" SET access = %s WHERE key = %s;
     """, (
         request.json["access"],
         user["key"]
@@ -166,7 +165,7 @@ def add_wragby(cur):
             "+2349087733358",
             email,
             "www.wragbysolutions.com",
-            [json.dumps(x) for x in address],
+            # [json.dumps(x) for x in address],
 
             '+2349087733358',
             'https://www.linkedin.com/in/wragbysolutions/',
@@ -182,7 +181,6 @@ def add_wragby(cur):
 @bp.get("/admin/init")
 def default_admin():
     con, cur = db_open()
-    add_wragby(cur)
 
     email = os.environ["MAIL_USERNAME"]
     cur.execute('SELECT * FROM "user" WHERE email = %s;', (email,))
@@ -190,13 +188,12 @@ def default_admin():
         key = uuid4().hex
         cur.execute("""
                 INSERT INTO "user" (
-                    key, status, slug, firstname, lastname,
+                    key, status, firstname, lastname,
                     email, password, access)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s);
+                VALUES (%s, %s, %s, %s, %s, %s, %s);
             """, (
             key,
             "confirmed",
-            "urlinks",
             "UR",
             "Links",
             email,

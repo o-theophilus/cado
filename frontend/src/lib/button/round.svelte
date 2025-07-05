@@ -1,23 +1,28 @@
 <script>
 	import Icon from '$lib/icon.svelte';
 
-	export let href = '';
-	export let target = '';
-	export let tooltip = '';
-	export let disabled = false;
+	let {
+		href = '',
+		target = '',
+		tooltip = '',
+		disabled = false,
 
-	export let icon = '';
-	export let icon_size = 1.2;
+		icon = '',
+		icon_size = 1.2,
 
-	export let large = false;
-	export let extra = ''; // outline, hov_red
+		large = false,
+		extra = '',
+		//  extra= outline, hov_red
+
+		onclick
+	} = $props();
 </script>
 
 <svelte:element
 	this={href ? 'a' : 'button'}
 	{href}
 	{target}
-	on:click
+	{onclick}
 	{disabled}
 	role="presentation"
 	class:large
@@ -45,7 +50,9 @@
 		fill: var(--ft2);
 		cursor: pointer;
 
-		transition: background-color var(--trans), fill var(--trans);
+		transition:
+			background-color var(--trans),
+			fill var(--trans);
 	}
 
 	.large {

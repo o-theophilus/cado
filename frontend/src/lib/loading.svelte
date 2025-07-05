@@ -5,9 +5,9 @@
 
 {#if active}
 	<div class="circle" style:--size="{size}px">
-		<div class="sector" />
-		<div class=" sector v2" />
-		<div class="center" />
+		<div class="sector"></div>
+		<div class=" sector v2"></div>
+		<div class="center"></div>
 	</div>
 {/if}
 

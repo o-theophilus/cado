@@ -1,168 +1,71 @@
 <script>
-	import { user as me } from '$lib/store.js';
-
-	import Content from '$lib/content.svelte';
 	import Meta from '$lib/meta.svelte';
-	import Back from '$lib/button/back.svelte';
+	import BRound from '$lib/button/round.svelte';
 
 	import Photo from './photo.svelte';
-	import Personal from './personal.svelte';
-	import Organization from './organization/index.svelte';
+	import Info from './info.svelte';
 	import Contact from './contact.svelte';
 	import Social from './social.svelte';
-	import Slug from './slug/index.svelte';
+	import Org from './org/index.svelte';
 	import Email from './email/index.svelte';
-	import Password from './password/index.svelte';
-	import Access from './access/index.svelte';
 	import Delete from './delete.svelte';
 
-	export let data;
-	let user = data.user;
-	
-	let open = null;
-	let back = '';
+	let { data } = $props();
+	let card = $state(data.card);
 
-	const set_open = (name, state) => {
-		if (state) {
-			open = name;
-		} else {
-			open = null;
+	let active_card = $state({
+		value: null,
+		set(v) {
+			if (this.value == v) {
+				this.value = null;
+			} else {
+				this.value = v;
+			}
+		},
+		close() {
+			this.value = null;
 		}
+	});
+
+	const update = (n) => {
+		card = n;
 	};
 </script>
 
-<Meta title={user?.firstname || data.error} />
+<Meta title={card.firstname} />
 
-<div class="bg">
-	<Content>
-		<div class="title">
-			<div class="left">
-				<Back {back} />
-				<strong class="ititle"> Setting </strong>
-			</div>
+<section class="page">
+	<div class="hline">
+		<div class="hline">
+			<BRound icon="arrow_back" href="/{card.key}" />
+			<div class="page_title">Card Setting</div>
 		</div>
+	</div>
 
-		{#if $me.key == user.key || $me.access.includes('user:edit_photo')}
-			<Photo
-				{user}
-				open={open == 'photo'}
-				on:open={(e) => {
-					set_open('photo', e.detail);
-				}}
-			/>
-		{/if}
+	<br />
 
-		{#if $me.key == user.key || $me.access.includes('user:edit_personal')}
-			<Personal
-				{user}
-				open={open == 'personal'}
-				on:open={(e) => {
-					set_open('personal', e.detail);
-				}}
-			/>
-		{/if}
+	<Info {card} bind:active_card {update} />
+	<Photo entity={card} _type="card" bind:active_card {update} />
+	<Contact {card} bind:active_card {update} />
+	<Social entity={card} _type="card" bind:active_card {update} />
 
-		
-		{#if $me.key == user.key || $me.access.includes('user:edit_contact')}
-		<Contact
-				{user}
-				open={open == 'contact'}
-				on:open={(e) => {
-					set_open('contact', e.detail);
-				}}
-			/>
-			{/if}
-			
-			{#if $me.key == user.key || $me.access.includes('user:edit_social_media')}
-			<Social
-				{user}
-				open={open == 'social'}
-				on:open={(e) => {
-					set_open('social', e.detail);
-				}}
-			/>
-		{/if}
+	<br />
+	<div class="page_title small">Advanced</div>
 
-		<br />
-		<strong class="ititle title"> Advanced </strong>
-		
-		{#if $me.key == user.key || $me.access.includes('user:edit_organization')}
-			<Organization
-				{user}
-				open={open == 'organization'}
-				on:open={(e) => {
-					set_open('organization', e.detail);
-				}}
-			/>
-		{/if}
-
-		{#if $me.access.includes('user:edit_slug')}
-			<Slug
-			{user}
-				open={open == 'slug'}
-				on:open={(e) => {
-					set_open('slug', e.detail);
-				}}
-				on:back={(e) => {
-					back = e.detail;
-				}}
-			/>
-			{/if}
-			
-		{#if $me.key == user.key}
-			<Email
-				open={open == 'email'}
-				on:open={(e) => {
-					set_open('email', e.detail);
-				}}
-			/>
-		{/if}
-
-		{#if $me.key == user.key}
-			<Password
-				open={open == 'password'}
-				on:open={(e) => {
-					set_open('password', e.detail);
-				}}
-			/>
-		{/if}
-
-		{#if $me.key != user.key && $me.access.includes('user:edit_access')}
-			<Access
-				{user}
-				open={open == 'access'}
-				on:open={(e) => {
-					set_open('access', e.detail);
-				}}
-			/>
-		{/if}
-
-		{#if $me.key == user.key || $me.access.includes('user:delete')}
-			<Delete
-				{user}
-				open={open == 'delete'}
-				on:open={(e) => {
-					set_open('delete', e.detail);
-				}}
-			/>
-		{/if}
-	</Content>
-</div>
+	<Org {card} bind:active_card {update} />
+	<Email entity={card} _type="card" bind:active_card {update} />
+	<Delete entity={card} _type="card" bind:active_card />
+</section>
 
 <style>
-	.title {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: var(--sp3) 0;
+	.page {
+		max-width: var(--mobileWidth);
+		width: 100%;
+		margin: auto;
+		padding: 0 var(--sp2);
 	}
-	.left {
-		display: flex;
-		align-items: center;
-		gap: var(--sp2);
-	}
-	.bg {
-		background-color: var(--bg2);
-		padding-bottom: var(--sp3);
+
+	.small {
+		font-size: medium;
 	}
 </style>

@@ -2,7 +2,7 @@
 	import { scale } from 'svelte/transition';
 	import { backInOut } from 'svelte/easing';
 
-	import { loading } from '$lib/store.js';
+	import { loading } from '$lib/store.svelte.js';
 
 	import Loading from '$lib/loading.svelte';
 
@@ -28,15 +28,15 @@
 	let visible = false;
 </script>
 
-{#if $loading}
+{#if loading.value}
 	<section>
 		<div class="block" transition:scale|local={{ delay: 0, duration: 200, easing: backInOut }}>
 			<Loading active />
-			{#if typeof $loading == 'string' && $loading.length > 0}
+			{#if typeof loading.value == 'string' && loading.value.length > 0}
 				<br />
 				{#if visible}
 					<strong transition:typewriter>
-						{$loading}
+						{loading.value}
 					</strong>
 				{/if}
 			{/if}

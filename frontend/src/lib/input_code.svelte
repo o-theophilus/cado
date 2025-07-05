@@ -1,6 +1,6 @@
 <script>
-	let inputs = [];
-	export let value = '';
+	let { value = $bindable() } = $props();
+	let inputs = $state([]);
 
 	const press = (e, i) => {
 		if (
@@ -52,13 +52,13 @@
 			type="number"
 			maxlength="1"
 			bind:this={inputs[i]}
-			on:keypress={(e) => {
+			onkeypress={(e) => {
 				e.preventDefault();
 			}}
-			on:keydown={(e) => {
+			onkeydown={(e) => {
 				press(e, i);
 			}}
-			on:paste={(e) => {
+			onpaste={(e) => {
 				e.preventDefault();
 				paste(e);
 			}}

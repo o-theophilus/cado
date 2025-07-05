@@ -1,17 +1,17 @@
 <script>
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { onMount } from 'svelte';
-	import { organization } from '$lib/store.js';
 
 	import QRCode from 'qrcode';
 	import Icon from '$lib/icon.svelte';
 
-	export let user;
-	let src = '';
+	let { card } = $props();
+	let org = card.org;
+	let src = $state('');
 
 	onMount(() => {
 		QRCode.toDataURL(
-			$page.url.href,
+			page.url.href,
 			{
 				margin: 0
 			},
@@ -22,7 +22,7 @@
 		);
 	});
 
-	let cw = 400;
+	let cw = $state(400);
 	let _cw = 400;
 </script>
 
@@ -32,29 +32,29 @@
 			<div class="row1">
 				<div class="left">
 					<span class="name">
-						{user.firstname}&nbsp;{user.lastname}
+						{card.firstname}&nbsp;{card.lastname}
 					</span>
 
-					{#if user.role}
+					{#if card.job_title}
 						<br />
-						<span class="role">
-							{user.role}
+						<span class="job_title">
+							{card.job_title}
 						</span>
 					{/if}
 				</div>
 				<img class="qr" {src} alt="qr_code" />
 			</div>
 
-			<div class="divider" />
+			<div class="divider"></div>
 
 			<div class="row2">
 				<div class="left">
-					{#if user.phone}
+					{#if card.phone}
 						<div class="phone">
 							<div class="icon">
 								<Icon icon="call" />
 							</div>
-							{user.phone}
+							{card.phone}
 						</div>
 					{/if}
 
@@ -62,12 +62,12 @@
 						<div class="icon">
 							<Icon icon="email" />
 						</div>
-						{user.email}
+						{card.email}
 					</div>
 
-					{#if $organization.address}
-						{#each $organization.address as a}
-							{#if a.name == user.office_location}
+					{#if org.address}
+						{#each org.address as a}
+							{#if a.name == card.office_location_id}
 								<div class="location">
 									<div class="icon">
 										<Icon icon="location_on" />
@@ -82,13 +82,17 @@
 				<div class="right">
 					<img
 						class="logo"
-						src={$organization.logo || '/logo.png'}
-						alt="{$organization.name} logo"
-						onerror="this.onerror=null; this.src='/logo.png';"
+						src={org.photo || '/logo.png'}
+						alt="{org.name} logo"
+						onerror={(e) => {
+							const img = e.currentTarget;
+							img.onerror = null;
+							img.src = '/logo.png';
+						}}
 					/>
 
-					{#if $organization.slogan}
-						<div class="slogan">{@html $organization.slogan.split(' ').join('&nbsp;')}</div>
+					{#if org.slogan}
+						<div class="slogan">{@html org.slogan.split(' ').join('&nbsp;')}</div>
 					{/if}
 				</div>
 			</div>
@@ -97,24 +101,28 @@
 		<div class="card back">
 			<div class="row1">
 				<img
-					src={$organization.logo || '/logo.png'}
-					alt="{$organization.name} logo"
-					onerror="this.onerror=null; this.src='/logo.png';"
+					src={org.photo || '/logo.png'}
+					alt="{org.name} logo"
+					onerror={(e) => {
+						const img = e.currentTarget;
+						img.onerror = null;
+						img.src = '/logo.png';
+					}}
 				/>
 
-				{#if $organization.fullname}
+				{#if org.fullname}
 					<span class="slogan">
-						{@html $organization.fullname.split(' ').join('&nbsp;')}
+						{@html org.fullname.split(' ').join('&nbsp;')}
 					</span>
 				{/if}
 			</div>
 
 			<div class="row2">
-				<div class="divider" />
-				{#if $organization.website}
+				<div class="divider"></div>
+				{#if org.website}
 					<Icon icon="language" size="1.2" />
-					{$organization.website}
-					<div class="divider" />
+					{org.website}
+					<div class="divider"></div>
 				{/if}
 			</div>
 		</div>
@@ -185,7 +193,7 @@
 		color: var(--ft1);
 	}
 
-	.front .role {
+	.front .job_title {
 		color: var(--cl1);
 	}
 

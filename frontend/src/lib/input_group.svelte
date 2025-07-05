@@ -2,27 +2,43 @@
 	import Input from '$lib/input.svelte';
 	import Icon from '$lib/icon.svelte';
 
-	export let name = '';
-	export let icon = '';
-	export let icon_size = 1.2;
-	export let error = '';
-	let id = '';
-	if (name) {
-		id = name.split(' ').join('_').toLowerCase();
-	}
+	let {
+		name = '',
+		icon = '',
+		icon_size = 1.2,
+		error = '',
 
-	export let value = '';
-	export let type = '';
-	export let placeholder = '';
-	export let min = '';
-	export let disabled = false;
+		value = $bindable(),
+		type = 'text',
+		placeholder = '',
+		min = '',
+		disabled = false,
 
-	export let no_pad = false;
-	export let required = false;
+		no_pad = false,
+		required = false,
+
+		onblur,
+		oninput,
+
+		label,
+		input,
+		right,
+		down
+	} = $props();
+
+	let id = $derived.by(() => {
+		let temp = '';
+		if (name) {
+			temp = name.split(' ').join('_').toLowerCase();
+		}
+		return temp;
+	});
 </script>
 
 <div class="inputGroup" class:no_pad>
-	<slot name="label">
+	{#if label}
+		{@render label()}
+	{:else if name}
 		<div class="label">
 			<label for={id}>
 				{name}
@@ -31,7 +47,7 @@
 				{/if}
 			</label>
 		</div>
-	</slot>
+	{/if}
 
 	{#if error}
 		<div class="error">
@@ -39,16 +55,18 @@
 		</div>
 	{/if}
 
-	<slot {id}>
+	{#if input}
+		{@render input(id)}
+	{:else}
 		<div class="input" class:left_pad={icon} class:disabled>
 			{#if icon}
 				<Icon {icon} size={icon_size} />
 			{/if}
-			<Input bind:value {id} {type} {placeholder} {min} {disabled} on:blur on:input />
-			<slot name="right" />
+			<Input bind:value {id} {type} {placeholder} {min} {disabled} {onblur} {oninput} />
+			{@render right?.()}
 		</div>
-		<slot name="down" />
-	</slot>
+		{@render down?.()}
+	{/if}
 </div>
 
 <style>
@@ -80,7 +98,7 @@
 	}
 
 	.input:hover:not(.disabled),
-	.input:has(:focus) {
+	:global(.input:has(:focus)) {
 		outline-color: var(--cl1);
 	}
 

@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 from .postgres import db_open, db_close
-from .postgres import user, code, organization, user_organization
+from .postgres import user, card, organization, card_organization, code
 from .admin import clean_photo
 
 bp = Blueprint("api", __name__)
@@ -21,11 +21,13 @@ def create_tables():
     cur.execute(f"""
         DROP TABLE IF EXISTS "user" CASCADE;
         DROP TABLE IF EXISTS organization CASCADE;
-        DROP TABLE IF EXISTS user_organization CASCADE;
+        DROP TABLE IF EXISTS card CASCADE;
+        DROP TABLE IF EXISTS card_organization CASCADE;
         DROP TABLE IF EXISTS code CASCADE;
         {user}
         {organization}
-        {user_organization}
+        {card}
+        {card_organization}
         {code}
     """)
 
@@ -35,18 +37,16 @@ def create_tables():
     })
 
 
-@bp.get("/fix")
+# @bp.get("/fix")
 def fix():
     con, cur = db_open()
 
-    # cur.execute(f"""
-    #     {user_organization}
-    # """)
-
-    # cur.execute("""
-    #     ALTER TABLE "user"
-    #     DROP COLUMN organization_key;
-    # """)
+    cur.execute("""
+        ALTER TABLE organization
+        RENAME COLUMN logo TO photo;
+        ALTER TABLE organization
+        DROP COLUMN IF EXISTS icon;
+    """)
 
     db_close(con, cur)
     return jsonify({

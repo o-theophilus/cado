@@ -11,5 +11,7 @@
     "firstname",
     "lastname",
     "linkify",
+    "noti",
+    "ondone"
   ],
 }

@@ -1,5 +1,5 @@
 <script>
-	import { user } from '$lib/store.js';
+	import { user } from '$lib/store.svelte.js';
 
 	import Meta from '$lib/meta.svelte';
 	import Content from '$lib/content.svelte';

@@ -29,7 +29,7 @@
 			User{users.length > 1 ? 's' : ''} ({users.length})
 			<ButtonFold
 				open={open_users}
-				on:click={() => {
+				onclick={() => {
 					open_users = !open_users;
 				}}
 			/>

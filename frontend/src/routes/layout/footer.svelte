@@ -1,34 +1,20 @@
 <script>
-	import { organization } from '$lib/store.js';
-
-	import Contact from './footer.contact.svelte';
-	import Socials from './socials.svelte';
 </script>
 
-<footer class="footer block">
-	{#if $organization.name}
-		<div class="ititle"><strong> Contact {$organization.name}</strong></div>
-	{/if}
-	<Contact />
-	<div class="social">
-		<Socials links={$organization} />
-	</div>
+<footer>
+	<div class="copy">© 2025 | URLinks</div>
 </footer>
 
 <style>
-	.block {
-		max-width: var(--mobileWidth);
-		width: 100%;
-		margin: auto;
-		padding: 0 var(--sp2);
+	footer {
+		background-color: var(--ft1_d);
 	}
 
-	.ititle {
-		margin-top: var(--sp4);
-		margin-bottom: var(--sp3);
-	}
+	.copy {
+		padding: var(--sp5) 0;
 
-	.social {
-		margin: var(--sp4) 0;
+		text-align: center;
+		color: var(--ft1_b);
+		font-size: 0.8rem;
 	}
 </style>

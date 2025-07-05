@@ -1,13 +1,13 @@
 <script>
-	import { module } from '$lib/store.js';
+	import { module } from '$lib/store.svelte.js';
 
 	import Icon from '$lib/icon.svelte';
 	import Button from '$lib/button/button.svelte';
 
-	let title = $module.title || 'Done';
-	let status = $module.status || 200;
-	let message = $module.message || 'The action was successful';
-	let buttons = $module.buttons || [];
+	let title = module.value.title || 'Done';
+	let status = module.value.status || 200;
+	let message = module.value.message || 'The action was successful';
+	let buttons = module.value.buttons || [];
 </script>
 
 <div
@@ -33,7 +33,7 @@
 		{#each buttons as x}
 			<Button
 				size="wide"
-				on:click={() => {
+				onclick={() => {
 					x.fn();
 				}}
 			>
@@ -53,7 +53,7 @@
 		gap: var(--sp2);
 
 		padding: var(--sp2);
-		padding-right: var(--sp4);
+		padding-right: var(--sp5);
 
 		color: var(--ft1_b);
 		fill: currentColor;

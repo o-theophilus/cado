@@ -11,24 +11,11 @@ user = """CREATE TABLE IF NOT EXISTS "user" (
     key CHAR(32) PRIMARY KEY,
     status VARCHAR(20) DEFAULT 'anonymous' NOT NULL,
 
-    slug VARCHAR(255) UNIQUE NOT NULL,
-
     firstname VARCHAR(100) NOT NULL,
     lastname VARCHAR(100) NOT NULL,
-    about_me TEXT,
-
-    role VARCHAR(100),
-    manager_email VARCHAR(255),
 
     email VARCHAR(255) UNIQUE NOT NULL,
     phone VARCHAR(100),
-    office_location VARCHAR(255),
-
-    whatsapp VARCHAR(100),
-    linkedin VARCHAR(100),
-    facebook VARCHAR(100),
-    twitter VARCHAR(100),
-    instagram VARCHAR(100),
 
     password VARCHAR(200) NOT NULL,
     photo VARCHAR(50),
@@ -37,43 +24,71 @@ user = """CREATE TABLE IF NOT EXISTS "user" (
     login BOOLEAN DEFAULT FALSE
 );"""
 
+
 # TODO: block user from member request
+# TODO: add about
 organization = """CREATE TABLE IF NOT EXISTS organization (
     key CHAR(32) PRIMARY KEY,
     status VARCHAR(20) DEFAULT 'live' NOT NULL,
 
     slug VARCHAR(255) UNIQUE NOT NULL,
+    user_key CHAR(32) NOT NULL,
 
     name VARCHAR(100) NOT NULL,
     fullname TEXT,
     slogan TEXT,
+    about TEXT,
     email_domains TEXT[] DEFAULT ARRAY[]::TEXT[],
 
     phone VARCHAR(100),
-    email VARCHAR(255) UNIQUE NOT NULL,
+    email VARCHAR(255),
     website VARCHAR(100),
-    address JSONB[] DEFAULT ARRAY[]::JSONB[],
+    address JSONB DEFAULT '[]'::JSONB,
+    social_links JSONB DEFAULT '{}'::JSONB,
 
-    whatsapp VARCHAR(100),
-    linkedin VARCHAR(100),
-    facebook VARCHAR(100),
-    twitter VARCHAR(100),
-    instagram VARCHAR(100),
+    photo VARCHAR(50),
 
-    logo VARCHAR(50),
-    icon VARCHAR(50)
+    FOREIGN KEY (user_key) REFERENCES "user"(key) ON DELETE CASCADE
 );"""
 
-# TODO: pending, approved, rejected
-user_organization = """CREATE TABLE IF NOT EXISTS user_organization (
-    key CHAR(32) PRIMARY KEY,
-    status VARCHAR(20) DEFAULT 'pending' NOT NULL,
 
-    user_key CHAR(32) UNIQUE NOT NULL,
-    organization_key CHAR(32) NOT NULL,
+# TODO: rename to about
+card = """CREATE TABLE IF NOT EXISTS card (
+    key CHAR(10) PRIMARY KEY,
+    status VARCHAR(20) DEFAULT 'draft' NOT NULL,
+
+    user_key CHAR(32) NOT NULL,
+    organization_key CHAR(32),
+
+    firstname VARCHAR(100) NOT NULL,
+    lastname VARCHAR(100) NOT NULL,
+    job_title VARCHAR(100),
+    about TEXT,
+
+    email VARCHAR(255),
+    phone VARCHAR(100),
+    office_location_id INTEGER DEFAULT 0,
+    social_links JSONB DEFAULT '{}'::JSONB,
+
+    photo VARCHAR(50),
 
     FOREIGN KEY (user_key) REFERENCES "user"(key) ON DELETE CASCADE,
     FOREIGN KEY (organization_key) REFERENCES organization(key)
+        ON DELETE SET NULL
+);"""
+
+
+# TODO: pending, approved, rejected
+card_organization = """CREATE TABLE IF NOT EXISTS card_organization (
+    key CHAR(32) PRIMARY KEY,
+    status VARCHAR(20) DEFAULT 'pending' NOT NULL,
+
+    card_key CHAR(32) UNIQUE NOT NULL,
+    organization_key CHAR(32) NOT NULL,
+
+    FOREIGN KEY (card_key) REFERENCES card(key) ON DELETE CASCADE,
+    FOREIGN KEY (organization_key) REFERENCES
+        organization(key) ON DELETE CASCADE
 );"""
 
 

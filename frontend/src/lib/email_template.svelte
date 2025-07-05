@@ -1,6 +1,7 @@
 <script>
-	import { organization } from '$lib/store.js';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
+
+	let { children } = $props();
 </script>
 
 <section
@@ -18,8 +19,8 @@ line-height: 1.5
 		"
 	>
 		<img
-			src={$organization.logo || `${$page.url.origin}/logo.png`}
-			alt="{$organization.name} logo"
+			src="{page.url.origin}/logo.png"
+			alt="URLinks logo"
 			style="
 		height: 30px;
 		"
@@ -33,19 +34,17 @@ line-height: 1.5
 	border-radius: 4px;
 	padding: 40px;"
 	>
-		<slot />
+		{@render children()}
 	</div>
 
-	{#if $organization.fullname}
-		<div
-			class="footer"
-			style="
+	<div
+		class="footer"
+		style="
 	text-align: center;
 	padding: 20px 40px;
 	font-size: x-small;
 	color: grey;"
-		>
-			© 2024 | {$organization.fullname}
-		</div>
-	{/if}
+	>
+		© 2025 | URLinks
+	</div>
 </section>

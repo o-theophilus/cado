@@ -1,18 +1,24 @@
 <script>
-	export let href = '';
-	export let target = '';
-	export let disabled = false;
+	let {
+		href = '',
+		target = '',
+		disabled = false,
 
-	export let primary = false;
-	export let size = ''; // small, large, wide
-	export let extra = ''; // hover_red, outline
+		primary = false,
+		size = '', // small, large, wide
+		extra = '', // hover_red, outline
+
+		onclick,
+
+		children
+	} = $props();
 </script>
 
 <svelte:element
 	this={href ? 'a' : 'button'}
 	{href}
 	{target}
-	on:click
+	{onclick}
 	{disabled}
 	role="presentation"
 	class:primary
@@ -21,7 +27,7 @@
 	class:wide={size == 'wide'}
 	class={extra}
 >
-	<slot />
+	{@render children()}
 </svelte:element>
 
 <style>
@@ -46,7 +52,10 @@
 		font-weight: 800;
 		cursor: pointer;
 
-		transition: background-color var(--trans), color var(--trans), opacity var(--trans);
+		transition:
+			background-color var(--trans),
+			color var(--trans),
+			opacity var(--trans);
 	}
 
 	.large {

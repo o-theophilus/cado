@@ -1,76 +1,54 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
 
 	import Fold from '$lib/button/fold.svelte';
 
-	let emit = createEventDispatcher();
-	export let open = false;
+	let { open = false, onopen, children, title } = $props();
 </script>
 
-<div class="block">
-	<div
-		class="line title"
-		role="presentation"
-		on:click={() => {
-			emit('open', !open);
-		}}
-	>
-		<div class="line">
-			<strong class="ititle">
-				<slot name="title" />
-			</strong>
-		</div>
+<div class="block" class:open>
+	<div class="title" role="presentation" onclick={onopen}>
+		{@render title()}
 		<Fold {open} />
 	</div>
 
 	{#if open}
 		<div class="content" transition:slide|local={{ delay: 0, duration: 200, easing: cubicInOut }}>
-			<slot />
+			{@render children()}
 		</div>
 	{/if}
 </div>
 
 <style>
 	.block {
-		margin: var(--sp1) 0;
-		border-radius: var(--sp0);
+		border-top: 2px solid transparent;
+		border-bottom: 1px solid var(--bg2);
 
-		/* border: 1px solid var(--bg2); */
-		box-shadow: 0px 0px 10px rgba(126, 126, 126, 0.1);
-
-		background-color: var(--bg1);
+		transition:
+			border-color var(--trans),
+			border-size var(--trans);
 	}
-
-	.line {
-		display: flex;
-		align-items: center;
-		gap: var(--sp2);
+	.open {
+		border-top: 2px solid var(--ft1_d);
+		border-bottom: 2px solid var(--ft1_d);
 	}
 
 	.title {
 		justify-content: space-between;
-		padding: var(--sp2);
+		padding: var(--sp2) 0;
+		display: flex;
+		align-items: center;
+		gap: var(--sp2);
+
+		transition: font-weight var(--trans);
 	}
 
-	.ititle {
-		font-size: 1.1rem;
+	.open .title {
+		font-weight: 800;
 	}
 
 	.content {
-		border-top: 1px solid var(--bg2);
-		padding: var(--sp2);
-		padding-top: 0;
-	}
-
-	@media screen and (min-width: 500px) {
-		.title {
-			padding: var(--sp3);
-		}
-		.content {
-			padding: var(--sp3);
-			padding-top: 0;
-		}
+		padding-bottom: var(--sp2);
 	}
 </style>

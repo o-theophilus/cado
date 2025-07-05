@@ -1,15 +1,17 @@
 <script>
-	export let value = '';
-	export let id = '';
-	export let type = '';
-	export let placeholder = '';
-	export let min = '';
-	export let disabled = false;
+	let {
+		value = $bindable(),
+		id = '',
+		type = 'text',
+		placeholder = '',
+		min = '',
+		disabled = false,
+		onblur,
+		oninput
+	} = $props();
 </script>
 
-{#if type == 'text'}
-	<input bind:value {id} type="text" {placeholder} {disabled} />
-{:else if type == 'email'}
+{#if type == 'email'}
 	<input bind:value {id} type="email" {placeholder} {disabled} />
 {:else if type == 'password'}
 	<input bind:value {id} type="password" {placeholder} {disabled} />
@@ -24,7 +26,9 @@
 {:else if type == 'datetime'}
 	<input bind:value {id} type="datetime-local" {placeholder} {min} {disabled} />
 {:else if type == 'textarea'}
-	<textarea bind:value {id} {placeholder} on:blur on:input {disabled} />
+	<textarea bind:value {id} {placeholder} {onblur} {oninput} {disabled}></textarea>
+{:else}
+	<input bind:value {id} type="text" {placeholder} {disabled} />
 {/if}
 
 <style>

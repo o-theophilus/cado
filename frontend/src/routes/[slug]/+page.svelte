@@ -1,5 +1,4 @@
 <script>
-	import { organization } from '$lib/store.js';
 	import * as htmlToImage from 'html-to-image';
 
 	import Meta from '$lib/meta.svelte';
@@ -7,40 +6,55 @@
 	import Link from '$lib/button/link.svelte';
 
 	import Header from './header.svelte';
-	import NameRole from './name_role.svelte';
+	import NameJobPhoto from './name_job_photo.svelte';
 
-	import Socials from '../layout/socials.svelte';
+	import Socials from './socials.svelte';
 
 	import BusinessCard from './business_card.svelte';
 	import Button from '$lib/button/button.svelte';
+	import Org from '../@[slug]/org.svelte';
 
-	export let data;
-	$: user = data.user;
+	let { data } = $props();
+	let card = data.card;
+
+	let loc = $state(0);
+	const set = () => {
+		if (!card.org) {
+			return;
+		}
+		if (!card.org.address) {
+			return;
+		}
+		if (card.org.address.length >= card.office_location_id - 1) {
+			loc = card.office_location_id - 1;
+		}
+	};
+	set();
 </script>
 
-<Meta title={user?.firstname} />
-<Header />
-<NameRole {user} />
+<Meta title={card.firstname} />
+<Header {card} />
+<NameJobPhoto {card} />
 
 <section class="content">
-	{#if user.about_me}
+	{#if card.about}
 		<div class="group">
 			<Icon icon="person" size="1.2" />
 			<div>
 				<div class="label">About me:</div>
 				<div class="about">
-					{user.about_me}
+					{card.about}
 				</div>
 			</div>
 		</div>
 	{/if}
 
-	{#if user.phone}
+	{#if card.phone}
 		<span class="group">
 			<Icon icon="call" size="1.2" />
 			<div>
 				<div class="label">Phone:</div>
-				<Link href="tel:{user.phone}">{user.phone}</Link>
+				<Link href="tel:{card.phone}">{card.phone}</Link>
 			</div>
 		</span>
 	{/if}
@@ -49,47 +63,50 @@
 		<Icon icon="email" size="1.2" />
 		<div>
 			<div class="label">Email:</div>
-			<Link href="mailto:{user.email}">
-				{user.email}
+			<Link href="mailto:{card.email}">
+				{card.email}
 			</Link>
 		</div>
 	</div>
 
-	{#if user.office_location}
+	{#if card.office_location_id > 0 && card.status == 'live'}
 		<div class="group address">
 			<Icon icon="location_on" size="1.2" />
 			<div>
 				<div class="label">Location:</div>
-				{#each $organization.address as a}
-					<Link href="https://maps.app.goo.gl/{a.url}">
-						{#if a.name == user.office_location}
-							{a.address}
-						{/if}
-					</Link>
-				{/each}
+				<Link href={card.org.address[loc].url}>
+					{card.org.address[loc].address}
+				</Link>
 			</div>
 		</div>
 	{/if}
 
-	<div class="social">
-		<Socials links={{ ...user, name: user.firstname }} />
+	<Socials links={card.social_links} name={card.firstname} />
 
-		<BusinessCard {user} />
+	<Button
+		size="small"
+		onclick={() => {
+			htmlToImage.toPng(document.getElementById('to_print')).then(function (dataUrl) {
+				var a = document.createElement('a');
+				a.download = `${card.firstname} ${card.lastname} business card.png`;
+				a.href = dataUrl;
+				a.click();
+			});
+		}}
+	>
+		Save Business Card
+	</Button>
 
-		<Button
-			size="small"
-			on:click={() => {
-				htmlToImage.toPng(document.getElementById('to_print')).then(function (dataUrl) {
-					var a = document.createElement('a');
-					a.download = `${user.firstname} ${user.lastname} business card.png`;
-					a.href = dataUrl;
-					a.click();
-				});
-			}}
-		>
-			Save Business Card
-		</Button>
-	</div>
+	<br />
+
+	<BusinessCard {card} />
+
+	{#if card.status == 'live'}
+		<br /><br />
+		<hr />
+		<br /><br />
+		<Org org={card.org}></Org>
+	{/if}
 </section>
 
 <style>
@@ -100,6 +117,7 @@
 		width: 100%;
 		margin: auto;
 		padding: 0 var(--sp2);
+		padding-bottom: var(--sp5);
 	}
 
 	.group {
@@ -114,13 +132,6 @@
 	}
 	.label {
 		font-size: 0.8rem;
-	}
-
-	.social {
-		display: flex;
-		flex-direction: column;
-		margin: var(--sp4) 0;
-		gap: var(--sp1);
 	}
 
 	.address {

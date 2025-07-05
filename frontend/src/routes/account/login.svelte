@@ -1,8 +1,6 @@
 <script>
-	import { page } from '$app/stores';
-
-	import { module, loading } from '$lib/store.js';
-	import { token } from '$lib/cookie.js';
+	import { page } from '$app/state';
+	import { module, loading, token } from '$lib/store.svelte.js';
 
 	import IG from '$lib/input_group.svelte';
 	import Button from '$lib/button/button.svelte';
@@ -15,16 +13,15 @@
 	import Confirm from './confirm.svelte';
 
 	let email_template;
-	let show_password = false;
-
-	let form = {
-		email: $module.email
-	};
-	let error = {};
-
-	let return_url = $page.url.pathname;
-	if ($module.return_url) {
-		return_url = $module.return_url;
+	let show_password = $state(false);
+	let form = $state({
+		email: module.value.email
+	});
+	let error = $state({});
+	// TODO: fix return url for all auth forms
+	let return_url = $state(page.url.pathname);
+	if (module.value.return_url) {
+		return_url = module.value.return_url;
 	}
 
 	const validate = () => {
@@ -43,36 +40,33 @@
 	const submit = async () => {
 		form.email_template = email_template.innerHTML.replace(/&amp;/g, '&');
 
-		$loading = 'Loading . . .';
+		loading.open('Loading . . .');
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/login`, {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: $token
+				Authorization: token.value
 			},
 			body: JSON.stringify(form)
 		});
 
 		resp = await resp.json();
 		if (resp.status != 200) {
-			$loading = false;
+			loading.close();
 		}
 
 		if (resp.status == 200) {
-			$token = resp.token;
+			token.value = resp.token;
 			document.location = return_url;
 		} else if (resp.error == 'not confirmed') {
-			$module = {
-				module: Confirm,
-				email: form.email
-			};
+			module.open(Confirm, { email: form.email });
 		} else {
 			error = resp;
 		}
 	};
 </script>
 
-<form on:submit|preventDefault novalidate autocomplete="off">
+<form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
 	<strong class="ititle"> Login </strong>
 	{#if error.error}
 		<div class="error">
@@ -97,37 +91,31 @@
 		type={show_password ? 'text' : 'password'}
 		bind:value={form.password}
 	>
-		<svelte:fragment slot="right">
+		{#snippet right()}
 			<div class="right">
 				<ShowPassword bind:show_password />
 			</div>
-		</svelte:fragment>
+		{/snippet}
 	</IG>
 
-	<Button on:click={validate}>
+	<Button onclick={validate}>
 		Submit
 		<Icon icon="send" />
 	</Button>
 
 	<br />
-	<div>
+	<div class="row">
 		<Link
-			on:click={() => {
-				$module = {
-					module: Signup,
-					email: form.email
-				};
+			onclick={() => {
+				module.open(Signup, { email: form.email });
 			}}
 		>
 			Signup
 		</Link>
-		<span class="divider"> | </span>
+		<span class="divider"> </span>
 		<Link
-			on:click={() => {
-				$module = {
-					module: Forgot,
-					email: form.email
-				};
+			onclick={() => {
+				module.open(Forgot, { email: form.email });
 			}}
 		>
 			Forgot Password
@@ -148,5 +136,17 @@
 	}
 	.right {
 		padding-right: var(--sp2);
+	}
+
+	.row {
+		display: flex;
+		align-items: center;
+		gap: var(--sp2);
+		flex-wrap: wrap;
+	}
+	.divider {
+		width: 2px;
+		height: var(--sp2);
+		background-color: var(--bg2);
 	}
 </style>

@@ -1,11 +1,6 @@
-export const load = async ({ fetch, params, parent }) => {
-    let a = await parent();
-    let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/${params.slug}`, {
-        method: 'get',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: a.locals.token
-        },
+export const load = async ({ fetch, params }) => {
+    let resp = await fetch(`${import.meta.env.VITE_BACKEND}/card/${params.slug}`, {
+        headers: { 'Content-Type': 'application/json' },
     });
     resp = await resp.json();
 

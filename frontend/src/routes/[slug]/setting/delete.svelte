@@ -1,6 +1,6 @@
 <script>
-	import { loading, user as me } from '$lib/store.js';
-	import { token } from '$lib/cookie.js';
+	import { goto } from '$app/navigation';
+	import { loading, token, notify } from '$lib/store.svelte.js';
 
 	import Button from '$lib/button/button.svelte';
 	import IG from '$lib/input_group.svelte';
@@ -8,11 +8,12 @@
 	import ShowPassword from '../../account/password_show.svelte';
 	import Card from '$lib/card.svelte';
 
-	export let user;
-	export let open;
-	let form = {};
-	let error = {};
-	let show_password = false;
+	let { entity, _type, active_card } = $props();
+
+	let form = $state({});
+	let error = $state({});
+	let show_password = $state(false);
+	let status = $state(0);
 
 	const validate = () => {
 		error = {};
@@ -25,33 +26,36 @@
 	};
 
 	const submit = async () => {
-		$loading = 'Deleting Account . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/${user.key}`, {
+		loading.open('Deleting Account . . .');
+		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/delete/${_type}/${entity.key}`, {
 			method: 'delete',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: $token
+				Authorization: token.value
 			},
 			body: JSON.stringify(form)
 		});
 		resp = await resp.json();
-		$loading = false;
+		loading.close();
 
 		if (resp.status == 200) {
-			$token = resp.token;
-			document.location = '/';
+			notify.open(`${_type == 'org' ? 'organization' : _type} Deleted`);
+			goto(`/profile/${_type}`);
 		} else {
 			error = resp;
 		}
 	};
 
-	let state = 0;
+	let name = 'delete';
 </script>
 
-<Card {open} on:open>
-	<svelte:fragment slot="title">Delete Account</svelte:fragment>
+<Card open={active_card.value == name} onopen={() => active_card.set(name)}>
+	{#snippet title()}
+		<!-- TODO: Capitalize first letter -->
+		Delete {_type == 'org' ? 'organization' : _type}
+	{/snippet}
 
-	{#if state == 0}
+	{#if status == 0}
 		<div class="note">
 			<div class="title">
 				<Icon icon="error" size="2" />
@@ -60,12 +64,12 @@
 
 			<span>
 				Deleting
-				{#if user.key == $me.key}
+				{#if entity.key == entity.key}
 					your
 				{:else}
 					this
 				{/if}
-				account will permanently remove all {#if user.key == $me.key}
+				account will permanently remove all {#if entity.key == entity.key}
 					your
 				{:else}
 					this
@@ -76,15 +80,15 @@
 			</span>
 		</div>
 		<Button
-			on:click={() => {
-				state = 1;
+			onclick={() => {
+				status = 1;
 			}}
 		>
 			<Icon icon="send" />
 			Continue
 		</Button>
-	{:else if state == 1}
-		<form on:submit|preventDefault novalidate autocomplete="off">
+	{:else if status == 1}
+		<form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
 			{#if error.error}
 				<div class="error">
 					{error.error}
@@ -99,7 +103,7 @@
 
 				<span>
 					To proceed with deleting
-					{#if user.key == $me.key}
+					{#if entity.key == entity.key}
 						your
 					{:else}
 						this
@@ -116,22 +120,22 @@
 				type={show_password ? 'text' : 'password'}
 				placeholder="Password here"
 			>
-				<svelte:fragment slot="right">
+				{#snippet right()}
 					<div class="right">
 						<ShowPassword bind:show_password />
 					</div>
-				</svelte:fragment>
+				{/snippet}
 			</IG>
 
 			<div class="line">
-				<Button on:click={validate}>
+				<Button onclick={validate}>
 					<Icon icon="delete" />
 					Delete
 				</Button>
 
 				<Button
-					on:click={() => {
-						state = 0;
+					onclick={() => {
+						status = 0;
 					}}
 				>
 					<Icon icon="arrow_back" />

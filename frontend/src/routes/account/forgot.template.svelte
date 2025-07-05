@@ -1,5 +1,4 @@
 <script>
-	import { organization } from '$lib/store.js';
 	import Template from '$lib/email_template.svelte';
 </script>
 
@@ -22,11 +21,11 @@
 		<b> {'{'}code{'}'} </b>
 	</div>
 	<br />
-	This verification code is valid for a limited time. If you didn't request this, please disregard this message.
+	This verification code is valid for a limited time. If you didn't request this, please disregard this
+	message.
 	<br />
 	<br />
-	Warm regards{#if $organization.name},
-		<br /><br />
-		<b>{$organization.name}</b>
-	{/if}
+	Warm regards,
+	<br /><br />
+	<b>URLinks</b>
 </Template>

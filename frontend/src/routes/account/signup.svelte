@@ -1,6 +1,5 @@
 <script>
-	import { module, loading, organization } from '$lib/store.js';
-	import { token } from '$lib/cookie.js';
+	import { module, loading, token } from '$lib/store.svelte.js';
 
 	import IG from '$lib/input_group.svelte';
 	import Button from '$lib/button/button.svelte';
@@ -13,12 +12,9 @@
 	import Confirm from './confirm.svelte';
 
 	let email_template;
-	let show_password = false;
-
-	let form = {
-		email: $module.email
-	};
-	let error = {};
+	let show_password = $state(false);
+	let form = $state({ email: module.value.email });
+	let error = $state({});
 
 	const validate = () => {
 		error = {};
@@ -33,11 +29,6 @@
 			error.email = 'this field is required';
 		} else if (!/\S+@\S+\.\S+/.test(form.email)) {
 			error.email = 'invalid email';
-		} else if (
-			$organization.email_domains.length > 0 &&
-			!$organization.email_domains.some((x) => form.email.endsWith(x))
-		) {
-			error.email = `invalid ${$organization.name} email`;
 		}
 
 		if (!form.password) {
@@ -65,30 +56,27 @@
 	const submit = async () => {
 		form.email_template = email_template.innerHTML.replace(/&amp;/g, '&');
 
-		$loading = 'Loading . . .';
+		loading.open('Loading . . .');
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/signup`, {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: $token
+				Authorization: token.value
 			},
 			body: JSON.stringify(form)
 		});
 		resp = await resp.json();
-		$loading = false;
+		loading.close();
 
 		if (resp.status == 200) {
-			$module = {
-				module: Confirm,
-				email: form.email
-			};
+			module.open(Confirm, { email: form.email });
 		} else {
 			error = resp;
 		}
 	};
 </script>
 
-<form on:submit|preventDefault novalidate autocomplete="off">
+<form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
 	<strong class="ititle"> Signup </strong>
 	{#if error.error}
 		<div class="error">
@@ -127,14 +115,14 @@
 		type={show_password ? 'text' : 'password'}
 		bind:value={form.password}
 	>
-		<svelte:fragment slot="right">
+		{#snippet right()}
 			<div class="right">
 				<ShowPassword bind:show_password />
 			</div>
-		</svelte:fragment>
-		<svelte:fragment slot="down">
+		{/snippet}
+		{#snippet down()}
 			<Password password={form.password} />
-		</svelte:fragment>
+		{/snippet}
 	</IG>
 	<IG
 		name="Confirm Password"
@@ -145,7 +133,7 @@
 		bind:value={form.confirm_password}
 	/>
 
-	<Button on:click={validate}>
+	<Button onclick={validate}>
 		Submit
 		<Icon icon="send" />
 	</Button>
@@ -153,11 +141,8 @@
 	<br />
 
 	<Link
-		on:click={() => {
-			$module = {
-				module: Login,
-				email: form.email
-			};
+		onclick={() => {
+			module.open(Login, { email: form.email });
 		}}
 	>
 		Login

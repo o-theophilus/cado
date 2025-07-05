@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from .tools import (
-    token_tool, token_to_user, user_schema, send_mail, reserved_words,
-    generate_code, check_code, org_schema)
+    token_tool, token_to_user, user_schema, send_mail,
+    generate_code, check_code)
 from uuid import uuid4
 import re
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -14,18 +14,18 @@ def anon(cur):
     key = uuid4().hex
     cur.execute("""
             INSERT INTO "user" (
-                key, slug, firstname, lastname, email, password)
-            VALUES (%s, %s, %s, %s, %s, %s)
+                key, firstname, lastname, email, password)
+            VALUES (%s, %s, %s, %s, %s)
             RETURNING *;
         """, (
-        key,
         key,
         key[:4],
         "user",
         uuid4().hex,
         generate_password_hash(uuid4().hex, method="scrypt"))
     )
-    return cur.fetchone()
+    user = cur.fetchone()  # TODO: check if this is needed
+    return user if user else {}
 
 
 @bp.post("/init")
@@ -39,20 +39,11 @@ def init():
         user = anon(cur)
         token = token_tool().dumps(user["key"])
 
-    # TODO: wragby fix
-    cur.execute(
-        """SELECT * FROM organization WHERE email = %s;""",
-        ("info@wragbysolutions.com",))
-    org = cur.fetchone()
-    if not org:
-        org = {}
-
     db_close(con, cur)
     return jsonify({
         "status": 200,
         "user": user_schema(user),
-        "token": token,
-        "organization": org_schema(org)
+        "token": token
     })
 
 
@@ -70,6 +61,7 @@ def signup():
 
     if (
         user["login"]
+        or not request.json
         or "email_template" not in request.json
         or not request.json["email_template"]
     ):
@@ -133,42 +125,22 @@ def signup():
     elif user["status"] != "anonymous":
         user = anon(cur)
 
-    _name = f"{request.json['firstname'].strip()[0]}{
-        request.json['lastname'].strip()}"
-    slug = re.sub('-+', '-', re.sub(
-        '[^a-zA-Z0-9]', '-',
-        _name.lower())
-    )
-    cur.execute('SELECT * FROM "user" WHERE key != %s AND slug = %s;',
-                (user["key"], slug))
-    if cur.fetchone() or slug in reserved_words:
-        slug = f"{slug}-{str(uuid4().hex)[:10]}"
-
-    # TODO: wragby fix
-    cur.execute(
-        """SELECT * FROM organization WHERE email = %s;""",
-        ("info@wragbysolutions.com",))
-    org = cur.fetchone()
-
     cur.execute("""
         UPDATE "user"
         SET
-            slug = %s, firstname = %s, lastname = %s,
-            email = %s, password = %s,
-            organization_key = %s, office_location = %s
+            firstname = %s, lastname = %s,
+            email = %s, password = %s
         WHERE key = %s
         RETURNING *;
     """, (
-        slug,
         request.json["firstname"].strip(),
         request.json["lastname"].strip(),
         request.json["email"],
         generate_password_hash(request.json["password"], method="scrypt"),
-        org["key"] if org else None,
-        org["address"][0]["name"] if org and org["address"] != [] else None,
         user["key"]
     ))
     user = cur.fetchone()
+    user = user if user else {}  # TODO: check if this is needed
 
     send_mail(
         user["email"],
@@ -178,8 +150,7 @@ def signup():
             code=generate_code(
                 cur,
                 user["key"],
-                user["email"],
-                "signup"
+                user["email"]
             )
         )
     )
@@ -196,7 +167,8 @@ def confirm():
 
     error = None
     if (
-        "email" not in request.json
+        not request.json
+        or "email" not in request.json
         or not request.json["email"]
         or not re.match(r"\S+@\S+\.\S+", request.json["email"])
     ):
@@ -242,7 +214,8 @@ def login():
     con, cur = db_open()
 
     if (
-        "email_template" not in request.json
+        not request.json
+        or "email_template" not in request.json
         or not request.json["email_template"]
     ):
         db_close(con, cur)
@@ -290,8 +263,7 @@ def login():
                 code=generate_code(
                     cur,
                     user["key"],
-                    user["email"],
-                    "login"
+                    user["email"]
                 )
             )
         )
@@ -361,7 +333,11 @@ def delete(key):
             "error": "invalid token"
         })
 
-    if "password" not in request.json or not request.json["password"]:
+    if (
+        not request.json
+        or "password" not in request.json
+        or not request.json["password"]
+    ):
         db_close(con, cur)
         return jsonify({
             "status": 400,
@@ -405,11 +381,12 @@ def delete(key):
 
 
 @bp.post("/forgot/1")
-def forgot_1_email():
+def forgot_request_code():
     con, cur = db_open()
 
     if (
-        "email_template" not in request.json
+        not request.json
+        or "email_template" not in request.json
         or not request.json["email_template"]
     ):
         db_close(con, cur)
@@ -449,8 +426,7 @@ def forgot_1_email():
             code=generate_code(
                 cur,
                 user["key"],
-                user["email"],
-                "forgot password"
+                user["email"]
             )
         )
     )
@@ -462,11 +438,13 @@ def forgot_1_email():
 
 
 @bp.post("/forgot/2")
-def forgot_2_code():
+def forgot_check_code():
     con, cur = db_open()
 
     if (
-        "email" not in request.json or not request.json["email"]
+        not request.json
+        or "email" not in request.json
+        or not request.json["email"]
         or not re.match(r"\S+@\S+\.\S+", request.json["email"])
     ):
         db_close(con, cur)
@@ -501,11 +479,13 @@ def forgot_2_code():
 
 
 @bp.post("/forgot/3")
-def forgot_3_password():
+def forgot_password():
     con, cur = db_open()
 
     if (
-        "email" not in request.json or not request.json["email"]
+        not request.json
+        or "email" not in request.json
+        or not request.json["email"]
         or not re.match(r"\S+@\S+\.\S+", request.json["email"])
     ):
         db_close(con, cur)

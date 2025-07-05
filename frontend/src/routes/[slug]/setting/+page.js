@@ -1,31 +1,15 @@
 import { error } from '@sveltejs/kit';
-
 export const load = async ({ fetch, params, parent }) => {
-    let a = await parent();
-    let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/${params.slug}`, {
-        method: 'get',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: a.locals.token
-        },
+    let resp = await fetch(`${import.meta.env.VITE_BACKEND}/card/${params.slug}`, {
+        headers: { 'Content-Type': 'application/json' },
     });
     resp = await resp.json();
 
-    if (resp.status == 200) {
-        if (a.locals.user.slug != params.slug && !a.locals.user.access.some((x) => [
-            "user:edit_photo",
-            "user:edit_personal",
-            "user:edit_organization",
-            "user:edit_contact",
-            "user:edit_social_media",
-            "user:edit_slug",
-            "user:edit_access",
-            "user:delete",
-        ].includes(x))) {
-            console.log(2);
-            throw error(400, "unauthorized access")
-        }
+    let a = await parent();
 
-        return { ...resp }
+    if (a.locals.user.key != resp.card.user_key) {
+        throw error(400, "unauthorized access")
+    } else if (resp.status == 200) {
+        return resp
     }
 }

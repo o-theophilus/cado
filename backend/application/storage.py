@@ -11,7 +11,7 @@ bp = Blueprint("storage", __name__)
 
 def drive():
     sb = create_client(os.environ["STORE_URI"], os.environ["STORE_KEY"])
-    return sb.storage.from_('portfolio.website')
+    return sb.storage.from_('photo')
 
 
 def storage(method, x, thumbnail=False, path=""):
@@ -51,8 +51,8 @@ def storage(method, x, thumbnail=False, path=""):
         return drive().remove([f"{path}{x}"])
 
 
-@bp.get("/file/<filename>")
-@bp.get("/file/<filename>/<thumbnail>")
+@bp.get("/photo/<filename>")
+@bp.get("/photo/<filename>/<thumbnail>")
 def get_photo(filename, thumbnail=False):
-    file = storage("get", filename, thumbnail=thumbnail)
-    return send_file(file, mimetype="image/jpg")
+    photo = storage("get", filename, thumbnail=thumbnail)
+    return send_file(photo, mimetype="image/jpg")

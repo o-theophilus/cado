@@ -1,22 +1,29 @@
 <script>
-	export let href = '';
-	export let blank = false;
-	export let disabled = false;
+	let {
+		href = '',
+		blank = false,
+		disabled = false,
 
-	export let small = false;
+		small = false,
+
+		onclick,
+		onmouseenter,
+
+		children
+	} = $props();
 </script>
 
 <svelte:element
 	this={href ? 'a' : 'button'}
 	{href}
 	target={blank ? '_blank' : ''}
-	on:click
-	on:mouseenter
+	{onclick}
+	{onmouseenter}
 	{disabled}
 	role="presentation"
 	class:small
 >
-	<slot />
+	{@render children()}
 </svelte:element>
 
 <style>

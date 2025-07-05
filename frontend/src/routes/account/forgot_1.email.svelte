@@ -1,6 +1,5 @@
 <script>
-	import { module, user, loading, notification } from '$lib/store.js';
-	import { token } from '$lib/cookie.js';
+	import { module, loading, token } from '$lib/store.svelte.js';
 
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
@@ -11,10 +10,8 @@
 	import Code from './forgot_2.code.svelte';
 	import EmailTemplate from './forgot.template.svelte';
 
-	let form = {
-		email: $module.email
-	};
-	let error = {};
+	let form = $state({ email: module.value.email });
+	let error = $state({});
 	let email_template;
 
 	const validate = () => {
@@ -30,32 +27,29 @@
 	};
 
 	const submit = async () => {
-		$loading = 'Requesting Verification Code . . .';
+		loading.open('Requesting Verification Code . . .');
 		form.email_template = email_template.innerHTML.replace(/&amp;/g, '&');
 
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/forgot/1`, {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: $token
+				Authorization: token.value
 			},
 			body: JSON.stringify(form)
 		});
 		resp = await resp.json();
-		$loading = false;
+		loading.close();
 
 		if (resp.status == 200) {
-			$module = {
-				module: Code,
-				form
-			};
+			module.open(Code, form);
 		} else {
 			error = resp;
 		}
 	};
 </script>
 
-<form on:submit|preventDefault novalidate autocomplete="off">
+<form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
 	<strong class="ititle"> Forgot Password </strong>
 
 	{#if error.error}
@@ -73,7 +67,7 @@
 		placeholder="Email here"
 	/>
 
-	<Button primary on:click={validate}>
+	<Button primary onclick={validate}>
 		Submit
 		<Icon icon="send" />
 	</Button>
@@ -81,11 +75,8 @@
 	<br />
 
 	<Link
-		on:click={() => {
-			$module = {
-				module: Login,
-				email: form.email
-			};
+		onclick={() => {
+			module.open(Login, { email: form.email });
 		}}
 	>
 		Login

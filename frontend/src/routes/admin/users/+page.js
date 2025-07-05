@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 import { get } from 'svelte/store';
-import { state, loading } from "$lib/store.js"
+import { state, loading } from "$lib/store.svelte.js"
 
 export const load = async ({ fetch, url, parent }) => {
 	let a = await parent();

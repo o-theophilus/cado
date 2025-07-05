@@ -1,8 +1,9 @@
 <script>
 	import { slide } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
-	import { page } from '$app/stores';
-	import { user } from '$lib/store.js';
+	import { page } from '$app/state';
+
+	import { user } from '$lib/store.svelte.js';
 
 	import Link from './nav.btn.svelte';
 	import Logout from '../account/logout.svelte';
@@ -14,7 +15,7 @@
 </script>
 
 <svelte:window
-	on:click={() => {
+	onclick={() => {
 		if (open && !self) {
 			open = false;
 		}
@@ -24,30 +25,21 @@
 
 <div class="user">
 	<button
-		on:click={() => {
+		onclick={() => {
 			open = !open;
 			self = true;
 		}}
 	>
-		<Avatar name={$user.firstname} photo={$user.photo} size="32" />
+		<Avatar name={user.value.firstname} photo={user.value.photo} size="32" />
 	</button>
 
 	{#if open}
 		<div class="menu" transition:slide={{ delay: 0, duration: 200, easing: cubicInOut }}>
-			{#if $page.url.pathname != `/${$user.slug}`}
-				<Link href="/{$user.slug}">Profile</Link>
+			{#if page.url.pathname != `/profile`}
+				<Link href="/profile">Profile</Link>
 			{/if}
-			{#if $page.url.pathname != '/admin' && $user.access.length != 0}
+			{#if page.url.pathname != '/admin' && user.value.access.length != 0}
 				<Link href="/admin">Admin</Link>
-			{/if}
-
-			{#if $page.route.id == '/[slug]' && ($page.data.user.key == $user.key || $user.access.some( (x) => ['user:edit_photo', 'user:edit_personal', 'user:edit_organization', 'user:edit_contact', 'user:edit_social_media', 'user:edit_slug', 'user:edit_access', 'user:delete'].includes(x) ))}
-				<Link href="/{$page.data.user.slug}/setting">
-					<div class="row">
-						<Icon icon="settings" size="1.2" />
-						Settings
-					</div>
-				</Link>
 			{/if}
 
 			<Logout />
@@ -90,11 +82,5 @@
 		padding: var(--sp2);
 		border-radius: var(--sp0);
 		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-	}
-
-	.row {
-		display: flex;
-		align-items: center;
-		gap: var(--sp0);
 	}
 </style>

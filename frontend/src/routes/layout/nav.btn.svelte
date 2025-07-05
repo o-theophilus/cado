@@ -1,19 +1,21 @@
 <script>
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
-	export let href = '';
+	let { onclick, href = '', children } = $props();
 </script>
 
 {#if href}
 	<a
-		class:active={href.split('/')[1] == $page.url.pathname.split('/')[1]}
+		class:active={href.split('/')[1] == page.url.pathname.split('/')[1]}
 		{href}
 		data-sveltekit-preload-data
 	>
-		<slot />
+		{@render children()}
 	</a>
 {:else}
-	<button on:click|stopPropagation> <slot /></button>
+	<button {onclick}>
+		{@render children()}
+	</button>
 {/if}
 
 <style>
@@ -36,7 +38,10 @@
 		font-weight: 700;
 		font-size: 0.8rem;
 
-		transition: border-color var(--trans), color var(--trans), font-weight var(--trans);
+		transition:
+			border-color var(--trans),
+			color var(--trans),
+			font-weight var(--trans);
 	}
 
 	button:hover,
@@ -45,7 +50,6 @@
 		border-color: var(--cl1);
 		text-decoration: none;
 	}
-
 
 	.active {
 		font-weight: bold;

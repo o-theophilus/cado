@@ -1,13 +1,13 @@
 <script>
 	import Icon from '$lib/icon.svelte';
 
-	export let show_password = false;
+	let { show_password = $bindable(false) } = $props();
 </script>
 
-<form on:submit|preventDefault>
+<form onsubmit={(e) => e.preventDefault()}>
 	<button
 		tabindex="-1"
-		on:click={() => {
+		onclick={() => {
 			show_password = !show_password;
 		}}
 	>
@@ -41,7 +41,9 @@
 		fill: currentColor;
 		cursor: pointer;
 
-		transition: color var(--trans), background-color var(--trans);
+		transition:
+			color var(--trans),
+			background-color var(--trans);
 	}
 
 	button:hover {

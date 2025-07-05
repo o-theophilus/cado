@@ -1,52 +1,38 @@
 <script>
-	import { user, organization } from '$lib/store.js';
-	import { token } from '$lib/cookie.js';
+	import { user, token } from '$lib/store.svelte.js';
 
 	import './layout/var.css';
 	import './layout/main.css';
 	import Nav from './layout/nav.svelte';
 	import Footer from './layout/footer.svelte';
-	import Footer2 from './layout/footer2.svelte';
 
 	import Module from './layout/_module.svelte';
 	import Loading from './layout/_loading.svelte';
-	import Notification from './layout/_notification.svelte';
+	import Notify from './layout/_notify.svelte';
 
-	export let data;
-	$user = data.locals.user;
-	$token = data.locals.token;
-	$organization = data.locals.organization;
+	let { data, children } = $props();
+	user.value = data.locals.user;
+	token.value = data.locals.token;
 </script>
-
-<svelte:head>
-	{#if $organization.icon}
-		<link rel="icon" href={$organization.icon} />
-	{:else}
-		<link rel="icon" href="/favicon.png" />
-	{/if}
-</svelte:head>
 
 <main>
 	<div class="page">
 		<Nav />
-		<slot />
-		<hr />
-		<Footer />
+		{@render children()}
 	</div>
-	<Footer2 />
+	<Footer />
 
 	<Module />
 	<Loading />
-	<Notification />
+	<Notify />
 </main>
 
 <style>
 	main {
 		position: relative;
 
-		background-color: var(--bg1);
 		color: var(--ft2);
-		transition: background-color var(--trans), color var(--trans);
+		transition: color var(--trans);
 	}
 
 	.page {

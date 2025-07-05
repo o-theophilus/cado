@@ -1,8 +1,8 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { onMount } from 'svelte';
-	import { set_state } from '$lib/store.js';
+	import { set_state } from '$lib/store.svelte.js';
 
 	import BRound from '$lib/button/round.svelte';
 	import Button from '$lib/button/button.svelte';
@@ -35,14 +35,14 @@
 			if (_search != search) {
 				set_state('search', search);
 			}
-			set($page.url);
+			set(page.url);
 		}
 	};
 
 	onMount(() => {
-		set($page.url);
+		set(page.url);
 	});
-	$: set($page.url);
+	$: set(page.url);
 </script>
 
 <IG type="text" {placeholder} bind:value={search} no_pad>
@@ -53,7 +53,7 @@
 					<BRound
 						icon="close"
 						extra="hover_red"
-						on:click={() => {
+						onclick={() => {
 							submit('clear');
 						}}
 					/>
@@ -63,7 +63,7 @@
 			<slot>
 				{#if !non_default}
 					<Button
-						on:click={() => {
+						onclick={() => {
 							submit('ok');
 						}}
 						disabled={search == _search}

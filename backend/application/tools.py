@@ -38,7 +38,7 @@ def token_to_user(cur):
     return user
 
 
-def generate_code(cur, key, email, _from, clear=True):
+def generate_code(cur, key, email, clear=True):
     if clear:
         cur.execute("DELETE FROM code WHERE user_key = %s;", (key,))
 
@@ -60,7 +60,11 @@ def generate_code(cur, key, email, _from, clear=True):
 
 def check_code(cur, key, email, n="code"):
     error = None
-    if n not in request.json or not request.json[n]:
+    if (
+        not request.json
+        or n not in request.json
+        or not request.json[n]
+    ):
         error = "this field is required"
     elif len(request.json[n]) != 6:
         error = "invalid code"
@@ -74,7 +78,7 @@ def check_code(cur, key, email, n="code"):
             AND email = %s;
     """, (
         key,
-        request.json[n],
+        request.json[n] if request.json and n in request.json else None,
         email
     ))
     code = cur.fetchone()
@@ -82,9 +86,7 @@ def check_code(cur, key, email, n="code"):
     if not code:
         error = "invalid code"
     elif datetime.now() - code["date"] > timedelta(minutes=15):
-        cur.execute("""
-            DELETE FROM code WHERE user_key = %s
-        ;""", (key,))
+        cur.execute("DELETE FROM code WHERE user_key = %s;", (key,))
         error = "invalid code"
 
     return error
@@ -117,9 +119,20 @@ def user_schema(a):
     return a
 
 
+def card_schema(a):
+    a["photo"] = (
+        f"{request.host_url}photo/{a['photo']}"
+        if a["photo"] else None
+    )
+    if "org" in a:
+        a["org"]["photo"] = (
+            f"{request.host_url}photo/{a["org"]['photo']}"
+            if a["org"]["photo"] else None
+        )
+    return a
+
+
 def org_schema(a):
-    if "logo" in a and a["logo"]:
-        a["logo"] = f"{request.host_url}photo/{a['logo']}"
-    if "icon" in a and a["icon"]:
-        a["icon"] = f"{request.host_url}photo/{a['icon']}"
+    if "photo" in a and a["photo"]:
+        a["photo"] = f"{request.host_url}photo/{a['photo']}"
     return a

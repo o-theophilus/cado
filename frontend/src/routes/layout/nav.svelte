@@ -1,47 +1,34 @@
 <script>
-	import { user, module, organization } from '$lib/store.js';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
+	import { module, user } from '$lib/store.svelte.js';
 
 	import Link from './nav.btn.svelte';
 	import User from './nav.user.svelte';
 	import Login from '../account/login.svelte';
 	import Signup from '../account/signup.svelte';
 
-	$: home = $page.url.pathname == '/';
+	let home = $derived(page.url.pathname == '/');
 </script>
 
 <nav class:home>
 	<div class="block">
 		<a href="/">
 			<img
-				src={$organization.logo || '/logo.png'}
-				alt="{$organization.name} logo"
-				onerror="this.onerror=null; this.src='/logo.png';"
+				src={'/logo.png'}
+				alt="logo"
+				onerror={(e) => {
+					const img = e.currentTarget;
+					img.onerror = null;
+					img.src = '/logo.png';
+				}}
 			/>
 		</a>
 		<div class="links">
-			{#if $user && $user.login}
+			{#if user.value.login}
 				<User />
 			{:else}
-				<Link
-					on:click={() => {
-						$module = {
-							module: Login
-						};
-					}}
-				>
-					Login
-				</Link>
-
-				<Link
-					on:click={() => {
-						$module = {
-							module: Signup
-						};
-					}}
-				>
-					Signup
-				</Link>
+				<Link onclick={() => module.open(Login)}>Login</Link>
+				<Link onclick={() => module.open(Signup)}>Signup</Link>
 			{/if}
 		</div>
 	</div>

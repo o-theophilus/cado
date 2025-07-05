@@ -1,58 +1,80 @@
 <script>
-	import { loading } from '$lib/store.js';
-	import { token } from '$lib/cookie.js';
-	import { createEventDispatcher } from 'svelte';
+	import { loading, token } from '$lib/store.svelte.js';
 
 	import Button from '$lib/button/button.svelte';
+	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
 	import EmailTemplate from './email_template.svelte';
 
-	let emit = createEventDispatcher();
-	let error = {};
+	let { entity, _type, form } = $props();
+	let error = $state({});
 	let email_template;
 
+	const validate = () => {
+		error = {};
+
+		if (!form.email) {
+			error.email = 'this field is required';
+		} else if (!/\S+@\S+\.\S+/.test(form.email)) {
+			// TODO: match the regex to align with that of email_domain
+			error.email = 'Please enter a valid email';
+		} else if (form.email == entity.email) {
+			error.email = 'please use a different email form your current email';
+		}
+
+		Object.keys(error).length === 0 && submit();
+	};
+
 	const submit = async () => {
-		$loading = 'Requesting Verification Code . . .';
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/user/email/1`, {
+		loading.open('Requesting Verification Code . . .');
+		form.email_template = email_template.innerHTML.replace(/&amp;/g, '&');
+		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/email/1/${_type}/${entity.key}`, {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: $token
+				Authorization: token.value
 			},
-			body: JSON.stringify({
-				email_template: email_template.innerHTML.replace(/&amp;/g, '&')
-			})
+			body: JSON.stringify(form)
 		});
 		resp = await resp.json();
-		$loading = false;
+		loading.close();
 
 		if (resp.status == 200) {
-			emit('ok');
+			form.state = 1;
 		} else {
 			error = resp;
 		}
 	};
 </script>
 
-{#if error.error}
-	<br />
-	<div class="error">
-		{error.error}
+<form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
+	{#if error.error}
+		<div class="error">
+			{error.error}
+		</div>
+	{/if}
+
+	<div class="note">
+		Enter your new email address and click the button below.
+		<br />
+		<br />
+		A verification code will be sent to that address to confirm your ownership.
 	</div>
-{/if}
 
-<div class="note">
-	To change the email address associated with this account, please click the button below to request
-	a verification code.
-	<br />
-	<br />
-	This code will be sent to your current email address to confirm that you are the owner of this account.
-</div>
+	<IG
+		name="New Email"
+		icon="email"
+		error={error.email}
+		type="email"
+		bind:value={form.email}
+		placeholder="Email here"
+	/>
 
-<Button on:click={submit}>
-	Request Code
-	<Icon icon="send" />
-</Button>
+	<Button primary onclick={validate}>
+		Request Code
+		<Icon icon="send" />
+	</Button>
+</form>
 
 <div bind:this={email_template} style="display: none;">
 	<EmailTemplate />
@@ -67,8 +89,8 @@
 		padding: var(--sp2);
 		margin: var(--sp2) 0;
 		background-color: var(--bg2);
-
 		font-size: 0.8rem;
+
 		border-radius: var(--sp0);
 	}
 </style>
