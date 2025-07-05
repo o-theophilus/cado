@@ -8,7 +8,7 @@
 	import User from '../users/user.svelte';
 	import Pagination from '$lib/pagination.svelte';
 	import Search from './search.svelte';
-	import DropPlus from '$lib/dropdown_plus.svelte';
+	import DropPlus from '$lib/dropdown.svelte';
 	import UpdateUrl from '$lib/update_url.svelte';
 
 	export let data;
