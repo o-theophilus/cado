@@ -3,11 +3,9 @@ from flask_cors import CORS
 
 from . import api
 from . import user
-from . import user_get
 from . import card
 from . import card_get
 from . import org
-from . import org_get
 from . import org_card
 from . import storage
 from . import account
@@ -31,11 +29,9 @@ def create_app(conf=None):
 
     app.register_blueprint(api.bp)
     app.register_blueprint(user.bp)
-    app.register_blueprint(user_get.bp)
     app.register_blueprint(card.bp)
     app.register_blueprint(card_get.bp)
     app.register_blueprint(org.bp)
-    app.register_blueprint(org_get.bp)
     app.register_blueprint(org_card.bp)
     app.register_blueprint(storage.bp)
     app.register_blueprint(account.bp)
