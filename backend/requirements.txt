@@ -5,4 +5,5 @@ pillow
 requests
 supabase
 psycopg2-binary
+pytest
 protonmail-api-client
