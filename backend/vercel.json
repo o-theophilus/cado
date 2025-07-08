@@ -3,7 +3,10 @@
     "builds": [
         {
             "src": "./index.py",
-            "use": "@vercel/python"
+            "use": "@vercel/python",
+            "config": {    
+                "excludeFiles": "{.pnpm-store,*.cache,__pycache__,node_modules}/**"
+            }
         }
     ],
     "routes": [
