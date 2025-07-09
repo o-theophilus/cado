@@ -49,28 +49,33 @@ def init():
 
 @bp.post("/signup")
 def signup():
+    print(1)
     con, cur = db_open()
 
     user = token_to_user(cur)
     if not user:
+        print(2)
         db_close(con, cur)
         return jsonify({
             "status": 400,
             "error": "invalid token"
         })
 
+    print(3)
     if (
         user["login"]
         or not request.json
         or "email_template" not in request.json
         or not request.json["email_template"]
     ):
+        print(4)
         db_close(con, cur)
         return jsonify({
             "status": 400,
             "error": "invalid request"
         })
 
+    print(5)
     error = {}
 
     if "firstname" not in request.json or not request.json["firstname"]:
@@ -114,12 +119,14 @@ def signup():
         match"""
 
     if error != {}:
+        print(6)
         db_close(con, cur)
         return jsonify({
             "status": 400,
             **error
         })
 
+    print(7)
     if _user:
         user = _user
     elif user["status"] != "anonymous":
@@ -142,6 +149,7 @@ def signup():
     user = cur.fetchone()
     user = user if user else {}  # TODO: check if this is needed
 
+    print(8)
     send_mail(
         user["email"],
         "Email Verification Code",
@@ -154,6 +162,7 @@ def signup():
             )
         )
     )
+    print(9)
 
     db_close(con, cur)
     return jsonify({
@@ -281,8 +290,6 @@ def login():
 
     out_user = token_to_user(cur)
     if out_user and out_user["status"] == 'anonymous':
-        print(10)
-        print(out_user["key"])
         cur.execute(
             'DELETE FROM "user" WHERE key = %s;',
             (out_user["key"],)

@@ -100,7 +100,7 @@ code = """CREATE TABLE IF NOT EXISTS code (
     code VARCHAR(10) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
 
-    FOREIGN KEY (user_key) REFERENCES "user"(key)
+    FOREIGN KEY (user_key) REFERENCES "user"(key) ON DELETE CASCADE
 );"""
 
 
