@@ -2,17 +2,14 @@
     "version": 2,
     "builds": [
         {
-            "src": "index.py",
-            "use": "@vercel/python",
-            "config": {    
-                "excludeFiles": "{.pnpm-store,*.cache,__pycache__,node_modules}/**"
-            }
+            "src": "./index.py",
+            "use": "@vercel/python"
         }
     ],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "index.py"
+            "dest": "/"
         }
     ]
 }
