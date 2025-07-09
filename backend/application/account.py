@@ -212,18 +212,20 @@ def confirm():
 @bp.post("/login")
 def login():
     con, cur = db_open()
-
+    print(1)
     if (
         not request.json
         or "email_template" not in request.json
         or not request.json["email_template"]
     ):
+        print(2)
         db_close(con, cur)
         return jsonify({
             "status": 400,
             "error": "invalid request"
         })
 
+    print(3)
     error = {}
     if "email" not in request.json or not request.json["email"]:
         error["email"] = "this field is required"
@@ -231,12 +233,14 @@ def login():
         error["password"] = "this field is required"
 
     if error != {}:
+        print(4)
         db_close(con, cur)
         return jsonify({
             "status": 400,
             **error
         })
 
+    print(5)
     cur.execute(
         'SELECT * FROM "user" WHERE email = %s;',
         (request.json["email"],)
@@ -248,13 +252,16 @@ def login():
         or not check_password_hash(
             user["password"], request.json["password"])
     ):
+        print(6)
         db_close(con, cur)
         return jsonify({
             "status": 400,
             "error": "your email or password is incorrect"
         })
 
+    print(7)
     if user["status"] != "confirmed":
+        print(8)
         send_mail(
             user["email"],
             "Email Verification Code",
@@ -273,6 +280,7 @@ def login():
             "error": "not confirmed"
         })
 
+    print(9)
     cur.execute("""
         UPDATE "user" SET login = %s
         WHERE key = %s RETURNING *;""", (
@@ -281,11 +289,13 @@ def login():
 
     out_user = token_to_user(cur)
     if out_user and out_user["status"] == 'anonymous':
+        print(10)
         cur.execute(
             """DELETE FROM "user" WHERE key = %s;""",
             (out_user["key"],)
         )
 
+    print(11)
     db_close(con, cur)
     return jsonify({
         "status": 200,
