@@ -290,6 +290,7 @@ def login():
     out_user = token_to_user(cur)
     if out_user and out_user["status"] == 'anonymous':
         print(10)
+        print(out_user)
         cur.execute(
             """DELETE FROM "user" WHERE key = %s;""",
             (out_user["key"],)
