@@ -33,29 +33,33 @@
 
 <br />
 
+{#snippet card(c)}
+	<a href="/{c.key}" class="card">
+		<div class="hline">
+			<Tag no_grow>
+				{c.status}
+			</Tag>
+			<!-- <BRound icon="settings" href="/{card.key}/setting" /> -->
+		</div>
+
+		<div class="name">
+			{c.firstname}
+			{c.lastname}
+		</div>
+		<div class="role">
+			{c.job_title}
+		</div>
+
+		{#if c.status == 'live'}
+			@ {c.org.name}
+		{/if}
+	</a>
+{/snippet}
+
 {#if cards && cards.length > 0}
 	<div class="cards">
-		{#each cards as card}
-			<a href="/{card.key}" class="card">
-				<div class="hline">
-					<Tag no_grow>
-						{card.status}
-					</Tag>
-					<!-- <BRound icon="settings" href="/{card.key}/setting" /> -->
-				</div>
-
-				<div class="name">
-					{card.firstname}
-					{card.lastname}
-				</div>
-				<div class="role">
-					{card.job_title}
-				</div>
-
-				{#if card.status == 'live'}
-					@ {card.org.name}
-				{/if}
-			</a>
+		{#each cards as c}
+			{@render card(c)}
 		{/each}
 	</div>
 {:else}

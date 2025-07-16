@@ -30,7 +30,20 @@
 			self = true;
 		}}
 	>
-		<Avatar name={user.value.firstname} photo={user.value.photo} size="32" />
+		<Avatar
+			name="{user.value.firstname} {user.value.lastname}"
+			photo={user.value.photo}
+			size="32"
+		/>
+		<div class="detail">
+			<span class="name">
+				{user.value.firstname}
+				{user.value.lastname}
+			</span>
+			<span class="email">
+				{user.value.email}
+			</span>
+		</div>
 	</button>
 
 	{#if open}
@@ -54,23 +67,42 @@
 	}
 
 	button {
-		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		gap: var(--sp1);
+
+		padding: var(--sp1);
+
+		border-radius: var(--sp0);
+
+		background-color: transparent;
 		border: none;
 		cursor: pointer;
 
-		outline: 2px solid transparent;
-
-		transition: outline-color var(--trans);
+		transition: background-color var(--trans);
 	}
 
 	button:hover {
-		outline-color: var(--ft2);
+		background-color: var(--bg2);
+	}
+
+	.detail {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.name {
+		font-size: 0.8em;
+		font-weight: 600;
+	}
+	.email {
+		font-size: 0.6em;
 	}
 
 	.menu {
 		position: absolute;
 		right: 0;
-		top: 40px;
+		top: 50px;
 		z-index: 1;
 
 		display: flex;
