@@ -138,6 +138,7 @@ def get_many():
         FROM card
         LEFT JOIN organization AS org ON card.organization_key = org.key
         WHERE
+            card.user_key = %s AND
             (
                 %s = '' OR card.status = %s
             ) AND (
@@ -151,6 +152,7 @@ def get_many():
     """.format(
         order_by[order], order_dir[order]
     ), (
+        user["key"],
         status, status,
         search, f"%{search}%",
         page_size, (page_no - 1) * page_size

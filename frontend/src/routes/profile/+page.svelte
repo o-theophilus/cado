@@ -47,7 +47,9 @@
 				<div>
 					<div class="label">Email:</div>
 					<Link href="mailto:{user.value.email}">
-						{user.value.email}
+						<span class="email">
+							{user.value.email}
+						</span>
 					</Link>
 				</div>
 			</div>
@@ -64,7 +66,12 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--sp3);
-		align-items: center;
+	}
+	
+	@media screen and (min-width: 600px) {
+		.info {
+			align-items: center;
+		}
 	}
 
 	.name {
@@ -82,5 +89,10 @@
 
 	.label {
 		font-size: small;
+	}
+
+	.email {
+		word-break: break-all;
+		overflow-wrap: anywhere;
 	}
 </style>

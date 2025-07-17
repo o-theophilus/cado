@@ -94,33 +94,11 @@ def check_code(cur, key, email, n="code"):
     return error
 
 
-def _send_mail(to, subject, body):
-    print(f"Sending email to {to} with subject '{subject}'")
-    # print(body)
-
-    msg = MIMEText(body, "html")
-    msg['Subject'] = subject
-    msg['From'] = os.environ["MAIL_USERNAME"]
-    msg['To'] = to
-
-    try:
-        with smtplib.SMTP_SSL("workplace.truehost.cloud", 465) as server:
-            server.login(os.environ["MAIL_USERNAME"],
-                         os.environ["MAIL_PASSWORD"])
-            server.sendmail(
-                os.environ["MAIL_USERNAME"],
-                [to],
-                msg.as_string()
-            )
-
-        print("Email sent successfully")
-    except Exception as e:
-        print(f"Error sending email: {e}")
-
-
 def send_mail(to, subject, body):
+    print(f"Sending email to {to} with subject '{subject}'")
+
     if current_app.config["DEBUG"]:
-        print(f"Sending email to {to} with subject '{subject}'")
+        print(body)
     else:
         msg = MIMEText(body, "html")
         msg['Subject'] = subject

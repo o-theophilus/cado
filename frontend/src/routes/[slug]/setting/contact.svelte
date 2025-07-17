@@ -21,11 +21,13 @@
 			value: 0
 		}
 	];
-	for (let x = 0; x < card.org.address.length; x++) {
-		list.push({
-			key: card.org.address[x].address,
-			value: x + 1
-		});
+	if (card.org.address && card.org.address.length > 0) {
+		for (let x = 0; x < card.org.address.length; x++) {
+			list.push({
+				key: card.org.address[x].address,
+				value: x + 1
+			});
+		}
 	}
 
 	const validate = () => {
