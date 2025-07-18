@@ -4,7 +4,19 @@ select,
 input,
 button {
 	font-family: "Figtree", sans-serif;
-	font-size: 16px;
+	font-size: 12px;
+
+}
+
+@media (min-width: 600px) {
+	:root,
+	textarea,
+	select,
+	input,
+	button {
+		font-size: 16px;
+	
+	}
 
 }
 
@@ -35,13 +47,8 @@ hr {
 	border-top: 2px solid var(--input);
 }
 
-.ititle {
-	color: var(--ft1);
-	font-size: 1.5rem;
-}
-
 .page_title {
-	font-size: x-large;
+	font-size: 1.5rem;
 	font-weight: 800;
 	/* color: var(--ft1);	 */
 }

@@ -25,8 +25,6 @@ user = """CREATE TABLE IF NOT EXISTS "user" (
 );"""
 
 
-# TODO: block user from member request
-# TODO: add about
 organization = """CREATE TABLE IF NOT EXISTS organization (
     key CHAR(32) PRIMARY KEY,
     status VARCHAR(20) DEFAULT 'live' NOT NULL,
@@ -52,7 +50,7 @@ organization = """CREATE TABLE IF NOT EXISTS organization (
 );"""
 
 
-# TODO: rename to about
+# TODO: add manager_card_key CHAR(32) NOT NULL,
 card = """CREATE TABLE IF NOT EXISTS card (
     key CHAR(10) PRIMARY KEY,
     status VARCHAR(20) DEFAULT 'draft' NOT NULL,

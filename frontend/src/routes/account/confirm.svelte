@@ -57,7 +57,7 @@
 </script>
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
-	<strong class="ititle"> Confirm Email </strong>
+	<div class="page_title">Confirm Email</div>
 	<br />
 	A Verification Code has been sent to your email.
 	<br />

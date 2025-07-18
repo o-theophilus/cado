@@ -17,8 +17,6 @@
 	});
 
 	const validate = () => {
-		console.log('here');
-
 		error = {};
 		for (const i in org.address) {
 			if (!org.address[i].address) {

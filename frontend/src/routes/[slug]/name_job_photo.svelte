@@ -7,7 +7,7 @@
 	<div class="content">
 		<div class="avatar_place">
 			<div class="avatar">
-				<Avatar name={card.firstname} photo={card.photo} size="148" square />
+				<Avatar name="{card.firstname} {card.lastname}" photo={card.photo} size="148" square />
 			</div>
 		</div>
 
@@ -68,7 +68,7 @@
 	}
 
 	.name {
-		font-size: x-large;
+		font-size: 1.5rem;
 		font-weight: 800;
 		color: var(--ft1);
 	}

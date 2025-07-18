@@ -10,7 +10,7 @@
 
 <Content>
 	<br />
-	<strong class="ititle"> Admin Dashboard</strong>
+	<div class="page_title"> Admin Dashboard</div>
 
 	<div class="buttons">
 		{#if $user.access.includes('user:view')}

@@ -1,6 +1,7 @@
 <script>
 	import { module } from '$lib/store.svelte.js';
 	import Button from '$lib/button/button.svelte';
+	import BRound from '$lib/button/round.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Add from './_add.svelte';
 	import Empty from '../empty.svelte';
@@ -29,6 +30,10 @@
 	<div class="cards">
 		{#each orgs as org}
 			<div class="card">
+				<div class="menu">
+					<BRound icon="card" href="/@{org.slug}/card"></BRound>
+					<BRound icon="settings" href="/@{org.slug}/setting"></BRound>
+				</div>
 				<a href="/@{org.slug}">
 					<div class="img">
 						{#if org.photo}
@@ -50,7 +55,7 @@
 	</div>
 {:else}
 	<Empty>
-		No organization available.
+		No organization available
 		<Button onclick={add}>
 			<Icon icon="add" />
 			Add Now
@@ -80,6 +85,8 @@
 	}
 
 	.card {
+		position: relative;
+
 		display: flex;
 		flex-direction: column;
 
@@ -112,5 +119,14 @@
 
 	.card:hover .img {
 		border-color: var(--ft2);
+	}
+
+	.menu {
+		position: absolute;
+		top: var(--sp1);
+		right: var(--sp1);
+
+		display: flex;
+		gap: var(--sp0);
 	}
 </style>

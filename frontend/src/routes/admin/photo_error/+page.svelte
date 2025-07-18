@@ -17,15 +17,17 @@
 
 <Content>
 	<br />
-	<div class="left">
-		<Back />
-		<strong class="ititle"> Photo Error </strong>
+	<div class="hline">
+		<div class="hline">
+			<Back />
+			<div class="page_title">Photo Error</div>
+		</div>
 	</div>
 
 	<hr />
 
 	<div class="fold">
-		<div class="title">
+		<div class="hline">
 			User{users.length > 1 ? 's' : ''} ({users.length})
 			<ButtonFold
 				open={open_users}
@@ -52,20 +54,7 @@
 </Content>
 
 <style>
-	.left {
-		display: flex;
-		align-items: center;
-		gap: var(--sp2);
-	}
-
 	.fold {
-		margin: var(--sp2) 0;
-	}
-	.title {
-		font-weight: 900;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
 		margin: var(--sp2) 0;
 	}
 </style>

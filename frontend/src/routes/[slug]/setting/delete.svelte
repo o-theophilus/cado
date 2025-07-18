@@ -46,13 +46,13 @@
 		}
 	};
 
+	let _type_name = $state('org' ? 'organization' : _type);
 	let name = 'delete';
 </script>
 
 <Card open={active_card.value == name} onopen={() => active_card.set(name)}>
 	{#snippet title()}
-		<!-- TODO: Capitalize first letter -->
-		Delete {_type == 'org' ? 'organization' : _type}
+		Delete {_type_name.charAt(0).toUpperCase() + _type_name.slice(1)}
 	{/snippet}
 
 	{#if status == 0}

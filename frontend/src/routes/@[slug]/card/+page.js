@@ -1,4 +1,4 @@
-import { redirect } from '@sveltejs/kit';
+import { redirect, error } from '@sveltejs/kit';
 
 export const load = async ({ parent, url, fetch, params }) => {
     let a = await parent();
@@ -24,7 +24,10 @@ export const load = async ({ parent, url, fetch, params }) => {
     org = await org.json();
     cards = await cards.json();
 
-    if (org.status == 200 && cards.status == 200) {
+
+    if (a.locals.user.key != org.org.user_key) {
+        throw error(400, "unauthorized access")
+    } else if (org.status == 200 && cards.status == 200) {
         return {
             org: org.org,
             cards: cards.cards,

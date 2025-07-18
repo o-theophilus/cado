@@ -23,12 +23,12 @@
 
 <Content>
 	<br />
-	<div class="title">
-		<div class="left">
+	<div class="hline">
+		<div class="hline">
 			<Back />
-			<strong class="ititle">
+			<div class="page_title">
 				Admin{users.length > 1 ? 's' : ''}
-			</strong>
+			</div>
 		</div>
 		<DropPlus name="order" list={order_by} />
 	</div>
@@ -47,14 +47,4 @@
 </Content>
 
 <style>
-	.title {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-	.left {
-		display: flex;
-		align-items: center;
-		gap: var(--sp2);
-	}
 </style>

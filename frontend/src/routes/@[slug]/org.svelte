@@ -111,14 +111,14 @@
 	}
 
 	.name {
-		font-size: xx-large;
+		font-size: 2rem;
 		font-weight: 700;
 		color: var(--ft1);
 	}
 
 	.label,
 	.slogan {
-		font-size: 0.8rem;
+		font-size: 0.9rem;
 	}
 
 	.address {

@@ -23,8 +23,9 @@
 	}}
 />
 
-<div class="user">
+<div class="user_menu">
 	<button
+		class="mobile_button"
 		onclick={() => {
 			open = !open;
 			self = true;
@@ -35,68 +36,130 @@
 			photo={user.value.photo}
 			size="32"
 		/>
-		<div class="detail">
-			<span class="name">
-				{user.value.firstname}
-				{user.value.lastname}
-			</span>
-			<span class="email">
-				{user.value.email}
-			</span>
-		</div>
 	</button>
+
+	<div class="full_button">
+		<a href="/profile" class="goto_profile">
+			<Avatar
+				name="{user.value.firstname} {user.value.lastname}"
+				photo={user.value.photo}
+				size="32"
+			/>
+
+			<div class="info_1">
+				<span class="name">
+					{user.value.firstname}
+					{user.value.lastname}
+				</span>
+				<span class="email">
+					{user.value.email}
+				</span>
+			</div>
+		</a>
+
+		<button
+			class="open_menu"
+			onclick={() => {
+				open = !open;
+				self = true;
+			}}
+		>
+			<Icon icon="keyboard_arrow_down"></Icon>
+		</button>
+	</div>
 
 	{#if open}
 		<div class="menu" transition:slide={{ delay: 0, duration: 200, easing: cubicInOut }}>
-			{#if page.url.pathname != `/profile`}
-				<Link href="/profile">Profile</Link>
-			{/if}
-			{#if page.url.pathname != '/admin' && user.value.access.length != 0}
-				<Link href="/admin">Admin</Link>
-			{/if}
+			<a href="/profile" class="info_2">
+				<span class="name">
+					{user.value.firstname}
+					{user.value.lastname}
+				</span>
+				<span class="email">
+					{user.value.email}
+				</span>
+			</a>
 
-			<Logout />
+			<div class="menu_btn">
+				{#if page.url.pathname != '/admin' && user.value.access.length != 0}
+					<Link href="/admin">Admin</Link>
+				{/if}
+
+				<Logout />
+			</div>
 		</div>
 	{/if}
 </div>
 
 <style>
-	.user {
+	.user_menu {
 		position: relative;
 		display: flex;
 	}
 
-	button {
+	a {
+		text-decoration: none;
+		color: var(--ft1);
+	}
+
+	.mobile_button {
+		border-radius: 50%;
+		outline: 8px solid transparent;
+	}
+	.mobile_button:hover {
+		outline-color: var(--bg2);
+	}
+
+	.mobile_button,
+	.open_menu,
+	.goto_profile,
+	.info_2 {
+		border: none;
+		background: transparent;
+		cursor: pointer;
+		transition:
+			background-color var(--trans),
+			outline-color var(--trans);
+	}
+
+	.full_button {
+		display: none;
+	}
+
+	.open_menu {
+		display: flex;
+		align-items: center;
+		padding: var(--sp1);
+		border-radius: var(--sp0);
+	}
+
+	.goto_profile {
 		display: flex;
 		align-items: center;
 		gap: var(--sp1);
-
 		padding: var(--sp1);
-
 		border-radius: var(--sp0);
-
-		background-color: transparent;
-		border: none;
-		cursor: pointer;
-
-		transition: background-color var(--trans);
 	}
 
-	button:hover {
+	.open_menu:hover,
+	.goto_profile:hover,
+	.info_2:hover {
 		background-color: var(--bg2);
 	}
 
-	.detail {
+	.info_1,
+	.info_2 {
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
 	}
+
 	.name {
-		font-size: 0.8em;
+		font-size: small;
 		font-weight: 600;
 	}
 	.email {
-		font-size: 0.6em;
+		font-size: x-small;
 	}
 
 	.menu {
@@ -107,12 +170,39 @@
 
 		display: flex;
 		flex-direction: column;
-		gap: var(--sp2);
 
+		overflow: hidden;
 		background-color: var(--bg1);
-
-		padding: var(--sp2);
 		border-radius: var(--sp0);
-		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	}
+
+	.menu_btn {
+		display: flex;
+		flex-direction: column;
+		gap: var(--sp1);
+		align-items: center;
+		padding: var(--sp2);
+	}
+
+	.info_2 {
+		padding: var(--sp2);
+		border-bottom: 1px solid var(--bg2);
+		align-items: center;
+	}
+
+	@media (min-width: 600px) {
+		.mobile_button {
+			display: none;
+		}
+		.full_button {
+			display: flex;
+		}
+		.info_1 {
+			display: flex;
+		}
+		.info_2 {
+			display: none;
+		}
 	}
 </style>

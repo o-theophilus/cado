@@ -23,12 +23,12 @@
 
 <Content>
 	<br />
-	<div class="title">
-		<div class="left">
+	<div class="hline">
+		<div class="hline">
 			<Back />
-			<strong class="ititle">
+			<div class="page_title">
 				User{users.length > 1 ? 's' : ''}
-			</strong>
+			</div>
 		</div>
 
 		<!-- <DropPlus name="status" list={['all', ..._status]} default_value="all" /> -->
@@ -51,17 +51,6 @@
 </Content>
 
 <style>
-	.title {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-	.left {
-		display: flex;
-		align-items: center;
-		gap: var(--sp2);
-	}
-
 	.search_bar {
 		margin: var(--sp2) 0;
 		display: flex;

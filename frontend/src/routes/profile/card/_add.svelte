@@ -50,7 +50,7 @@
 </script>
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
-	<strong class="ititle"> Add Card </strong>
+	<div class="page_title">Add Card</div>
 	{#if error.error}
 		<div class="error">
 			{error.error}
@@ -87,8 +87,6 @@
 		Submit
 		<Icon icon="send" />
 	</Button>
-
-	<br />
 </form>
 
 <style>

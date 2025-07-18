@@ -24,7 +24,7 @@ def anon(cur):
         uuid4().hex,
         generate_password_hash(uuid4().hex, method="scrypt"))
     )
-    user = cur.fetchone()  # TODO: check if this is needed
+    user = cur.fetchone()
     return user if user else {}
 
 

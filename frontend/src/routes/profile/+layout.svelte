@@ -3,7 +3,6 @@
 	import Icon from '$lib/icon.svelte';
 
 	let { children } = $props();
-	console.log(page.route);
 </script>
 
 <div class="page">
@@ -34,18 +33,19 @@
 		min-height: calc(100vh - var(--headerHeight));
 		margin: auto;
 		padding: 0 var(--sp2);
-		padding-top: var(--sp2);
 	}
-
+	
 	.nav {
 		display: flex;
 		flex-direction: column;
-
+		
 		padding-right: var(--sp2);
+		padding-top: var(--sp2);
 		border-right: 1px solid var(--bg2);
 	}
-
+	
 	.content {
+		padding-top: var(--sp2);
 		width: 100%;
 	}
 
@@ -54,8 +54,8 @@
 		align-items: center;
 		justify-content: center;
 
-		width: var(--sp5);
-		height: var(--sp5);
+		width: 4rem;
+		height: 4rem;
 
 		background-color: transparent;
 		border: none;

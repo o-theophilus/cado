@@ -67,7 +67,7 @@
 </script>
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
-	<strong class="ititle"> Login </strong>
+	<div class="page_title"> Login </div>
 	{#if error.error}
 		<div class="error">
 			{error.error}

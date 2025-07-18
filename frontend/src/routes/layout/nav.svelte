@@ -1,16 +1,13 @@
 <script>
-	import { page } from '$app/state';
 	import { module, user } from '$lib/store.svelte.js';
 
 	import Link from './nav.btn.svelte';
 	import User from './nav.user.svelte';
 	import Login from '../account/login.svelte';
 	import Signup from '../account/signup.svelte';
-
-	let home = $derived(page.url.pathname == '/');
 </script>
 
-<nav class:home>
+<nav>
 	<div class="block">
 		<a href="/">
 			<img
@@ -35,6 +32,9 @@
 </nav>
 
 <style>
+	nav {
+		border-bottom: 1px solid var(--bg2);
+	}
 	.block {
 		display: flex;
 		height: var(--headerHeight);
@@ -61,9 +61,5 @@
 	.block,
 	.links {
 		flex-wrap: wrap;
-	}
-
-	.home a {
-		color: var(--bg1);
 	}
 </style>

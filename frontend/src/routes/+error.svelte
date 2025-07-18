@@ -15,7 +15,7 @@
 	<br />
 	<section>
 		<div>
-			<strong class="ititle">{page.status}</strong>
+			<div class="page_title">{page.status}</div>
 			<br />
 			{error}
 		</div>

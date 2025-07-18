@@ -67,7 +67,7 @@
 		flex-direction: column;
 		gap: var(--sp3);
 	}
-	
+
 	@media screen and (min-width: 600px) {
 		.info {
 			align-items: center;
@@ -75,7 +75,7 @@
 	}
 
 	.name {
-		font-size: xx-large;
+		font-size: 2rem;
 		font-weight: 700;
 		color: var(--ft1);
 	}
@@ -88,7 +88,7 @@
 	}
 
 	.label {
-		font-size: small;
+		font-size: 0.9rem;
 	}
 
 	.email {

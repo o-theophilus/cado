@@ -12,13 +12,12 @@
 </script>
 
 {#if photo}
-<!-- #TODO: Handle case when photo is not a valid URL -->
 	<img
 		src={`${photo}/${size}` || '/no_photo.png'}
 		alt={name}
 		style:--size="{size}px"
 		class:square
-		onerror={() => photo = null}
+		onerror={() => (photo = null)}
 	/>
 {:else}
 	<div

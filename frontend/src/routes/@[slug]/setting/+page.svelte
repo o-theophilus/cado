@@ -35,9 +35,11 @@
 <Meta title={org.firstname} />
 
 <section class="page">
-	<div class="title">
-		<BRound icon="arrow_back" href="/@{org.slug}" />
-		<strong class="ititle"> Organization Setting </strong>
+	<div class="hline">
+		<div class="hline">
+			<BRound icon="arrow_back" href="/@{org.slug}" />
+			<div class="page_title">Organization Setting</div>
+		</div>
 	</div>
 
 	<br />
@@ -49,7 +51,7 @@
 	<Domain {org} bind:active_card {update} />
 
 	<br />
-	<strong class="ititle title"> Advanced </strong>
+	<div class="page_title">Advanced</div>
 	<br />
 
 	<Slug {org} bind:active_card {update} />
@@ -62,12 +64,6 @@
 		max-width: var(--mobileWidth);
 		width: 100%;
 		margin: auto;
-		padding: 0 var(--sp2);
-	}
-
-	.title {
-		display: flex;
-		gap: var(--sp2);
-		align-items: center;
+		padding: var(--sp2);
 	}
 </style>

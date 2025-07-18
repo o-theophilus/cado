@@ -75,7 +75,8 @@ def get_many():
             COUNT(*) OVER() AS _count
         FROM organization
         WHERE
-            (
+            user_key = %s
+            AND (
                 %s = '' OR status = %s
             ) AND (
                 %s = ''
@@ -87,6 +88,7 @@ def get_many():
     """.format(
         order_by[order], order_dir[order]
     ), (
+        user["key"],
         status, status,
         search, f"%{search}%",
         page_size, (page_no - 1) * page_size

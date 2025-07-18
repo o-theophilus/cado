@@ -2,7 +2,6 @@
 	import { module, user } from '$lib/store.svelte.js';
 	import Button from '$lib/button/button.svelte';
 	import Tag from '$lib/button/tag.svelte';
-	import BRound from '$lib/button/round.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Add from './_add.svelte';
 	import Empty from '../empty.svelte';
@@ -17,7 +16,6 @@
 			lastname: user.value.lastname
 		});
 	};
-	console.log(cards);
 </script>
 
 <div class="line">
@@ -39,7 +37,7 @@
 			<Tag no_grow>
 				{c.status}
 			</Tag>
-			<!-- <BRound icon="settings" href="/{card.key}/setting" /> -->
+			<BRound icon="settings" href="/{card.key}/setting" />
 		</div>
 
 		<div class="name">
@@ -64,7 +62,7 @@
 	</div>
 {:else}
 	<Empty>
-		No business cards available.
+		No business card available
 		<Button onclick={add}>
 			<Icon icon="add" />
 			Add Now
