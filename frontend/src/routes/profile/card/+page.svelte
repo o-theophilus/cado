@@ -1,6 +1,7 @@
 <script>
 	import { module, user } from '$lib/store.svelte.js';
 	import Button from '$lib/button/button.svelte';
+	import BRound from '$lib/button/round.svelte';
 	import Tag from '$lib/button/tag.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Add from './_add.svelte';
@@ -37,7 +38,7 @@
 			<Tag no_grow>
 				{c.status}
 			</Tag>
-			<BRound icon="settings" href="/{card.key}/setting" />
+			<!-- <BRound icon="settings" href="/{card.key}/setting" /> -->
 		</div>
 
 		<div class="name">
