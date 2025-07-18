@@ -148,12 +148,13 @@
 	.sub_copy {
 		color: var(--bg1);
 		max-width: 300px;
+		font-size: medium;
 
 		text-shadow: 0 0 10px #0e141b;
 	}
 
 	.copy {
-		font-size: 2rem;
+		font-size: x-large;
 		font-weight: 700;
 	}
 	.sub_copy {
@@ -216,8 +217,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 80px;
-		height: 80px;
+		width: 64px;
+		height: 64px;
 
 		background-color: var(--bg1);
 		border-radius: 8px;
@@ -229,5 +230,8 @@
 		color: var(--ft1);
 
 		margin: var(--sp2) 0;
+	}
+	.details {
+		font-size: medium;
 	}
 </style>
