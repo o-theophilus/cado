@@ -19,6 +19,7 @@
 
 		onblur,
 		oninput,
+		onkeypress,
 
 		label,
 		input,
@@ -62,7 +63,7 @@
 			{#if icon}
 				<Icon {icon} size={icon_size} />
 			{/if}
-			<Input bind:value {id} {type} {placeholder} {min} {disabled} {onblur} {oninput} />
+			<Input bind:value {id} {type} {placeholder} {min} {disabled} {onblur} {oninput}  {onkeypress}/>
 			{@render right?.()}
 		</div>
 		{@render down?.()}

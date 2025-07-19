@@ -3,8 +3,9 @@
 
 	import IG from '$lib/input_group.svelte';
 	import Button from '$lib/button/button.svelte';
-	import Password from '../../../account/password_checker.svelte';
-	import ShowPassword from '../../../account/password_show.svelte';
+	import Icon from '$lib/icon.svelte';
+	import Password from '$lib/auth/password_checker.svelte';
+	import ShowPassword from '$lib/auth/password_show.svelte';
 
 	let { form, active_card } = $props();
 	let error = $state({});
@@ -96,7 +97,21 @@
 		placeholder="Password here"
 	/>
 
-	<Button primary onclick={validate}>Reset</Button>
+	<div class="line">
+		<Button primary onclick={validate}>Reset Password</Button>
+
+		<Button
+			onclick={() => {
+				form.state = 0;
+				form.code = null;
+				form.password = null;
+				form.confirm_password = null;
+			}}
+		>
+			Cancel
+			<Icon icon="close" />
+		</Button>
+	</div>
 </form>
 
 <style>
@@ -106,5 +121,10 @@
 
 	.right {
 		padding-right: var(--sp2);
+	}
+
+	.line {
+		display: flex;
+		gap: var(--sp1);
 	}
 </style>

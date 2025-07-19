@@ -3,6 +3,8 @@
 
 	import Button from '$lib/button/button.svelte';
 	import Icon from '$lib/icon.svelte';
+	import Note from '$lib/note.svelte';
+	import NoteOrg from '$lib/note.org.svelte';
 
 	let { card, status, update } = $props();
 	let error = $state({});
@@ -32,14 +34,14 @@
 	};
 </script>
 
-<div class="note">
-	<div class="title">
-		<Icon icon="error" size="2" />
-		Are you sure?
-	</div>
-
-	{status.org.fullname}
-</div>
+<Note>
+	{#snippet title()}
+		Are you sure you want to link this card to the Organization below?
+	{/snippet}
+	{#snippet note()}
+		<NoteOrg org={status.org}></NoteOrg>
+	{/snippet}
+</Note>
 
 {#if error.error}
 	<div class="error">
@@ -49,7 +51,7 @@
 
 <div class="line">
 	<Button onclick={submit}>
-		Submit
+		Link
 		<Icon icon="send" />
 	</Button>
 	<Button
@@ -66,26 +68,6 @@
 	.line {
 		display: flex;
 		gap: var(--sp1);
-	}
-
-	.note {
-		padding: var(--sp2);
-		margin: var(--sp2) 0;
-		background-color: var(--bg2);
-
-		font-size: 0.8rem;
-		border-radius: var(--sp0);
-	}
-
-	.title {
-		display: flex;
-		align-items: center;
-		gap: var(--sp2);
-
-		margin-bottom: var(--sp2);
-		fill: currentColor;
-		color: var(--cl4);
-		font-weight: 800;
 	}
 
 	.error {

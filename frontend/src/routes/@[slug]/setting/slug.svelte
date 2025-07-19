@@ -4,8 +4,9 @@
 	import Button from '$lib/button/button.svelte';
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
-	import ShowPassword from '../../account/password_show.svelte';
+	import ShowPassword from '../../../lib/auth/password_show.svelte';
 	import Card from '$lib/card.svelte';
+	import Note from '$lib/note.svelte';
 
 	let { org, active_card, update } = $props();
 
@@ -27,7 +28,7 @@
 	};
 
 	const submit1 = async () => {
-		loading.open('Checking Username . . .');
+		loading.open('Checking ID . . .');
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/org/slug/1/${org.key}`, {
 			method: 'post',
 			headers: {
@@ -57,7 +58,7 @@
 	};
 
 	const submit2 = async () => {
-		loading.open('Saving Username . . .');
+		loading.open('Saving ID . . .');
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/org/slug/2/${org.key}`, {
 			method: 'post',
 			headers: {
@@ -75,7 +76,7 @@
 
 			active_card.close();
 			update(resp.org);
-			notify.open('Username Changed');
+			notify.open('ID Changed');
 			window.history.replaceState(history.state, '', `/@${org.slug}/setting`);
 		} else {
 			error = resp;
@@ -91,7 +92,7 @@
 
 <Card open={active_card.value == name} onopen={() => active_card.set(name)}>
 	{#snippet title()}
-		Change Username
+		Change ID
 	{/snippet}
 
 	<form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
@@ -102,13 +103,19 @@
 		{/if}
 
 		{#if status == 0}
+			<Note status="201">
+				{#snippet title()}
+					Changing your organization's ID will update all associated links.
+				{/snippet}
+			</Note>
+
 			<IG
-				name="Username"
+				name="Organization ID"
 				icon="link"
 				error={error.slug}
 				bind:value={form.slug}
 				type="text"
-				placeholder="Username here"
+				placeholder="Organization ID here"
 			/>
 
 			<Button onclick={validate1}
@@ -116,6 +123,12 @@
 				<Icon icon="send" />
 			</Button>
 		{:else if status == 1}
+			<Note status="201">
+				{#snippet title()}
+					Changing your organization's ID will update all associated links.
+				{/snippet}
+			</Note>
+
 			<IG
 				name="Password"
 				icon="key"

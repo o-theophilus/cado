@@ -7,7 +7,7 @@ import re
 from werkzeug.security import generate_password_hash, check_password_hash
 from .postgres import db_open, db_close
 
-bp = Blueprint("account", __name__)
+bp = Blueprint("auth", __name__)
 
 
 def anon(cur):

@@ -24,15 +24,16 @@
 </script>
 
 {#if org.photo}
-	<img
-		src={org.photo || '/no_photo.png'}
-		alt={org.name}
-		style:width="{width}px"
-		style:height="{height}px"
-	/>
-	<br />
-	<br />
+	<img src={org.photo || '/no_photo.png'} alt={org.name} style:max-width="{width}px" />
+{:else}
+	<div class="img" style:max-width="{width}px">
+		<Icon icon="corporate_fare" size="4" />
+	</div>
 {/if}
+
+<br />
+<br />
+<br />
 
 <div class="name">
 	{org.fullname}
@@ -67,7 +68,9 @@
 	<div>
 		<div class="label">Email:</div>
 		<Link href="mailto:{org.email}">
-			{org.email}
+			<span class="email">
+				{org.email}
+			</span>
 		</Link>
 	</div>
 </div>
@@ -102,6 +105,21 @@
 <style>
 	img {
 		object-fit: contain;
+		width: 100%;
+	}
+	.img {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		width: 100%;
+		aspect-ratio: 1;
+
+		border-radius: var(--sp1);
+		border: 2px solid var(--bg2);
+		padding: var(--sp2);
+
+		fill: var(--ft2);
 	}
 	.group {
 		display: flex;
@@ -127,5 +145,10 @@
 
 	.gap {
 		height: var(--sp1);
+	}
+
+	.email {
+		word-break: break-all;
+		overflow-wrap: anywhere;
 	}
 </style>

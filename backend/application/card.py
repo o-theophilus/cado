@@ -8,6 +8,7 @@ from uuid import uuid4
 from psycopg2.extras import Json
 from werkzeug.security import check_password_hash
 from .storage import storage
+from .card_get import get as get_card
 
 
 bp = Blueprint("card", __name__)
@@ -164,8 +165,7 @@ def update(key):
             office_location_id = %s,
             social_links = %s
         WHERE key = %s
-        RETURNING *;
-    """, (
+    ;""", (
         card["firstname"],
         card["lastname"],
         card["job_title"],
@@ -175,12 +175,15 @@ def update(key):
         Json(card["social_links"]),
         card["key"]
     ))
-    card = cur.fetchone()
+
+    card = get_card(card["key"], cur).json
+    if card and "card" in card:
+        card = card["card"]
 
     db_close(con, cur)
     return jsonify({
         "status": 200,
-        "card": card_schema(card)
+        "card": card
     })
 
 

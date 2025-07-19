@@ -1,106 +1,11 @@
 from flask import Blueprint, jsonify, request
 from .postgres import db_open, db_close
-from .tools import token_to_user, card_schema
-from .card_get import get as get_card
+from .tools import token_to_user
+from .card_get import get as get_card, get_org_cards
 from uuid import uuid4
-from math import ceil
 
 
 bp = Blueprint("org_card", __name__)
-
-
-@bp.get("/org/card/<key>")
-def get_org_card(key, cur=None):
-
-    close_conn = False
-    if not cur:
-        con, cur = db_open()
-        close_conn = True
-
-    user = token_to_user(cur)
-    if not user:
-        if close_conn:
-            db_close(con, cur)
-        return jsonify({
-            "status": 400,
-            "error": "invalid token"
-        })
-
-    cur.execute("""
-        SELECT * FROM organization WHERE slug = %s OR key = %s;
-    """, (key, key))
-    org = cur.fetchone()
-
-    if not org or user["key"] != org["user_key"]:
-        db_close(con, cur)
-        return jsonify({
-            "status": 400,
-            "error": "invalid request"
-        })
-
-    # TODO: add date
-    order_by = {
-        'name (a-z)': 'firstname',
-        'name (z-a)': 'firstname'
-    }
-
-    order_dir = {
-        'name (a-z)': 'ASC',
-        'name (z-a)': 'DESC'
-    }
-
-    order = list(order_by.keys())[0]
-    status = ""
-    search = ""
-    page_no = 1
-    page_size = 24
-
-    if "status" in request.args:
-        status = request.args["status"]
-    if "search" in request.args:
-        search = request.args["search"].strip()
-    if "order" in request.args:
-        order = request.args["order"]
-    if "page_no" in request.args:
-        page_no = int(request.args["page_no"])
-    if "size" in request.args:
-        page_size = int(request.args["size"])
-
-    cur.execute("""
-        SELECT *, COUNT(*) OVER() AS _count
-        FROM card
-        WHERE (
-        organization_key = %s
-        ) AND (
-            %s = '' OR status = %s
-        ) AND (
-            %s = ''
-            OR CONCAT_WS(', ', key, firstname,
-            lastname, email
-            ) ILIKE %s
-        )
-
-        ORDER BY {} {}
-        LIMIT %s OFFSET %s
-    ;""".format(
-        order_by[order], order_dir[order]
-    ), (
-        org["key"],
-        status, status,
-        search, f"%{search}%",
-        page_size, (page_no - 1) * page_size
-    ))
-    cards = cur.fetchall()
-
-    if close_conn:
-        db_close(con, cur)
-    return jsonify({
-        "status": 200,
-        "cards": [card_schema(x) for x in cards],
-        "order_by": list(order_by.keys()),
-        "_status": ['pending', 'live'],
-        "total_page": ceil(cards[0]["_count"] / page_size) if cards else 0
-    })
 
 
 @bp.post("/org/card/join/<key>")
@@ -341,6 +246,6 @@ def status(key):
         DELETE FROM card_organization WHERE card_key = ANY(%s)
     ;""", (card_keys,))
 
-    cards = get_org_card(org["key"], cur)
+    cards = get_org_cards(org["key"], cur)
     db_close(con, cur)
     return cards

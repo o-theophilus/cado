@@ -5,6 +5,7 @@
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Code from '$lib/input_code.svelte';
+	import Note from '$lib/note.svelte';
 
 	let { form } = $props();
 	let error = $state({});
@@ -50,13 +51,14 @@
 		</div>
 	{/if}
 
-	<br />
-	<div class="note">
-		Verification Code has been sent to:
-		<span>
-			{user.value.email}
-		</span>
-	</div>
+	<Note>
+		{#snippet note()}
+			Verification Code has been sent to:
+			<span>
+				{user.value.email}
+			</span>
+		{/snippet}
+	</Note>
 
 	<IG name="Verification Code" error={error.code}>
 		{#snippet input()}
@@ -64,26 +66,36 @@
 		{/snippet}
 	</IG>
 
-	<Button primary onclick={validate}>
-		Submit
-		<Icon icon="send" />
-	</Button>
+	<div class="line">
+		<Button primary onclick={validate}>
+			Submit
+			<Icon icon="send" />
+		</Button>
+		<Button
+			onclick={() => {
+				form.state = 0;
+				form.code = null;
+				form.password = null;
+				form.confirm_password = null;
+			}}
+		>
+			Cancel
+			<Icon icon="close" />
+		</Button>
+	</div>
 </form>
 
 <style>
+	.line {
+		display: flex;
+		gap: var(--sp1);
+	}
+
 	.error {
 		margin: var(--sp2) 0;
 	}
 
-	.note {
-		padding: var(--sp2);
-		font-size: 0.8rem;
-		background-color: var(--bg2);
-
-		border-radius: var(--sp0);
-	}
-
-	.note span {
+	span {
 		font-weight: 800;
 	}
 </style>

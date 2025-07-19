@@ -6,7 +6,7 @@
 	import { user } from '$lib/store.svelte.js';
 
 	import Link from './nav.btn.svelte';
-	import Logout from '../account/logout.svelte';
+	import Logout from '$lib/auth/logout.svelte';
 	import Avatar from '$lib/avatar.svelte';
 	import Icon from '$lib/icon.svelte';
 
@@ -157,6 +157,7 @@
 	.name {
 		font-size: small;
 		font-weight: 600;
+		width: max-content;
 	}
 	.email {
 		font-size: x-small;

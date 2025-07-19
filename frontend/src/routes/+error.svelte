@@ -1,6 +1,5 @@
 <script>
 	import { page } from '$app/state';
-	import Content from '$lib/content.svelte';
 	import Meta from '$lib/meta.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Button from '$lib/button/button.svelte';
@@ -10,30 +9,33 @@
 
 <Meta title={error} description={error.message} />
 
-<Content>
+<section class="page">
+	<div class="page_title">{page.status}</div>
 	<br />
-	<br />
-	<section>
-		<div>
-			<div class="page_title">{page.status}</div>
-			<br />
-			{error}
-		</div>
-		<img src="/error.png" alt="error" />
+	{error}
 
-		<Button href="/">
-			<Icon icon="home" />
-			Back to Home
-		</Button>
-	</section>
-</Content>
-<br />
-<br />
+	<br />
+	<br />
+
+	<img src="/error.png" alt="error" />
+
+	<br />
+	<br />
+
+	<Button href="/">
+		<Icon icon="home" />
+		Back to Home
+	</Button>
+</section>
 
 <style>
-	section {
-		display: flex;
-		flex-direction: column;
-		gap: var(--sp3);
+	.page {
+		max-width: var(--mobileWidth);
+		width: 100%;
+		margin: auto;
+		padding: var(--sp2);
+	}
+	img {
+		width: 100%;
 	}
 </style>

@@ -134,6 +134,7 @@ def card_schema(a):
         f"{request.host_url}photo/{a['photo']}"
         if a["photo"] else None
     )
+
     if "org" in a:
         a["org"]["photo"] = (
             f"{request.host_url}photo/{a["org"]['photo']}"

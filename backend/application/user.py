@@ -23,6 +23,13 @@ def update():
             "error": "invalid token"
         })
 
+    if not request.json:
+        db_close(con, cur)
+        return jsonify({
+            "status": 400,
+            "error": "invalid request"
+        })
+
     error = {}
 
     if "firstname" in request.json:

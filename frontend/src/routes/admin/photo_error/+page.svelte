@@ -2,7 +2,6 @@
 	import { slide } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
 
-	import Content from '$lib/content.svelte';
 	import Meta from '$lib/meta.svelte';
 	import ButtonFold from '$lib/button/fold.svelte';
 	import Back from '$lib/button/back.svelte';
@@ -15,8 +14,7 @@
 
 <Meta title="Manage Photos" description="Here you will find missing or excess images" />
 
-<Content>
-	<br />
+<div class="page">
 	<div class="hline">
 		<div class="hline">
 			<Back />
@@ -51,9 +49,15 @@
 	</div>
 
 	<hr />
-</Content>
+</div>
 
 <style>
+	.page {
+		max-width: var(--mobileWidth);
+		width: 100%;
+		margin: auto;
+		padding: var(--sp2);
+	}
 	.fold {
 		margin: var(--sp2) 0;
 	}

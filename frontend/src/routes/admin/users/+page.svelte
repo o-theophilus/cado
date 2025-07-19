@@ -3,7 +3,7 @@
 	import { cubicInOut } from 'svelte/easing';
 
 	import UpdateUrl from '$lib/update_url.svelte';
-	import Content from '$lib/content.svelte';
+
 	import Back from '$lib/button/back.svelte';
 	import Meta from '$lib/meta.svelte';
 	import Pagination from '$lib/pagination.svelte';
@@ -21,8 +21,7 @@
 <UpdateUrl />
 <Meta title="All Users" />
 
-<Content>
-	<br />
+<div class="page">
 	<div class="hline">
 		<div class="hline">
 			<Back />
@@ -48,9 +47,15 @@
 	{/each}
 
 	<Pagination {total_page} />
-</Content>
+</div>
 
 <style>
+	.page {
+		max-width: var(--mobileWidth);
+		width: 100%;
+		margin: auto;
+		padding: var(--sp2);
+	}
 	.search_bar {
 		margin: var(--sp2) 0;
 		display: flex;

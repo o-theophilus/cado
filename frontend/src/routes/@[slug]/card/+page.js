@@ -13,24 +13,13 @@ export const load = async ({ parent, url, fetch, params }) => {
             Authorization: a.locals.token
         }
     });
-
-    let cards = await fetch(`${import.meta.env.VITE_BACKEND}/org/card/${params.slug}`, {
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: a.locals.token
-        }
-    });
-
-    org = await org.json();
-    cards = await cards.json();
-
+    org = await org.json();    
 
     if (a.locals.user.key != org.org.user_key) {
         throw error(400, "unauthorized access")
-    } else if (org.status == 200 && cards.status == 200) {
+    } else if (org.status == 200) {
         return {
-            org: org.org,
-            cards: cards.cards,
+            org: org.org
         }
     }
 }

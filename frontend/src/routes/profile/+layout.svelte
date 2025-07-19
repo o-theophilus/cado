@@ -34,18 +34,18 @@
 		margin: auto;
 		padding: 0 var(--sp2);
 	}
-	
+
 	.nav {
 		display: flex;
 		flex-direction: column;
-		
+
 		padding-right: var(--sp2);
 		padding-top: var(--sp2);
 		border-right: 1px solid var(--bg2);
 	}
-	
+
 	.content {
-		padding-top: var(--sp2);
+		padding: var(--sp2) 0;
 		width: 100%;
 	}
 

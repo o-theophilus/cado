@@ -2,7 +2,6 @@
 	import { flip } from 'svelte/animate';
 	import { cubicInOut } from 'svelte/easing';
 
-	import Content from '$lib/content.svelte';
 	import Back from '$lib/button/back.svelte';
 	import Meta from '$lib/meta.svelte';
 	import User from '../users/user.svelte';
@@ -21,8 +20,7 @@
 <UpdateUrl />
 <Meta title="Admin" description="Users with elevated permission" />
 
-<Content>
-	<br />
+<div class="page">
 	<div class="hline">
 		<div class="hline">
 			<Back />
@@ -44,7 +42,13 @@
 	{/each}
 
 	<Pagination {total_page} />
-</Content>
+</div>
 
 <style>
+	.page {
+		max-width: var(--mobileWidth);
+		width: 100%;
+		margin: auto;
+		padding: var(--sp2);
+	}
 </style>

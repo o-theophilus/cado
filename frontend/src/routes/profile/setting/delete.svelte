@@ -4,8 +4,9 @@
 	import Button from '$lib/button/button.svelte';
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
-	import ShowPassword from '../../account/password_show.svelte';
+	import ShowPassword from '$lib/auth/password_show.svelte';
 	import Card from '$lib/card.svelte';
+	import Note from '$lib/note.svelte';
 
 	let { user, active_card } = $props();
 
@@ -54,29 +55,20 @@
 	{/snippet}
 
 	{#if stage == 0}
-		<div class="note">
-			<div class="title">
-				<Icon icon="error" size="2" />
-				Warning:
-			</div>
-
-			<span>
-				Deleting
-				{#if user.key == user.key}
-					your
-				{:else}
-					this
-				{/if}
-				account will permanently remove all {#if user.key == user.key}
-					your
-				{:else}
-					this
-				{/if} data associated with it and cannot be undone.
+		<Note status="400">
+			{#snippet title()}
+				Warning
+			{/snippet}
+			{#snippet note()}
+				Deleting your account irreversible and will permanently erase all associated data.
+				<br />
+				This action cannot be undone.
 				<br />
 				<br />
 				Are you sure you want to continue?
-			</span>
-		</div>
+			{/snippet}
+		</Note>
+
 		<Button
 			onclick={() => {
 				stage = 1;
@@ -93,22 +85,15 @@
 				</div>
 			{/if}
 
-			<div class="note">
-				<div class="title">
-					<Icon icon="error" size="2" />
+			<Note status="400">
+				{#snippet title()}
 					Warning:
-				</div>
-
-				<span>
-					To proceed with deleting
-					{#if user.key == user.key}
-						your
-					{:else}
-						this
-					{/if}
-					account, please enter your password below to confirm your identity.
-				</span>
-			</div>
+				{/snippet}
+				{#snippet note()}
+					To proceed with deleting your account, please enter your password below to confirm your
+					identity.
+				{/snippet}
+			</Note>
 
 			<IG
 				name="Password"
@@ -150,29 +135,6 @@
 	}
 	.right {
 		padding-right: var(--sp2);
-	}
-
-	.note {
-		padding: var(--sp2);
-		margin: var(--sp2) 0;
-		background-color: var(--bg2);
-
-		border-radius: var(--sp0);
-	}
-
-	.note span {
-		font-size: 0.8rem;
-	}
-
-	.title {
-		display: flex;
-		align-items: center;
-		gap: var(--sp2);
-
-		margin-bottom: var(--sp2);
-		fill: currentColor;
-		color: var(--cl2);
-		font-weight: 800;
 	}
 
 	.line {

@@ -4,6 +4,7 @@
 	import Button from '$lib/button/button.svelte';
 	import Icon from '$lib/icon.svelte';
 	import EmailTemplate from './email_template.svelte';
+	import Note from '$lib/note.svelte';
 
 	let error = $state({});
 	let email_template;
@@ -39,13 +40,16 @@
 	</div>
 {/if}
 
-<div class="note">
-	To change the email address associated with this account, please click the button below to request
-	a verification code.
-	<br />
-	<br />
-	This code will be sent to your current email address to confirm that you are the owner of this account.
-</div>
+<Note>
+	{#snippet title()}
+		To change the email address associated with this account, please click the button below to
+		request a verification code.
+	{/snippet}
+	{#snippet note()}
+		This code will be sent to your current email address to confirm that you are the owner of this
+		account.
+	{/snippet}
+</Note>
 
 <Button onclick={submit}>
 	Request Code
@@ -59,14 +63,5 @@
 <style>
 	.error {
 		margin: var(--sp2) 0;
-	}
-
-	.note {
-		padding: var(--sp2);
-		margin: var(--sp2) 0;
-		background-color: var(--bg2);
-
-		font-size: 0.8rem;
-		border-radius: var(--sp0);
 	}
 </style>

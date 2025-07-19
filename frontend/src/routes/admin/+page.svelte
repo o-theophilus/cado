@@ -2,15 +2,13 @@
 	import { user } from '$lib/store.svelte.js';
 
 	import Meta from '$lib/meta.svelte';
-	import Content from '$lib/content.svelte';
 	import Button from '$lib/button/button.svelte';
 </script>
 
 <Meta title="Admin Dashboard" description="This contains this website settings" />
 
-<Content>
-	<br />
-	<div class="page_title"> Admin Dashboard</div>
+<div class="page">
+	<div class="page_title">Admin Dashboard</div>
 
 	<div class="buttons">
 		{#if $user.access.includes('user:view')}
@@ -29,9 +27,16 @@
 			<Button href="/admin/org/{$user.organization_key}" size="wide">Organization Setting</Button>
 		{/if}
 	</div>
-</Content>
+</div>
 
 <style>
+	.page {
+		max-width: var(--mobileWidth);
+		width: 100%;
+		margin: auto;
+		padding: var(--sp2);
+	}
+
 	.buttons {
 		display: flex;
 		flex-direction: column;

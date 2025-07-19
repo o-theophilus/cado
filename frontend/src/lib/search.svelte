@@ -1,79 +1,55 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
-	import { page } from '$app/state';
-	import { onMount } from 'svelte';
-	import { set_state } from '$lib/store.svelte.js';
-
 	import BRound from '$lib/button/round.svelte';
 	import Button from '$lib/button/button.svelte';
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
 
-	let emit = createEventDispatcher();
+	let { value = $bindable(), placeholder = 'Search', non_default = false, onclick } = $props();
 
-	export let search = '';
-	let _search = `${search}`;
-	export let placeholder = 'Search';
-	export let non_default = false;
-
-	let set = (url) => {
-		if (!non_default) {
-			_search = search = '';
-			if (url.searchParams.has('search')) {
-				_search = search = url.searchParams.get('search');
-			}
-		}
-	};
-
-	const submit = (x) => {
-		if (x == 'clear' || search.trim() == '') {
-			search = '';
-		}
-		emit(x);
-
-		if (!non_default) {
-			if (_search != search) {
-				set_state('search', search);
-			}
-			set(page.url);
-		}
-	};
-
-	onMount(() => {
-		set(page.url);
-	});
-	$: set(page.url);
+	let init = $state('');
 </script>
 
-<IG type="text" {placeholder} bind:value={search} no_pad>
-	<svelte:fragment slot="right">
+<IG
+	type="text"
+	{placeholder}
+	bind:value
+	no_pad
+	onkeypress={(e) => {
+		if (e.key == 'Enter') {
+			init = value;
+			onclick?.(value);
+		}
+	}}
+>
+	{#snippet right()}
 		<div class="right">
-			{#if search}
+			{#if value}
 				<div class="close">
 					<BRound
 						icon="close"
 						extra="hover_red"
 						onclick={() => {
-							submit('clear');
+							value = '';
+							init = '';
+							onclick?.(value);
 						}}
 					/>
 				</div>
 			{/if}
 
-			<slot>
-				{#if !non_default}
-					<Button
-						onclick={() => {
-							submit('ok');
-						}}
-						disabled={search == _search}
-					>
-						<Icon icon="search" />
-					</Button>
-				{/if}
-			</slot>
+			{#if !non_default}
+				<Button
+					onclick={() => {
+						init = value;
+						onclick?.(value);
+					}}
+					disabled={value == init}
+				>
+					<Icon icon="search" />
+				</Button>
+			{/if}
 		</div>
-	</svelte:fragment>
+	{/snippet}
 </IG>
 
 <style>

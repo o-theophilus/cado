@@ -1,5 +1,5 @@
 <script>
-	import { notify, loading, user as _user } from '$lib/store.svelte.js';
+	import { notify, loading } from '$lib/store.svelte.js';
 	import { token } from '$lib/store.svelte.js';
 
 	import IG from '$lib/input_group.svelte';
@@ -7,9 +7,12 @@
 	import Icon from '$lib/icon.svelte';
 	import Card from '$lib/card.svelte';
 
-	let { user, active_card } = $props();
+	let { user, active_card, update } = $props();
 
-	let form = $state({ ...user.value });
+	let form = $state({
+		firstname: user.value.firstname,
+		lastname: user.value.lastname
+	});
 	let error = $state({});
 
 	const validate = () => {
@@ -39,7 +42,7 @@
 		loading.close();
 
 		if (resp.status == 200) {
-			_user.value = resp.user;
+			update(resp.user);
 			active_card.close();
 			notify.open('Information Saved');
 		} else {

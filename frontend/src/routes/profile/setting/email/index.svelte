@@ -6,7 +6,7 @@
 	import NewRequest from './3_new_request_code.svelte';
 	import NewCheck from './4_new_check_code.svelte';
 
-	let { active_card } = $props();
+	let { active_card, update } = $props();
 	let form = $state({ state: 0 });
 	let name = 'email';
 </script>
@@ -23,6 +23,6 @@
 	{:else if form.state == 2}
 		<NewRequest bind:form />
 	{:else if form.state == 3}
-		<NewCheck bind:form bind:active_card />
+		<NewCheck bind:form bind:active_card {update} />
 	{/if}
 </Card>

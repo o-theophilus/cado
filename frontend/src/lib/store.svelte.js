@@ -1,15 +1,8 @@
 import { browser } from '$app/environment';
 import { page } from '$app/state';
 import { invalidate } from '$app/navigation';
+import { pushState, replaceState } from "$app/navigation"
 
-// const ref = (i = null) => {
-// 	let value = $state(i);
-// 	return {
-// 		get value() { return value; },
-// 		// get value() { return $state.snapshot(value); },
-// 		set value(v) { value = v; }
-// 	};
-// }
 
 export let user = $state({ value: null });
 
@@ -85,29 +78,66 @@ export const token = {
 };
 
 
-
 export const state = $state()
 export const set_state = (key, value) => {
-	let _page = get(page);
-	_page.url.searchParams.set(key, value);
+	page.url.searchParams.set(key, value);
 
 	if (value == '') {
-		_page.url.searchParams.delete(key);
+		page.url.searchParams.delete(key);
 	}
 	if (key != "page_no") {
-		_page.url.searchParams.delete("page_no");
+		page.url.searchParams.delete("page_no");
 	}
 
-	window.history.replaceState(history.state, '', _page.url.href);
+	window.history.replaceState(history.state, '', page.url.href);
 	window.scrollTo({ top: 0, behavior: 'smooth' });
 
-	let _state = get(state)
-	let i = _state.findIndex(x => x.name == _page.data.page_name)
-	_state[i].loaded = false
-	_state[i].search = _page.url.search
-	state.set(_state)
 
-	loading.set("Loading . . .")
-	invalidate(() => true);
+	console.log(page.url.href);
+	console.log(page.data.page_name);
+
+	// let _state = state
+	// let i = _state.findIndex(x => x.name == page.data.page_name)
+	// _state[i].loaded = false
+	// _state[i].search = page.url.search
+	// state.set(_state)
+
+	// loading.set("Loading . . .")
+	// invalidate(() => true);
 };
 
+export const page_state = $state({
+	value: {},
+
+	set(key, value) {
+		page.url.searchParams.set(key, value);
+
+		if (value == '') {
+			page.url.searchParams.delete(key);
+		}
+		if (key != "page_no") {
+			page.url.searchParams.delete("page_no");
+		}
+
+		this.value[page.data.page_name] = {
+			loaded: false,
+			search: page.url.search,
+		}
+
+
+
+		console.log(page.url);
+		// replaceState(history.state, page.url.search);
+		window.history.replaceState(history.state, '', page.url.href);
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+
+
+
+
+
+		// loading.open()
+		invalidate(() => true);
+	}
+
+
+})

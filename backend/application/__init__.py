@@ -10,7 +10,7 @@ from . import org
 from . import org_get
 from . import org_card
 from . import storage
-from . import account
+from . import auth
 from . import admin
 
 
@@ -38,7 +38,7 @@ def create_app(conf=None):
     app.register_blueprint(org_get.bp)
     app.register_blueprint(org_card.bp)
     app.register_blueprint(storage.bp)
-    app.register_blueprint(account.bp)
+    app.register_blueprint(auth.bp)
     app.register_blueprint(admin.bp)
 
     return app

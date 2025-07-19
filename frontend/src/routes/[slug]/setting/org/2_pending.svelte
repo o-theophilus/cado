@@ -1,30 +1,29 @@
 <script>
 	import Button from '$lib/button/button.svelte';
 	import Icon from '$lib/icon.svelte';
+	import Note from '$lib/note.svelte';
+	import NoteOrg from '$lib/note.org.svelte';
 
 	let { card, status } = $props();
 </script>
 
-<br />
-Your request to join
-{card.org.fullname}
-is waiting for approval
+<Note status="200">
+	{#snippet title()}
+		Your request to join the organization is waiting for approval
+	{/snippet}
+	{#snippet note()}
+		<NoteOrg org={card.org}></NoteOrg>
+	{/snippet}
+</Note>
 
-<div class="line">
-	<Button
-		onclick={() => {
-			status.value = 3;
-		}}
-	>
-		Cancel Request
-		<Icon icon="close" />
-	</Button>
-</div>
+<Button
+	onclick={() => {
+		status.value = 3;
+	}}
+>
+	Cancel Request
+	<Icon icon="close" />
+</Button>
 
 <style>
-	.line {
-		margin-top: var(--sp2);
-		display: flex;
-		gap: var(--sp1);
-	}
 </style>

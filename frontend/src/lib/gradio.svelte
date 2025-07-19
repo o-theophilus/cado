@@ -1,8 +1,8 @@
 <script>
-	import Dropdown from './dropdown_.svelte';
+	import Gradio from './gradio_.svelte';
 	let { value = $bindable(), ...props } = $props();
 </script>
 
 {#if props.list.length}
-	<Dropdown bind:value {...props}></Dropdown>
+	<Gradio bind:value {...props}></Gradio>
 {/if}

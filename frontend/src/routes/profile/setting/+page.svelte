@@ -41,14 +41,14 @@
 
 <br />
 
-<Info {user} bind:active_card />
+<Info {user} bind:active_card {update} />
 <Photo entity={user.value} _type="user" bind:active_card {update} />
-<Contact {user} bind:active_card />
+<Contact {user} bind:active_card {update} />
 
 <br />
 <div class="page_title mod">Advanced</div>
 
-<Email bind:active_card />
+<Email bind:active_card {update} />
 <Password bind:active_card />
 <Delete {user} bind:active_card />
 

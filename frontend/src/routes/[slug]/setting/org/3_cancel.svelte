@@ -3,6 +3,8 @@
 
 	import Button from '$lib/button/button.svelte';
 	import Icon from '$lib/icon.svelte';
+	import Note from '$lib/note.svelte';
+	import NoteOrg from '$lib/note.org.svelte';
 
 	let { card, status, update, active_card } = $props();
 
@@ -32,14 +34,14 @@
 	};
 </script>
 
-<div class="note">
-	<div class="title">
-		<Icon icon="error" size="2" />
-		Are you sure you want to cancel request?
-	</div>
-
-	{card.org.fullname}
-</div>
+<Note status="400">
+	{#snippet title()}
+		Are you sure you want to cancel your request to be a member of this organization?
+	{/snippet}
+	{#snippet note()}
+		<NoteOrg org={card.org}></NoteOrg>
+	{/snippet}
+</Note>
 
 {#if error.error}
 	<div class="error">
@@ -66,26 +68,6 @@
 	.line {
 		display: flex;
 		gap: var(--sp1);
-	}
-
-	.note {
-		padding: var(--sp2);
-		margin: var(--sp2) 0;
-		background-color: var(--bg2);
-
-		font-size: 0.8rem;
-		border-radius: var(--sp0);
-	}
-
-	.title {
-		display: flex;
-		align-items: center;
-		gap: var(--sp2);
-
-		margin-bottom: var(--sp2);
-		fill: currentColor;
-		color: var(--cl4);
-		font-weight: 800;
 	}
 
 	.error {

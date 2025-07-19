@@ -3,8 +3,8 @@
 
 	import Link from './nav.btn.svelte';
 	import User from './nav.user.svelte';
-	import Login from '../account/login.svelte';
-	import Signup from '../account/signup.svelte';
+	import Login from '$lib/auth/login.svelte';
+	import Signup from '$lib/auth/signup.svelte';
 </script>
 
 <nav>

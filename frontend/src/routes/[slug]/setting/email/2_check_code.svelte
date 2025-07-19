@@ -5,6 +5,7 @@
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Code from '$lib/input_code.svelte';
+	import Note from '$lib/note.svelte';
 
 	let { entity, _type, form, active_card, update } = $props();
 	let error = $state({});
@@ -35,7 +36,9 @@
 		loading.close();
 
 		if (resp.status == 200) {
-			form = { state: 0 };
+			form.email = null;
+			form.state = 0;
+
 			active_card.close();
 			update(resp[_type]);
 			notify.open('Email changed');
@@ -52,13 +55,15 @@
 		</div>
 	{/if}
 
-	<div class="note">
-		Verification Code has been sent to:
-		<span>
-			{form.email}
-		</span>
-		.
-	</div>
+	<Note>
+		{#snippet note()}
+			Verification Code has been sent to:
+			<span>
+				{form.email}
+			</span>
+			.
+		{/snippet}
+	</Note>
 
 	<IG name="Verification Code" error={error.code}>
 		{#snippet input()}
@@ -66,27 +71,34 @@
 		{/snippet}
 	</IG>
 
-	<Button primary onclick={validate}>
-		Submit
-		<Icon icon="send" />
-	</Button>
+	<div class="line">
+		<Button primary onclick={validate}>
+			Submit
+			<Icon icon="send" />
+		</Button>
+
+		<Button
+			onclick={() => {
+				form.state = 0;
+			}}
+		>
+			Cancel
+			<Icon icon="close" />
+		</Button>
+	</div>
 </form>
 
 <style>
+	.line {
+		display: flex;
+		gap: var(--sp1);
+	}
+
 	.error {
 		margin: var(--sp2) 0;
 	}
 
-	.note {
-		padding: var(--sp2);
-		margin: var(--sp2) 0;
-		font-size: 0.8rem;
-		background-color: var(--bg2);
-
-		border-radius: var(--sp0);
-	}
-
-	.note span {
+	span {
 		font-weight: 800;
 	}
 </style>

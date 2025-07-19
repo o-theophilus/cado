@@ -5,6 +5,7 @@
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
 	import EmailTemplate from './email_template.svelte';
+	import Note from '$lib/note.svelte';
 
 	let { entity, _type, form } = $props();
 	let error = $state({});
@@ -54,12 +55,15 @@
 		</div>
 	{/if}
 
-	<div class="note">
-		Enter your new email address and click the button below.
-		<br />
-		<br />
-		A verification code will be sent to that address to confirm your ownership.
-	</div>
+	<Note>
+		{#snippet title()}
+			To change the email address associated with this {_type == 'org' ? 'organization' : _type},
+			enter a new email address and click the button below.
+		{/snippet}
+		{#snippet note()}
+			A verification code will be sent to that address to confirm your ownership.
+		{/snippet}
+	</Note>
 
 	<IG
 		name="New Email"
@@ -83,14 +87,5 @@
 <style>
 	.error {
 		margin: var(--sp2) 0;
-	}
-
-	.note {
-		padding: var(--sp2);
-		margin: var(--sp2) 0;
-		background-color: var(--bg2);
-		font-size: 0.8rem;
-
-		border-radius: var(--sp0);
 	}
 </style>

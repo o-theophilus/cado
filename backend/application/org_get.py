@@ -12,7 +12,7 @@ def get(key):
     con, cur = db_open()
 
     cur.execute("""
-        SELECT * FROM organization WHERE slug = %s OR key = %s;
+        SELECT * FROM organization WHERE LOWER(slug) = LOWER(%s) OR key = %s;
     """, (key, key))
     org = cur.fetchone()
 

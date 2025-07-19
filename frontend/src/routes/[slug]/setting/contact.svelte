@@ -12,6 +12,7 @@
 	let error = $state({});
 	let form = $state({
 		phone: card.phone,
+		email: card.email,
 		office_location_id: card.office_location_id
 	});
 
@@ -21,7 +22,7 @@
 			value: 0
 		}
 	];
-	if (card.org.address && card.org.address.length > 0) {
+	if (card.org.address.length > 0) {
 		for (let x = 0; x < card.org.address.length; x++) {
 			list.push({
 				key: card.org.address[x].address,
@@ -98,9 +99,7 @@
 					<Dropdown
 						{list}
 						bind:value={form.office_location_id}
-						default_value={card.org.address.length >= card.office_location_id - 1
-							? card.office_location_id
-							: 0}
+						default_value={list.length >= card.office_location_id - 1 ? card.office_location_id : 0}
 						{id}
 						wide
 					></Dropdown>

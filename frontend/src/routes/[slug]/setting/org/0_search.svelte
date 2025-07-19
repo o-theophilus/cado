@@ -4,6 +4,7 @@
 	import IG from '$lib/input_group.svelte';
 	import Button from '$lib/button/button.svelte';
 	import Icon from '$lib/icon.svelte';
+	import Note from '$lib/note.svelte';
 
 	let { status } = $props();
 
@@ -28,6 +29,8 @@
 		if (resp.status == 200) {
 			status.value = 1;
 			status.org = resp.org;
+		} else if (resp.error == 'not found') {
+			error.search = 'No organization found with this ID. please contact the admin.';
 		} else {
 			error = resp;
 		}
@@ -41,18 +44,28 @@
 		</div>
 	{/if}
 
+	<Note>
+		{#snippet title()}
+			This card is not linked to any organization
+		{/snippet}
+		{#snippet note()}
+			In order to link your business card to an organization, you need to search for the
+			organization by its ID.
+		{/snippet}
+	</Note>
+
 	<IG
-		name="Organization"
+		name="Organization ID"
 		icon="corporate_fare"
 		error={error.search}
-		placeholder="Organization here"
+		placeholder="Organization ID here"
 		type="text"
 		bind:value={name}
 	/>
 
 	<div class="line">
 		<Button onclick={validate}>
-			Submit
+			Search
 			<Icon icon="send" />
 		</Button>
 	</div>

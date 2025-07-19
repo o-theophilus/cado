@@ -5,6 +5,7 @@
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
 	import EmailTemplate from './email_template.svelte';
+	import Note from '$lib/note.svelte';
 
 	let { form } = $props();
 	let error = $state({});
@@ -53,12 +54,14 @@
 		</div>
 	{/if}
 
-	<div class="note">
-		Enter your new email address and click the button below.
-		<br />
-		<br />
-		A verification code will be sent to that address to confirm your ownership.
-	</div>
+	<Note>
+		{#snippet title()}
+			Enter your new email address and click the button below.
+		{/snippet}
+		{#snippet note()}
+			A verification code will be sent to that address to confirm your ownership.
+		{/snippet}
+	</Note>
 
 	<IG
 		name="New Email"
@@ -69,10 +72,23 @@
 		placeholder="Email here"
 	/>
 
-	<Button primary onclick={validate}>
-		Request Code
-		<Icon icon="send" />
-	</Button>
+	<div class="line">
+		<Button primary onclick={validate}>
+			Request Code
+			<Icon icon="send" />
+		</Button>
+
+		<Button
+			onclick={() => {
+				form.state = 0;
+				form.code_1 = null;
+				form.code_2 = null;
+			}}
+		>
+			Cancel
+			<Icon icon="close" />
+		</Button>
+	</div>
 </form>
 
 <div bind:this={email_template} style="display: none;">
@@ -80,16 +96,11 @@
 </div>
 
 <style>
+	.line {
+		display: flex;
+		gap: var(--sp1);
+	}
 	.error {
 		margin: var(--sp2) 0;
-	}
-
-	.note {
-		padding: var(--sp2);
-		margin: var(--sp2) 0;
-		background-color: var(--bg2);
-		font-size: 0.8rem;
-
-		border-radius: var(--sp0);
 	}
 </style>

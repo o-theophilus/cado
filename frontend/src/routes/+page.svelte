@@ -9,7 +9,7 @@
 	import Icon from '$lib/icon.svelte';
 	import Button from '$lib/button/button.svelte';
 	import Dialogue from '$lib/dialogue.svelte';
-	import Login from './account/login.svelte';
+	import Login from '$lib/auth/login.svelte';
 
 	const get_module = (x) => {
 		if (x == 'login') {

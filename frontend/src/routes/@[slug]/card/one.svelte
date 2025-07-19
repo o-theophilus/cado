@@ -3,17 +3,20 @@
 	import BRound from '$lib/button/round.svelte';
 	import Avatar from '$lib/avatar.svelte';
 
-	let { card, selected, status } = $props();
+	let { card, selected, card_status } = $props();
 </script>
 
 <div class="card">
-	<Avatar name="{card.firstname} {card.lastname}" photo={card.photo} size="100" square />
-	<div class="block">
+	<a href="/{card.key}">
+		<Avatar name="{card.firstname} {card.lastname}" photo={card.photo} size="100" square />
 		<div class="details">
-			<span>{card.firstname} {card.lastname}</span>
-			<span>{card.email}</span>
-			<span>{card.job_title}</span>
+			<div class="name">{card.firstname} {card.lastname}</div>
+			<div>{card.email}</div>
+			<div>{card.job_title}</div>
 		</div>
+	</a>
+
+	<div class="actions">
 		<Tag no_grow onclick={() => selected.add(card.key)}>
 			{card.status}
 		</Tag>
@@ -24,10 +27,10 @@
 			<div class="block">
 				<span> Change Status </span>
 				<div class="buttons">
-					<Tag no_grow onclick={() => status('live')}>
+					<Tag no_grow onclick={() => card_status('live')}>
 						Accept {selected.value.length > 1 ? 'All' : ''}
 					</Tag>
-					<Tag no_grow onclick={() => status('draft')}>
+					<Tag no_grow onclick={() => card_status('draft')}>
 						Cancel {selected.value.length > 1 ? 'All' : ''}
 					</Tag>
 					<BRound icon="close" onclick={() => selected.remove(card.key)}></BRound>
@@ -55,10 +58,22 @@
 		width: 100%;
 	}
 
-	.details {
+	a {
 		display: flex;
-		flex-direction: column;
 		gap: var(--sp1);
+		align-items: center;
+		width: 100%;
+		text-decoration: none;
+		color: var(--ft2);
+		border-right: 2px solid var(--bg2);
+	}
+
+	.details {
+		font-size: 0.9rem;
+		/* width: 100%; */
+	}
+	.name {
+		font-weight: 800;
 	}
 
 	.dialog {

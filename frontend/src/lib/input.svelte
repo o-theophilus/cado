@@ -6,8 +6,10 @@
 		placeholder = '',
 		min = '',
 		disabled = false,
+
 		onblur,
-		oninput
+		oninput,
+		onkeypress
 	} = $props();
 </script>
 
@@ -28,7 +30,7 @@
 {:else if type == 'textarea'}
 	<textarea bind:value {id} {placeholder} {onblur} {oninput} {disabled}></textarea>
 {:else}
-	<input bind:value {id} type="text" {placeholder} {disabled} />
+	<input bind:value {id} type="text" {placeholder} {disabled} {onkeypress} />
 {/if}
 
 <style>

@@ -64,7 +64,9 @@
 		<div>
 			<div class="label">Email:</div>
 			<Link href="mailto:{card.email}">
-				{card.email}
+				<span class="email">
+					{card.email}
+				</span>
 			</Link>
 		</div>
 	</div>
@@ -136,5 +138,9 @@
 
 	.address {
 		max-width: 500px;
+	}
+	.email {
+		word-break: break-all;
+		overflow-wrap: anywhere;
 	}
 </style>
