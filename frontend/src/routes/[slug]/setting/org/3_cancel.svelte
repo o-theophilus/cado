@@ -36,7 +36,13 @@
 
 <Note status="400">
 	{#snippet title()}
-		Are you sure you want to cancel your request to be a member of this organization?
+		Are you sure you want to
+		{#if status.prev_value == 2}
+			cancel your request to become a member of
+		{:else if status.prev_value == 4}
+			unlink this card from
+		{/if}
+		this organization?
 	{/snippet}
 	{#snippet note()}
 		<NoteOrg org={card.org}></NoteOrg>
@@ -56,7 +62,7 @@
 	</Button>
 	<Button
 		onclick={() => {
-			status.value = 2;
+			status.value = status.prev_value;
 		}}
 	>
 		back

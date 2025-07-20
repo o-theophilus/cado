@@ -20,9 +20,10 @@
 	<Button
 		onclick={() => {
 			status.value = 3;
+			status.prev_value = 4;
 		}}
 	>
-		Cancel Request
+		Unlink Card
 		<Icon icon="close" />
 	</Button>
 </div>

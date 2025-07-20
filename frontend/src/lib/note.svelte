@@ -36,7 +36,7 @@
 <style>
 	.block {
 		padding: var(--sp2);
-		margin: var(--sp2) 0;
+		margin-bottom: var(--sp2);
 
 		background-color: var(--bg2);
 		border-radius: var(--sp0);

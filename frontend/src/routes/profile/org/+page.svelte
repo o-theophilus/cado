@@ -29,28 +29,22 @@
 {#if orgs && orgs.length > 0}
 	<div class="cards">
 		{#each orgs as org}
-			<div class="card">
+			<a href="/@{org.slug}">
 				<div class="menu">
 					<BRound icon="card" href="/@{org.slug}/card"></BRound>
 					<BRound icon="settings" href="/@{org.slug}/setting"></BRound>
 				</div>
-				<a href="/@{org.slug}">
-					<div class="img">
-						{#if org.photo}
-							<img src={org.photo} alt="org logo" />
-						{:else}
-							<Icon icon="corporate_fare" size="8" />
-						{/if}
-					</div>
-				</a>
-				<a href="/@{org.slug}">
-					{#if org.fullname}
-						{org.fullname}
+				<div class="img">
+					{#if org.photo}
+						<img src={org.photo} alt="org logo" />
 					{:else}
-						{org.name}
+						<Icon icon="corporate_fare" size="8" />
 					{/if}
-				</a>
-			</div>
+				</div>
+				<span class="name">
+					{org.fullname || org.name}
+				</span>
+			</a>
 		{/each}
 	</div>
 {:else}
@@ -84,7 +78,7 @@
 		}
 	}
 
-	.card {
+	a {
 		position: relative;
 
 		display: flex;
@@ -92,13 +86,9 @@
 
 		text-decoration: none;
 		color: var(--ft1);
-
-		transition: border-color var(--trans);
 	}
-
-	a {
-		text-decoration: none;
-		color: var(--ft1);
+	a:hover .img {
+		border-color: var(--ft2);
 	}
 
 	.img {
@@ -109,16 +99,20 @@
 		border: 2px solid var(--bg2);
 		border-radius: 8px;
 		padding: var(--sp2);
+		margin-bottom: var(--sp1);
 		aspect-ratio: 1;
 		fill: var(--bg2);
+
+		transition: border-color var(--trans);
 	}
 	img {
 		width: 100%;
 		object-fit: contain;
 	}
 
-	.card:hover .img {
-		border-color: var(--ft2);
+	.name {
+		font-weight: 800;
+		font-size: 1.2rem;
 	}
 
 	.menu {

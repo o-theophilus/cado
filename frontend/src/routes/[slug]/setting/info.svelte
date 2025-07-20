@@ -104,8 +104,8 @@
 		/>
 
 		<Button onclick={validate}>
-			Submit
-			<Icon icon="send" />
+			Save
+			<Icon icon="save" />
 		</Button>
 	</form>
 </Card>

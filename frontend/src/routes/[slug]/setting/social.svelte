@@ -5,6 +5,7 @@
 	import Icon from '$lib/icon.svelte';
 	import Card from '$lib/card.svelte';
 	import Social from './social.add.svelte';
+	import View from './social.view.svelte';
 
 	let { entity, _type, active_card, update } = $props();
 
@@ -39,6 +40,7 @@
 		}
 	};
 
+	let list = ['whatsapp', 'linkedin', 'twitter', 'facebook', 'instagram', 'other'];
 	let name = 'social';
 </script>
 
@@ -54,12 +56,13 @@
 			</div>
 		{/if}
 
-		<Social bind:value={form.social_links}></Social>
+		<Social bind:value={form.social_links} {list}></Social>
+		<View bind:value={form.social_links} {list}></View>
 		<br />
 
 		<Button onclick={validate}>
-			Submit
-			<Icon icon="send" />
+			Save
+			<Icon icon="save" />
 		</Button>
 	</form>
 </Card>

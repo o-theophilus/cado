@@ -16,6 +16,9 @@
 		<a href="/profile/org" class:active={page.route.id == '/profile/org'}>
 			<Icon icon="corporate_fare" size="2" />
 		</a>
+		<!-- <a href="/profile/setting" class:active={page.route.id == '/profile/setting'}>
+			<Icon icon="settings" size="1.5" />
+		</a> -->
 	</div>
 
 	<div class="content">

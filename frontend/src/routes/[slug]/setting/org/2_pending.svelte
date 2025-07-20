@@ -19,6 +19,7 @@
 <Button
 	onclick={() => {
 		status.value = 3;
+		status.prev_value = 2;
 	}}
 >
 	Cancel Request

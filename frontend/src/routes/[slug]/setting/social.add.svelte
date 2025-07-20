@@ -4,11 +4,12 @@
 	import Icon from '$lib/icon.svelte';
 	import Dropdown from '$lib/dropdown.svelte';
 
-	let { value = $bindable() } = $props();
+	let { value = $bindable(), list } = $props();
 	let error = $state('');
 	let _key = $state('');
 	let _key2 = $state('');
 	let _val = $state('');
+	let _list = $derived(list.filter((k) => !Object.keys(value).includes(k)));
 
 	const add = () => {
 		error = '';
@@ -34,42 +35,7 @@
 			_val = '';
 		}
 	};
-
-	const remove = (n) => {
-		const { [n]: _, ...rest } = value;
-		value = rest;
-	};
-
-	let list = ['whatsapp', 'linkedin', 'twitter', 'facebook', 'instagram', 'other'];
 </script>
-
-{#if Object.keys(value).length > 0}
-	<div class="social_block">
-		{#each Object.entries(value) as [key, value] (key)}
-			<div class="social">
-				<a
-					href={key != 'whatsapp' ? value : `https://wa.me/${value}/?text=Hello%20${name}`}
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<Icon icon={list.includes(key) ? key : 'link'} />
-
-					{key}
-				</a>
-				<div
-					class="close"
-					onclick={() => {
-						remove(key);
-					}}
-					role="presentation"
-				>
-					<Icon icon="close" />
-				</div>
-			</div>
-		{/each}
-	</div>
-	<br />
-{/if}
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
 	{#if error}
@@ -79,12 +45,9 @@
 	{/if}
 
 	<div class="line">
-		<Dropdown
-			bind:value={_key}
-			list={list.filter((k) => !Object.keys(value).includes(k))}
-			wide={_key != 'other'}
-		></Dropdown>
-
+		{#key _list}
+			<Dropdown bind:value={_key} list={_list} wide={_key != 'other'}></Dropdown>
+		{/key}
 		{#if _key == 'other'}
 			<IG
 				type="text"
@@ -97,16 +60,19 @@
 		{/if}
 	</div>
 
-	<br />
-
 	<div class="line">
 		<IG
 			type="text"
+			bind:value={_val}
 			placeholder={_key != 'whatsapp'
 				? `${_key} profile url`
 				: 'Whatsapp number (e.g. +2348012345678)'}
-			bind:value={_val}
 			no_pad
+			onkeypress={(e) => {
+				if (e.key == 'Enter') {
+					add();
+				}
+			}}
 		/>
 
 		<Button onclick={add}>
@@ -117,68 +83,18 @@
 </form>
 
 <style>
+	form {
+		padding: var(--sp2);
+		border: 2px solid var(--bg2);
+		border-radius: var(--sp0);
+	}
 	.line {
 		display: flex;
 		gap: var(--sp2);
 		align-items: center;
 	}
-
-	.social_block {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--sp0);
-
-		border-radius: var(--sp0);
-	}
-	.social {
-		display: flex;
-		flex-wrap: wrap;
-		background-color: var(--bg2);
-
-		border-radius: var(--sp0);
-		overflow: hidden;
-	}
-
-	a {
-		display: flex;
-		align-items: center;
-		gap: var(--sp1);
-
-		padding: var(--sp1);
-
-		color: var(--ft1);
-		fill: currentColor;
-		text-decoration: none;
-
-		transition:
-			background-color var(--trans),
-			color var(--trans);
-	}
-
-	a:hover {
-		color: var(--ft1_b);
-		background-color: var(--button);
-	}
-
-	.close {
-		--size: 40px;
-
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		width: var(--size);
-		height: var(--size);
-
-		cursor: pointer;
-
-		transition:
-			background-color var(--trans),
-			fill var(--trans);
-	}
-	.close:hover {
-		fill: var(--ft1_b);
-		background-color: var(--cl2);
+	.line:last-child {
+		margin-top: var(--sp2);
 	}
 
 	.error {

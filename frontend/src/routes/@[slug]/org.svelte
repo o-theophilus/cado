@@ -1,7 +1,10 @@
 <script>
+	import { page } from '$app/state';
+	import { user } from '$lib/store.svelte.js';
 	import Icon from '$lib/icon.svelte';
 	import Link from '$lib/button/link.svelte';
 	import Socials from '../[slug]/socials.svelte';
+	import BRound from '$lib/button/round.svelte';
 
 	let { org } = $props();
 
@@ -21,7 +24,26 @@
 		height = width / ar;
 	};
 	calc_();
+
+	console.log(org);
 </script>
+
+<div class="hline">
+	{#if page.route.id == '/@[slug]'}
+		<div class="page_title">Organization</div>
+	{:else if org.user_key == user.value.key}
+		<div></div>
+	{/if}
+
+	{#if org.user_key == user.value.key}
+		<div class="hline">
+			<BRound icon="card" tooltip="settings" href="/@{org.slug}/card" large></BRound>
+			<BRound icon="settings" tooltip="settings" href="/@{org.slug}/setting" large></BRound>
+		</div>
+	{/if}
+</div>
+
+<br />
 
 {#if org.photo}
 	<img src={org.photo || '/no_photo.png'} alt={org.name} style:max-width="{width}px" />
@@ -33,14 +55,12 @@
 
 <br />
 <br />
-<br />
 
 <div class="name">
-	{org.fullname}
+	{org.fullname || org.name}
 </div>
-
 {#if org.slogan}
-	<div class="group slogan">
+	<div class="slogan">
 		{org.slogan}
 	</div>
 {/if}
@@ -103,6 +123,10 @@
 <Socials links={org.social_links} name={org.firstname} />
 
 <style>
+	.hline {
+		gap: var(--sp1);
+	}
+
 	img {
 		object-fit: contain;
 		width: 100%;

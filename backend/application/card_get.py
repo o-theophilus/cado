@@ -42,7 +42,8 @@ def get(key, cur=None):
             'website', org.website,
             'address', COALESCE(org.address::jsonb, '[]'::jsonb),
             'social_links', org.social_links,
-            'photo', org.photo
+            'photo', org.photo,
+            'user_key', org.user_key
         ) AS org
 
         FROM card
