@@ -1,6 +1,6 @@
 import { browser } from '$app/environment';
 import { page } from '$app/state';
-import { invalidate } from '$app/navigation';
+import { invalidate, invalidateAll } from '$app/navigation';
 import { pushState, replaceState } from "$app/navigation"
 
 
@@ -78,64 +78,32 @@ export const token = {
 };
 
 
-export const state = $state()
-export const set_state = (key, value) => {
-	page.url.searchParams.set(key, value);
-
-	if (value == '') {
-		page.url.searchParams.delete(key);
-	}
-	if (key != "page_no") {
-		page.url.searchParams.delete("page_no");
-	}
-
-	window.history.replaceState(history.state, '', page.url.href);
-	window.scrollTo({ top: 0, behavior: 'smooth' });
-
-
-	console.log(page.url.href);
-	console.log(page.data.page_name);
-
-	// let _state = state
-	// let i = _state.findIndex(x => x.name == page.data.page_name)
-	// _state[i].loaded = false
-	// _state[i].search = page.url.search
-	// state.set(_state)
-
-	// loading.set("Loading . . .")
-	// invalidate(() => true);
-};
 
 export const page_state = $state({
-	value: {},
+	searchParams: {},
 
-	set(key, value) {
-		page.url.searchParams.set(key, value);
-
-		if (value == '') {
-			page.url.searchParams.delete(key);
+	set(key, val) {
+		this.searchParams[key] = val
+		if (!val) {
+			delete this.searchParams[key];
 		}
 		if (key != "page_no") {
-			page.url.searchParams.delete("page_no");
+			delete this.searchParams["page_no"];
 		}
 
-		this.value[page.data.page_name] = {
-			loaded: false,
-			search: page.url.search,
-		}
+		let ss = new URLSearchParams(this.searchParams);
 
+		// this.searchParams[page.data.page_name] = {
+		// 	loaded: false,
+		// 	search: page.url.search,
+		// }
 
-
-		console.log(page.url);
-		// replaceState(history.state, page.url.search);
+		page.url.search = ss.toString();
 		window.history.replaceState(history.state, '', page.url.href);
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 
 
-
-
-
-		// loading.open()
+		loading.open()
 		invalidate(() => true);
 	}
 

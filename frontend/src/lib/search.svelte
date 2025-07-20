@@ -4,9 +4,20 @@
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
 
-	let { value = $bindable(), placeholder = 'Search', non_default = false, onclick } = $props();
+	let { value = $bindable(), placeholder = 'Search', non_default = false, ondone } = $props();
+	let _value = $state(value);
 
-	let init = $state('');
+	const submit = (n) => {
+		if (n != _value) {
+			ondone?.(n);
+		}
+		set(n);
+	};
+
+	export const set = (n) => {
+		value = n;
+		_value = n;
+	};
 </script>
 
 <IG
@@ -16,8 +27,7 @@
 	no_pad
 	onkeypress={(e) => {
 		if (e.key == 'Enter') {
-			init = value;
-			onclick?.(value);
+			submit(value);
 		}
 	}}
 >
@@ -29,9 +39,7 @@
 						icon="close"
 						extra="hover_red"
 						onclick={() => {
-							value = '';
-							init = '';
-							onclick?.(value);
+							submit('');
 						}}
 					/>
 				</div>
@@ -40,10 +48,9 @@
 			{#if !non_default}
 				<Button
 					onclick={() => {
-						init = value;
-						onclick?.(value);
+						submit(value);
 					}}
-					disabled={value == init}
+					disabled={value == _value}
 				>
 					<Icon icon="search" />
 				</Button>

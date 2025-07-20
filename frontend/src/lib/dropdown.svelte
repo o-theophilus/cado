@@ -1,8 +1,124 @@
 <script>
-	import Dropdown from './dropdown_.svelte';
-	let { value = $bindable(), ...props } = $props();
+	import Icon from '$lib/icon.svelte';
+	import { onMount } from 'svelte';
+
+	let {
+		icon = null,
+		wide = false,
+		button = false,
+		id = null,
+		disabled = false,
+
+		list = [{ a: 1 }, { b: 2 }, { c: 3 }],
+		value = $bindable(),
+		onchange
+	} = $props();
+
+	let isObj = $state(false);
+
+	onMount(() => {
+		if (list[0] instanceof Object) {
+			isObj = true;
+		}
+
+		let _list = isObj ? Object.values(list) : list;
+
+		if (!value || !_list.includes(value)) {
+			value = _list[0];
+		}
+	});
 </script>
 
-{#if props.list.length}
-	<Dropdown bind:value {...props}></Dropdown>
-{/if}
+<button class={button ? 'button' : 'select'} class:wide {disabled}>
+	{#if icon}
+		<div class="icon">
+			<Icon {icon} size="1.2" />
+		</div>
+	{/if}
+	<select
+		{id}
+		bind:value
+		class:has_icon={icon}
+		onchange={() => {
+			onchange?.(value);
+		}}
+	>
+		{#each list as x}
+			<option value={isObj ? x.value : x}>
+				{isObj ? x.key : x}
+			</option>
+		{/each}
+	</select>
+</button>
+
+<style>
+	button {
+		position: relative;
+		display: block;
+		border: none;
+		background-color: unset;
+
+		width: fit-content;
+	}
+	button.wide {
+		width: 100%;
+	}
+	:disabled {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+
+	/* ********************** */
+	.select .has_icon {
+		padding-left: 48px;
+	}
+
+	.button {
+		--size: 50px;
+		width: var(--size);
+		height: var(--size);
+	}
+	.button select {
+		background-color: var(--input);
+		color: transparent;
+	}
+	/* ********************** */
+
+	select {
+		padding: var(--sp2);
+		border-radius: var(--sp0);
+		outline: 2px solid var(--input);
+
+		width: 100%;
+		height: 100%;
+
+		border: none;
+		color: var(--ft2);
+		cursor: pointer;
+		text-transform: capitalize;
+
+		transition: outline-color var(--trans);
+	}
+	select:hover {
+		color: var(--ft1);
+		outline-color: var(--cl1);
+	}
+
+	.icon {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		pointer-events: none;
+
+		color: var(--ft2);
+
+		position: absolute;
+		height: 100%;
+		aspect-ratio: 1;
+	}
+
+	option {
+		background-color: var(--bg1);
+		color: var(--ft1_d);
+	}
+</style>

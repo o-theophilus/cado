@@ -1,26 +1,25 @@
 <script>
-	import { loading, notify, token } from '$lib/store.svelte.js';
+	import { loading, notify, token, page_state } from '$lib/store.svelte.js';
 	import { flip } from 'svelte/animate';
 	import { cubicInOut } from 'svelte/easing';
 
 	import Meta from '$lib/meta.svelte';
 
-	import Pagination from '$lib/pagination.svelte';
-	import Search from '$lib/search.svelte';
-	import Dropdown from '$lib/dropdown.svelte';
-	import Gradio from '$lib/gradio.svelte';
+	import Pagination from '$lib/pagination+.svelte';
+	import Search from '$lib/search+.svelte';
+	import Dropdown from '$lib/dropdown+.svelte';
+	import Gradio from '$lib/gradio+.svelte';
 
 	import BRound from '$lib/button/round.svelte';
 	import One from './one.svelte';
-	import { onMount } from 'svelte';
 
 	let { data } = $props();
 
 	let org = data.org;
-	let cards = $state([]);
-	let status = $state([]);
-	let order = $state([]);
-	let total_page = $state(1);
+	let cards = $derived(data.cards);
+	let total_page = $derived(data.total_page);
+	let status = $derived(data._status);
+	let order = $derived(data.order_by);
 	let error = $state({});
 
 	let selected = $state({
@@ -61,39 +60,6 @@
 			error = resp;
 		}
 	};
-
-	let searchParams = $state({ page_no: 1 });
-
-	const page_state = async () => {
-		let ss = new URLSearchParams(searchParams);
-		ss = ss.toString();
-		ss = ss.length > 0 ? `?${ss}` : '';
-
-		loading.open();
-		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/org/card/${org.key}${ss}`, {
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: token.value
-			}
-		});
-		resp = await resp.json();
-		loading.close();
-
-		if (resp.status == 200) {
-			cards = resp.cards;
-			order = resp.order_by;
-			status = resp._status;
-			total_page = resp.total_page;
-		} else {
-			error = resp;
-		}
-	};
-
-	onMount(() => {
-		page_state();
-	});
-
-	let pagination = $state();
 </script>
 
 <Meta title={org.name} />
@@ -106,33 +72,26 @@
 		</div>
 
 		<Dropdown
-			bind:value={searchParams.order}
 			icon="sort"
 			list={order}
-			onchange={() => {
-				pagination?.reset();
-				page_state();
+			onchange={(x) => {
+				page_state.set('order', x);
 			}}
 		></Dropdown>
 	</div>
 
 	<div class="hline v2">
 		<Gradio
-			bind:value={searchParams.status}
 			list={status}
-			onclick={() => {
-				pagination?.reset();
-				page_state();
+			onclick={(x) => {
+				page_state.set('status', x);
 			}}
 		></Gradio>
-
 		<div class="search">
 			<Search
-				bind:value={searchParams.search}
 				placeholder="Search Cards"
-				onclick={() => {
-					pagination?.reset();
-					page_state();
+				ondone={(x) => {
+					page_state.set('search', x);
 				}}
 			></Search>
 		</div>
@@ -147,7 +106,11 @@
 	{/each}
 
 	<br />
-	<Pagination bind:value={searchParams.page_no} bind:pagination {total_page} ondone={page_state}
+	<Pagination
+		{total_page}
+		ondone={(x) => {
+			page_state.set('page_no', x);
+		}}
 	></Pagination>
 </section>
 
