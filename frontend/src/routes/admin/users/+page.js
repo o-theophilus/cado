@@ -1,26 +1,26 @@
 import { error } from '@sveltejs/kit';
 import { get } from 'svelte/store';
-import { state, loading } from "$lib/store.svelte.js"
+import { page_state, loading } from "$lib/store.svelte.js"
 
 export const load = async ({ fetch, url, parent }) => {
 	let a = await parent();
 	if (!a.locals.user.access.includes("user:view")) {
 		throw error(400, "unauthorized access")
 	}
-	
+
 	let page_name = "users"
-	let _state = get(state)
+	let _state = get(page_state)
 	let i = _state.findIndex(x => x.name == page_name);
-	
+
 	if (i == -1) {
 		_state.push({
 			name: page_name,
 			search: url.search
 		})
-		state.set(_state)
+		page_state.set(_state)
 		i = _state.findIndex(x => x.name == page_name);
 	}
-	
+
 	let backend = new URL(`${import.meta.env.VITE_BACKEND}/users`)
 	backend.search = _state[i].search
 	let resp = await fetch(backend.href, {
