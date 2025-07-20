@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
-	import { set_state } from '$lib/store.svelte.js';
+	import { page_state } from '$lib/store.svelte.js';
 
 	import Search from '$lib/search.svelte';
 	import Icon from '$lib/icon.svelte';
@@ -44,7 +44,7 @@
 		let check = `${search}`;
 		search = `${user_key}:${type || 'all'}:${action || 'all'}`;
 		if (search != check) {
-			set_state('search', search != ':all:all' ? search : '');
+			page_state('search', search != ':all:all' ? search : '');
 		}
 	};
 </script>

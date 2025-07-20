@@ -140,7 +140,7 @@ def signup():
         user["key"]
     ))
     user = cur.fetchone()
-    user = user if user else {}  # TODO: check if this is needed
+    user = user if user else {}
 
     send_mail(
         user["email"],

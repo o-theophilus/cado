@@ -45,7 +45,7 @@ access = {
         ['delete', 3]
     ],
     "admin_organization": [
-        ['view', 1],  # TODO: review this, super user only
+        ['view', 1],
         ['delete', 3],
 
         ['edit_logo', 2],

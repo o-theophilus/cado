@@ -7,7 +7,6 @@ from .tools import token_to_user
 bp = Blueprint("api", __name__)
 
 
-# TODO: test this
 @bp.get("/cron")
 def cron():
     clean_photo()

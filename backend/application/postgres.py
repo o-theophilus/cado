@@ -76,7 +76,6 @@ card = """CREATE TABLE IF NOT EXISTS card (
 );"""
 
 
-# TODO: pending, approved, rejected
 card_organization = """CREATE TABLE IF NOT EXISTS card_organization (
     key CHAR(32) PRIMARY KEY,
     status VARCHAR(20) DEFAULT 'pending' NOT NULL,
