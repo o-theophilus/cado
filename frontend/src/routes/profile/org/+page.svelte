@@ -4,7 +4,7 @@
 	import BRound from '$lib/button/round.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Add from './_add.svelte';
-	import Empty from '../empty.svelte';
+	import Note from '$lib/note.2.svelte';
 
 	let { data } = $props();
 	let orgs = data.orgs;
@@ -54,13 +54,13 @@
 		{/each}
 	</div>
 {:else}
-	<Empty>
+	<Note>
 		No organization available
 		<Button onclick={add}>
 			<Icon icon="add" />
 			Add Now
 		</Button>
-	</Empty>
+	</Note>
 {/if}
 
 <style>

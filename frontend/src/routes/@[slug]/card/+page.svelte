@@ -9,6 +9,7 @@
 	import Search from '$lib/search+.svelte';
 	import Dropdown from '$lib/dropdown+.svelte';
 	import Gradio from '$lib/gradio+.svelte';
+	import Note from '$lib/note.2.svelte';
 
 	import BRound from '$lib/button/round.svelte';
 	import One from './one.svelte';
@@ -86,7 +87,7 @@
 			<One {card} {selected} {card_status}></One>
 		</div>
 	{:else}
-		Nothing
+		<Note>No Card Found</Note>
 	{/each}
 
 	<br />

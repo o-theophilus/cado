@@ -5,7 +5,7 @@
 	import Tag from '$lib/button/tag.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Add from './_add.svelte';
-	import Empty from '../empty.svelte';
+	import Note from '$lib/note.2.svelte';
 
 	let { data } = $props();
 	let cards = data.cards;
@@ -62,13 +62,13 @@
 		{/each}
 	</div>
 {:else}
-	<Empty>
+	<Note>
 		No business card available
 		<Button onclick={add}>
 			<Icon icon="add" />
 			Add Now
 		</Button>
-	</Empty>
+	</Note>
 {/if}
 
 <style>

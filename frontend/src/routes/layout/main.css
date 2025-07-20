@@ -5,7 +5,7 @@ input,
 button {
 	font-family: "Figtree", sans-serif;
 	font-size: 12px;
-
+	font-weight: 500;
 }
 
 @media (min-width: 600px) {
@@ -15,9 +15,7 @@ button {
 	input,
 	button {
 		font-size: 16px;
-	
 	}
-
 }
 
 * {
