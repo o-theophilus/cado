@@ -1,6 +1,5 @@
 import { browser } from '$app/environment';
-import { page } from '$app/state';
-import { invalidate } from '$app/navigation';
+import { goto } from '$app/navigation';
 
 
 export let user = $state({ value: null });
@@ -91,14 +90,12 @@ export const page_state = $state({
 		}
 
 		let ss = new URLSearchParams(this.searchParams);
-
-		page.url.search = ss.toString();
-		window.history.replaceState(history.state, '', page.url.href);
+		ss = ss.toString()
+		ss = ss ? `?${ss}` : "?"
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 
-
 		loading.open()
-		invalidate(() => true);
+		goto(ss, { replaceState: true })
 	}
 
 

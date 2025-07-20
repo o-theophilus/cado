@@ -29,7 +29,9 @@
 		bind:value
 		{list}
 		onchange={() => {
-			onchange?.(value != default_value ? value : '');
+			let x = value != default_value ? value : '';
+			page_state.set('order', x);
+			onchange?.(x);
 		}}
 		{...props}
 	></Dropdown>

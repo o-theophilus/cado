@@ -10,7 +10,7 @@
 
 	const format = (x) => {
 		if (x._type == 'org_card_join_request') {
-			x.message = `${x.info.count} card join request, this is not real`;
+			x.message = `${x.info.count} card join request.`;
 			x.href = `/@${x.info.slug}/card?status=pending`;
 		}
 		return x;
@@ -24,7 +24,6 @@
 			}
 		});
 		resp = await resp.json();
-		console.log(resp);
 
 		if (resp.status == 200) {
 			nots = resp.nots.map((x) => format(x));

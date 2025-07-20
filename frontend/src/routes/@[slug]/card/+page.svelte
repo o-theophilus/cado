@@ -1,5 +1,5 @@
 <script>
-	import { loading, notify, token, page_state } from '$lib/store.svelte.js';
+	import { loading, notify, token } from '$lib/store.svelte.js';
 	import { flip } from 'svelte/animate';
 	import { cubicInOut } from 'svelte/easing';
 
@@ -71,29 +71,13 @@
 			<h1>Organization Cards</h1>
 		</div>
 
-		<Dropdown
-			icon="sort"
-			list={order}
-			onchange={(x) => {
-				page_state.set('order', x);
-			}}
-		></Dropdown>
+		<Dropdown icon="sort" list={order}></Dropdown>
 	</div>
 
 	<div class="hline v2">
-		<Gradio
-			list={status}
-			onclick={(x) => {
-				page_state.set('status', x);
-			}}
-		></Gradio>
+		<Gradio list={status}></Gradio>
 		<div class="search">
-			<Search
-				placeholder="Search Cards"
-				ondone={(x) => {
-					page_state.set('search', x);
-				}}
-			></Search>
+			<Search placeholder="Search Cards"></Search>
 		</div>
 	</div>
 
@@ -106,12 +90,7 @@
 	{/each}
 
 	<br />
-	<Pagination
-		{total_page}
-		ondone={(x) => {
-			page_state.set('page_no', x);
-		}}
-	></Pagination>
+	<Pagination {total_page}></Pagination>
 </section>
 
 <style>

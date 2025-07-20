@@ -11,4 +11,11 @@
 	});
 </script>
 
-<Search bind:this={search} bind:value {ondone}></Search>
+<Search
+	bind:this={search}
+	bind:value
+	ondone={(x) => {
+		page_state.set('search', x);
+		ondone?.(x);
+	}}
+></Search>

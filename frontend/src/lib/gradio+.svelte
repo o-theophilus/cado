@@ -24,7 +24,9 @@
 		bind:value
 		{list}
 		onclick={() => {
-			onclick?.(value != default_value ? value : '');
+			let x = value != default_value ? value : '';
+			page_state.set('status', x);
+			onclick?.(x);
 		}}
 	></Gradio>
 {/if}

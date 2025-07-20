@@ -214,7 +214,7 @@ def get_org_cards(key, cur=None):
     status = "live"
     search = ""
     page_no = 1
-    page_size = 2
+    page_size = 24
 
     if "status" in request.args:
         status = request.args["status"]

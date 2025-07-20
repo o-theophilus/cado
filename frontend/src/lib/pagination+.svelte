@@ -19,7 +19,9 @@
 		bind:value
 		{total_page}
 		ondone={() => {
-			ondone?.(value != 1 ? value : '');
+			let x = value != 1 ? value : '';
+			page_state.set('page_no', x);
+			ondone?.(x);
 		}}
 	></Pagination>
 {/if}
