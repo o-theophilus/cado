@@ -1,0 +1,145 @@
+<script>
+	import { slide } from 'svelte/transition';
+	import { cubicInOut } from 'svelte/easing';
+
+	import { token } from '$lib/store.svelte.js';
+	import Icon from '$lib/icon.svelte';
+	import { onMount } from 'svelte';
+
+	let nots = $state([]);
+
+	const format = (x) => {
+		if (x._type == 'org_card_join_request') {
+			x.message = `${x.info.count} card join request, this is not real`;
+			x.href = `/@${x.info.slug}/card?status=pending`;
+		}
+		return x;
+	};
+
+	const submit = async () => {
+		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/notification`, {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: token.value
+			}
+		});
+		resp = await resp.json();
+		console.log(resp);
+
+		if (resp.status == 200) {
+			nots = resp.nots.map((x) => format(x));
+		}
+	};
+
+	onMount(async () => {
+		await submit();
+	});
+
+	let open = $state(false);
+	let self = $state(false);
+</script>
+
+<svelte:window
+	onclick={() => {
+		if (open && !self) {
+			open = false;
+		}
+		self = false;
+	}}
+/>
+
+{#if nots.length > 0}
+	<button
+		class="block"
+		onclick={() => {
+			open = !open;
+			self = true;
+		}}
+	>
+		<div class="new"></div>
+		<Icon icon="notify"></Icon>
+
+		{#if open}
+			<div class="nots" transition:slide={{ delay: 0, duration: 200, easing: cubicInOut }}>
+				{#each nots as n}
+					<a href={n.href}>
+						{n.message}
+					</a>
+				{/each}
+			</div>
+		{/if}
+	</button>
+{/if}
+
+<style>
+	.block {
+		--size: 20px;
+
+		position: relative;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		width: var(--size);
+		height: var(--size);
+		border-radius: 50%;
+		border: none;
+		background-color: transparent;
+		cursor: pointer;
+		padding: var(--sp0);
+
+		transition: background-color var(--trans);
+	}
+	.block:hover {
+		background-color: var(--bg2);
+	}
+
+	.new {
+		--size: 6px;
+
+		flex-shrink: 0;
+		position: absolute;
+		top: 0px;
+		right: 0px;
+
+		width: var(--size);
+		height: var(--size);
+		border-radius: 50%;
+		background-color: var(--cl2);
+	}
+
+	.nots {
+		position: absolute;
+		top: 100%;
+		right: 0;
+		z-index: 1;
+
+		display: flex;
+		flex-direction: column;
+
+		width: 160px;
+		overflow: hidden;
+		background-color: var(--bg1);
+		border-radius: var(--sp0);
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	}
+
+	a {
+		padding: var(--sp0) var(--sp2);
+
+		font-size: 0.8rem;
+		text-decoration: none;
+		color: var(--ft1);
+		background-color: transparent;
+
+		transition: background-color var(--trans);
+	}
+	a:not(:last-child) {
+		border-bottom: 2px solid var(--bg2);
+	}
+
+	a:hover {
+		background-color: var(--bg2);
+	}
+</style>

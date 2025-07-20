@@ -1,7 +1,6 @@
 import { browser } from '$app/environment';
 import { page } from '$app/state';
-import { invalidate, invalidateAll } from '$app/navigation';
-import { pushState, replaceState } from "$app/navigation"
+import { invalidate } from '$app/navigation';
 
 
 export let user = $state({ value: null });
@@ -92,11 +91,6 @@ export const page_state = $state({
 		}
 
 		let ss = new URLSearchParams(this.searchParams);
-
-		// this.searchParams[page.data.page_name] = {
-		// 	loaded: false,
-		// 	search: page.url.search,
-		// }
 
 		page.url.search = ss.toString();
 		window.history.replaceState(history.state, '', page.url.href);

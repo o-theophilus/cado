@@ -6,6 +6,9 @@ import { page } from '$app/state';
 export const load = async ({ parent, url, fetch, params }) => {
     let a = await parent();
     let _url = page.url.href != "https://example.com/" ? page.url : url
+    console.log(_url);
+    console.log(url);
+    
 
     if (!a.locals.user.login) {
         throw redirect(307, `/?module=login&return_url=${_url.pathname}`);

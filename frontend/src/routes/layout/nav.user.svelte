@@ -10,8 +10,8 @@
 	import Avatar from '$lib/avatar.svelte';
 	import Icon from '$lib/icon.svelte';
 
-	let open = false;
-	let self = false;
+	let open = $state(false);
+	let self = $state(false);
 </script>
 
 <svelte:window
@@ -165,8 +165,8 @@
 
 	.menu {
 		position: absolute;
-		right: 0;
 		top: 50px;
+		right: 0;
 		z-index: 1;
 
 		display: flex;

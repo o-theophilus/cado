@@ -192,7 +192,8 @@ def get_org_cards(key, cur=None):
     org = cur.fetchone()
 
     if not org or user["key"] != org["user_key"]:
-        db_close(con, cur)
+        if close_conn:
+            db_close(con, cur)
         return jsonify({
             "status": 400,
             "error": "invalid request"

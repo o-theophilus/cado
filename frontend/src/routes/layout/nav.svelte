@@ -3,6 +3,7 @@
 
 	import Link from './nav.btn.svelte';
 	import User from './nav.user.svelte';
+	import Notifications from './nav.notifications.svelte';
 	import Login from '$lib/auth/login.svelte';
 	import Signup from '$lib/auth/signup.svelte';
 </script>
@@ -22,6 +23,7 @@
 		</a>
 		<div class="links">
 			{#if user.value.login}
+				<Notifications />
 				<User />
 			{:else}
 				<Link onclick={() => module.open(Login)}>Login</Link>
@@ -56,6 +58,7 @@
 	.links {
 		display: flex;
 		gap: var(--sp2);
+		align-items: center;
 	}
 
 	.block,

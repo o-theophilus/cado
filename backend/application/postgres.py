@@ -81,7 +81,7 @@ card_organization = """CREATE TABLE IF NOT EXISTS card_organization (
     key CHAR(32) PRIMARY KEY,
     status VARCHAR(20) DEFAULT 'pending' NOT NULL,
 
-    card_key CHAR(32) UNIQUE NOT NULL,
+    card_key CHAR(10) UNIQUE NOT NULL,
     organization_key CHAR(32) NOT NULL,
 
     FOREIGN KEY (card_key) REFERENCES card(key) ON DELETE CASCADE,
