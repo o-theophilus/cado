@@ -8,7 +8,7 @@
 
 	<div class="bottom">
 		<div class="right">
-			<BRound icon="settings" href="/{card.key}/setting"></BRound>
+			<BRound icon="settings" href="/{card.key}/setting" large></BRound>
 		</div>
 	</div>
 </div>

@@ -100,6 +100,19 @@ code = """CREATE TABLE IF NOT EXISTS code (
     FOREIGN KEY (user_key) REFERENCES "user"(key) ON DELETE CASCADE
 );"""
 
+log = """CREATE TABLE IF NOT EXISTS log (
+    key CHAR(32) PRIMARY KEY,
+    date TIMESTAMP NOT NULL,
+    user_key CHAR(32) NOT NULL,
+    action VARCHAR(20) NOT NULL,
+    entity_key TEXT,
+    entity_type VARCHAR(100) NOT NULL,
+    status INT DEFAULT 200,
+    misc JSONB DEFAULT '{}'::JSONB,
+
+    FOREIGN KEY (user_key) REFERENCES "user"(key)
+);"""
+
 
 def db_open():
     con = psycopg2.connect(os.environ["DATABASE_URI"])

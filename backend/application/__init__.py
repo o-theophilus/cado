@@ -23,7 +23,6 @@ def create_app(conf=None):
 
     @app.route("/")
     def index():
-
         return jsonify({
             "status": 200,
             "message": "Welcome to URLinks"
@@ -42,3 +41,10 @@ def create_app(conf=None):
     app.register_blueprint(admin.bp)
 
     return app
+
+
+# TODO: log card views for front end stats
+# TODO: collect card org managers for Organogram
+# TODO: compress photos
+# TODO: design cards
+# TODO: fix front end org accept card

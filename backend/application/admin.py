@@ -80,18 +80,22 @@ def set_access(key):
     cur.execute('SELECT * FROM "user" WHERE key = %s;', (key,))
     user = cur.fetchone()
 
+    if not user or not request.json:
+        db_close(con, cur)
+        return jsonify({
+            "status": 400,
+            "error": "invalid request"
+        })
+
     error = None
-    if not request.json:
-        error = "invalid request"
-    elif not me or "user:edit_access" not in me["access"]:
+    if not me or "user:edit_access" not in me["access"]:
         error = "unauthorized access"
     elif "password" not in request.json or not request.json["password"]:
         error = "this field is required"
     elif not check_password_hash(me["password"], request.json["password"]):
         error = "incorrect password"
     elif (
-        not user
-        or me["key"] == user["key"]
+        me["key"] == user["key"]
         or "access" not in request.json
         or type(request.json["access"]) is not list
         or user["email"] == os.environ["MAIL_USERNAME"]
@@ -118,64 +122,6 @@ def set_access(key):
         "status": 200,
         "user": user_schema(user)
     })
-
-
-def add_wragby(cur):
-    email = "info@wragbysolutions.com"
-    address = [
-        {
-            "name": "lagos",
-            "address": """Plot 21A Olubunmi Rotimi Street, off Abike Sulaiman
-        Street, Lekki Phase 1, Lagos 105102, Nigeria.""",
-            "url": "https://maps.app.goo.gl/WZNYkkKXp8sU599W7"
-        },
-        {
-            "name": "abuja",
-            "address": "1338 Leo Stan Ekeh Way, Area 3, Abuja, Nigeria.",
-            "url": "https://maps.app.goo.gl/vn3VqzfyUXimDCYp7"
-        }
-    ]
-
-    cur.execute('SELECT * FROM organization WHERE email = %s;', (email,))
-    org = cur.fetchone()
-    if not org:
-        key = uuid4().hex
-        cur.execute("""
-                INSERT INTO organization (
-                    key, slug,
-                    name, fullname, slogan, email_domains,
-                    phone, email, website, address,
-                    whatsapp, linkedin, facebook, twitter, instagram
-                )
-                VALUES (
-                    %s, %s,
-                    %s, %s, %s, %s,
-                    %s, %s, %s, %s::JSONB[],
-                    %s, %s, %s, %s, %s
-                ) RETURNING *;
-            """, (
-            key,
-            "wragby",
-
-            "Wragby",
-            "Wragby Business Solutions and Technologies Limited.",
-            "Work Smart, Achieve More.",
-            ["@wragbysolutions.com"],
-
-            "+2349087733358",
-            email,
-            "www.wragbysolutions.com",
-            # [json.dumps(x) for x in address],
-
-            '+2349087733358',
-            'https://www.linkedin.com/in/wragbysolutions/',
-            'https://m.facebook.com/wragbysolutions',
-            'https://twitter.com/wragbyng',
-            'https://www.instagram.com/wragby_ng/',
-        ))
-        org = cur.fetchone()
-
-    return org["key"]
 
 
 @bp.get("/admin/init")

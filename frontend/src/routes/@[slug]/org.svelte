@@ -28,20 +28,16 @@
 	console.log(org);
 </script>
 
-<div class="hline">
-	{#if page.route.id == '/@[slug]'}
-		<div class="page_title">Organization</div>
-	{:else if org.user_key == user.value.key}
+{#if page.route.id == '/[slug]' && org.user_key == user.value.key}
+	<div class="hline">
 		<div></div>
-	{/if}
 
-	{#if org.user_key == user.value.key}
 		<div class="hline">
 			<BRound icon="card" tooltip="settings" href="/@{org.slug}/card" large></BRound>
 			<BRound icon="settings" tooltip="settings" href="/@{org.slug}/setting" large></BRound>
 		</div>
-	{/if}
-</div>
+	</div>
+{/if}
 
 <br />
 

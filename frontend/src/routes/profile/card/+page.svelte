@@ -32,33 +32,28 @@
 
 <br />
 
-{#snippet card(c)}
-	<a href="/{c.key}" class="card">
-		<div class="hline">
-			<Tag no_grow>
-				{c.status}
-			</Tag>
-			<!-- <BRound icon="settings" href="/{card.key}/setting" /> -->
-		</div>
-
-		<div class="name">
-			{c.firstname}
-			{c.lastname}
-		</div>
-		<div class="role">
-			{c.job_title}
-		</div>
-
-		{#if c.status == 'live'}
-			@ {c.org.name}
-		{/if}
-	</a>
-{/snippet}
-
 {#if cards && cards.length > 0}
 	<div class="cards">
 		{#each cards as c}
-			{@render card(c)}
+			<a href="/{c.key}" class="card">
+				<!-- <div class="hline"> -->
+				<Tag no_grow>
+					{c.status}
+				</Tag>
+				<BRound icon="settings" href="/{c.key}/setting" />
+				<!-- </div> -->
+				<div class="name">
+					{c.firstname}
+					{c.lastname}
+				</div>
+				<div class="role">
+					{c.job_title}
+				</div>
+
+				{#if c.status == 'live'}
+					@ {c.org.name}
+				{/if}
+			</a>
 		{/each}
 	</div>
 {:else}
@@ -80,7 +75,7 @@
 
 	.cards {
 		display: grid;
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: 1fr 1fr;
 		gap: var(--sp2);
 		padding-bottom: var(--sp2);
 
@@ -98,12 +93,13 @@
 		border-radius: 8px;
 		padding: var(--sp2);
 
-		aspect-ratio: 16 / 9;
+		/* aspect-ratio: 16 / 9; */
 
 		text-decoration: none;
 		color: var(--ft1);
 		box-shadow: 0 2px 8px rgb(200, 200, 200);
 		/* background-color: var(--bg2); */
+		/* width: 100%; */
 
 		transition: border-color var(--trans);
 	}

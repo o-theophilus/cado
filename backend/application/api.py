@@ -55,7 +55,7 @@ def fix():
 
 
 @bp.get("/notification")
-def get_org_cards(cur=None):
+def notification(cur=None):
 
     close_conn = False
     if not cur:

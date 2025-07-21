@@ -55,7 +55,10 @@
 		background-color: var(--bg1);
 	}
 
-	@media screen and (min-width: 500px) {
+	@media screen and (min-width: 300px) {
+		.avatar_place {
+			height: 45px;
+		}
 		.avatar {
 			position: absolute;
 		}
