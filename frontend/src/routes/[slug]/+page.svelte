@@ -1,6 +1,7 @@
 <script>
 	import * as htmlToImage from 'html-to-image';
 
+	import Log from '$lib/log.svelte';
 	import Meta from '$lib/meta.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Link from '$lib/button/link.svelte';
@@ -16,21 +17,10 @@
 
 	let { data } = $props();
 	let card = data.card;
-
-	let loc = $state(0);
-	const set = () => {
-		if (!card.org) {
-			return;
-		}
-		if (!card.org.address) {
-			return;
-		}
-		if (card.org.address.length >= card.office_location_id - 1) {
-			loc = card.office_location_id - 1;
-		}
-	};
-	set();
+	console.log(card);
 </script>
+
+<Log action={'viewed'} entity_key={card.key} entity_type={'card'} />
 
 <Meta title={card.firstname} />
 <Header {card} />
@@ -71,13 +61,13 @@
 		</div>
 	</div>
 
-	{#if card.office_location_id > 0 && card.status == 'live'}
+	{#if card.office_location_id >= 0 && card.status == 'live'}
 		<div class="group address">
 			<Icon icon="location_on" size="1.2" />
 			<div>
 				<div class="label">Location:</div>
-				<Link href={card.org.address[loc].url}>
-					{card.org.address[loc].address}
+				<Link href={card.org.address[card.office_location_id].url}>
+					{card.org.address[card.office_location_id].address}
 				</Link>
 			</div>
 		</div>

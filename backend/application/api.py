@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 from .postgres import db_open, db_close
-from .postgres import user, card, organization, card_organization, code
+from .postgres import user, card, organization, card_organization, code, log
 from .admin import clean_photo
 from .tools import token_to_user
 
@@ -15,7 +15,6 @@ def cron():
     })
 
 
-# @bp.get("/fix")
 def create_tables():
     con, cur = db_open()
 
@@ -25,11 +24,13 @@ def create_tables():
         DROP TABLE IF EXISTS card CASCADE;
         DROP TABLE IF EXISTS card_organization CASCADE;
         DROP TABLE IF EXISTS code CASCADE;
+        DROP TABLE IF EXISTS log CASCADE;
         {user}
         {organization}
         {card}
         {card_organization}
         {code}
+        {log}
     """)
 
     db_close(con, cur)
@@ -38,15 +39,15 @@ def create_tables():
     })
 
 
+# @bp.get("/fix")
 def fix():
     con, cur = db_open()
 
     cur.execute("""
-        ALTER TABLE organization
-        RENAME COLUMN logo TO photo;
-        ALTER TABLE organization
-        DROP COLUMN IF EXISTS icon;
+        ALTER TABLE card
+        ADD COLUMN IF NOT EXISTS manager_card_key CHAR(10);
     """)
+    cur.execute(log)
 
     db_close(con, cur)
     return jsonify({

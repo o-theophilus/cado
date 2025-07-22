@@ -9,6 +9,7 @@ from psycopg2.extras import Json
 from werkzeug.security import check_password_hash
 from .storage import storage
 from .card_get import get as get_card
+from .log import log
 
 
 bp = Blueprint("card", __name__)
@@ -52,12 +53,12 @@ def create():
         job_title = request.json["job_title"]
 
     cur.execute("""
-            INSERT INTO card (
-                key, firstname, lastname, job_title,
-                email, phone, photo, user_key
-            )
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-            RETURNING *;
+        INSERT INTO card (
+            key, firstname, lastname, job_title,
+            email, phone, photo, user_key
+        )
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        RETURNING *;
     """, (
         uuid4().hex[:10],
         request.json["firstname"].strip(),
@@ -69,6 +70,14 @@ def create():
         user["key"]
     ))
     card = cur.fetchone()
+
+    log(
+        cur=cur,
+        user_key=user["key"],
+        action="created",
+        entity_key=card["key"] if card else None,
+        entity_type="card"
+    )
 
     db_close(con, cur)
     return jsonify({
@@ -126,6 +135,9 @@ def update(key):
                     start with a '+' followed by digits"""
         card["phone"] = phone
 
+    if "manager_card_key" in request.json:
+        card["manager_card_key"] = request.json["manager_card_key"]
+
     if "office_location_id" in request.json:
         if type(request.json["office_location_id"]) is not int:
             error['social_links'] = "invalid request"
@@ -162,6 +174,7 @@ def update(key):
             job_title = %s,
             about = %s,
             phone = %s,
+            manager_card_key = %s,
             office_location_id = %s,
             social_links = %s
         WHERE key = %s
@@ -171,6 +184,7 @@ def update(key):
         card["job_title"],
         card["about"],
         card["phone"],
+        card["manager_card_key"],
         card["office_location_id"],
         Json(card["social_links"]),
         card["key"]

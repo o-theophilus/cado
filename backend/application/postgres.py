@@ -50,7 +50,6 @@ organization = """CREATE TABLE IF NOT EXISTS organization (
 );"""
 
 
-# TODO: add manager_card_key CHAR(32) NOT NULL,
 card = """CREATE TABLE IF NOT EXISTS card (
     key CHAR(10) PRIMARY KEY,
     status VARCHAR(20) DEFAULT 'draft' NOT NULL,
@@ -65,7 +64,8 @@ card = """CREATE TABLE IF NOT EXISTS card (
 
     email VARCHAR(255),
     phone VARCHAR(100),
-    office_location_id INTEGER DEFAULT 0,
+    manager_card_key CHAR(10),
+    office_location_id INTEGER DEFAULT -1,
     social_links JSONB DEFAULT '{}'::JSONB,
 
     photo VARCHAR(50),

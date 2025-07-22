@@ -72,7 +72,7 @@
 			<h1>Organization Cards</h1>
 		</div>
 
-		<Dropdown icon="sort" list={order}></Dropdown>
+		<Dropdown icon="sort" list={order} caps></Dropdown>
 	</div>
 
 	<div class="hline v2">

@@ -12,6 +12,7 @@ from . import org_card
 from . import storage
 from . import auth
 from . import admin
+from . import log
 
 
 def create_app(conf=None):
@@ -39,12 +40,13 @@ def create_app(conf=None):
     app.register_blueprint(storage.bp)
     app.register_blueprint(auth.bp)
     app.register_blueprint(admin.bp)
+    app.register_blueprint(log.bp)
 
     return app
 
 
 # TODO: log card views for front end stats
-# TODO: collect card org managers for Organogram
+# TODO: test Organogram
 # TODO: compress photos
 # TODO: design cards
 # TODO: fix front end org accept card

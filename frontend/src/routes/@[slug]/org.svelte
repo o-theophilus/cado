@@ -24,8 +24,6 @@
 		height = width / ar;
 	};
 	calc_();
-
-	console.log(org);
 </script>
 
 {#if page.route.id == '/[slug]' && org.user_key == user.value.key}

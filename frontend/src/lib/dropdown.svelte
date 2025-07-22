@@ -5,11 +5,12 @@
 	let {
 		icon = null,
 		wide = false,
+		caps = false,
 		button = false,
 		id = null,
 		disabled = false,
 
-		list = [{ a: 1 }, { b: 2 }, { c: 3 }],
+		list = [],
 		value = $bindable(),
 		onchange
 	} = $props();
@@ -21,7 +22,13 @@
 			isObj = true;
 		}
 
-		let _list = isObj ? Object.values(list) : list;
+		let _list = list;
+		if (isObj) {
+			_list = [];
+			for (const i of list) {
+				_list.push(i.value);
+			}
+		}
 
 		if (!value || !_list.includes(value)) {
 			value = _list[0];
@@ -38,6 +45,7 @@
 	<select
 		{id}
 		bind:value
+		class:caps
 		class:has_icon={icon}
 		onchange={() => {
 			onchange?.(value);
@@ -95,13 +103,15 @@
 		border: none;
 		color: var(--ft2);
 		cursor: pointer;
-		text-transform: capitalize;
 
 		transition: outline-color var(--trans);
 	}
 	select:hover {
 		color: var(--ft1);
 		outline-color: var(--cl1);
+	}
+	select.caps {
+		text-transform: capitalize;
 	}
 
 	.icon {

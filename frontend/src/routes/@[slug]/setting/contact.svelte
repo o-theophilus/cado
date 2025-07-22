@@ -18,11 +18,6 @@
 
 	const validate = () => {
 		error = {};
-		for (const i in org.address) {
-			if (!org.address[i].address) {
-				error[i] = 'this field is required';
-			}
-		}
 
 		if (form.phone) {
 			form.phone = form.phone.replace(/\s+/g, '');

@@ -6,6 +6,7 @@
 	import Icon from '$lib/icon.svelte';
 	import Card from '$lib/card.svelte';
 	import Dropdown from '$lib/dropdown.svelte';
+	import { onMount } from 'svelte';
 
 	let { card, active_card, update } = $props();
 
@@ -13,23 +14,37 @@
 	let form = $state({
 		phone: card.phone,
 		email: card.email,
+		manager_card_key: card.manager_card_key,
 		office_location_id: card.office_location_id
 	});
 
-	let list = [
-		{
-			key: 'none',
-			value: 0
-		}
-	];
+	let emails = $state([]);
+
+	let list = $state([{ key: 'none', value: -1 }]);
 	if (card.org.address.length > 0) {
-		for (let x = 0; x < card.org.address.length; x++) {
-			list.push({
-				key: card.org.address[x].address,
-				value: x + 1
-			});
+		for (const i in card.org.address) {
+			list.push({ key: card.org.address[i].address, value: parseInt(i) });
 		}
 	}
+
+	onMount(async () => {
+		if (card.status == 'live') {
+			let resp = await fetch(`${import.meta.env.VITE_BACKEND}/org/emails/${card.key}`);
+			resp = await resp.json();
+			if (resp.status == 200) {
+				emails.push({
+					key: 'none',
+					value: null
+				});
+				for (const i of resp.emails) {
+					emails.push({
+						key: `${i.firstname} ${i.lastname}: ${i.email}`,
+						value: i.key
+					});
+				}
+			}
+		}
+	});
 
 	const validate = () => {
 		error = {};
@@ -94,15 +109,16 @@
 		/>
 
 		{#if card.status == 'live'}
+			{#if emails?.length > 0}
+				<IG name="Manager's Email" error={error.manager_card_key}>
+					{#snippet input(id)}
+						<Dropdown list={emails} bind:value={form.manager_card_key} {id} wide></Dropdown>
+					{/snippet}
+				</IG>
+			{/if}
 			<IG name="Office Location" error={error.office_location_id}>
 				{#snippet input(id)}
-					<Dropdown
-						{list}
-						bind:value={form.office_location_id}
-						default_value={list.length >= card.office_location_id - 1 ? card.office_location_id : 0}
-						{id}
-						wide
-					></Dropdown>
+					<Dropdown {list} bind:value={form.office_location_id} {id} wide></Dropdown>
 				{/snippet}
 			</IG>
 		{/if}

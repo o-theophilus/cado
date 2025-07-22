@@ -21,15 +21,14 @@
 
 				{key}
 			</a>
-			<div
-				class="close"
+
+			<button
 				onclick={() => {
 					remove(key);
 				}}
-				role="presentation"
 			>
 				<Icon icon="close" />
-			</div>
+			</button>
 		</div>
 	{:else}
 		<div class="empty">No Social Link</div>
@@ -74,7 +73,7 @@
 		background-color: var(--button);
 	}
 
-	.close {
+	button {
 		--size: 40px;
 
 		display: flex;
@@ -84,6 +83,7 @@
 		width: var(--size);
 		height: var(--size);
 
+		border: none;
 		background-color: var(--bg2);
 		cursor: pointer;
 
@@ -91,7 +91,7 @@
 			background-color var(--trans),
 			fill var(--trans);
 	}
-	.close:hover {
+	button:hover {
 		fill: var(--ft1_b);
 		background-color: var(--cl2);
 	}

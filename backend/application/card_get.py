@@ -16,18 +16,7 @@ def get(key, cur=None):
 
     cur.execute("""
         SELECT
-        card.key,
-        card.status,
-        card.user_key,
-        card.firstname,
-        card.lastname,
-        card.job_title,
-        card.about,
-        card.email,
-        card.phone,
-        card.office_location_id,
-        card.social_links,
-        card.photo,
+        card.*,
         jsonb_build_object(
             'key', org.key,
             'status', org.status,
@@ -51,9 +40,7 @@ def get(key, cur=None):
             ON card.organization_key = org.key
         WHERE card.key = %s
 
-        GROUP BY card.key, card.status, card.user_key, card.firstname,
-        card.lastname, card.job_title, card.about, card.email,
-        card.phone, card.office_location_id, card.social_links, card.photo,
+        GROUP BY card.key,
         org.key, org.status, org.slug, org.name, org.fullname,
         org.slogan, org.about, org.email_domains, org.phone, org.email,
         org.website, org.address, org.social_links, org.photo
@@ -262,4 +249,30 @@ def get_org_cards(key, cur=None):
         "order_by": list(order_by.keys()),
         "_status": ['live', 'pending'],
         "total_page": ceil(cards[0]["_count"] / page_size) if cards else 0
+    })
+
+
+@bp.get("/org/emails/<key>")
+def get_org_emails(key):
+    con, cur = db_open()
+
+    cur.execute("""
+        WITH this_card AS (
+            SELECT organization_key
+            FROM card
+            WHERE key = %s
+        )
+        SELECT card.key, card.firstname, card.lastname, card.email
+        FROM card
+        JOIN this_card ON card.organization_key = this_card.organization_key
+        WHERE
+            card.key != %s
+            AND card.status = 'live'
+    ;""", (key, key))
+    emails = cur.fetchall()
+
+    db_close(con, cur)
+    return jsonify({
+        "status": 200,
+        "emails": emails
     })
