@@ -39,7 +39,7 @@ def create_tables():
     })
 
 
-@bp.get("/fix")
+# @bp.get("/fix")
 def fix():
     con, cur = db_open()
 

@@ -19,10 +19,21 @@
 					}
 				]
 			},
+			// options: {
+			// 	scales: {
+			// 		y: {
+			// 			beginAtZero: true
+			// 		}
+			// 	}
+			// }
 			options: {
-				scales: {
-					y: {
-						beginAtZero: true
+				animation: false,
+				plugins: {
+					legend: {
+						display: false
+					},
+					tooltip: {
+						enabled: false
 					}
 				}
 			}

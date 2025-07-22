@@ -17,7 +17,6 @@
 
 	let { data } = $props();
 	let card = data.card;
-	console.log(card);
 </script>
 
 <Log action={'viewed'} entity_key={card.key} entity_type={'card'} />
@@ -61,7 +60,7 @@
 		</div>
 	</div>
 
-	{#if card.office_location_id >= 0 && card.status == 'live'}
+	{#if card.status == 'live' && card.office_location_id >= 0 && card.office_location_id < card.org.address.length}
 		<div class="group address">
 			<Icon icon="location_on" size="1.2" />
 			<div>
