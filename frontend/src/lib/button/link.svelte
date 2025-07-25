@@ -2,50 +2,43 @@
 	let {
 		href = '',
 		blank = false,
-		disabled = false,
-
-		small = false,
-
-		onclick,
 		onmouseenter,
 
+		onclick,
 		children
 	} = $props();
 </script>
 
-<svelte:element
-	this={href ? 'a' : 'button'}
-	{href}
-	target={blank ? '_blank' : ''}
-	{onclick}
-	{onmouseenter}
-	{disabled}
-	role="presentation"
-	class:small
->
-	{@render children()}
-</svelte:element>
+{#if href}
+	<a {href} target={blank ? '_blank' : ''} {onmouseenter}>
+		{@render children()}
+	</a>
+{:else if onclick}
+	<button {onclick} {onmouseenter}>
+		{@render children()}
+	</button>
+{/if}
 
 <style>
-	button,
-	a {
-		color: var(--ft1);
-		font-weight: 700;
-		text-decoration: none;
-		text-align: left;
-		border: none;
-		background: none;
-		cursor: pointer;
+	a,
+	button {
+		color: var(--link-color, hsl(239, 42%, 47%));
+		font-weight: var(--link-font-weight, 800);
+		font-size: var(--link-font-size, 1rem);
 		fill: currentColor;
 
-		transition: color var(--trans);
+		transition: color 0.2s ease-in-out;
 	}
-	.small {
-		font-size: 0.8rem;
+	a {
+		text-decoration: none;
+	}
+	button {
+		background-color: transparent;
+		border: none;
+		cursor: pointer;
 	}
 
 	:hover {
-		color: var(--cl1);
-		text-decoration: none;
+		color: var(--link-color-hover, hsl(0, 0%, 0%));
 	}
 </style>

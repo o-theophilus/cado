@@ -1,5 +1,5 @@
 <script>
-	import Button from '$lib/button/button.svelte';
+	import { Button } from '$lib/button';
 	import Icon from '$lib/icon.svelte';
 	import Note from '$lib/note.svelte';
 	import NoteOrg from '$lib/note.org.svelte';

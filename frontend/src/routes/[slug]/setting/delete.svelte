@@ -2,10 +2,10 @@
 	import { goto } from '$app/navigation';
 	import { loading, token, notify } from '$lib/store.svelte.js';
 
-	import Button from '$lib/button/button.svelte';
+	import { Button } from '$lib/button';
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
-	import ShowPassword from '../../../lib/auth/password_show.svelte';
+	import ShowPassword from '$lib/auth/password_show.svelte';
 	import Card from '$lib/card.svelte';
 	import Note from '$lib/note.svelte';
 
@@ -57,14 +57,15 @@
 	{/snippet}
 
 	{_type}
-	
+
 	{#if status == 0}
 		<Note status="400">
 			{#snippet title()}
 				Warning:
 			{/snippet}
 			{#snippet note()}
-				Deleting this {_type == 'org' ? 'organization' : _type} is irreversible and will permanently erase all associated data.
+				Deleting this {_type == 'org' ? 'organization' : _type} is irreversible and will permanently
+				erase all associated data.
 				<br />
 				This action cannot be undone.
 				<br />

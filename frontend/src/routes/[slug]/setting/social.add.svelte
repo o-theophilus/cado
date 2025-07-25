@@ -1,6 +1,6 @@
 <script>
 	import IG from '$lib/input_group.svelte';
-	import Button from '$lib/button/button.svelte';
+	import { Button } from '$lib/button';
 	import Icon from '$lib/icon.svelte';
 	import Dropdown from '$lib/dropdown.svelte';
 

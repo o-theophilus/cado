@@ -3,8 +3,7 @@
 	import { module, loading, token } from '$lib/store.svelte.js';
 
 	import IG from '$lib/input_group.svelte';
-	import Button from '$lib/button/button.svelte';
-	import Link from '$lib/button/link.svelte';
+	import { Button, Link } from '$lib/button';
 	import Icon from '$lib/icon.svelte';
 	import Signup from './signup.svelte';
 	import Forgot from './forgot_1.email.svelte';
@@ -67,7 +66,7 @@
 </script>
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
-	<div class="page_title"> Login </div>
+	<div class="page_title">Login</div>
 	{#if error.error}
 		<div class="error">
 			{error.error}
@@ -104,22 +103,25 @@
 	</Button>
 
 	<br />
-	<div class="row">
-		<Link
-			onclick={() => {
-				module.open(Signup, { email: form.email });
-			}}
-		>
-			Signup
-		</Link>
-		<span class="divider"> </span>
-		<Link
-			onclick={() => {
-				module.open(Forgot, { email: form.email });
-			}}
-		>
-			Forgot Password
-		</Link>
+	<br />
+	<div class="hline">
+		<div class="hline">
+			<Link
+				onclick={() => {
+					module.open(Signup, { email: form.email });
+				}}
+			>
+				Signup
+			</Link>
+			<span class="divider"> </span>
+			<Link
+				onclick={() => {
+					module.open(Forgot, { email: form.email });
+				}}
+			>
+				Forgot Password
+			</Link>
+		</div>
 	</div>
 </form>
 
@@ -138,12 +140,6 @@
 		padding-right: var(--sp2);
 	}
 
-	.row {
-		display: flex;
-		align-items: center;
-		gap: var(--sp2);
-		flex-wrap: wrap;
-	}
 	.divider {
 		width: 2px;
 		height: var(--sp2);

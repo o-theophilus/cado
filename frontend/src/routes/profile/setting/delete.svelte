@@ -1,7 +1,7 @@
 <script>
 	import { loading, token } from '$lib/store.svelte.js';
 
-	import Button from '$lib/button/button.svelte';
+	import { Button } from '$lib/button';
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
 	import ShowPassword from '$lib/auth/password_show.svelte';
@@ -70,6 +70,8 @@
 		</Note>
 
 		<Button
+			--button-background-color="var(--cl1)"
+			--button-color="var(--ft1_b)"
 			onclick={() => {
 				stage = 1;
 			}}
@@ -111,7 +113,11 @@
 			</IG>
 
 			<div class="line">
-				<Button onclick={validate}>
+				<Button
+					--button-background-color="var(--cl1)"
+					--button-color="var(--ft1_b)"
+					onclick={validate}
+				>
 					<Icon icon="delete" />
 					Delete
 				</Button>

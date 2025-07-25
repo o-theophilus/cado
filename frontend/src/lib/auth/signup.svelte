@@ -2,8 +2,7 @@
 	import { module, loading, token } from '$lib/store.svelte.js';
 
 	import IG from '$lib/input_group.svelte';
-	import Button from '$lib/button/button.svelte';
-	import Link from '$lib/button/link.svelte';
+	import { Button, Link } from '$lib/button';
 	import Icon from '$lib/icon.svelte';
 	import Password from './password_checker.svelte';
 	import Login from './login.svelte';
@@ -77,7 +76,7 @@
 </script>
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
-	<div class="page_title"> Signup </div>
+	<div class="page_title">Signup</div>
 	{#if error.error}
 		<div class="error">
 			{error.error}
@@ -138,6 +137,7 @@
 		<Icon icon="send" />
 	</Button>
 
+	<br />
 	<br />
 
 	<Link

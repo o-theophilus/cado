@@ -11,7 +11,7 @@
 	import Gradio from '$lib/gradio+.svelte';
 	import Note from '$lib/note.2.svelte';
 
-	import BRound from '$lib/button/round.svelte';
+	import { BackButton } from '$lib/button';
 	import One from './one.svelte';
 
 	let { data } = $props();
@@ -68,7 +68,7 @@
 <section class="page">
 	<div class="hline">
 		<div class="hline">
-			<BRound icon="arrow_back" href="/@{org.slug}" />
+			<!-- <BackButton href="/@{org.slug}" /> -->
 			<h1>Organization Cards</h1>
 		</div>
 

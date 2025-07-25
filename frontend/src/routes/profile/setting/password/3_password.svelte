@@ -2,7 +2,7 @@
 	import { loading, token, notify } from '$lib/store.svelte.js';
 
 	import IG from '$lib/input_group.svelte';
-	import Button from '$lib/button/button.svelte';
+	import { Button } from '$lib/button';
 	import Icon from '$lib/icon.svelte';
 	import Password from '$lib/auth/password_checker.svelte';
 	import ShowPassword from '$lib/auth/password_show.svelte';

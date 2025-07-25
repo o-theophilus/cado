@@ -2,9 +2,8 @@
 	import { page } from '$app/state';
 	import { user } from '$lib/store.svelte.js';
 	import Icon from '$lib/icon.svelte';
-	import Link from '$lib/button/link.svelte';
+	import { Link, BRound } from '$lib/button';
 	import Socials from '../[slug]/socials.svelte';
-	import BRound from '$lib/button/round.svelte';
 
 	let { org } = $props();
 
@@ -31,8 +30,12 @@
 		<div></div>
 
 		<div class="hline">
-			<BRound icon="card" tooltip="settings" href="/@{org.slug}/card" large></BRound>
-			<BRound icon="settings" tooltip="settings" href="/@{org.slug}/setting" large></BRound>
+			<BRound tooltip="settings" href="/@{org.slug}/card">
+				<Icon icon="card"></Icon>
+			</BRound>
+			<BRound tooltip="settings" href="/@{org.slug}/setting">
+				<Icon icon="settings"></Icon>
+			</BRound>
 		</div>
 	</div>
 {/if}

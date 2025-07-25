@@ -1,6 +1,5 @@
 <script>
-	import BRound from '$lib/button/round.svelte';
-	import Button from '$lib/button/button.svelte';
+	import { Button, BRound } from '$lib/button';
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
 
@@ -36,23 +35,25 @@
 			{#if value}
 				<div class="close">
 					<BRound
-						icon="close"
-						extra="hover_red"
 						onclick={() => {
 							submit('');
 						}}
-					/>
+					>
+						<Icon icon="close" size="1.2" />
+					</BRound>
 				</div>
 			{/if}
 
 			{#if !non_default}
 				<Button
+					--button-width="50px"
+					--button-height="50px"
 					onclick={() => {
 						submit(value);
 					}}
 					disabled={value == _value}
 				>
-					<Icon icon="search" />
+					<Icon icon="search" size="1.5" />
 				</Button>
 			{/if}
 		</div>

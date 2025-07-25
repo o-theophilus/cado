@@ -3,7 +3,7 @@
 
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
-	import Button from '$lib/button/button.svelte';
+	import { Button } from '$lib/button';
 	import Code from '$lib/input_code.svelte';
 
 	import Dialogue from '$lib/dialogue.svelte';
@@ -74,7 +74,7 @@
 		{/snippet}
 	</IG>
 
-	<Button primary onclick={validate}>
+	<Button onclick={validate}>
 		Submit <Icon icon="send" />
 	</Button>
 </form>

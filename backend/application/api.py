@@ -78,19 +78,21 @@ def notification(cur=None):
         LEFT JOIN organization AS org ON c_org.organization_key = org.key
         WHERE org.user_key = %s;
     """, (user["key"],))
-    nots = cur.fetchall()
+    nots_1 = cur.fetchall()
+
+    nots = []
+    if nots_1 != []:
+        nots.append({
+            "_type": 'org_card_join_request',
+            "info": {
+                "count": len(nots_1),
+                "slug": nots_1[0]["slug"]
+            }
+        })
 
     if close_conn:
         db_close(con, cur)
     return jsonify({
         "status": 200,
-        "nots": [
-            {
-                "_type": 'org_card_join_request',
-                "info": {
-                    "count": len(nots),
-                    "slug": nots[0]["slug"]
-                }
-            }
-        ]
+        "nots": nots
     })

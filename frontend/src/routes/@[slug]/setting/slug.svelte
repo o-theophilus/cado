@@ -1,10 +1,10 @@
 <script>
 	import { loading, token, notify } from '$lib/store.svelte.js';
 
-	import Button from '$lib/button/button.svelte';
+	import { Button } from '$lib/button';
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
-	import ShowPassword from '../../../lib/auth/password_show.svelte';
+	import ShowPassword from '$lib/auth/password_show.svelte';
 	import Card from '$lib/card.svelte';
 	import Note from '$lib/note.svelte';
 

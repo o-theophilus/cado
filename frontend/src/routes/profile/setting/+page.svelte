@@ -2,7 +2,7 @@
 	import { user } from '$lib/store.svelte.js';
 
 	import Meta from '$lib/meta.svelte';
-	import BRound from '$lib/button/round.svelte';
+	import { BackButton } from '$lib/button';
 
 	import Photo from '../../[slug]/setting/photo.svelte';
 	import Info from './info.svelte';
@@ -34,7 +34,7 @@
 
 <div class=" hline">
 	<div class=" hline">
-		<BRound icon="arrow_back" href="/profile" />
+		<BackButton href="/profile" />
 		<div class="page_title">Setting</div>
 	</div>
 </div>

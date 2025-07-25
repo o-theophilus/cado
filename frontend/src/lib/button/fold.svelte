@@ -1,10 +1,13 @@
 <script>
-	import BRound from '$lib/button/round.svelte';
-	let { open, onclick } = $props();
+	import { BRound } from './';
+	import Icon from '$lib/icon.svelte';
+	let { open, ...props } = $props();
 </script>
 
 <div class="fold" class:open>
-	<BRound {onclick} icon="keyboard_arrow_up" />
+	<BRound {...props}>
+		<Icon icon="keyboard_arrow_up"></Icon>
+	</BRound>
 </div>
 
 <style>

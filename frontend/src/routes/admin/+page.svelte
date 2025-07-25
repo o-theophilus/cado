@@ -2,7 +2,7 @@
 	import { user } from '$lib/store.svelte.js';
 
 	import Meta from '$lib/meta.svelte';
-	import Button from '$lib/button/button.svelte';
+	import { Button } from '$lib/button';
 </script>
 
 <Meta title="Admin Dashboard" description="This contains this website settings" />
@@ -11,20 +11,20 @@
 	<div class="page_title">Admin Dashboard</div>
 
 	<div class="buttons">
-		{#if $user.access.includes('user:view')}
-			<Button href="/admin/users" size="wide">Users</Button>
+		{#if user.value.access.includes('user:view')}
+			<Button href="/admin/users">Users</Button>
 		{/if}
-		{#if $user.access.includes('user:edit_access')}
-			<Button href="/admin/admin_users" size="wide">Admin Users</Button>
+		{#if user.value.access.includes('user:edit_access')}
+			<Button href="/admin/admin_users">Admin Users</Button>
 		{/if}
-		{#if $user.access.includes('admin:view_photo_error')}
-			<Button href="/admin/photo_error" size="wide">Photo Error</Button>
+		{#if user.value.access.includes('admin:view_photo_error')}
+			<Button href="/admin/photo_error">Photo Error</Button>
 		{/if}
-		{#if $user.access.includes('organization:view')}
-			<Button href="/organization" size="wide">Organizations</Button>
+		{#if user.value.access.includes('organization:view')}
+			<Button href="/organization">Organizations</Button>
 		{/if}
-		{#if $user.organization_key && $user.access.some( (x) => ['organization:edit_logo', 'organization:edit_icon', 'organization:edit_organization', 'organization:edit_contact', 'organization:edit_social_media', 'organization:delete'].includes(x) )}
-			<Button href="/admin/org/{$user.organization_key}" size="wide">Organization Setting</Button>
+		{#if user.value.organization_key && user.value.access.some( (x) => ['organization:edit_logo', 'organization:edit_icon', 'organization:edit_organization', 'organization:edit_contact', 'organization:edit_social_media', 'organization:delete'].includes(x) )}
+			<Button href="/admin/org/{user.value.organization_key}">Organization Setting</Button>
 		{/if}
 	</div>
 </div>

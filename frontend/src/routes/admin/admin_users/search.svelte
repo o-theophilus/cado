@@ -5,7 +5,7 @@
 
 	import Search from '$lib/search.svelte';
 	import Icon from '$lib/icon.svelte';
-	import Button from '$lib/button/button.svelte';
+	import { Button } from '$lib/button';
 	import Drop from '$lib/dropdown.svelte';
 
 	export let access;

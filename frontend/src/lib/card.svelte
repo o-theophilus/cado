@@ -2,15 +2,22 @@
 	import { slide } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
 
-	import Fold from '$lib/button/fold.svelte';
+	import { Fold } from '$lib/button';
 
 	let { open = false, onopen, children, title } = $props();
 </script>
 
 <div class="block" class:open>
-	<div class="title" role="presentation" onclick={onopen}>
+	<div
+		class="title"
+		role="presentation"
+		onclick={(e) => {
+			if (e.target != e.currentTarget) return;
+			onopen();
+		}}
+	>
 		{@render title()}
-		<Fold {open} />
+		<Fold {open} onclick={onopen} />
 	</div>
 
 	{#if open}

@@ -4,7 +4,7 @@
 	import Log from '$lib/log.svelte';
 	import Meta from '$lib/meta.svelte';
 	import Icon from '$lib/icon.svelte';
-	import Link from '$lib/button/link.svelte';
+	import { Button, Link } from '$lib/button';
 
 	import Header from './header.svelte';
 	import NameJobPhoto from './name_job_photo.svelte';
@@ -12,7 +12,6 @@
 	import Socials from './socials.svelte';
 
 	import BusinessCard from './business_card.svelte';
-	import Button from '$lib/button/button.svelte';
 	import Org from '../@[slug]/org.svelte';
 
 	let { data } = $props();
@@ -75,7 +74,6 @@
 	<Socials links={card.social_links} name={card.firstname} />
 
 	<Button
-		size="small"
 		onclick={() => {
 			htmlToImage.toPng(document.getElementById('to_print')).then(function (dataUrl) {
 				var a = document.createElement('a');

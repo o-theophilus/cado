@@ -1,21 +1,22 @@
 <script>
 	import { goto } from '$app/navigation';
-	import BRound from '$lib/button/round.svelte';
+	import Icon from '$lib/icon.svelte';
+	import { BRound } from './';
 
-	export let back = '';
-	let disabled = false;
+	let { href = '' } = $props();
+	let disabled = $state(false);
 </script>
 
 <BRound
-	icon="arrow_back"
-	large
 	onclick={() => {
-		if (back) {
-			goto(back);
+		if (href) {
+			goto(href);
 		} else {
 			window.history.back();
 			disabled = true;
 		}
 	}}
 	{disabled}
-/>
+>
+	<Icon icon="arrow_back"></Icon>
+</BRound>

@@ -1,7 +1,7 @@
 <script>
 	import { notify, loading, token } from '$lib/store.svelte.js';
 
-	import Button from '$lib/button/button.svelte';
+	import { Button } from '$lib/button';
 	import Icon from '$lib/icon.svelte';
 	import Card from '$lib/card.svelte';
 	import Social from './social.add.svelte';

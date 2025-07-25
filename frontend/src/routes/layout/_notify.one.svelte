@@ -2,7 +2,7 @@
 	import { notify } from '$lib/store.svelte.js';
 
 	import Icon from '$lib/icon.svelte';
-	import BRound from '$lib/button/round.svelte';
+	import { BRound } from '$lib/button';
 
 	let { one } = $props();
 
@@ -23,7 +23,10 @@
 			icon={one.status == 201 ? 'error' : one.status == 400 ? 'cancel' : 'check_circle'}
 		/>
 		{one.message || 'no message'}
-		<BRound icon="close" extra="hover_red" onclick={() => notify.close(one.key)} />
+		<BRound  onclick={() => notify.close(one.key)}>
+			<!-- TODO: fill black -->
+			<Icon icon="close"></Icon>
+		</BRound>
 	</div>
 
 	<div class="progress" class:to_zero></div>

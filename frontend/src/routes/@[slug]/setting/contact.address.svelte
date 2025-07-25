@@ -3,8 +3,7 @@
 	import { cubicInOut } from 'svelte/easing';
 
 	import IG from '$lib/input_group.svelte';
-	import Button from '$lib/button/button.svelte';
-	import BRound from '$lib/button/round.svelte';
+	import { Button } from '$lib/button';
 	import Icon from '$lib/icon.svelte';
 
 	let { value = $bindable(), error } = $props();

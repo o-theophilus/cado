@@ -50,3 +50,4 @@ def create_app(conf=None):
 # TODO: compress photos
 # TODO: design cards
 # TODO: fix front end org accept card
+# TODO: fix front end search / when clear empty search

@@ -3,7 +3,7 @@
 
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
-	import Button from '$lib/button/button.svelte';
+	import { Button } from '$lib/button';
 	import Code from '$lib/input_code.svelte';
 
 	import Password from './forgot_3.password.svelte';
@@ -45,7 +45,7 @@
 </script>
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
-	<div class="page_title"> Forgot Password </div>
+	<div class="page_title">Forgot Password</div>
 
 	{#if error.error}
 		<div class="error">
@@ -68,7 +68,7 @@
 		{/snippet}
 	</IG>
 
-	<Button primary onclick={validate_submit}
+	<Button onclick={validate_submit}
 		>Submit
 		<Icon icon="send" />
 	</Button>

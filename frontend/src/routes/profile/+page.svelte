@@ -3,10 +3,9 @@
 
 	import Meta from '$lib/meta.svelte';
 	import Icon from '$lib/icon.svelte';
-	import Link from '$lib/button/link.svelte';
+	import { Link, BRound } from '$lib/button';
 
 	import Avatar from '$lib/avatar.svelte';
-	import BRound from '$lib/button/round.svelte';
 </script>
 
 <Meta title="{user.value.firstname} Profile" />
@@ -14,7 +13,9 @@
 <section class="content">
 	<div class="hline">
 		<div class="page_title">Profile</div>
-		<BRound icon="settings" tooltip="settings" href="/profile/setting" large></BRound>
+		<BRound icon="settings" tooltip="settings" href="/profile/setting" large>
+			<Icon icon="settings" size="1.2"></Icon>
+		</BRound>
 	</div>
 	<br />
 

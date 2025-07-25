@@ -7,7 +7,7 @@
 
 	import Meta from '$lib/meta.svelte';
 	import Icon from '$lib/icon.svelte';
-	import Button from '$lib/button/button.svelte';
+	import { Button } from '$lib/button';
 	import Dialogue from '$lib/dialogue.svelte';
 	import Login from '$lib/auth/login.svelte';
 
@@ -53,7 +53,10 @@
 			</div>
 
 			<Button
-				primary
+				--button-height="56px"
+				--button-padding-x="24px"
+				--button-background-color="var(--cl1)"
+				--button-color="var(--ft1_b)"
 				onclick={() => {
 					if (user.value.login) {
 						goto('/profile');
@@ -114,7 +117,9 @@
 	<br />
 	<br />
 	<Button
-		primary
+		--button-height="56px"
+		--button-background-color="var(--cl1)"
+		--button-color="var(--ft1_b)"
 		onclick={() => {
 			if (user.value.login) {
 				goto('/profile');

@@ -1,7 +1,7 @@
 <script>
 	import { token } from '$lib/store.svelte.js';
 
-	import Button from '$lib/button/button.svelte';
+	import { Button } from '$lib/button';
 	import Icon from '$lib/icon.svelte';
 
 	const submit = async () => {
@@ -22,7 +22,7 @@
 	};
 </script>
 
-<Button size="small" extra="hover_red" onclick={submit}>
+<Button --button-font-size="0.8rem" --button-height="32px" onclick={submit}>
 	<Icon icon="logout" size="1.2" />
 	Logout
 </Button>

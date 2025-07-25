@@ -31,5 +31,12 @@
 	--ft2: var(--ft2_d);
 	--bg2: #E7EDEF;
 	--bg1: white;
+
+
+
+	--button-background-color: var(--button);
+	--button-background-color-hover: var(--cl1_d);
+	--button-color: var(--ft2_b);
+	--button-color-hover: var(--ft1_b);
 }
 

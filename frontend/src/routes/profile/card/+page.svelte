@@ -1,8 +1,6 @@
 <script>
 	import { module, user } from '$lib/store.svelte.js';
-	import Button from '$lib/button/button.svelte';
-	import BRound from '$lib/button/round.svelte';
-	import Tag from '$lib/button/tag.svelte';
+	import { Button, BRound } from '$lib/button';
 	import Icon from '$lib/icon.svelte';
 	import Add from './_add.svelte';
 	import Note from '$lib/note.2.svelte';
@@ -36,12 +34,20 @@
 	<div class="cards">
 		{#each cards as c}
 			<a href="/{c.key}" class="card">
-				<!-- <div class="hline"> -->
-				<Tag no_grow>
-					{c.status}
-				</Tag>
-				<BRound icon="settings" href="/{c.key}/setting" />
-				<!-- </div> -->
+				<div class="hline">
+					<Button
+						--button-background-color="var(--input)"
+						--button-font-size="0.8rem"
+						--button-height="24px"
+						--button-border-radius="20px"
+						border
+					>
+						{c.status}
+					</Button>
+					<BRound href="/{c.key}/setting">
+						<Icon icon="settings" />
+					</BRound>
+				</div>
 				<div class="name">
 					{c.firstname}
 					{c.lastname}

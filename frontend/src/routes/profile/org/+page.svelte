@@ -1,7 +1,6 @@
 <script>
 	import { module } from '$lib/store.svelte.js';
-	import Button from '$lib/button/button.svelte';
-	import BRound from '$lib/button/round.svelte';
+	import { Button, BRound } from '$lib/button';
 	import Icon from '$lib/icon.svelte';
 	import Add from './_add.svelte';
 	import Note from '$lib/note.2.svelte';
@@ -31,8 +30,12 @@
 		{#each orgs as org}
 			<a href="/@{org.slug}">
 				<div class="menu">
-					<BRound icon="card" href="/@{org.slug}/card"></BRound>
-					<BRound icon="settings" href="/@{org.slug}/setting"></BRound>
+					<BRound href="/@{org.slug}/card">
+						<Icon icon="card" size="1.2"></Icon>
+					</BRound>
+					<BRound href="/@{org.slug}/setting">
+						<Icon icon="settings" size="1.2"></Icon>
+					</BRound>
 				</div>
 				<div class="img">
 					{#if org.photo}

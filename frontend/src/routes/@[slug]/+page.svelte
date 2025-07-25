@@ -2,7 +2,8 @@
 	import { user } from '$lib/store.svelte.js';
 
 	import Meta from '$lib/meta.svelte';
-	import BRound from '$lib/button/round.svelte';
+	import { BRound } from '$lib/button';
+	import Icon from '$lib/icon.svelte';
 	import Org from './org.svelte';
 
 	let { data } = $props();
@@ -17,8 +18,12 @@
 
 		{#if org.user_key == user.value.key}
 			<div class="hline">
-				<BRound icon="card" tooltip="settings" href="/@{org.slug}/card" large></BRound>
-				<BRound icon="settings" tooltip="settings" href="/@{org.slug}/setting" large></BRound>
+				<BRound title="settings" href="/@{org.slug}/card" large>
+					<Icon icon="card" size="1.2"></Icon>
+				</BRound>
+				<BRound title="settings" href="/@{org.slug}/setting" large>
+					<Icon icon="settings" size="1.2"></Icon>
+				</BRound>
 			</div>
 		{/if}
 	</div>

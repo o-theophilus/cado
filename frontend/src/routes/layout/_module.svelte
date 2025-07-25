@@ -1,9 +1,10 @@
 <script>
 	import { scale } from 'svelte/transition';
 	import { backInOut } from 'svelte/easing';
-
 	import { module } from '$lib/store.svelte.js';
-	import BRound from '$lib/button/round.svelte';
+
+	import { BRound } from '$lib/button';
+	import Icon from '$lib/icon.svelte';
 </script>
 
 {#if module.module}
@@ -12,7 +13,9 @@
 
 		<div class="block" transition:scale|local={{ delay: 0, duration: 200, easing: backInOut }}>
 			<div class="close">
-				<BRound icon="close" extra="hover_red" large onclick={() => module.close()} />
+				<BRound extra="hover_red" large onclick={() => module.close()}>
+					<Icon icon="close" size="1.2"></Icon>
+				</BRound>
 			</div>
 			<div class="content">
 				<svelte:component this={module.module} />

@@ -2,7 +2,7 @@
 	import { page } from '$app/state';
 	import Meta from '$lib/meta.svelte';
 	import Icon from '$lib/icon.svelte';
-	import Button from '$lib/button/button.svelte';
+	import { Button } from '$lib/button';
 
 	let error = page.error.message;
 </script>
@@ -23,7 +23,7 @@
 	<br />
 
 	<Button href="/">
-		<Icon icon="home" />
+		<Icon icon="home" size="1.5" />
 		Back to Home
 	</Button>
 </section>

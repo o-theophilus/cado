@@ -2,7 +2,9 @@
 	import { user } from '$lib/store.svelte.js';
 
 	import Meta from '$lib/meta.svelte';
-	import BRound from '$lib/button/round.svelte';
+	import { BRound } from '$lib/button';
+	import Icon from '$lib/icon.svelte';
+
 	import { onMount } from 'svelte';
 
 	onMount(() => {
@@ -50,7 +52,9 @@
 <div class="page">
 	<div class="hline">
 		<div class="hline">
-			<BRound icon="arrow_back" href="/profile" />
+			<BRound href="/profile">
+				<Icon icon="arrow_back" size="1.2"></Icon>
+			</BRound>
 			<div class="page_title">Setting</div>
 		</div>
 	</div>

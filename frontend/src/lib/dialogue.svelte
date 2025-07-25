@@ -2,7 +2,7 @@
 	import { module } from '$lib/store.svelte.js';
 
 	import Icon from '$lib/icon.svelte';
-	import Button from '$lib/button/button.svelte';
+	import { Button } from '$lib/button';
 
 	let title = module.value.title || 'Done';
 	let status = module.value.status || 200;
@@ -32,7 +32,7 @@
 	<div class="line">
 		{#each buttons as x}
 			<Button
-				size="wide"
+				--button-width="100%"
 				onclick={() => {
 					x.fn();
 				}}

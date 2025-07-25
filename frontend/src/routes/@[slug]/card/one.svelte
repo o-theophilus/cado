@@ -1,6 +1,6 @@
 <script>
-	import Tag from '$lib/button/tag.svelte';
-	import BRound from '$lib/button/round.svelte';
+	// import Tag from '$lib/button/tag.svelte';
+	import { Button } from '$lib/button';
 	import Avatar from '$lib/avatar.svelte';
 
 	let { card, selected, card_status } = $props();
@@ -27,13 +27,13 @@
 			<div class="block">
 				<span> Change Status </span>
 				<div class="buttons">
-					<Tag no_grow onclick={() => card_status('live')}>
+					<Button no_grow onclick={() => card_status('live')}>
 						Accept {selected.value.length > 1 ? 'All' : ''}
-					</Tag>
-					<Tag no_grow onclick={() => card_status('draft')}>
+					</Button>
+					<Button no_grow onclick={() => card_status('draft')}>
 						Cancel {selected.value.length > 1 ? 'All' : ''}
-					</Tag>
-					<BRound icon="close" onclick={() => selected.remove(card.key)}></BRound>
+					</Button>
+					<Button icon="close" onclick={() => selected.remove(card.key)}></Button>
 				</div>
 			</div>
 		</div>
