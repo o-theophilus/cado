@@ -1,9 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
-	import { user } from '$lib/store.svelte.js';
-
-	import Meta from '$lib/meta.svelte';
-	import BRound from '$lib/button/round.svelte';
+	// import { points } from './data';
+	let points = [];
 
 	var selectedPoint;
 	var highlightColor = '#5C6BC0',
@@ -11,134 +9,6 @@
 		mutedFill = '#f3f4fa',
 		selectedFill = '#E8EAF6',
 		normalFill = 'white';
-
-	var points = [
-		{
-			x: 'Eliott Nieves',
-			id: 'president',
-			attributes: {
-				role: 'CEO',
-				photo: getImgText('images/vector-avatars2/avatar-1.svg')
-			}
-		},
-		{
-			x: 'Harvey-Lee Travis',
-			id: 'vPresident1',
-			parent: 'president',
-			attributes: {
-				role: 'Vice President',
-				photo: getImgText('images/vector-avatars2/avatar-2.svg')
-			}
-		},
-		{
-			x: 'Gethin Morley',
-			id: 'vPresident2',
-			parent: 'president',
-			attributes: {
-				role: 'Vice President',
-				photo: getImgText('images/vector-avatars2/avatar-4.svg')
-			}
-		},
-		{
-			x: 'Sonnie Kim',
-			id: 'vPresident3',
-			parent: 'president',
-			attributes: {
-				role: 'Vice President',
-				photo: getImgText('images/vector-avatars2/avatar-3.svg')
-			}
-		},
-		{
-			x: 'Dante Curtis',
-			id: 'manager1',
-			parent: 'vPresident1',
-			attributes: { role: 'Manager', photo: getImgText('images/vector-avatars2/avatar-3.svg') }
-		},
-		{
-			x: 'Honey Mullen',
-			id: 'manager2',
-			parent: 'vPresident1',
-			attributes: { role: 'Manager', photo: getImgText('images/vector-avatars2/avatar-3.svg') }
-		},
-		{
-			x: 'Steffan Taylor',
-			id: 'manager3',
-			parent: 'vPresident2',
-			attributes: { role: 'Manager', photo: getImgText('images/vector-avatars2/avatar-3.svg') }
-		},
-		{
-			x: 'Charlton Hester',
-			id: 'manager4',
-			parent: 'vPresident2',
-			attributes: { role: 'Manager', photo: getImgText('images/vector-avatars2/avatar-3.svg') }
-		},
-		{
-			x: 'Ishmael Orr',
-			id: 'manager5',
-			parent: 'vPresident2',
-			attributes: { role: 'Manager', photo: getImgText('images/vector-avatars2/avatar-3.svg') }
-		},
-		{
-			x: 'Dua Frost',
-			id: 'manager6',
-			parent: 'manager5',
-			attributes: { role: 'Manager', photo: getImgText('images/vector-avatars2/avatar-3.svg') }
-		},
-		{
-			x: 'Salahuddin Eastwood',
-			id: 'manager7',
-			parent: 'manager5',
-			attributes: { role: 'Manager', photo: getImgText('images/vector-avatars2/avatar-3.svg') }
-		},
-		{
-			x: 'Nicole Tapia',
-			id: 'employee1',
-			parent: 'manager6',
-			attributes: { role: 'Employee', photo: getImgText('images/vector-avatars2/avatar-3.svg') }
-		},
-		{
-			x: 'Arisha Hinton',
-			id: 'employee2',
-			parent: 'manager6',
-			attributes: { role: 'Employee', photo: getImgText('images/vector-avatars2/avatar-3.svg') }
-		},
-		{
-			x: 'Martha Morley',
-			id: 'employee3',
-			parent: 'manager6',
-			attributes: { role: 'Employee', photo: getImgText('images/vector-avatars2/avatar-3.svg') }
-		},
-		{
-			x: 'Cathy Mcpherson',
-			id: 'employee4',
-			parent: 'manager6',
-			attributes: { role: 'Employee', photo: getImgText('images/vector-avatars2/avatar-3.svg') }
-		},
-		{
-			x: 'Kiara Johns',
-			id: 'manager8',
-			parent: 'vPresident3',
-			attributes: { role: 'Manager', photo: getImgText('images/vector-avatars2/avatar-3.svg') }
-		},
-		{
-			x: 'Grant Cash',
-			id: 'manager9',
-			parent: 'vPresident3',
-			attributes: { role: 'Manager', photo: getImgText('images/vector-avatars2/avatar-3.svg') }
-		},
-		{
-			x: 'Juanita Cottrell',
-			id: 'employee5',
-			parent: 'manager8',
-			attributes: { role: 'Employee', photo: getImgText('images/vector-avatars2/avatar-3.svg') }
-		},
-		{
-			x: 'Allana Frey',
-			id: 'employee6',
-			parent: 'manager8',
-			attributes: { role: 'Employee', photo: getImgText('images/vector-avatars2/avatar-3.svg') }
-		}
-	];
 
 	let chart;
 
@@ -271,18 +141,15 @@
 </script>
 
 <svelte:head>
-	<script src="https://code.jscharting.com/latest/jscharting.js"></script>
+	<script
+		script
+		type="text/javascript"
+		src="https://code.jscharting.com/latest/jscharting.js"
+	></script>
 	<link rel="stylesheet" href="https://code.jscharting.com/latest/jscharting.css" />
 </svelte:head>
 
-<Meta title={user.value?.firstname} />
-
-<div class="hline">
-	<div class="hline">
-		<BRound icon="arrow_back" href="/profile" />
-		<div class="page_title">Setting</div>
-	</div>
-</div>
+<div class="page_title">Organizational Chart</div>
 
 <br />
 
@@ -290,8 +157,10 @@
 
 <style>
 	.chartDiv {
-		margin: 8px auto;
-		padding: 15px;
-		border-radius: 10px;
+		width: 100vw;
+		height: 100vh;
+		/* margin: 8px auto; */
+		/* padding: 15px; */
+		/* border-radius: 10px; */
 	}
 </style>
