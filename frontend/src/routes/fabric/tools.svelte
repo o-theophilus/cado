@@ -1,5 +1,5 @@
 <script>
-	import { Button } from '$lib/button.svelte';
+	import { Button } from '$lib/button';
 	import Icon from '$lib/icon.svelte';
 
 	let { fabric, canvas } = $props();
