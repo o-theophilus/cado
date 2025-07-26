@@ -8,10 +8,11 @@
 	import Pagination from '$lib/pagination+.svelte';
 	import Search from '$lib/search+.svelte';
 	import Dropdown from '$lib/dropdown+.svelte';
-	import Gradio from '$lib/gradio+.svelte';
+	import Radio from '$lib/radio+.svelte';
 	import Note from '$lib/note.2.svelte';
 
 	import { BackButton } from '$lib/button';
+	import { Row, Br } from '$lib/layout';
 	import One from './one.svelte';
 
 	let { data } = $props();
@@ -66,21 +67,23 @@
 <Meta title={org.name} />
 
 <section class="page">
-	<div class="hline">
-		<div class="hline">
-			<!-- <BackButton href="/@{org.slug}" /> -->
+	<Row space>
+		<Row>
+			<BackButton href="/@{org.slug}" />
 			<h1>Organization Cards</h1>
-		</div>
+		</Row>
 
 		<Dropdown icon="sort" list={order} caps></Dropdown>
-	</div>
+	</Row>
+	<Br />
 
-	<div class="hline v2">
-		<Gradio list={status}></Gradio>
+	<div class="row">
+		<Radio list={status}></Radio>
 		<div class="search">
 			<Search placeholder="Search Cards"></Search>
 		</div>
 	</div>
+	<Br />
 
 	{#each cards as card (card.key)}
 		<div animate:flip={{ delay: 0, duration: 250, easing: cubicInOut }}>
@@ -104,12 +107,16 @@
 		margin: auto;
 		padding: var(--sp2);
 	}
-	.v2 {
-		margin: var(--sp2) 0;
+
+	.row {
+		display: flex;
+		gap: var(--sp2);
+		flex-wrap: wrap;
+		align-items: center;
 	}
 
 	@media screen and (min-width: 400px) {
-		.v2 {
+		.row {
 			flex-wrap: nowrap;
 		}
 	}

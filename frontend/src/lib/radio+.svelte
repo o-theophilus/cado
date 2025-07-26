@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { page_state } from '$lib/store.svelte.js';
 
-	import Gradio from './gradio.svelte';
+	import Radio from './radio.svelte';
 
 	let { default_value, value = $bindable(), list = [], onclick } = $props();
 
@@ -20,7 +20,7 @@
 </script>
 
 {#if list.length}
-	<Gradio
+	<Radio
 		bind:value
 		{list}
 		onclick={() => {
@@ -28,5 +28,5 @@
 			page_state.set('status', x);
 			onclick?.(x);
 		}}
-	></Gradio>
+	></Radio>
 {/if}

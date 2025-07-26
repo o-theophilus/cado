@@ -1,9 +1,10 @@
 <script>
 	let {
 		children,
-		border = false,
+		outline = false,
 		capitalize = false,
 		disabled = false,
+		tooltip,
 		onclick,
 		onmouseenter,
 		href = null
@@ -11,15 +12,15 @@
 </script>
 
 {#if href}
-	<a {href} class:border class:capitalize {onmouseenter}>
+	<a {href} class:outline class:capitalize {onmouseenter} title={tooltip}>
 		{@render children()}
 	</a>
 {:else if onclick}
-	<button {onclick} class:border class:capitalize {disabled} {onmouseenter}>
+	<button {onclick} class:outline class:capitalize {disabled} {onmouseenter} title={tooltip}>
 		{@render children()}
 	</button>
 {:else}
-	<div class="tag" class:border class:capitalize>
+	<div class="tag" class:outline class:capitalize title={tooltip}>
 		{@render children()}
 	</div>
 {/if}
@@ -28,6 +29,8 @@
 	a,
 	.tag,
 	button {
+		position: relative;
+
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -41,7 +44,6 @@
 		font-size: var(--button-font-size, 1rem);
 		font-weight: var(--button-font-weight, 700);
 		background-color: var(--button-background-color, hsl(0, 0%, 90%));
-
 		color: var(--button-color, hsl(0, 0%, 0%));
 		fill: currentColor;
 	}
@@ -58,7 +60,6 @@
 
 	button {
 		border: none;
-		cursor: pointer;
 	}
 
 	a:hover,
@@ -72,8 +73,13 @@
 		pointer-events: none;
 	}
 
-	.border {
-		border: 2px solid var(--button-border-color, hsl(0, 0%, 85%));
+	.outline {
+		outline: 2px solid var(--button-outline-color, hsl(0, 0%, 85%));
+		transition: outline-color 0.2s ease-in-out;
+	}
+	a.outline:hover,
+	button.outline:hover {
+		outline-color: var(--button-outline-color-hover, hsl(0, 0%, 75%));
 	}
 	.capitalize {
 		text-transform: capitalize;

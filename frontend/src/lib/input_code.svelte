@@ -46,7 +46,7 @@
 	};
 </script>
 
-<div class="line">
+<div>
 	{#each Array(6) as _, i}
 		<input
 			type="number"
@@ -67,15 +67,18 @@
 </div>
 
 <style>
-	.line {
+	div {
 		display: flex;
-		gap: 2px;
-		margin-top: var(--sp1);
+		width: fit-content;
+
+		outline: 2px solid var(--input);
+		border-radius: var(--sp0);
+		transition: outline-color var(--trans);
 	}
-	@media screen and (min-width: 400px) {
-		.line {
-			gap: var(--sp1);
-		}
+
+	div:hover,
+	div:has(:focus) {
+		outline-color: var(--ft1);
 	}
 
 	input {
@@ -88,16 +91,11 @@
 		text-align: center;
 		font-size: 1.5rem;
 		color: var(--ft1);
-		outline: 2px solid var(--input);
 		border: none;
-		border-radius: var(--sp0);
-
-		transition: outline-color var(--trans);
 	}
 
-	input:disabled,
-	input:focus {
-		outline-color: var(--ft1);
+	input:not(:last-of-type) {
+		border-right: 1px solid var(--input);
 	}
 
 	input:disabled {

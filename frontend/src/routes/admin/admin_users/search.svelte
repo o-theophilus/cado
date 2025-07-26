@@ -6,6 +6,7 @@
 	import Search from '$lib/search.svelte';
 	import Icon from '$lib/icon.svelte';
 	import { Button } from '$lib/button';
+	import { Row } from '$lib/layout';
 	import Drop from '$lib/dropdown.svelte';
 
 	export let access;
@@ -50,7 +51,7 @@
 </script>
 
 <section>
-	<div class="row">
+	<Row>
 		<Drop
 			wide
 			list={Object.keys(access)}
@@ -72,9 +73,9 @@
 				action = e.target.value;
 			}}
 		/>
-	</div>
+	</Row>
 
-	<div class="row">
+	<Row>
 		<Search
 			non_default
 			placeholder="Search for User"
@@ -101,7 +102,7 @@
 		>
 			<Icon icon="close" />
 		</Button>
-	</div>
+	</Row>
 </section>
 
 <style>
@@ -110,11 +111,5 @@
 		flex-direction: column;
 		gap: var(--sp1);
 		margin: var(--sp2) 0;
-	}
-
-	.row {
-		display: flex;
-		gap: var(--sp1);
-		align-items: center;
 	}
 </style>

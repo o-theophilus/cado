@@ -4,6 +4,7 @@
 
 	import IG from '$lib/input_group.svelte';
 	import { Button } from '$lib/button';
+	import { Row } from '$lib/layout';
 	import Icon from '$lib/icon.svelte';
 
 	let { value = $bindable(), error } = $props();
@@ -53,13 +54,13 @@
 		bind:value={form.address}
 	/>
 
-	<div class="line">
+	<Row nowrap>
 		<IG icon="language" placeholder="Map URL here" type="text" bind:value={form.url} no_pad />
 		<Button onclick={add}>
 			Add
 			<Icon icon="add" />
 		</Button>
-	</div>
+	</Row>
 </form>
 {#if error.address}
 	<br />
@@ -91,12 +92,6 @@
 		padding-top: 0;
 		border: 2px solid var(--bg2);
 		border-radius: var(--sp0);
-	}
-
-	.line {
-		display: flex;
-		gap: var(--sp2);
-		align-items: center;
 	}
 
 	.address {
@@ -139,7 +134,6 @@
 
 		border: none;
 		background-color: var(--bg2);
-		cursor: pointer;
 
 		transition:
 			background-color var(--trans),

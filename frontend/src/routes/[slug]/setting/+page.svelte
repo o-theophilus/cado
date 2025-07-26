@@ -1,6 +1,7 @@
 <script>
 	import Meta from '$lib/meta.svelte';
 	import { BackButton } from '$lib/button';
+	import { Row } from '$lib/layout';
 
 	import Photo from './photo.svelte';
 	import Info from './info.svelte';
@@ -35,14 +36,12 @@
 <Meta title={card.firstname} />
 
 <section class="page">
-	<div class="hline">
-		<div class="hline">
-			<BackButton href="/{card.key}">
-				<Icon icon="arrow_back" size="1.2"></Icon>
-			</BackButton>
-			<div class="page_title">Card Setting</div>
-		</div>
-	</div>
+	<Row>
+		<BackButton href="/{card.key}">
+			<Icon icon="arrow_back" size="1.2"></Icon>
+		</BackButton>
+		<div class="page_title">Card Setting</div>
+	</Row>
 
 	<br />
 

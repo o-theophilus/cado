@@ -16,22 +16,15 @@
 	{/snippet}
 </Note>
 
-<div class="line">
-	<Button
-		onclick={() => {
-			status.value = 3;
-			status.prev_value = 4;
-		}}
-	>
-		Unlink Card
-		<Icon icon="close" />
-	</Button>
-</div>
+<Button
+	onclick={() => {
+		status.value = 3;
+		status.prev_value = 4;
+	}}
+>
+	Unlink Card
+	<Icon icon="close" />
+</Button>
 
 <style>
-	.line {
-		margin-top: var(--sp2);
-		display: flex;
-		gap: var(--sp1);
-	}
 </style>

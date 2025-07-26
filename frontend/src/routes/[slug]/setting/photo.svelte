@@ -2,6 +2,7 @@
 	import { loading, notify, token } from '$lib/store.svelte.js';
 
 	import { Button } from '$lib/button';
+	import { Row } from '$lib/layout';
 	import Icon from '$lib/icon.svelte';
 	import Card from '$lib/card.svelte';
 
@@ -134,7 +135,7 @@
 
 	<br />
 
-	<div class="line">
+	<Row --row-gap="8px">
 		<Button
 			onclick={() => {
 				input.click();
@@ -158,7 +159,7 @@
 				Delete
 			</Button>
 		{/if}
-	</div>
+	</Row>
 </Card>
 
 <style>
@@ -184,11 +185,6 @@
 		cursor: pointer;
 	}
 
-	.line {
-		display: flex;
-		gap: var(--sp1);
-		flex-wrap: wrap;
-	}
 	.capitalize {
 		text-transform: capitalize;
 	}

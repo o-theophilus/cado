@@ -3,8 +3,8 @@
 	import { cubicInOut } from 'svelte/easing';
 
 	import Meta from '$lib/meta.svelte';
-	import ButtonFold from '$lib/button/fold.svelte';
-	import Back from '$lib/button/back.svelte';
+	import { BackButton, FoldButton } from '$lib/button';
+	import { Row } from '$lib/layout';
 
 	export let data;
 	let { users } = data;
@@ -15,25 +15,21 @@
 <Meta title="Manage Photos" description="Here you will find missing or excess images" />
 
 <div class="page">
-	<div class="hline">
-		<div class="hline">
-			<Back />
-			<div class="page_title">Photo Error</div>
-		</div>
-	</div>
-
-	<hr />
+	<Row>
+		<BackButton />
+		<div class="page_title">Photo Error</div>
+	</Row>
 
 	<div class="fold">
-		<div class="hline">
+		<Row>
 			User{users.length > 1 ? 's' : ''} ({users.length})
-			<ButtonFold
+			<FoldButton
 				open={open_users}
 				onclick={() => {
 					open_users = !open_users;
 				}}
 			/>
-		</div>
+		</Row>
 
 		{#if open_users}
 			<div transition:slide|local={{ delay: 0, duration: 200, easing: cubicInOut }}>

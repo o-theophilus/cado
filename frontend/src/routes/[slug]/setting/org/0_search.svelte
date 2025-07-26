@@ -63,22 +63,15 @@
 		bind:value={name}
 	/>
 
-	<div class="line">
-		<Button onclick={validate}>
-			Search
-			<Icon icon="send" />
-		</Button>
-	</div>
+	<Button onclick={validate}>
+		Search
+		<Icon icon="send" />
+	</Button>
 </form>
 
 <style>
 	.error {
 		margin: var(--sp2) 0;
 		font-size: small;
-	}
-
-	.line {
-		display: flex;
-		gap: var(--sp1);
 	}
 </style>

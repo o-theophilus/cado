@@ -4,7 +4,8 @@
 
 	import UpdateUrl from '$lib/update_url.svelte';
 
-	import Back from '$lib/button/back.svelte';
+	import { BackButton } from '$lib/button';
+	import { Row } from '$lib/layout';
 	import Meta from '$lib/meta.svelte';
 	import Pagination from '$lib/pagination.svelte';
 	import DropPlus from '$lib/dropdown.svelte';
@@ -22,16 +23,14 @@
 <Meta title="All Users" />
 
 <div class="page">
-	<div class="hline">
-		<div class="hline">
-			<Back />
-			<div class="page_title">
-				User{users.length > 1 ? 's' : ''}
-			</div>
+	<Row>
+		<BackButton />
+		<div class="page_title">
+			User{users.length > 1 ? 's' : ''}
 		</div>
 
 		<!-- <DropPlus name="status" list={['all', ..._status]} default_value="all" /> -->
-	</div>
+	</Row>
 
 	<div class="search_bar">
 		<Search />

@@ -2,7 +2,8 @@
 	import { notify } from '$lib/store.svelte.js';
 
 	import Icon from '$lib/icon.svelte';
-	import { BRound } from '$lib/button';
+	import { RoundButton } from '$lib/button';
+	import { Row } from '$lib/layout';
 
 	let { one } = $props();
 
@@ -17,16 +18,18 @@
 </script>
 
 <div class="notify" class:bad={one.status == 400} class:caution={one.status == 201}>
-	<div class="line">
-		<Icon
-			size="2"
-			icon={one.status == 201 ? 'error' : one.status == 400 ? 'cancel' : 'check_circle'}
-		/>
-		{one.message || 'no message'}
-		<BRound  onclick={() => notify.close(one.key)}>
-			<!-- TODO: fill black -->
-			<Icon icon="close"></Icon>
-		</BRound>
+	<div class="padding">
+		<Row>
+			<Icon
+				size="2"
+				icon={one.status == 201 ? 'error' : one.status == 400 ? 'cancel' : 'check_circle'}
+			/>
+			{one.message || 'no message'}
+			<RoundButton onclick={() => notify.close(one.key)}>
+				<!-- TODO: fill black -->
+				<Icon icon="close"></Icon>
+			</RoundButton>
+		</Row>
 	</div>
 
 	<div class="progress" class:to_zero></div>
@@ -49,11 +52,8 @@
 		pointer-events: all;
 	}
 
-	.line {
+	.padding {
 		padding: var(--sp2);
-		display: flex;
-		align-items: center;
-		gap: var(--sp2);
 	}
 
 	.progress {

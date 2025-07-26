@@ -4,6 +4,7 @@
 
 	import { token } from '$lib/store.svelte.js';
 	import Icon from '$lib/icon.svelte';
+	import { Button } from '$lib/button';
 	import { onMount } from 'svelte';
 
 	let nots = $state([]);
@@ -48,8 +49,13 @@
 />
 
 {#if nots.length > 0}
-	<button
-		class="block"
+	<Button
+		--button-width="20px"
+		--button-height="20px"
+		--button-padding-x="0"
+		--button-border-radius="50%"
+		--button-background-color="transparent"
+		--button-color="var(--ft1)"
 		onclick={() => {
 			open = !open;
 			self = true;
@@ -67,33 +73,10 @@
 				{/each}
 			</div>
 		{/if}
-	</button>
+	</Button>
 {/if}
 
 <style>
-	.block {
-		--size: 20px;
-
-		position: relative;
-
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		width: var(--size);
-		height: var(--size);
-		border-radius: 50%;
-		border: none;
-		background-color: transparent;
-		cursor: pointer;
-		padding: var(--sp0);
-
-		transition: background-color var(--trans);
-	}
-	.block:hover {
-		background-color: var(--bg2);
-	}
-
 	.new {
 		--size: 6px;
 
@@ -128,6 +111,7 @@
 		padding: var(--sp0) var(--sp2);
 
 		font-size: 0.8rem;
+		font-weight: 500;
 		text-decoration: none;
 		color: var(--ft1);
 		background-color: transparent;

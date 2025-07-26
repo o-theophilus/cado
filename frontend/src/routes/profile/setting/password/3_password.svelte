@@ -3,6 +3,7 @@
 
 	import IG from '$lib/input_group.svelte';
 	import { Button } from '$lib/button';
+	import { Row } from '$lib/layout';
 	import Icon from '$lib/icon.svelte';
 	import Password from '$lib/auth/password_checker.svelte';
 	import ShowPassword from '$lib/auth/password_show.svelte';
@@ -97,7 +98,7 @@
 		placeholder="Password here"
 	/>
 
-	<div class="line">
+	<Row --row-gap="8px">
 		<Button primary onclick={validate}>Reset Password</Button>
 
 		<Button
@@ -111,7 +112,7 @@
 			Cancel
 			<Icon icon="close" />
 		</Button>
-	</div>
+	</Row>
 </form>
 
 <style>
@@ -121,10 +122,5 @@
 
 	.right {
 		padding-right: var(--sp2);
-	}
-
-	.line {
-		display: flex;
-		gap: var(--sp1);
 	}
 </style>

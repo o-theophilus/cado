@@ -36,6 +36,11 @@ input:-webkit-autofill:active {
 	-webkit-text-fill-color: var(--ft1);
 }
 
+select,
+button{
+	cursor: pointer;
+}
+
 .error {
 	color: var(--cl2);
 }
@@ -51,10 +56,4 @@ hr {
 	/* color: var(--ft1);	 */
 }
 
-.hline {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	gap: var(--sp2);
-	flex-wrap: wrap;
-}
+

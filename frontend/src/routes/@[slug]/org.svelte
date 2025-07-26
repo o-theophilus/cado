@@ -2,7 +2,8 @@
 	import { page } from '$app/state';
 	import { user } from '$lib/store.svelte.js';
 	import Icon from '$lib/icon.svelte';
-	import { Link, BRound } from '$lib/button';
+	import { Link, RoundButton } from '$lib/button';
+	import { Row } from '$lib/layout';
 	import Socials from '../[slug]/socials.svelte';
 
 	let { org } = $props();
@@ -26,18 +27,18 @@
 </script>
 
 {#if page.route.id == '/[slug]' && org.user_key == user.value.key}
-	<div class="hline">
+	<Row space>
 		<div></div>
 
-		<div class="hline">
-			<BRound tooltip="settings" href="/@{org.slug}/card">
+		<Row --row-gap="8px">
+			<RoundButton tooltip="settings" href="/@{org.slug}/card">
 				<Icon icon="card"></Icon>
-			</BRound>
-			<BRound tooltip="settings" href="/@{org.slug}/setting">
+			</RoundButton>
+			<RoundButton tooltip="settings" href="/@{org.slug}/setting">
 				<Icon icon="settings"></Icon>
-			</BRound>
-		</div>
-	</div>
+			</RoundButton>
+		</Row>
+	</Row>
 {/if}
 
 <br />
@@ -120,10 +121,6 @@
 <Socials links={org.social_links} name={org.firstname} />
 
 <style>
-	.hline {
-		gap: var(--sp1);
-	}
-
 	img {
 		object-fit: contain;
 		width: 100%;

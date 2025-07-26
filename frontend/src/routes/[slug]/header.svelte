@@ -1,5 +1,5 @@
 <script>
-	import { BRound } from '$lib/button';
+	import { RoundButton } from '$lib/button';
 	import Icon from '$lib/icon.svelte';
 	let { card } = $props();
 </script>
@@ -9,9 +9,9 @@
 
 	<div class="bottom">
 		<div class="right">
-			<BRound href="/{card.key}/setting">
+			<RoundButton href="/{card.key}/setting">
 				<Icon icon="settings" size="1.2"></Icon>
-			</BRound>
+			</RoundButton>
 		</div>
 	</div>
 </div>

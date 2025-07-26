@@ -21,7 +21,6 @@
 <style>
 	button {
 		all: unset;
-		cursor: pointer;
 	}
 	button,
 	a {

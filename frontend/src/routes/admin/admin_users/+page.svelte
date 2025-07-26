@@ -2,7 +2,8 @@
 	import { flip } from 'svelte/animate';
 	import { cubicInOut } from 'svelte/easing';
 
-	import Back from '$lib/button/back.svelte';
+	import { BackButton } from '$lib/button';
+	import { Row } from '$lib/layout';
 	import Meta from '$lib/meta.svelte';
 	import User from '../users/user.svelte';
 	import Pagination from '$lib/pagination.svelte';
@@ -21,15 +22,15 @@
 <Meta title="Admin" description="Users with elevated permission" />
 
 <div class="page">
-	<div class="hline">
-		<div class="hline">
-			<Back />
+	<Row space>
+		<Row>
+			<BackButton />
 			<div class="page_title">
 				Admin{users.length > 1 ? 's' : ''}
 			</div>
-		</div>
-		<DropPlus name="order" list={order_by} />
-	</div>
+			<DropPlus name="order" list={order_by} />
+		</Row>
+	</Row>
 
 	<Search {access} />
 

@@ -1,21 +1,26 @@
 <script>
-	import { Button, BRound } from '$lib/button';
+	import { Button, RoundButton } from '$lib/button';
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
 
-	let { value = $bindable(), placeholder = 'Search', non_default = false, ondone } = $props();
-	let _value = $state(value);
+	let {
+		value = $bindable(),
+		value_submitted = $bindable(),
+		placeholder = 'Search',
+		non_default = false,
+		ondone
+	} = $props();
 
-	const submit = (n) => {
-		if (n != _value) {
-			ondone?.(n);
-		}
-		set(n);
+	const submit = (val) => {
+		if (val == value_submitted) return;
+
+		ondone?.(val);
+		set(val);
 	};
 
-	export const set = (n) => {
-		value = n;
-		_value = n;
+	export const set = (val) => {
+		value = val;
+		value_submitted = val;
 	};
 </script>
 
@@ -32,15 +37,19 @@
 >
 	{#snippet right()}
 		<div class="right">
-			{#if value}
+			{#if value || value_submitted}
 				<div class="close">
-					<BRound
+					<RoundButton
 						onclick={() => {
+							if (!value_submitted) {
+								value = '';
+								value_submitted = '';
+							}
 							submit('');
 						}}
 					>
 						<Icon icon="close" size="1.2" />
-					</BRound>
+					</RoundButton>
 				</div>
 			{/if}
 
@@ -51,7 +60,7 @@
 					onclick={() => {
 						submit(value);
 					}}
-					disabled={value == _value}
+					disabled={value == value_submitted}
 				>
 					<Icon icon="search" size="1.5" />
 				</Button>

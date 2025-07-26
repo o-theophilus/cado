@@ -17,9 +17,9 @@
 	</a>
 
 	<div class="actions">
-		<Tag no_grow onclick={() => selected.add(card.key)}>
+		<Button onclick={() => selected.add(card.key)}>
 			{card.status}
-		</Tag>
+		</Button>
 	</div>
 
 	{#if selected.check(card.key)}

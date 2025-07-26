@@ -116,7 +116,6 @@
 	.info_2 {
 		border: none;
 		background: transparent;
-		cursor: pointer;
 		transition:
 			background-color var(--trans),
 			outline-color var(--trans);

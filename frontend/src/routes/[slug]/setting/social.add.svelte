@@ -1,6 +1,7 @@
 <script>
 	import IG from '$lib/input_group.svelte';
 	import { Button } from '$lib/button';
+	import { Row, Br } from '$lib/layout';
 	import Icon from '$lib/icon.svelte';
 	import Dropdown from '$lib/dropdown.svelte';
 
@@ -44,7 +45,7 @@
 		</div>
 	{/if}
 
-	<div class="line">
+	<Row nowrap>
 		{#key _list}
 			<Dropdown bind:value={_key} list={_list} wide={_key != 'other'}></Dropdown>
 		{/key}
@@ -58,9 +59,11 @@
 				no_pad
 			/>
 		{/if}
-	</div>
+	</Row>
 
-	<div class="line">
+	<Br />
+
+	<Row nowrap>
 		<IG
 			type="text"
 			bind:value={_val}
@@ -79,7 +82,7 @@
 			Add
 			<Icon icon="send" />
 		</Button>
-	</div>
+	</Row>
 </form>
 
 <style>
@@ -87,14 +90,6 @@
 		padding: var(--sp2);
 		border: 2px solid var(--bg2);
 		border-radius: var(--sp0);
-	}
-	.line {
-		display: flex;
-		gap: var(--sp2);
-		align-items: center;
-	}
-	.line:last-child {
-		margin-top: var(--sp2);
 	}
 
 	.error {

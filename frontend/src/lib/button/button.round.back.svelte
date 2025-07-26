@@ -1,13 +1,13 @@
 <script>
 	import { goto } from '$app/navigation';
 	import Icon from '$lib/icon.svelte';
-	import { BRound } from './';
+	import { RoundButton } from '.';
 
 	let { href = '' } = $props();
 	let disabled = $state(false);
 </script>
 
-<BRound
+<RoundButton
 	onclick={() => {
 		if (href) {
 			goto(href);
@@ -19,4 +19,4 @@
 	{disabled}
 >
 	<Icon icon="arrow_back"></Icon>
-</BRound>
+</RoundButton>

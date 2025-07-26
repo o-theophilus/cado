@@ -2,7 +2,6 @@
 	import { user } from '$lib/store.svelte.js';
 
 	import Meta from '$lib/meta.svelte';
-	import { BackButton } from '$lib/button';
 
 	import Photo from '../../[slug]/setting/photo.svelte';
 	import Info from './info.svelte';
@@ -32,12 +31,7 @@
 
 <Meta title={user.value?.firstname} />
 
-<div class=" hline">
-	<div class=" hline">
-		<BackButton href="/profile" />
-		<div class="page_title">Setting</div>
-	</div>
-</div>
+<div class="page_title">Setting</div>
 
 <br />
 

@@ -2,6 +2,7 @@
 	import { loading, token, notify } from '$lib/store.svelte.js';
 
 	import { Button } from '$lib/button';
+	import { Row } from '$lib/layout';
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
 	import Code from '$lib/input_code.svelte';
@@ -73,7 +74,7 @@
 		{/snippet}
 	</IG>
 
-	<div class="line">
+	<Row --row-gap="8px">
 		<Button primary onclick={validate}>
 			Submit
 			<Icon icon="send" />
@@ -89,14 +90,10 @@
 			Cancel
 			<Icon icon="close" />
 		</Button>
-	</div>
+	</Row>
 </form>
 
 <style>
-	.line {
-		display: flex;
-		gap: var(--sp1);
-	}
 	.error {
 		margin: var(--sp2) 0;
 	}

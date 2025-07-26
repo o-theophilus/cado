@@ -4,8 +4,6 @@
     "dictionaryDefinitions": [],
     "dictionaries": [],
     "words": [],
-    "ignoreWords": [
-        "hline"
-    ],
+    "ignoreWords": [],
     "import": []
 }

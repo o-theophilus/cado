@@ -2,6 +2,7 @@
 	import { token, notify, loading } from '$lib/store.svelte.js';
 
 	import { Button } from '$lib/button';
+	import { Row } from '$lib/layout';
 	import Icon from '$lib/icon.svelte';
 	import Note from '$lib/note.svelte';
 	import NoteOrg from '$lib/note.org.svelte';
@@ -55,7 +56,7 @@
 	</div>
 {/if}
 
-<div class="line">
+<Row --row-gap="8px">
 	<Button onclick={submit}>
 		Cancel Request
 		<Icon icon="send" />
@@ -68,14 +69,9 @@
 		back
 		<Icon icon="close" />
 	</Button>
-</div>
+</Row>
 
 <style>
-	.line {
-		display: flex;
-		gap: var(--sp1);
-	}
-
 	.error {
 		margin: var(--sp2) 0;
 		font-size: small;

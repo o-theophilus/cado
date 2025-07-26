@@ -3,6 +3,7 @@
 	import { loading, token, notify } from '$lib/store.svelte.js';
 
 	import { Button } from '$lib/button';
+	import { Row } from '$lib/layout';
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
 	import ShowPassword from '$lib/auth/password_show.svelte';
@@ -115,7 +116,7 @@
 				{/snippet}
 			</IG>
 
-			<div class="line">
+			<Row --row-gap="8px">
 				<Button onclick={validate}>
 					<Icon icon="delete" />
 					Delete
@@ -129,7 +130,7 @@
 					<Icon icon="arrow_back" />
 					Back
 				</Button>
-			</div>
+			</Row>
 		</form>
 	{/if}
 </Card>
@@ -140,10 +141,5 @@
 	}
 	.right {
 		padding-right: var(--sp2);
-	}
-
-	.line {
-		display: flex;
-		gap: var(--sp1);
 	}
 </style>

@@ -2,7 +2,8 @@
 	import { user } from '$lib/store.svelte.js';
 
 	import Meta from '$lib/meta.svelte';
-	import { BRound } from '$lib/button';
+	import { RoundButton } from '$lib/button';
+	import { Row } from '$lib/layout';
 	import Icon from '$lib/icon.svelte';
 	import Org from './org.svelte';
 
@@ -13,20 +14,20 @@
 <Meta title={org.name} />
 
 <section class="content">
-	<div class="hline">
+	<Row space>
 		<div class="page_title">Organization</div>
 
 		{#if org.user_key == user.value.key}
-			<div class="hline">
-				<BRound title="settings" href="/@{org.slug}/card" large>
+			<Row --row-gap="8px">
+				<RoundButton title="settings" href="/@{org.slug}/card" large>
 					<Icon icon="card" size="1.2"></Icon>
-				</BRound>
-				<BRound title="settings" href="/@{org.slug}/setting" large>
+				</RoundButton>
+				<RoundButton title="settings" href="/@{org.slug}/setting" large>
 					<Icon icon="settings" size="1.2"></Icon>
-				</BRound>
-			</div>
+				</RoundButton>
+			</Row>
 		{/if}
-	</div>
+	</Row>
 
 	<br />
 
@@ -42,9 +43,5 @@
 		margin: auto;
 		padding: var(--sp2);
 		padding-bottom: var(--sp5);
-	}
-
-	.hline {
-		gap: var(--sp1);
 	}
 </style>

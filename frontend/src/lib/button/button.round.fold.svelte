@@ -1,13 +1,13 @@
 <script>
-	import { BRound } from './';
+	import { RoundButton } from '.';
 	import Icon from '$lib/icon.svelte';
 	let { open, ...props } = $props();
 </script>
 
 <div class="fold" class:open>
-	<BRound {...props}>
+	<RoundButton {...props}>
 		<Icon icon="keyboard_arrow_up"></Icon>
-	</BRound>
+	</RoundButton>
 </div>
 
 <style>

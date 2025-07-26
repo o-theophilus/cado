@@ -1,6 +1,7 @@
 <script>
 	import { module } from '$lib/store.svelte.js';
-	import { Button, BRound } from '$lib/button';
+	import { Button, RoundButton } from '$lib/button';
+	import { Row } from '$lib/layout';
 	import Icon from '$lib/icon.svelte';
 	import Add from './_add.svelte';
 	import Note from '$lib/note.2.svelte';
@@ -13,7 +14,7 @@
 	};
 </script>
 
-<div class="hline">
+<Row space>
 	<div class="page_title">
 		Organization{#if orgs.length > 1}s{/if}
 	</div>
@@ -22,7 +23,7 @@
 		<Icon icon="add" />
 		Add
 	</Button>
-</div>
+</Row>
 <br />
 
 {#if orgs && orgs.length > 0}
@@ -30,12 +31,12 @@
 		{#each orgs as org}
 			<a href="/@{org.slug}">
 				<div class="menu">
-					<BRound href="/@{org.slug}/card">
+					<RoundButton href="/@{org.slug}/card">
 						<Icon icon="card" size="1.2"></Icon>
-					</BRound>
-					<BRound href="/@{org.slug}/setting">
+					</RoundButton>
+					<RoundButton href="/@{org.slug}/setting">
 						<Icon icon="settings" size="1.2"></Icon>
-					</BRound>
+					</RoundButton>
 				</div>
 				<div class="img">
 					{#if org.photo}

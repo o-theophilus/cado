@@ -2,7 +2,8 @@
 	import { user } from '$lib/store.svelte.js';
 
 	import Meta from '$lib/meta.svelte';
-	import { BRound } from '$lib/button';
+	import { RoundButton } from '$lib/button';
+	import { Row } from '$lib/layout';
 	import Icon from '$lib/icon.svelte';
 
 	import { onMount } from 'svelte';
@@ -50,14 +51,12 @@
 <Meta title={user.value?.firstname} />
 
 <div class="page">
-	<div class="hline">
-		<div class="hline">
-			<BRound href="/profile">
-				<Icon icon="arrow_back" size="1.2"></Icon>
-			</BRound>
-			<div class="page_title">Setting</div>
-		</div>
-	</div>
+	<Row>
+		<RoundButton href="/profile">
+			<Icon icon="arrow_back" size="1.2"></Icon>
+		</RoundButton>
+		<div class="page_title">Setting</div>
+	</Row>
 
 	<br />
 

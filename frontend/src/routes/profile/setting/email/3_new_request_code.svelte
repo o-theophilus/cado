@@ -2,6 +2,7 @@
 	import { user, loading, token } from '$lib/store.svelte.js';
 
 	import { Button } from '$lib/button';
+	import { Row } from '$lib/layout';
 	import IG from '$lib/input_group.svelte';
 	import Icon from '$lib/icon.svelte';
 	import EmailTemplate from './email_template.svelte';
@@ -72,7 +73,7 @@
 		placeholder="Email here"
 	/>
 
-	<div class="line">
+	<Row --row-gap="8px">
 		<Button primary onclick={validate}>
 			Request Code
 			<Icon icon="send" />
@@ -88,7 +89,7 @@
 			Cancel
 			<Icon icon="close" />
 		</Button>
-	</div>
+	</Row>
 </form>
 
 <div bind:this={email_template} style="display: none;">
@@ -96,10 +97,6 @@
 </div>
 
 <style>
-	.line {
-		display: flex;
-		gap: var(--sp1);
-	}
 	.error {
 		margin: var(--sp2) 0;
 	}

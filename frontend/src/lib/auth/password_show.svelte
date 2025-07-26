@@ -39,7 +39,6 @@
 		background-color: var(--bg1);
 		color: var(--ft2);
 		fill: currentColor;
-		cursor: pointer;
 
 		transition:
 			color var(--trans),

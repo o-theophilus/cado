@@ -4,6 +4,7 @@
 
 	import IG from '$lib/input_group.svelte';
 	import { Button, Link } from '$lib/button';
+	import { Row } from '$lib/layout';
 	import Icon from '$lib/icon.svelte';
 	import Signup from './signup.svelte';
 	import Forgot from './forgot_1.email.svelte';
@@ -104,25 +105,23 @@
 
 	<br />
 	<br />
-	<div class="hline">
-		<div class="hline">
-			<Link
-				onclick={() => {
-					module.open(Signup, { email: form.email });
-				}}
-			>
-				Signup
-			</Link>
-			<span class="divider"> </span>
-			<Link
-				onclick={() => {
-					module.open(Forgot, { email: form.email });
-				}}
-			>
-				Forgot Password
-			</Link>
-		</div>
-	</div>
+	<Row>
+		<Link
+			onclick={() => {
+				module.open(Signup, { email: form.email });
+			}}
+		>
+			Signup
+		</Link>
+		<span class="divider"> </span>
+		<Link
+			onclick={() => {
+				module.open(Forgot, { email: form.email });
+			}}
+		>
+			Forgot Password
+		</Link>
+	</Row>
 </form>
 
 <div bind:this={email_template} style="display: none;">

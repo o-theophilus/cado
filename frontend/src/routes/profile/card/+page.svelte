@@ -1,6 +1,7 @@
 <script>
 	import { module, user } from '$lib/store.svelte.js';
-	import { Button, BRound } from '$lib/button';
+	import { Button, RoundButton, Tag } from '$lib/button';
+	import { Row } from '$lib/layout';
 	import Icon from '$lib/icon.svelte';
 	import Add from './_add.svelte';
 	import Note from '$lib/note.2.svelte';
@@ -17,7 +18,7 @@
 	};
 </script>
 
-<div class="line">
+<Row space>
 	<div class="page_title">
 		My Business Card{#if cards.length > 1}s{/if}
 	</div>
@@ -26,7 +27,7 @@
 		<Icon icon="add" />
 		Add
 	</Button>
-</div>
+</Row>
 
 <br />
 
@@ -34,20 +35,14 @@
 	<div class="cards">
 		{#each cards as c}
 			<a href="/{c.key}" class="card">
-				<div class="hline">
-					<Button
-						--button-background-color="var(--input)"
-						--button-font-size="0.8rem"
-						--button-height="24px"
-						--button-border-radius="20px"
-						border
-					>
+				<Row space>
+					<Tag>
 						{c.status}
-					</Button>
-					<BRound href="/{c.key}/setting">
-						<Icon icon="settings" />
-					</BRound>
-				</div>
+					</Tag>
+				</Row>
+				<RoundButton href="/{c.key}/setting">
+					<Icon icon="settings" />
+				</RoundButton>
 				<div class="name">
 					{c.firstname}
 					{c.lastname}
@@ -73,12 +68,6 @@
 {/if}
 
 <style>
-	.line {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-
 	.cards {
 		display: grid;
 		grid-template-columns: 1fr 1fr;

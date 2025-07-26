@@ -3,6 +3,7 @@
 
 	import Icon from '$lib/icon.svelte';
 	import { Button } from '$lib/button';
+	import { Row } from '$lib/layout';
 
 	let title = module.value.title || 'Done';
 	let status = module.value.status || 200;
@@ -29,7 +30,8 @@
 	<div class="text">
 		{@html message}
 	</div>
-	<div class="line">
+
+	<Row --row-gap="8px">
 		{#each buttons as x}
 			<Button
 				--button-width="100%"
@@ -43,7 +45,7 @@
 				{x.name}
 			</Button>
 		{/each}
-	</div>
+	</Row>
 </div>
 
 <style>

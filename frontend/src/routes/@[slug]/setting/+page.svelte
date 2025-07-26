@@ -1,6 +1,7 @@
 <script>
 	import Meta from '$lib/meta.svelte';
-	import { BRound } from '$lib/button';
+	import { RoundButton } from '$lib/button';
+	import { Row } from '$lib/layout';
 	import Icon from '$lib/icon.svelte';
 
 	import Photo from '../../[slug]/setting/photo.svelte';
@@ -36,14 +37,12 @@
 <Meta title={org.firstname} />
 
 <section class="page">
-	<div class="hline">
-		<div class="hline">
-			<BRound icon="arrow_back" href="/@{org.slug}">
-				<Icon icon="arrow_back" size="1.2"></Icon>
-			</BRound>
-			<div class="page_title">Organization Setting</div>
-		</div>
-	</div>
+	<Row>
+		<RoundButton icon="arrow_back" href="/@{org.slug}">
+			<Icon icon="arrow_back" size="1.2"></Icon>
+		</RoundButton>
+		<div class="page_title">Organization Setting</div>
+	</Row>
 
 	<br />
 

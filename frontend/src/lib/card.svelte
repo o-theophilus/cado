@@ -2,7 +2,7 @@
 	import { slide } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
 
-	import { Fold } from '$lib/button';
+	import { FoldButton } from '$lib/button';
 
 	let { open = false, onopen, children, title } = $props();
 </script>
@@ -17,7 +17,7 @@
 		}}
 	>
 		{@render title()}
-		<Fold {open} onclick={onopen} />
+		<FoldButton {open} onclick={onopen} />
 	</div>
 
 	{#if open}

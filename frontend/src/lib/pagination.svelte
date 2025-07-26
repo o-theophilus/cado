@@ -152,7 +152,6 @@
 		background-color: var(--button);
 		fill: var(--ft2_b);
 		border: none;
-		cursor: pointer;
 		font-weight: 700;
 
 		transition:

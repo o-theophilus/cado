@@ -102,7 +102,6 @@
 
 		border: none;
 		color: var(--ft2);
-		cursor: pointer;
 
 		transition: outline-color var(--trans);
 	}

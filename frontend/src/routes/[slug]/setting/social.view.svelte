@@ -85,7 +85,6 @@
 
 		border: none;
 		background-color: var(--bg2);
-		cursor: pointer;
 
 		transition:
 			background-color var(--trans),
