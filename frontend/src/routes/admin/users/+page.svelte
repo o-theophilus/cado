@@ -2,7 +2,7 @@
 	import { flip } from 'svelte/animate';
 	import { cubicInOut } from 'svelte/easing';
 
-	import UpdateUrl from '$lib/update_url.svelte';
+	import { UpdateUrl } from '$lib/macro';
 
 	import { BackButton } from '$lib/button';
 	import { Row } from '$lib/layout';

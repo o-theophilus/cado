@@ -7,7 +7,7 @@
 	import { Meta } from '$lib/page';
 	import User from '../users/user.svelte';
 	import { Pagination, Dropdown, Search } from '$lib/page';
-	import UpdateUrl from '$lib/update_url.svelte';
+	import {UpdateUrl} from '$lib/macro';
 
 	export let data;
 	$: users = data.users;
