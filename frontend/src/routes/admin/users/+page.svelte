@@ -6,10 +6,10 @@
 
 	import { BackButton } from '$lib/button';
 	import { Row } from '$lib/layout';
-	import Meta from '$lib/meta.svelte';
-	import Pagination from '$lib/pagination.svelte';
+	import { Meta } from '$lib/page';
+	import { Pagination } from '$lib/input';
 	import DropPlus from '$lib/dropdown.svelte';
-	import Search from '$lib/search.svelte';
+	import { Search } from '$lib/layout';
 	import User from './user.svelte';
 
 	export let data;

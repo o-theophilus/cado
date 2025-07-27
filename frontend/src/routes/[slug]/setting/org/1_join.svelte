@@ -2,13 +2,12 @@
 	import { token, notify, loading } from '$lib/store.svelte.js';
 
 	import { Button } from '$lib/button';
-	import { Row } from '$lib/layout';
+	import { Row, Error } from '$lib/layout';
 	import Icon from '$lib/icon.svelte';
 	import Note from '$lib/note.svelte';
-	import NoteOrg from '$lib/note.org.svelte';
+	import NoteOrg from './_org.svelte';
 
-	let { card, status, update } = $props();
-	let error = $state({});
+	let { card, status, error = $bindable(), update } = $props();
 
 	const submit = async () => {
 		loading.open('Sending Request . . .');
@@ -35,6 +34,8 @@
 	};
 </script>
 
+<Error error={error.error} --error-margin-bottom="16px"></Error>
+
 <Note>
 	{#snippet title()}
 		Are you sure you want to link this card to the Organization below?
@@ -44,12 +45,6 @@
 	{/snippet}
 </Note>
 
-{#if error.error}
-	<div class="error">
-		{error.error}
-	</div>
-{/if}
-
 <Row --row-gap="8px">
 	<Button onclick={submit}>
 		Link
@@ -57,6 +52,7 @@
 	</Button>
 	<Button
 		onclick={() => {
+			error = {};
 			status.value = 0;
 		}}
 	>
@@ -66,8 +62,4 @@
 </Row>
 
 <style>
-	.error {
-		margin: var(--sp2) 0;
-		font-size: small;
-	}
 </style>

@@ -1,13 +1,11 @@
 <script>
 	import { module, loading, token } from '$lib/store.svelte.js';
 
-	import IG from '$lib/input_group.svelte';
+	import { IG } from '$lib/input';
 	import Icon from '$lib/icon.svelte';
-	import Password from './password_checker.svelte';
 	import { Button } from '$lib/button';
-	import ShowPassword from './password_show.svelte';
 
-	import Dialogue from '$lib/dialogue.svelte';
+	import { Dialogue } from '$lib/modal';
 	import Login from './login.svelte';
 
 	let form = $state({ ...module.value });
@@ -74,29 +72,16 @@
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
 	<div class="page_title">Forgot Password</div>
 
-	{#if error.error}
-		<div class="error">
-			{error.error}
-		</div>
-	{/if}
+	<Error error={error.error} block></Error>
 
 	<IG
 		name="Password"
 		icon="key"
 		error={error.password}
 		bind:value={form.password}
-		type={show_password ? 'text' : 'password'}
+		type="password++"
 		placeholder="Password here"
-	>
-		{#snippet right()}
-			<div class="right">
-				<ShowPassword bind:show_password />
-			</div>
-		{/snippet}
-		{#snippet down()}
-			<Password password={form.password} />
-		{/snippet}
-	</IG>
+	></IG>
 
 	<IG
 		name="Confirm Password"
@@ -116,13 +101,5 @@
 <style>
 	form {
 		padding: var(--sp3);
-	}
-
-	.error {
-		margin: var(--sp2) 0;
-	}
-
-	.right {
-		padding-right: var(--sp2);
 	}
 </style>

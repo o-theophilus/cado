@@ -5,11 +5,9 @@
 	import { Row } from '$lib/layout';
 	import Icon from '$lib/icon.svelte';
 	import Note from '$lib/note.svelte';
-	import NoteOrg from '$lib/note.org.svelte';
+	import NoteOrg from './_org.svelte';
 
-	let { card, status, update, active_card } = $props();
-
-	let error = $state({});
+	let { card, status, error = $bindable(), update, active_card } = $props();
 
 	const submit = async () => {
 		error = {};
@@ -38,9 +36,9 @@
 <Note status="400">
 	{#snippet title()}
 		Are you sure you want to
-		{#if status.prev_value == 2}
+		{#if card.status == 'pending'}
 			cancel your request to become a member of
-		{:else if status.prev_value == 4}
+		{:else if card.status == 'live'}
 			unlink this card from
 		{/if}
 		this organization?
@@ -50,12 +48,6 @@
 	{/snippet}
 </Note>
 
-{#if error.error}
-	<div class="error">
-		{error.error}
-	</div>
-{/if}
-
 <Row --row-gap="8px">
 	<Button onclick={submit}>
 		Cancel Request
@@ -63,7 +55,8 @@
 	</Button>
 	<Button
 		onclick={() => {
-			status.value = status.prev_value;
+			error = {};
+			status.value = 2;
 		}}
 	>
 		back
@@ -72,8 +65,4 @@
 </Row>
 
 <style>
-	.error {
-		margin: var(--sp2) 0;
-		font-size: small;
-	}
 </style>

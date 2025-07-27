@@ -1,12 +1,15 @@
 <script>
-	import Card from '$lib/card.svelte';
+	import { Card } from '$lib/layout';
 
-	import Request from './1_request_code.svelte';
-	import Check from './2_check_code.svelte';
-	import Password from './3_password.svelte';
+	import Request from './0_request_code.svelte';
+	import Check from './1_check_code.svelte';
+	import Password from './2_password.svelte';
+	import { Error } from '$lib/layout';
 
 	let { active_card } = $props();
-	let form = $state({ state: 0 });
+	let form = $state({});
+	let status = $state({ value: 0 });
+	let error = $state({});
 	let name = 'password';
 </script>
 
@@ -15,11 +18,13 @@
 		Change Password
 	{/snippet}
 
-	{#if form.state == 0}
-		<Request bind:form />
-	{:else if form.state == 1}
-		<Check bind:form />
-	{:else if form.state == 2}
-		<Password bind:form bind:active_card />
+	<Error error={error.error} block --error-margin-top="0"></Error>
+
+	{#if status.value == 0}
+		<Request {status} bind:error />
+	{:else if status.value == 1}
+		<Check {form} {status} bind:error />
+	{:else if status.value == 2}
+		<Password {form} {status} bind:error bind:active_card />
 	{/if}
 </Card>

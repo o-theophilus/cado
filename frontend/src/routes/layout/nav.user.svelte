@@ -6,7 +6,7 @@
 	import { user } from '$lib/store.svelte.js';
 
 	import Link from './nav.btn.svelte';
-	import Logout from '$lib/auth/logout.svelte';
+	import { Logout } from '$lib/auth';
 	import Avatar from '$lib/avatar.svelte';
 	import Icon from '$lib/icon.svelte';
 

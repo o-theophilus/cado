@@ -4,9 +4,9 @@
 
 	import { BackButton } from '$lib/button';
 	import { Row } from '$lib/layout';
-	import Meta from '$lib/meta.svelte';
+	import { Meta } from '$lib/page';
 	import User from '../users/user.svelte';
-	import Pagination from '$lib/pagination.svelte';
+	import { Pagination } from '$lib/input';
 	import Search from './search.svelte';
 	import DropPlus from '$lib/dropdown.svelte';
 	import UpdateUrl from '$lib/update_url.svelte';

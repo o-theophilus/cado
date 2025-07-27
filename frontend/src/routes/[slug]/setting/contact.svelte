@@ -1,12 +1,12 @@
 <script>
+	import { onMount } from 'svelte';
 	import { notify, loading, token } from '$lib/store.svelte.js';
 
-	import IG from '$lib/input_group.svelte';
+	import { IG } from '$lib/input';
 	import { Button } from '$lib/button';
 	import Icon from '$lib/icon.svelte';
-	import Card from '$lib/card.svelte';
-	import Dropdown from '$lib/dropdown.svelte';
-	import { onMount } from 'svelte';
+	import { Card, Error } from '$lib/layout';
+	import { Dropdown } from '$lib/input';
 
 	let { card, active_card, update } = $props();
 
@@ -83,11 +83,7 @@
 	{/snippet}
 
 	<form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
-		{#if error.error}
-			<div class="error">
-				{error.error}
-			</div>
-		{/if}
+		<Error error={error.error} block --error-margin-top="0"></Error>
 
 		<IG
 			name="Phone Number"
@@ -133,7 +129,4 @@
 </Card>
 
 <style>
-	.error {
-		margin: var(--sp2) 0;
-	}
 </style>

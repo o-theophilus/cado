@@ -1,5 +1,5 @@
 <script>
-	import Meta from '$lib/meta.svelte';
+	import { Meta } from '$lib/page';
 	import { BackButton } from '$lib/button';
 	import { Row } from '$lib/layout';
 
@@ -9,7 +9,7 @@
 	import Social from './social.svelte';
 	import Org from './org/index.svelte';
 	import Email from './email/index.svelte';
-	import Delete from './delete.svelte';
+	import Delete from './delete/index.svelte';
 
 	let { data } = $props();
 	let card = $state(data.card);
@@ -54,8 +54,8 @@
 	<div class="page_title small">Advanced</div>
 
 	<Org {card} bind:active_card {update} />
-	<Email entity={card} _type="card" bind:active_card {update} />
-	<Delete entity={card} _type="card" bind:active_card />
+	<Email entity={card} type="card" bind:active_card {update} />
+	<Delete entity={card} type="card" bind:active_card />
 </section>
 
 <style>

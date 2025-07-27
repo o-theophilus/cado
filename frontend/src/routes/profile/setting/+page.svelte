@@ -1,14 +1,14 @@
 <script>
 	import { user } from '$lib/store.svelte.js';
 
-	import Meta from '$lib/meta.svelte';
+	import { Meta } from '$lib/page';
 
 	import Photo from '../../[slug]/setting/photo.svelte';
 	import Info from './info.svelte';
 	import Contact from './contact.svelte';
 	import Email from './email/index.svelte';
 	import Password from './password/index.svelte';
-	import Delete from './delete.svelte';
+	import Delete from './delete/index.svelte';
 
 	let active_card = $state({
 		value: null,

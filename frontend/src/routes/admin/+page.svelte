@@ -1,7 +1,7 @@
 <script>
 	import { user } from '$lib/store.svelte.js';
 
-	import Meta from '$lib/meta.svelte';
+	import { Meta } from '$lib/page';
 	import { Button } from '$lib/button';
 </script>
 

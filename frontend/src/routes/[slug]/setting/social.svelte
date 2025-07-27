@@ -3,7 +3,7 @@
 
 	import { Button } from '$lib/button';
 	import Icon from '$lib/icon.svelte';
-	import Card from '$lib/card.svelte';
+	import { Card, Error } from '$lib/layout';
 	import Social from './social.add.svelte';
 	import View from './social.view.svelte';
 
@@ -50,11 +50,7 @@
 	{/snippet}
 
 	<form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
-		{#if error.error}
-			<div class="error">
-				{error.error}
-			</div>
-		{/if}
+		<Error error={error.error} block --error-margin-top="0"></Error>
 
 		<Social bind:value={form.social_links} {list}></Social>
 		<View bind:value={form.social_links} {list}></View>
@@ -68,7 +64,4 @@
 </Card>
 
 <style>
-	.error {
-		margin: var(--sp2) 0;
-	}
 </style>

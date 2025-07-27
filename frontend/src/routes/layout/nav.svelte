@@ -4,7 +4,7 @@
 	import Link from './nav.btn.svelte';
 	import User from './nav.user.svelte';
 	import Notifications from './nav.notifications.svelte';
-	import Login from '$lib/auth/login.svelte';
+	import { Login } from '$lib/auth';
 	import Signup from '$lib/auth/signup.svelte';
 </script>
 

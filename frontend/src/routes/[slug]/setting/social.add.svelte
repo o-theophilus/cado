@@ -1,9 +1,8 @@
 <script>
-	import IG from '$lib/input_group.svelte';
+	import { IG, Dropdown } from '$lib/input';
 	import { Button } from '$lib/button';
-	import { Row, Br } from '$lib/layout';
+	import { Row, Br, Error } from '$lib/layout';
 	import Icon from '$lib/icon.svelte';
-	import Dropdown from '$lib/dropdown.svelte';
 
 	let { value = $bindable(), list } = $props();
 	let error = $state('');
@@ -39,11 +38,7 @@
 </script>
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
-	{#if error}
-		<div class="error">
-			{error}
-		</div>
-	{/if}
+	<Error {error} --error-margin-bottom="16px"></Error>
 
 	<Row nowrap>
 		{#key _list}
@@ -90,10 +85,5 @@
 		padding: var(--sp2);
 		border: 2px solid var(--bg2);
 		border-radius: var(--sp0);
-	}
-
-	.error {
-		margin: var(--sp1) 0;
-		font-size: smaller;
 	}
 </style>

@@ -1,11 +1,14 @@
 <script>
-	import Card from '$lib/card.svelte';
+	import { Card } from '$lib/layout';
 
-	import RequestCode from './1_request_code.svelte';
-	import CheckCode from './2_check_code.svelte';
+	import { Error } from '$lib/layout';
+	import RequestCode from './0_request_code.svelte';
+	import CheckCode from './1_check_code.svelte';
 
-	let { entity, _type, active_card, update } = $props();
-	let form = $state({ state: 0 });
+	let { entity, type, active_card, update } = $props();
+	let form = $state({});
+	let status = $state({ value: 0 });
+	let error = $state({});
 	let name = 'email';
 </script>
 
@@ -14,9 +17,11 @@
 		Change Email
 	{/snippet}
 
-	{#if form.state == 0}
-		<RequestCode {entity} {_type} bind:form />
-	{:else if form.state == 1}
-		<CheckCode {entity} {_type} bind:form bind:active_card {update} />
+	<Error error={error.error} block --error-margin-top="0"></Error>
+
+	{#if status.value == 0}
+		<RequestCode {entity} {type} {form} {status} bind:error />
+	{:else if status.value == 1}
+		<CheckCode {entity} {type} {form} {status} bind:error bind:active_card {update} />
 	{/if}
 </Card>

@@ -6,9 +6,7 @@
 	import Nav from './layout/nav.svelte';
 	import Footer from './layout/footer.svelte';
 
-	import Module from './layout/_module.svelte';
-	import Loading from './layout/_loading.svelte';
-	import Notify from './layout/_notify.svelte';
+	import { Module, Loading, Notify } from '$lib/modal';
 
 	let { data, children } = $props();
 	user.value = data.locals.user;

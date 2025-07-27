@@ -3,12 +3,12 @@
 	import { flip } from 'svelte/animate';
 	import { cubicInOut } from 'svelte/easing';
 
-	import Meta from '$lib/meta.svelte';
+	import { Meta } from '$lib/page';
 
-	import Pagination from '$lib/pagination+.svelte';
-	import Search from '$lib/search+.svelte';
-	import Dropdown from '$lib/dropdown+.svelte';
-	import Radio from '$lib/radio+.svelte';
+	import { Pagination } from '$lib/page';
+	import { Search } from '$lib/page';
+	import { Dropdown } from '$lib/page';
+	import { Radio } from '$lib/page';
 	import Note from '$lib/note.2.svelte';
 
 	import { BackButton } from '$lib/button';

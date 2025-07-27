@@ -1,10 +1,9 @@
 <script>
 	import { module, loading, token } from '$lib/store.svelte.js';
 
-	import IG from '$lib/input_group.svelte';
+	import { IG } from '$lib/input';
 	import Icon from '$lib/icon.svelte';
 	import { Button } from '$lib/button';
-	import Code from '$lib/input_code.svelte';
 
 	import Password from './forgot_3.password.svelte';
 
@@ -47,13 +46,10 @@
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
 	<div class="page_title">Forgot Password</div>
 
-	{#if error.error}
-		<div class="error">
-			{error.error}
-		</div>
-	{/if}
+	<Error error={error.error} block></Error>
 
 	<div>
+		<!-- FIXME: check this br -->
 		<br />
 		Verification Code has been sent to:
 
@@ -62,11 +58,7 @@
 		</b>
 	</div>
 
-	<IG name="Verification Code" error={error.code}>
-		{#snippet input()}
-			<Code bind:value={form.code} />
-		{/snippet}
-	</IG>
+	<IG name="Verification Code" bind:value={form.code} type="code" error={error.code}></IG>
 
 	<Button onclick={validate_submit}
 		>Submit
@@ -77,9 +69,5 @@
 <style>
 	form {
 		padding: var(--sp3);
-	}
-
-	.error {
-		margin: var(--sp2) 0;
 	}
 </style>

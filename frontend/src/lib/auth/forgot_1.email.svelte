@@ -1,7 +1,7 @@
 <script>
 	import { module, loading, token } from '$lib/store.svelte.js';
 
-	import IG from '$lib/input_group.svelte';
+	import { IG } from '$lib/input';
 	import Icon from '$lib/icon.svelte';
 	import { Button, Link } from '$lib/button';
 
@@ -51,11 +51,7 @@
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
 	<div class="page_title">Forgot Password</div>
 
-	{#if error.error}
-		<div class="error">
-			{error.error}
-		</div>
-	{/if}
+	<Error error={error.error} block></Error>
 
 	<IG
 		name="Email"
@@ -90,9 +86,5 @@
 <style>
 	form {
 		padding: var(--sp3);
-	}
-
-	.error {
-		margin: var(--sp2) 0;
 	}
 </style>

@@ -2,7 +2,7 @@
 	import { slide } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
 
-	import Meta from '$lib/meta.svelte';
+	import { Meta } from '$lib/page';
 	import { BackButton, FoldButton } from '$lib/button';
 	import { Row } from '$lib/layout';
 

@@ -2,13 +2,12 @@
 	import { flip } from 'svelte/animate';
 	import { cubicInOut } from 'svelte/easing';
 
-	import IG from '$lib/input_group.svelte';
+	import { IG } from '$lib/input';
 	import { Button } from '$lib/button';
-	import { Row } from '$lib/layout';
+	import { Row, Error } from '$lib/layout';
 	import Icon from '$lib/icon.svelte';
 
 	let { value = $bindable(), error } = $props();
-
 	let _err = $state({});
 	let form = $state({ address: null, url: null });
 
@@ -45,6 +44,7 @@
 </script>
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
+	<Error error={error.address} --error-margin-top="16px"></Error>
 	<IG
 		name="Address"
 		icon="location_on"
@@ -62,12 +62,6 @@
 		</Button>
 	</Row>
 </form>
-{#if error.address}
-	<br />
-	<div class="error">
-		{error.address}
-	</div>
-{/if}
 
 <div>
 	{#each value as i (i.address)}

@@ -1,7 +1,7 @@
 <script>
 	import { user } from '$lib/store.svelte.js';
 
-	import Meta from '$lib/meta.svelte';
+	import { Meta } from '$lib/page';
 	import { RoundButton } from '$lib/button';
 	import { Row } from '$lib/layout';
 	import Icon from '$lib/icon.svelte';

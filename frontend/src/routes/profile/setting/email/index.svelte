@@ -1,13 +1,16 @@
 <script>
-	import Card from '$lib/card.svelte';
+	import { Card } from '$lib/layout';
 
-	import OldRequest from './1_old_request_code.svelte';
-	import OldCheck from './2_old_check_code.svelte';
-	import NewRequest from './3_new_request_code.svelte';
-	import NewCheck from './4_new_check_code.svelte';
+	import OldRequest from './0_old_request_code.svelte';
+	import OldCheck from './1_old_check_code.svelte';
+	import NewRequest from './2_new_request_code.svelte';
+	import NewCheck from './3_new_check_code.svelte';
+	import { Error } from '$lib/layout';
 
 	let { active_card, update } = $props();
-	let form = $state({ state: 0 });
+	let form = $state({});
+	let status = $state({ value: 0 });
+	let error = $state({});
 	let name = 'email';
 </script>
 
@@ -16,13 +19,15 @@
 		Change Email
 	{/snippet}
 
-	{#if form.state == 0}
-		<OldRequest bind:form />
-	{:else if form.state == 1}
-		<OldCheck bind:form />
-	{:else if form.state == 2}
-		<NewRequest bind:form />
-	{:else if form.state == 3}
-		<NewCheck bind:form bind:active_card {update} />
+	<Error error={error.error} block --error-margin-top="0"></Error>
+
+	{#if status.value == 0}
+		<OldRequest bind:error {status} />
+	{:else if status.value == 1}
+		<OldCheck {form} bind:error {status} />
+	{:else if status.value == 2}
+		<NewRequest {form} bind:error {status} />
+	{:else if status.value == 3}
+		<NewCheck {form} bind:error bind:active_card {update} {status} />
 	{/if}
 </Card>

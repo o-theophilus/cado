@@ -5,11 +5,11 @@
 	import { onMount } from 'svelte';
 	import { module, user } from '$lib/store.svelte.js';
 
-	import Meta from '$lib/meta.svelte';
+	import { Meta } from '$lib/page';
 	import Icon from '$lib/icon.svelte';
 	import { Button } from '$lib/button';
-	import Dialogue from '$lib/dialogue.svelte';
-	import Login from '$lib/auth/login.svelte';
+	import { Dialogue } from '$lib/modal';
+	import { Login } from '$lib/auth';
 
 	const get_module = (x) => {
 		if (x == 'login') {

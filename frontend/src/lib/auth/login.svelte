@@ -2,18 +2,16 @@
 	import { page } from '$app/state';
 	import { module, loading, token } from '$lib/store.svelte.js';
 
-	import IG from '$lib/input_group.svelte';
+	import { IG } from '$lib/input';
 	import { Button, Link } from '$lib/button';
-	import { Row } from '$lib/layout';
+	import { Row, Error } from '$lib/layout';
 	import Icon from '$lib/icon.svelte';
 	import Signup from './signup.svelte';
 	import Forgot from './forgot_1.email.svelte';
-	import ShowPassword from './password_show.svelte';
 	import EmailTemplate from './confirm.template.svelte';
 	import Confirm from './confirm.svelte';
 
 	let email_template;
-	let show_password = $state(false);
 	let form = $state({
 		email: module.value.email
 	});
@@ -68,11 +66,8 @@
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
 	<div class="page_title">Login</div>
-	{#if error.error}
-		<div class="error">
-			{error.error}
-		</div>
-	{/if}
+
+	<Error error={error.error} block></Error>
 
 	<IG
 		name="Email"
@@ -88,15 +83,9 @@
 		icon="key"
 		error={error.password}
 		placeholder="Password here"
-		type={show_password ? 'text' : 'password'}
+		type="password+"
 		bind:value={form.password}
-	>
-		{#snippet right()}
-			<div class="right">
-				<ShowPassword bind:show_password />
-			</div>
-		{/snippet}
-	</IG>
+	></IG>
 
 	<Button onclick={validate}>
 		Submit
@@ -131,12 +120,6 @@
 <style>
 	form {
 		padding: var(--sp3);
-	}
-	.error {
-		margin: var(--sp2) 0;
-	}
-	.right {
-		padding-right: var(--sp2);
 	}
 
 	.divider {

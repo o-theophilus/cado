@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/state';
-	import Meta from '$lib/meta.svelte';
+	import { Meta } from '$lib/page';
 	import Icon from '$lib/icon.svelte';
 	import { Button } from '$lib/button';
 

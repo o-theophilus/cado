@@ -1,27 +1,23 @@
 <script>
-	import Card from '$lib/card.svelte';
+	import { Card, Error } from '$lib/layout';
 	import { onMount } from 'svelte';
 	import Search from './0_search.svelte';
 	import Join from './1_join.svelte';
-	import Pending from './2_pending.svelte';
+	import Org from './2_org.svelte';
 	import Cancel from './3_cancel.svelte';
-	import Org from './4_org.svelte';
 
 	let { card, active_card } = $props();
 
-	let status = $state({
-		value: 0
-	});
+	let status = $state({ value: 0 });
+	let error = $state({});
 
 	const update = (n) => {
 		card = n;
 	};
 
 	onMount(() => {
-		if (card.status == 'pending') {
+		if (['pending', 'live'].includes(card.status)) {
 			status.value = 2;
-		} else if (card.status == 'live') {
-			status.value = 4;
 		}
 	});
 
@@ -33,16 +29,16 @@
 		Organization
 	{/snippet}
 
+	<Error error={error.error} block --error-margin-top="0"></Error>
+
 	{#if status.value == 0}
-		<Search {status} />
+		<Search {status} bind:error />
 	{:else if status.value == 1}
-		<Join {card} {status} {update} />
+		<Join {card} {status} {update} bind:error />
 	{:else if status.value == 2}
-		<Pending {card} {status} />
+		<Org {card} {status} bind:error />
 	{:else if status.value == 3}
-		<Cancel {card} {status} {update} {active_card} />
-	{:else if status.value == 4}
-		<Org {card} {status} />
+		<Cancel {card} {status} {update} {active_card} bind:error />
 	{/if}
 </Card>
 

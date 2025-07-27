@@ -41,9 +41,6 @@ button{
 	cursor: pointer;
 }
 
-.error {
-	color: var(--cl2);
-}
 
 hr {
 	border: none;

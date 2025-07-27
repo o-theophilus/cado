@@ -1,16 +1,14 @@
 <script>
 	import * as htmlToImage from 'html-to-image';
 
-	import Log from '$lib/log.svelte';
-	import Meta from '$lib/meta.svelte';
+	import { Log } from '$lib/Macro';
+	import { Meta } from '$lib/page';
 	import Icon from '$lib/icon.svelte';
 	import { Button, Link } from '$lib/button';
 
 	import Header from './header.svelte';
 	import NameJobPhoto from './name_job_photo.svelte';
-
 	import Socials from './socials.svelte';
-
 	import BusinessCard from './business_card.svelte';
 	import Org from '../@[slug]/org.svelte';
 
@@ -20,6 +18,7 @@
 
 <Log action={'viewed'} entity_key={card.key} entity_type={'card'} />
 
+<!-- TODO: review all meta -->
 <Meta title={card.firstname} />
 <Header {card} />
 <NameJobPhoto {card} />

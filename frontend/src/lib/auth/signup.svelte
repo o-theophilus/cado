@@ -1,12 +1,10 @@
 <script>
 	import { module, loading, token } from '$lib/store.svelte.js';
 
-	import IG from '$lib/input_group.svelte';
+	import { IG } from '$lib/input';
 	import { Button, Link } from '$lib/button';
 	import Icon from '$lib/icon.svelte';
-	import Password from './password_checker.svelte';
 	import Login from './login.svelte';
-	import ShowPassword from './password_show.svelte';
 	import EmailTemplate from './confirm.template.svelte';
 	import Confirm from './confirm.svelte';
 
@@ -77,11 +75,9 @@
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
 	<div class="page_title">Signup</div>
-	{#if error.error}
-		<div class="error">
-			{error.error}
-		</div>
-	{/if}
+
+	<Error error={error.error} block></Error>
+
 	<IG
 		name="Firstname"
 		icon="person"
@@ -111,25 +107,18 @@
 		icon="key"
 		error={error.password}
 		placeholder="Password here"
-		type={show_password ? 'text' : 'password'}
+		type="password++"
 		bind:value={form.password}
-	>
-		{#snippet right()}
-			<div class="right">
-				<ShowPassword bind:show_password />
-			</div>
-		{/snippet}
-		{#snippet down()}
-			<Password password={form.password} />
-		{/snippet}
-	</IG>
+		bind:show_password
+	></IG>
 	<IG
 		name="Confirm Password"
 		icon="key"
 		error={error.confirm_password}
 		placeholder="Password here"
-		type={show_password ? 'text' : 'password'}
+		type="password"
 		bind:value={form.confirm_password}
+		bind:show_password
 	/>
 
 	<Button onclick={validate}>
@@ -156,11 +145,5 @@
 <style>
 	form {
 		padding: var(--sp3);
-	}
-	.error {
-		margin: var(--sp2) 0;
-	}
-	.right {
-		padding-right: var(--sp2);
 	}
 </style>

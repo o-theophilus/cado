@@ -4,3 +4,4 @@ export { default as BackButton } from './button.round.back.svelte';
 export { default as FoldButton } from './button.round.fold.svelte';
 export { default as Tag } from './button.tag.svelte';
 export { default as Link } from './link.svelte';
+export { default as Radio } from './radio.svelte';

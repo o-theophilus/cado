@@ -2,9 +2,8 @@
 	import { loading, notify, token } from '$lib/store.svelte.js';
 
 	import { Button } from '$lib/button';
-	import { Row } from '$lib/layout';
+	import { Card, Row, Error, Br } from '$lib/layout';
 	import Icon from '$lib/icon.svelte';
-	import Card from '$lib/card.svelte';
 
 	let { entity, _type, name = 'photo', active_card, update } = $props();
 
@@ -22,6 +21,7 @@
 		}
 
 		Object.keys(error).length === 0 && submit(file);
+		// FIXME: use return
 	};
 
 	const submit = async (file) => {
@@ -85,6 +85,7 @@
 <Card open={active_card.value == name} onopen={() => active_card.set(name)}>
 	{#snippet title()}
 		<span class="capitalize">
+			<!-- FIXME: do capitalize in the card component -->
 			{name}
 		</span>
 	{/snippet}
@@ -127,13 +128,8 @@
 		}}
 	/>
 
-	{#if error.error}
-		<div class="error">
-			{@html error.error}
-		</div>
-	{/if}
-
-	<br />
+	<Error error={error.error} --error-margin-top="8px"></Error>
+	<Br --br-height="16px" />
 
 	<Row --row-gap="8px">
 		<Button
@@ -163,11 +159,6 @@
 </Card>
 
 <style>
-	.error {
-		margin-top: var(--sp2);
-		font-size: small;
-	}
-
 	img {
 		width: 100%;
 		max-width: 200px;

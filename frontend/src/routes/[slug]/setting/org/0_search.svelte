@@ -1,15 +1,14 @@
 <script>
 	import { loading } from '$lib/store.svelte.js';
 
-	import IG from '$lib/input_group.svelte';
+	import { IG } from '$lib/input';
 	import { Button } from '$lib/button';
 	import Icon from '$lib/icon.svelte';
 	import Note from '$lib/note.svelte';
 
-	let { status } = $props();
+	let { status, error = $bindable() } = $props();
 
 	let name = $state('');
-	let error = $state({});
 
 	const validate = () => {
 		error = {};
@@ -38,12 +37,6 @@
 </script>
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
-	{#if error.error}
-		<div class="error">
-			{error.error}
-		</div>
-	{/if}
-
 	<Note>
 		{#snippet title()}
 			This card is not linked to any organization
@@ -70,8 +63,4 @@
 </form>
 
 <style>
-	.error {
-		margin: var(--sp2) 0;
-		font-size: small;
-	}
 </style>
