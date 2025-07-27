@@ -6,9 +6,7 @@
 	import { Row } from '$lib/layout';
 	import { Meta } from '$lib/page';
 	import User from '../users/user.svelte';
-	import { Pagination } from '$lib/input';
-	import Search from './search.svelte';
-	import DropPlus from '$lib/dropdown.svelte';
+	import { Pagination, Dropdown, Search } from '$lib/page';
 	import UpdateUrl from '$lib/update_url.svelte';
 
 	export let data;
@@ -28,7 +26,7 @@
 			<div class="page_title">
 				Admin{users.length > 1 ? 's' : ''}
 			</div>
-			<DropPlus name="order" list={order_by} />
+			<Dropdown name="order" list={order_by} />
 		</Row>
 	</Row>
 

@@ -7,9 +7,7 @@
 	import { BackButton } from '$lib/button';
 	import { Row } from '$lib/layout';
 	import { Meta } from '$lib/page';
-	import { Pagination } from '$lib/input';
-	import DropPlus from '$lib/dropdown.svelte';
-	import { Search } from '$lib/layout';
+	import { Pagination, Dropdown, Search } from '$lib/page';
 	import User from './user.svelte';
 
 	export let data;
@@ -29,12 +27,12 @@
 			User{users.length > 1 ? 's' : ''}
 		</div>
 
-		<!-- <DropPlus name="status" list={['all', ..._status]} default_value="all" /> -->
+		<!-- <Dropdown name="status" list={['all', ..._status]} default_value="all" /> -->
 	</Row>
 
 	<div class="search_bar">
 		<Search />
-		<DropPlus name="order" list={order_by} icon="sort" />
+		<Dropdown name="order" list={order_by} icon="sort" />
 	</div>
 
 	{#each users as x (x.key)}
