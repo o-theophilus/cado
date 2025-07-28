@@ -2,7 +2,7 @@
 </script>
 
 <footer>
-	<div class="copy">© 2025 | URLinks</div>
+	<div class="copy">© 2025 | Cado</div>
 </footer>
 
 <style>

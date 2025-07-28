@@ -1,6 +1,5 @@
 <script>
-	export let active = true;
-	export let size = 50;
+	let { active = true, size = 50 } = $props();
 </script>
 
 {#if active}

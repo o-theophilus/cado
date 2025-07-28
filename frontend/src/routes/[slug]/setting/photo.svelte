@@ -84,10 +84,7 @@
 
 <Card open={active_card.value == name} onopen={() => active_card.set(name)}>
 	{#snippet title()}
-		<span class="capitalize">
-			<!-- FIXME: do capitalize in the card component -->
-			{name}
-		</span>
+		{name}
 	{/snippet}
 
 	<br />
@@ -174,9 +171,5 @@
 	.dragover {
 		outline-color: var(--cl1);
 		cursor: pointer;
-	}
-
-	.capitalize {
-		text-transform: capitalize;
 	}
 </style>

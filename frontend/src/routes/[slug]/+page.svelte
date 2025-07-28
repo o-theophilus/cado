@@ -18,8 +18,9 @@
 
 <Log action={'viewed'} entity_key={card.key} entity_type={'card'} />
 
-<!-- TODO: review all meta -->
-<Meta title={card.firstname} />
+<!-- TODO: add role and org name -->
+<Meta title="{card.firstname} {card.lastname} - Card" description={card.about} />
+
 <Header {card} />
 <NameJobPhoto {card} />
 
@@ -63,9 +64,13 @@
 			<Icon icon="location_on" size="1.2" />
 			<div>
 				<div class="label">Location:</div>
-				<Link href={card.org.address[card.office_location_id].url}>
+				{#if card.org.address[card.office_location_id].url}
+					<Link href={card.org.address[card.office_location_id].url} blank>
+						{card.org.address[card.office_location_id].address}
+					</Link>
+				{:else}
 					{card.org.address[card.office_location_id].address}
-				</Link>
+				{/if}
 			</div>
 		</div>
 	{/if}
@@ -124,6 +129,7 @@
 
 	.address {
 		max-width: 500px;
+		font-weight: 800;
 	}
 	.email {
 		word-break: break-all;

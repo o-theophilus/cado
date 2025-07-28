@@ -29,7 +29,7 @@
 	};
 </script>
 
-<Meta title={user.value?.firstname} />
+<Meta title="{user.value.firstname} {user.value.lastname} - Setting" />
 
 <div class="page_title">Setting</div>
 

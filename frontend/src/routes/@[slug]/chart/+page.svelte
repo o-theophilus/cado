@@ -149,6 +149,9 @@
 	<link rel="stylesheet" href="https://code.jscharting.com/latest/jscharting.css" />
 </svelte:head>
 
+
+<Meta title="{org.fullname || org.name} - Organizational Chart" />
+
 <div class="page_title">Organizational Chart</div>
 
 <br />

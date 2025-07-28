@@ -7,8 +7,12 @@
 		image = `${page.url.origin}/image/hero_image.png`
 	} = $props();
 
-	title = `${title} | URLinks`;
+	title = `${title} | Cado`;
 	description = description ? description : title;
+
+	if (page.route.id == '/') {
+		title = 'Cado';
+	}
 </script>
 
 <svelte:head>

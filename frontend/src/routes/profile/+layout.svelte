@@ -21,30 +21,43 @@
 	</Button>
 {/snippet}
 
+<nav>
+	<div class="pos">
+		<Row space>
+			<div>
+				{@render button('/profile', 'person')}
+				{@render button('/profile/card', 'card')}
+				{@render button('/profile/org', 'corporate_fare')}
+			</div>
+
+			{#if page.route.id == '/profile'}
+				<RoundButton icon="settings" tooltip="settings" href="/profile/setting">
+					<Icon icon="settings" size="1.2"></Icon>
+				</RoundButton>
+			{/if}
+		</Row>
+	</div>
+</nav>
+
 <div class="page">
-	<Row space>
-		<div>
-			{@render button('/profile', 'person')}
-			{@render button('/profile/card', 'card')}
-			{@render button('/profile/org', 'corporate_fare')}
-		</div>
-
-		{#if page.route.id == '/profile'}
-			<RoundButton icon="settings" tooltip="settings" href="/profile/setting">
-				<Icon icon="settings" size="1.2"></Icon>
-			</RoundButton>
-		{/if}
-	</Row>
-
-	<br />
+	<!-- <br /> -->
 	{@render children()}
 </div>
 
 <style>
-	.page {
+	nav {
+		border-bottom: 1px solid var(--bg2);
+	}
+
+	.page,
+	.pos {
 		max-width: var(--mobileWidth);
 		width: 100%;
 		margin: auto;
 		padding: var(--sp2);
+	}
+
+	.pos {
+		padding: var(--sp1) var(--sp2);
 	}
 </style>

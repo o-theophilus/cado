@@ -47,6 +47,7 @@
 		display: flex;
 		align-items: center;
 		gap: var(--sp2);
+		text-transform: capitalize;
 
 		transition: font-weight var(--trans);
 	}

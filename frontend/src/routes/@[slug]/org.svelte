@@ -104,16 +104,23 @@
 {/if}
 
 {#if org.address?.length != 0}
-	<div class="group address">
+	<div class="group">
 		<Icon icon="location_on" size="1.3" />
 		<div>
 			<div class="label">Address:</div>
-			{#each org.address as a, i}
-				{#if i > 0}
-					<div class="gap"></div>
-				{/if}
-				<Link href={a.url} blank>{a.address}</Link>
-			{/each}
+			<div class="address">
+				{#each org.address as a, i}
+					{#if i > 0}
+						<div class="gap"></div>
+					{/if}
+
+					{#if a.url}
+						<Link href={a.url} blank>{a.address}</Link>
+					{:else}
+						{a.address}
+					{/if}
+				{/each}
+			</div>
 		</div>
 	</div>
 {/if}
@@ -159,6 +166,7 @@
 
 	.address {
 		max-width: 500px;
+		font-weight: 800;
 	}
 
 	.gap {

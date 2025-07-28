@@ -9,7 +9,7 @@
 
 	<div class="bottom">
 		<div class="right">
-			<RoundButton href="/{card.key}/setting">
+			<RoundButton href="/{card.key}/setting" >
 				<Icon icon="settings" size="1.2"></Icon>
 			</RoundButton>
 		</div>

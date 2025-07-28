@@ -26,7 +26,7 @@ def create_app(conf=None):
     def index():
         return jsonify({
             "status": 200,
-            "message": "Welcome to URLinks"
+            "message": "Welcome to Cado"
         })
 
     app.register_blueprint(api.bp)

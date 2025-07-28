@@ -8,19 +8,14 @@
 	let error = $state({});
 	let status = $state({ value: 0 });
 
-	let _type = $derived.by(() => {
-		let n = type == 'org' ? 'organization' : type;
-		return n.charAt(0).toUpperCase() + n.slice(1);
-	});
-
 	let name = 'delete';
 </script>
 
 <Card open={active_card.value == name} onopen={() => active_card.set(name)}>
 	{#snippet title()}
-		Delete {_type}
+		Delete {type == 'org' ? 'organization' : type}
 	{/snippet}
-	
+
 	<Error error={error.error} block --error-margin-top="0"></Error>
 
 	{#if status.value == 0}

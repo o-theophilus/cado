@@ -39,7 +39,7 @@
 	});
 </script>
 
-<Meta title="Home" description="Welcome to my personal portfolio website." />
+<Meta title="Home" description="Welcome to Cado" />
 
 <div class="frame">
 	<img src="/bg1.jpg" alt="hero" />

@@ -64,13 +64,13 @@
 	};
 </script>
 
-<Meta title={org.name} />
+<Meta title="{org.fullname || org.name} - Cards" />
 
 <section class="page">
 	<Row space>
 		<Row>
 			<BackButton href="/@{org.slug}" />
-			<h1>Organization Cards</h1>
+			<div class="page_title">Organization Cards</div>
 		</Row>
 
 		<Dropdown icon="sort" list={order} caps></Dropdown>

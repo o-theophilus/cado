@@ -2,37 +2,46 @@
 	import { notify } from '$lib/store.svelte.js';
 
 	import Icon from '$lib/icon.svelte';
-	import { RoundButton } from '$lib/button';
 	import { Row } from '$lib/layout';
 
 	let { one } = $props();
 
+	let isDrawn = $state(false);
+	const radius = 50;
+	const circumference = 2 * Math.PI * radius;
+	const time = 5;
+
 	setTimeout(() => {
 		notify.close(one.key);
-	}, 5000);
+	}, time * 1000);
 
-	let to_zero = $state(false);
 	setTimeout(() => {
-		to_zero = true;
+		isDrawn = true;
 	});
 </script>
 
 <div class="notify" class:bad={one.status == 400} class:caution={one.status == 201}>
-	<div class="padding">
-		<Row>
-			<Icon
-				size="2"
-				icon={one.status == 201 ? 'error' : one.status == 400 ? 'cancel' : 'check_circle'}
-			/>
-			{one.message || 'no message'}
-			<RoundButton onclick={() => notify.close(one.key)}>
-				<!-- TODO: fill black -->
-				<Icon icon="close"></Icon>
-			</RoundButton>
-		</Row>
-	</div>
+	<Row nowrap>
+		<Icon
+			size="2"
+			icon={one.status == 201 ? 'error' : one.status == 400 ? 'cancel' : 'check_circle'}
+		/>
+		{one.message || 'no message'}
 
-	<div class="progress" class:to_zero></div>
+		<button onclick={() => notify.close(one.key)}>
+			<Icon icon="close"></Icon>
+			<svg viewBox="0 0 120 120">
+				<circle
+					cx="60"
+					cy="60"
+					r={radius}
+					stroke-dasharray={circumference}
+					stroke-dashoffset={isDrawn ? 0 : circumference}
+					style:--time="{time}s"
+				/>
+			</svg>
+		</button>
+	</Row>
 </div>
 
 <style>
@@ -44,34 +53,70 @@
 		flex-direction: column;
 		align-items: end;
 
-		background-color: var(--cl3);
 		border-radius: var(--sp0);
-		color: var(--ft1_b);
 		fill: currentColor;
 
 		pointer-events: all;
-	}
-
-	.padding {
 		padding: var(--sp2);
+
+		color: var(--cl3);
+		border-left: 16px solid var(--cl3);
+		background-color: color-mix(in srgb, var(--cl3), white 90%);
 	}
-
-	.progress {
-		width: 100%;
-		height: 2px;
-		background-color: var(--bg1);
-
-		transition: width 5s linear;
-	}
-
-	.to_zero {
-		width: 0;
-	}
-
 	.bad {
-		background-color: var(--cl2);
+		color: var(--cl2);
+		border-left: 16px solid var(--cl2);
+		background-color: color-mix(in srgb, var(--cl2), white 90%);
 	}
 	.caution {
-		background-color: var(--cl4);
+		color: var(--cl4);
+		border-left: 16px solid var(--cl4);
+		background-color: color-mix(in srgb, var(--cl4), white 90%);
+	}
+
+	button {
+		--size: 32px;
+
+		position: relative;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		width: var(--size);
+		height: var(--size);
+		border-radius: 50%;
+
+		border: none;
+		background-color: var(--bg1);
+		color: var(--ft1);
+
+		transition:
+			background-color var(--trans),
+			color var(--trans);
+	}
+	button:hover {
+		background-color: var(--cl1_d);
+		color: var(--ft1_b);
+	}
+
+	svg {
+		position: absolute;
+		top: -2px;
+		left: -2px;
+
+		width: calc(var(--size) + 4px);
+		height: calc(var(--size) + 4px);
+
+		pointer-events: none;
+	}
+
+	circle {
+		fill: none;
+		stroke: rgb(183, 183, 183);
+		stroke-width: 8px;
+		transform: rotate(-90deg);
+		transform-origin: 60px 60px;
+		transition: stroke-dashoffset var(--time) ease-in-out;
 	}
 </style>

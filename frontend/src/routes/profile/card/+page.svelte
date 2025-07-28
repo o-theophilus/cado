@@ -1,9 +1,11 @@
 <script>
 	import { module, user } from '$lib/store.svelte.js';
-	import { Button, RoundButton, Tag } from '$lib/button';
+	import { Button } from '$lib/button';
 	import { Row } from '$lib/layout';
+	import { Meta } from '$lib/page';
 	import Icon from '$lib/icon.svelte';
 	import Add from './_add.svelte';
+	import One from './one.svelte';
 	import Note from '$lib/note.2.svelte';
 
 	let { data } = $props();
@@ -17,6 +19,8 @@
 		});
 	};
 </script>
+
+<Meta title="{user.value.firstname} {user.value.lastname} - Card" />
 
 <Row space>
 	<div class="page_title">
@@ -33,28 +37,8 @@
 
 {#if cards && cards.length > 0}
 	<div class="cards">
-		{#each cards as c}
-			<a href="/{c.key}" class="card">
-				<Row space>
-					<Tag>
-						{c.status}
-					</Tag>
-				</Row>
-				<RoundButton href="/{c.key}/setting">
-					<Icon icon="settings" />
-				</RoundButton>
-				<div class="name">
-					{c.firstname}
-					{c.lastname}
-				</div>
-				<div class="role">
-					{c.job_title}
-				</div>
-
-				{#if c.status == 'live'}
-					@ {c.org.name}
-				{/if}
-			</a>
+		{#each cards as card}
+			<One {card} />
 		{/each}
 	</div>
 {:else}
@@ -81,34 +65,5 @@
 		.cards {
 			grid-template-columns: 1fr;
 		}
-	}
-
-	.card {
-		border: 2px solid transparent;
-		border-radius: 8px;
-		padding: var(--sp2);
-
-		/* aspect-ratio: 16 / 9; */
-
-		text-decoration: none;
-		color: var(--ft1);
-		box-shadow: 0 2px 8px rgb(200, 200, 200);
-		/* background-color: var(--bg2); */
-		/* width: 100%; */
-
-		transition: border-color var(--trans);
-	}
-
-	.card:hover {
-		border-color: var(--ft2);
-	}
-
-	.name {
-		font-weight: 800;
-		margin-top: var(--sp2);
-	}
-
-	.role {
-		font-size: small;
 	}
 </style>

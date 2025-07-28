@@ -1,9 +1,15 @@
 <script>
-	// import Tag from '$lib/button/tag.svelte';
-	import { Button } from '$lib/button';
+	import { Button, Tag, RoundButton } from '$lib/button';
 	import Avatar from '$lib/avatar.svelte';
+	import Icon from '$lib/icon.svelte';
 
 	let { card, selected, card_status } = $props();
+
+	const color = () => {
+		if (card.status == 'pending') return 'var(--cl4)';
+		if (card.status == 'live') return 'var(--cl3)';
+		return '';
+	};
 </script>
 
 <div class="card">
@@ -17,9 +23,13 @@
 	</a>
 
 	<div class="actions">
-		<Button onclick={() => selected.add(card.key)}>
+		<Tag
+			onclick={() => selected.add(card.key)}
+			--button-outline-color={color()}
+			--button-color={color()}
+		>
 			{card.status}
-		</Button>
+		</Tag>
 	</div>
 
 	{#if selected.check(card.key)}
@@ -33,7 +43,9 @@
 					<Button no_grow onclick={() => card_status('draft')}>
 						Cancel {selected.value.length > 1 ? 'All' : ''}
 					</Button>
-					<Button icon="close" onclick={() => selected.remove(card.key)}></Button>
+					<RoundButton onclick={() => selected.remove(card.key)}>
+						<Icon icon="close"></Icon>
+					</RoundButton>
 				</div>
 			</div>
 		</div>

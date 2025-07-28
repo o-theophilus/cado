@@ -1,5 +1,4 @@
 <script>
-	// FIXME: search for all "export let"
 	let { error, block = false } = $props();
 </script>
 

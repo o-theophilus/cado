@@ -9,14 +9,14 @@
 	} = $props();
 </script>
 
-{#if href}
-	<a {href} target={blank ? '_blank' : ''} {onmouseenter}>
-		{@render children()}
-	</a>
-{:else if onclick}
+{#if onclick}
 	<button {onclick} {onmouseenter}>
 		{@render children()}
 	</button>
+{:else}
+	<a {href} target={blank ? '_blank' : ''} {onmouseenter}>
+		{@render children()}
+	</a>
 {/if}
 
 <style>

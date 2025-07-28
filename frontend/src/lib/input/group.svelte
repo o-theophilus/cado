@@ -51,7 +51,6 @@
 			<label for={id}>
 				{name}
 				{#if required}
-					<!-- FIXME color this -->
 					<span class="error">*</span>
 				{/if}
 			</label>
@@ -125,5 +124,9 @@
 
 	.show_password {
 		padding-right: var(--sp2);
+	}
+	.error {
+		color: red;
+		font-weight: 1000;
 	}
 </style>

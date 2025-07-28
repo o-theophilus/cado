@@ -24,5 +24,5 @@
 	<br /><br />
 	Warm regards,
 	<br /><br />
-	<b>URLinks</b>
+	<b>Cado</b>
 </Template>

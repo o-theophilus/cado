@@ -33,7 +33,7 @@
 	};
 </script>
 
-<Meta title={card.firstname} />
+<Meta title="{card.firstname} {card.lastname} - Setting" />
 
 <section class="page">
 	<Row>

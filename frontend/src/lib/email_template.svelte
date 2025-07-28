@@ -20,7 +20,7 @@ line-height: 1.5
 	>
 		<img
 			src="{page.url.origin}/logo.png"
-			alt="URLinks logo"
+			alt="Cado logo"
 			style="
 		height: 30px;
 		"
@@ -45,6 +45,6 @@ line-height: 1.5
 	font-size: x-small;
 	color: grey;"
 	>
-		© 2025 | URLinks
+		© 2025 | Cado
 	</div>
 </section>

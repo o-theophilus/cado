@@ -11,7 +11,7 @@
 	let org = data.org;
 </script>
 
-<Meta title={org.name} />
+<Meta title={org.fullname || org.name} description={org.about} />
 
 <section class="content">
 	<Row space>

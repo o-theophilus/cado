@@ -34,7 +34,7 @@
 	};
 </script>
 
-<Meta title={org.firstname} />
+<Meta title="{org.fullname || org.name} - Setting" />
 
 <section class="page">
 	<Row>

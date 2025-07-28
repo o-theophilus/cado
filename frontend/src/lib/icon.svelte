@@ -1,6 +1,5 @@
 <script>
-	export let icon;
-	export let size = 1;
+	let { icon, size = 1 } = $props();
 </script>
 
 {#if icon == 'whatsapp'}

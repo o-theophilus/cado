@@ -8,7 +8,7 @@
 	import Avatar from '$lib/avatar.svelte';
 </script>
 
-<Meta title="{user.value.firstname} Profile" />
+<Meta title="{user.value.firstname} {user.value.lastname} - Profile" />
 
 <section class="content">
 	<div class="page_title">Profile</div>

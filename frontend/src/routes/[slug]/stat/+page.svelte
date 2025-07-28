@@ -48,7 +48,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </svelte:head>
 
-<Meta title={user.value?.firstname} />
+<Meta title="{card.firstname} {card.lastname} - Stat" />
 
 <div class="page">
 	<Row>

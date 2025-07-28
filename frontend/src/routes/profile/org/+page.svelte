@@ -1,7 +1,8 @@
 <script>
-	import { module } from '$lib/store.svelte.js';
+	import { module, user } from '$lib/store.svelte.js';
 	import { Button, RoundButton } from '$lib/button';
 	import { Row } from '$lib/layout';
+	import { Meta } from '$lib/page';
 	import Icon from '$lib/icon.svelte';
 	import Add from './_add.svelte';
 	import Note from '$lib/note.2.svelte';
@@ -13,6 +14,8 @@
 		module.open(Add);
 	};
 </script>
+
+<Meta title="{user.value.firstname} {user.value.lastname} - Organization" />
 
 <Row space>
 	<div class="page_title">
