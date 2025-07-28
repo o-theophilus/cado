@@ -1,5 +1,5 @@
 <script>
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	let { links = {}, name = '' } = $props();
 
 	let icons = ['whatsapp', 'linkedin', 'twitter', 'facebook', 'instagram'];

@@ -4,7 +4,7 @@
 	import { module } from '$lib/store.svelte.js';
 
 	import { RoundButton } from '$lib/button';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 </script>
 
 {#if module.module}

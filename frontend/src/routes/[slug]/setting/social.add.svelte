@@ -2,7 +2,7 @@
 	import { IG, Dropdown } from '$lib/input';
 	import { Button } from '$lib/button';
 	import { Row, Br, Error } from '$lib/layout';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 
 	let { value = $bindable(), list } = $props();
 	let error = $state('');

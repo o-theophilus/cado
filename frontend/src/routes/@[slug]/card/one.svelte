@@ -1,7 +1,7 @@
 <script>
 	import { Button, Tag, RoundButton } from '$lib/button';
 	import Avatar from '$lib/avatar.svelte';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 
 	let { card, selected, card_status } = $props();
 

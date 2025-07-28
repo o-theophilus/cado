@@ -2,7 +2,7 @@
 	import { user } from '$lib/store.svelte.js';
 
 	import { Meta } from '$lib/page';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import { Link } from '$lib/button';
 
 	import Avatar from '$lib/avatar.svelte';

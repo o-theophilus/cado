@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	// import { points } from './data';
+
 	let points = [];
 
 	var selectedPoint;
@@ -149,8 +150,7 @@
 	<link rel="stylesheet" href="https://code.jscharting.com/latest/jscharting.css" />
 </svelte:head>
 
-
-<Meta title="{org.fullname || org.name} - Organizational Chart" />
+<!-- <Meta title="{org.fullname || org.name} - Organizational Chart" /> -->
 
 <div class="page_title">Organizational Chart</div>
 

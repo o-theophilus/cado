@@ -4,7 +4,7 @@
 	import { page_state } from '$lib/store.svelte.js';
 
 	import { Search } from '$lib/layout';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import { Button } from '$lib/button';
 	import { Row } from '$lib/layout';
 	import Drop from '$lib/dropdown.svelte';

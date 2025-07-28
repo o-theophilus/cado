@@ -3,7 +3,7 @@
 
 	import { Log } from '$lib/macro';
 	import { Meta } from '$lib/page';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import { Button, Link } from '$lib/button';
 
 	import Header from './header.svelte';
@@ -14,12 +14,21 @@
 
 	let { data } = $props();
 	let card = data.card;
+	let title = () => {
+		let n = `${card.firstname} ${card.lastname}`;
+		if (card.role) {
+			n += ` - ${card.role}`;
+		}
+		if (card.status == 'live') {
+			n += ` @${card.org.fullname || card.org.name}`;
+		}
+		return n;
+	};
 </script>
 
 <Log action={'viewed'} entity_key={card.key} entity_type={'card'} />
 
-<!-- TODO: add role and org name -->
-<Meta title="{card.firstname} {card.lastname} - Card" description={card.about} />
+<Meta title={title()} description={card.about} />
 
 <Header {card} />
 <NameJobPhoto {card} />

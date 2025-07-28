@@ -4,7 +4,7 @@
 	import { Meta } from '$lib/page';
 	import { RoundButton } from '$lib/button';
 	import { Row } from '$lib/layout';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import Org from './org.svelte';
 
 	let { data } = $props();

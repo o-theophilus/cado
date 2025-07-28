@@ -3,8 +3,8 @@
 
 	import { Button } from '$lib/button';
 	import { IG } from '$lib/input';
-	import Icon from '$lib/icon.svelte';
-	import Note from '$lib/note.svelte';
+	import { Icon } from '$lib/macro';
+	import { FormNote } from '$lib/layout';
 
 	let { org, form, status, error = $bindable() } = $props();
 
@@ -41,11 +41,11 @@
 	};
 </script>
 
-<Note status="201">
+<FormNote status="201">
 	{#snippet title()}
 		Changing your organization's ID will update all associated links.
 	{/snippet}
-</Note>
+</FormNote>
 
 <IG
 	name="Organization ID"

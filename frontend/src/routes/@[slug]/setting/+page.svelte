@@ -2,7 +2,7 @@
 	import { Meta } from '$lib/page';
 	import { RoundButton } from '$lib/button';
 	import { Row } from '$lib/layout';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 
 	import Photo from '../../[slug]/setting/photo.svelte';
 	import Info from './info.svelte';

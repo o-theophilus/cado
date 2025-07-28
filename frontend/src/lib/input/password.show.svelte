@@ -1,5 +1,5 @@
 <script>
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 
 	let { show_password: show = $bindable() } = $props();
 </script>

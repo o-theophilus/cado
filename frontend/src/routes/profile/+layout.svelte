@@ -2,7 +2,7 @@
 	import { page } from '$app/state';
 	import { Button, RoundButton } from '$lib/button';
 	import { Row } from '$lib/layout';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 
 	let { children } = $props();
 </script>

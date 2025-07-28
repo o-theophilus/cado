@@ -2,10 +2,9 @@
 	import { loading, token, notify } from '$lib/store.svelte.js';
 
 	import { Button } from '$lib/button';
-	import { Row } from '$lib/layout';
+	import { Row, FormNote } from '$lib/layout';
 	import { IG } from '$lib/input';
-	import Icon from '$lib/icon.svelte';
-	import Note from '$lib/note.svelte';
+	import { Icon } from '$lib/macro';
 
 	let { form, error = $bindable(), active_card, update, status } = $props();
 
@@ -50,7 +49,7 @@
 </script>
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
-	<Note>
+	<FormNote>
 		{#snippet note()}
 			Verification Code has been sent to:
 			<span>
@@ -58,7 +57,7 @@
 			</span>
 			.
 		{/snippet}
-	</Note>
+	</FormNote>
 
 	<IG name="Verification Code" bind:value={form.code_2} type="code" error={error.code_2}></IG>
 

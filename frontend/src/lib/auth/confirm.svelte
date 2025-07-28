@@ -2,10 +2,10 @@
 	import { module, loading } from '$lib/store.svelte.js';
 
 	import { IG } from '$lib/input';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import { Button } from '$lib/button';
-
 	import { Dialogue } from '$lib/modal';
+	import { Error, FormNote } from '$lib/layout';
 	import Login from './login.svelte';
 
 	let form = $state({ email: module.value.email });
@@ -57,14 +57,15 @@
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
 	<div class="page_title">Confirm Email</div>
-	
-	<Error error={error.error} block></Error>
-	
-	<br />
-	A Verification Code has been sent to your email.
-	<br />
-	<!-- FIXME: remove this br -->
 
+	<Error error={error.error} block></Error>
+
+	<FormNote status="200" --note-margin-top="16px" --note-margin-bottom="16px">
+		{#snippet note()}
+			Verification Code has been sent to:
+			<b> {form.email} </b>
+		{/snippet}
+	</FormNote>
 
 	<IG name="Verification Code" bind:value={form.code} type="code" error={error.code}></IG>
 

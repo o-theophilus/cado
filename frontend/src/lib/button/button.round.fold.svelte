@@ -1,6 +1,6 @@
 <script>
 	import { RoundButton } from '.';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	let { open, ...props } = $props();
 </script>
 

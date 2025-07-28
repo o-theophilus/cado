@@ -3,7 +3,7 @@
 	import { cubicInOut } from 'svelte/easing';
 
 	import { token } from '$lib/store.svelte.js';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import { Button } from '$lib/button';
 	import { onMount } from 'svelte';
 

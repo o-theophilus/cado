@@ -2,9 +2,8 @@
 	import { token, notify, loading } from '$lib/store.svelte.js';
 
 	import { Button } from '$lib/button';
-	import { Row } from '$lib/layout';
-	import Icon from '$lib/icon.svelte';
-	import Note from '$lib/note.svelte';
+	import { Row, FormNote } from '$lib/layout';
+	import { Icon } from '$lib/macro';
 	import NoteOrg from './_org.svelte';
 
 	let { card, status, error = $bindable(), update, active_card } = $props();
@@ -33,7 +32,7 @@
 	};
 </script>
 
-<Note status="400">
+<FormNote status="400">
 	{#snippet title()}
 		Are you sure you want to
 		{#if card.status == 'pending'}
@@ -46,7 +45,7 @@
 	{#snippet note()}
 		<NoteOrg org={card.org}></NoteOrg>
 	{/snippet}
-</Note>
+</FormNote>
 
 <Row --row-gap="8px">
 	<Button onclick={submit}>

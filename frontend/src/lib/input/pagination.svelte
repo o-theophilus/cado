@@ -1,5 +1,5 @@
 <script>
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 
 	let { value = $bindable(), total_page = 1, ondone } = $props();
 	let _value = $state(value);

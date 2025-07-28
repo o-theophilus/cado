@@ -2,7 +2,7 @@
 	import { notify, loading, token } from '$lib/store.svelte.js';
 
 	import { Button } from '$lib/button';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import { Card, Error } from '$lib/layout';
 	import Social from './social.add.svelte';
 	import View from './social.view.svelte';

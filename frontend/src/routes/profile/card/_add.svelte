@@ -4,7 +4,7 @@
 
 	import { IG } from '$lib/input';
 	import { Button } from '$lib/button';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 
 	let form = $state({
 		job_title: module.value.job_title,

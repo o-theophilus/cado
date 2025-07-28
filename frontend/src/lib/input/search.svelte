@@ -1,7 +1,7 @@
 <script>
 	import { Button, RoundButton } from '$lib/button';
 	import { IG } from '$lib/input';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 
 	let { value = $bindable(), placeholder = 'Search', non_default = false, ondone } = $props();
 	let value_submitted = $state();

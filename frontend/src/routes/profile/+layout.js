@@ -4,7 +4,7 @@ export const load = async ({ parent, url, fetch }) => {
     let a = await parent();
 
     if (!a.locals.user.login) {
-        throw redirect(307, `/?module=login&return_url=${url.pathname}`);
+        throw redirect(307, "/?module=login");
     }
 
 

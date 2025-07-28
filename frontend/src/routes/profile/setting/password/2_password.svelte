@@ -4,7 +4,7 @@
 	import { IG } from '$lib/input';
 	import { Button } from '$lib/button';
 	import { Row } from '$lib/layout';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 
 	let { form, error = $bindable(), active_card, status } = $props();
 	let show_password = $state(false);

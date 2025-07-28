@@ -3,8 +3,8 @@
 
 	import { IG } from '$lib/input';
 	import { Button } from '$lib/button';
-	import Icon from '$lib/icon.svelte';
-	import Note from '$lib/note.svelte';
+	import { Icon } from '$lib/macro';
+	import { FormNote } from '$lib/layout';
 
 	let { status, error = $bindable() } = $props();
 
@@ -37,7 +37,7 @@
 </script>
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
-	<Note>
+	<FormNote>
 		{#snippet title()}
 			This card is not linked to any organization
 		{/snippet}
@@ -45,7 +45,7 @@
 			In order to link your business card to an organization, you need to search for the
 			organization by its ID.
 		{/snippet}
-	</Note>
+	</FormNote>
 
 	<IG
 		name="Organization ID"

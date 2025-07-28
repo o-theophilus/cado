@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 
 	import QRCode from 'qrcode';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 
 	let { card } = $props();
 	let org = card.org;

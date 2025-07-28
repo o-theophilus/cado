@@ -2,8 +2,9 @@
 	import { module, loading, token } from '$lib/store.svelte.js';
 
 	import { IG } from '$lib/input';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import { Button } from '$lib/button';
+	import { Error } from '$lib/layout';
 
 	import { Dialogue } from '$lib/modal';
 	import Login from './login.svelte';

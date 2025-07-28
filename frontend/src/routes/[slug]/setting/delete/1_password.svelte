@@ -3,10 +3,9 @@
 	import { loading, token, notify } from '$lib/store.svelte.js';
 
 	import { Button } from '$lib/button';
-	import { Row } from '$lib/layout';
+	import { Row, FromNote } from '$lib/layout';
 	import { IG } from '$lib/input';
-	import Icon from '$lib/icon.svelte';
-	import Note from '$lib/note.svelte';
+	import { Icon } from '$lib/macro';
 
 	let { entity, type, status, error = $bindable() } = $props();
 
@@ -45,14 +44,14 @@
 </script>
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
-	<Note status="400">
+	<FromNote status="400">
 		{#snippet title()}
 			Warning:
 		{/snippet}
 		{#snippet note()}
 			To proceed with deleting this card, please enter your password below to confirm your identity.
 		{/snippet}
-	</Note>
+	</FromNote>
 
 	<IG
 		name="Password"

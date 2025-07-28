@@ -1,6 +1,6 @@
 <script>
 	import Input from './input.svelte';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import Check from './password.checker.svelte';
 	import Show from './password.show.svelte';
 	import Error from '../layout/error.svelte';

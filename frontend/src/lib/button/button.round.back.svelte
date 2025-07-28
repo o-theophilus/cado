@@ -1,6 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import { RoundButton } from '.';
 
 	let { href = '' } = $props();

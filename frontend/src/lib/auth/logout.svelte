@@ -2,7 +2,7 @@
 	import { token } from '$lib/store.svelte.js';
 
 	import { Button } from '$lib/button';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 
 	const submit = async () => {
 		let resp = await fetch(`${import.meta.env.VITE_BACKEND}/logout`, {

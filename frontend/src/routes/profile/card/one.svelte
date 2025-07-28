@@ -1,6 +1,6 @@
 <script>
 	import { RoundButton, Tag } from '$lib/button';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 
 	let { card } = $props();
 	const color = () => {

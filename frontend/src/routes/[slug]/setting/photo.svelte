@@ -3,7 +3,7 @@
 
 	import { Button } from '$lib/button';
 	import { Card, Row, Error, Br } from '$lib/layout';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 
 	let { entity, _type, name = 'photo', active_card, update } = $props();
 
@@ -21,7 +21,6 @@
 		}
 
 		Object.keys(error).length === 0 && submit(file);
-		// FIXME: use return
 	};
 
 	const submit = async (file) => {

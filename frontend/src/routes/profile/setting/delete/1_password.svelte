@@ -3,9 +3,8 @@
 
 	import { Button } from '$lib/button';
 	import { IG } from '$lib/input';
-	import { Row } from '$lib/layout';
-	import Icon from '$lib/icon.svelte';
-	import Note from '$lib/note.svelte';
+	import { Row, FormNote } from '$lib/layout';
+	import { Icon } from '$lib/macro';
 
 	let { user, error = $bindable(), status } = $props();
 
@@ -44,7 +43,7 @@
 </script>
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
-	<Note status="400">
+	<FormNote status="400">
 		{#snippet title()}
 			Warning
 		{/snippet}
@@ -52,7 +51,7 @@
 			To proceed with deleting your account, please enter your password below to confirm your
 			identity.
 		{/snippet}
-	</Note>
+	</FormNote>
 
 	<IG
 		name="Password"

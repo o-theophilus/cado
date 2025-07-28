@@ -2,11 +2,10 @@
 	import { user, loading, token } from '$lib/store.svelte.js';
 
 	import { Button } from '$lib/button';
-	import { Row } from '$lib/layout';
+	import { Row, FormNote } from '$lib/layout';
 	import { IG } from '$lib/input';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import EmailTemplate from './email_template.svelte';
-	import Note from '$lib/note.svelte';
 
 	let { form, error = $bindable(), status } = $props();
 	let email_template;
@@ -48,14 +47,14 @@
 </script>
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
-	<Note>
+	<FormNote>
 		{#snippet title()}
 			Enter your new email address and click the button below.
 		{/snippet}
 		{#snippet note()}
 			A verification code will be sent to that address to confirm your ownership.
 		{/snippet}
-	</Note>
+	</FormNote>
 
 	<IG
 		name="New Email"

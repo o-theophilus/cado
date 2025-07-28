@@ -1,6 +1,6 @@
 <script>
 	import { Button } from '$lib/button';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 
 	let { fabric, canvas } = $props();
 </script>

@@ -2,9 +2,8 @@
 	import { token, notify, loading } from '$lib/store.svelte.js';
 
 	import { Button } from '$lib/button';
-	import { Row, Error } from '$lib/layout';
-	import Icon from '$lib/icon.svelte';
-	import Note from '$lib/note.svelte';
+	import { Row, Error, FormNote } from '$lib/layout';
+	import { Icon } from '$lib/macro';
 	import NoteOrg from './_org.svelte';
 
 	let { card, status, error = $bindable(), update } = $props();
@@ -36,14 +35,14 @@
 
 <Error error={error.error} --error-margin-bottom="16px"></Error>
 
-<Note>
+<FormNote>
 	{#snippet title()}
 		Are you sure you want to link this card to the Organization below?
 	{/snippet}
 	{#snippet note()}
 		<NoteOrg org={status.org}></NoteOrg>
 	{/snippet}
-</Note>
+</FormNote>
 
 <Row --row-gap="8px">
 	<Button onclick={submit}>

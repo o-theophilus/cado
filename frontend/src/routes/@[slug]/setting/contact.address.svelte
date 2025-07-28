@@ -5,7 +5,7 @@
 	import { IG } from '$lib/input';
 	import { Button } from '$lib/button';
 	import { Row, Error } from '$lib/layout';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 
 	let { value = $bindable(), error } = $props();
 	let _err = $state({});

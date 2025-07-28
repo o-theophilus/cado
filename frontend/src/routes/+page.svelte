@@ -6,7 +6,7 @@
 	import { module, user } from '$lib/store.svelte.js';
 
 	import { Meta } from '$lib/page';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import { Button } from '$lib/button';
 	import { Dialogue } from '$lib/modal';
 	import { Login } from '$lib/auth';

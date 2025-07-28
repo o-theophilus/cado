@@ -1,13 +1,13 @@
 <script>
 	import { Button } from '$lib/button';
-	import Icon from '$lib/icon.svelte';
-	import Note from '$lib/note.svelte';
+	import { Icon } from '$lib/macro';
+	import { FormNote } from '$lib/layout';
 	import NoteOrg from './_org.svelte';
 
 	let { card, status } = $props();
 </script>
 
-<Note status={card.status == 'pending' ? '200' : ''}>
+<FormNote status={card.status == 'pending' ? '200' : ''}>
 	{#snippet title()}
 		{#if card.status == 'pending'}
 			Your request to join the organization is waiting for approval
@@ -18,7 +18,7 @@
 	{#snippet note()}
 		<NoteOrg org={card.org}></NoteOrg>
 	{/snippet}
-</Note>
+</FormNote>
 
 <Button
 	onclick={() => {

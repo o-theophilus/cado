@@ -3,7 +3,7 @@
 
 	import { IG } from '$lib/input';
 	import { Button } from '$lib/button';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import { Card, Error } from '$lib/layout';
 	import Address from './contact.address.svelte';
 

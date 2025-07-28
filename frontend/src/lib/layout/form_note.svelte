@@ -1,5 +1,5 @@
 <script>
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 
 	let { status, title, note } = $props();
 
@@ -36,7 +36,8 @@
 <style>
 	.block {
 		padding: var(--sp2);
-		margin-bottom: var(--sp2);
+		margin-top: var(--note-margin-top, 0);
+		margin-bottom: var(--note-margin-bottom, 16px);
 
 		background-color: var(--bg2);
 		border-radius: var(--sp0);

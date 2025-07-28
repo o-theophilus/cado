@@ -2,10 +2,12 @@
 	import { module, loading, token } from '$lib/store.svelte.js';
 
 	import { IG } from '$lib/input';
-	import Icon from '$lib/icon.svelte';
+	import { Row, Error } from '$lib/layout';
+	import { Icon } from '$lib/macro';
 	import { Button, Link } from '$lib/button';
 
 	import Login from './login.svelte';
+	import Signup from './signup.svelte';
 	import Code from './forgot_2.code.svelte';
 	import EmailTemplate from './forgot.template.svelte';
 
@@ -70,13 +72,23 @@
 	<br />
 	<br />
 
-	<Link
-		onclick={() => {
-			module.open(Login, { email: form.email });
-		}}
-	>
-		Login
-	</Link>
+	<Row>
+		<Link
+			onclick={() => {
+				module.open(Login, { email: form.email });
+			}}
+		>
+			Login
+		</Link>
+		<span class="divider"> </span>
+		<Link
+			onclick={() => {
+				module.open(Signup, { email: form.email });
+			}}
+		>
+			Signup
+		</Link>
+	</Row>
 </form>
 
 <div bind:this={email_template} style="display: none;">
@@ -86,5 +98,10 @@
 <style>
 	form {
 		padding: var(--sp3);
+	}
+	.divider {
+		width: 2px;
+		height: var(--sp2);
+		background-color: var(--bg2);
 	}
 </style>

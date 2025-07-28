@@ -1,12 +1,12 @@
 <script>
 	import { Button } from '$lib/button';
-	import Icon from '$lib/icon.svelte';
-	import Note from '$lib/note.svelte';
+	import { Icon } from '$lib/macro';
+	import { FormNote } from '$lib/layout';
 
 	let { type, status } = $props();
 </script>
 
-<Note status="400">
+<FormNote status="400">
 	{#snippet title()}
 		Warning:
 	{/snippet}
@@ -19,7 +19,7 @@
 		<br />
 		Are you sure you want to continue?
 	{/snippet}
-</Note>
+</FormNote>
 
 <Button
 	onclick={() => {

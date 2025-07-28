@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/state';
 	import { user } from '$lib/store.svelte.js';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import { Link, RoundButton } from '$lib/button';
 	import { Row } from '$lib/layout';
 	import Socials from '../[slug]/socials.svelte';

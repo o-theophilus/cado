@@ -5,7 +5,7 @@
 	import { IG } from '$lib/input';
 	import { Button, Link } from '$lib/button';
 	import { Row, Error } from '$lib/layout';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import Signup from './signup.svelte';
 	import Forgot from './forgot_1.email.svelte';
 	import EmailTemplate from './confirm.template.svelte';
@@ -16,11 +16,6 @@
 		email: module.value.email
 	});
 	let error = $state({});
-	// TODO: fix return url for all auth forms
-	let return_url = $state(page.url.pathname);
-	if (module.value.return_url) {
-		return_url = module.value.return_url;
-	}
 
 	const validate = () => {
 		error = {};
@@ -55,7 +50,7 @@
 
 		if (resp.status == 200) {
 			token.value = resp.token;
-			document.location = return_url;
+			document.location = page.url.pathname;
 		} else if (resp.error == 'not confirmed') {
 			module.open(Confirm, { email: form.email });
 		} else {

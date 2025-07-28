@@ -8,7 +8,7 @@
 	import Link from './nav.btn.svelte';
 	import { Logout } from '$lib/auth';
 	import Avatar from '$lib/avatar.svelte';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 
 	let open = $state(false);
 	let self = $state(false);

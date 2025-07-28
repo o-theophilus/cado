@@ -2,9 +2,9 @@
 	import { loading, token } from '$lib/store.svelte.js';
 
 	import { Button } from '$lib/button';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import EmailTemplate from './email_template.svelte';
-	import Note from '$lib/note.svelte';
+	import { FormNote } from '$lib/layout';
 
 	let email_template;
 	let { error = $bindable(), status } = $props();
@@ -33,7 +33,7 @@
 	};
 </script>
 
-<Note>
+<FormNote>
 	{#snippet title()}
 		To change the email address associated with this account, please click the button below to
 		request a verification code.
@@ -42,7 +42,7 @@
 		This code will be sent to your current email address to confirm that you are the owner of this
 		account.
 	{/snippet}
-</Note>
+</FormNote>
 
 <Button onclick={submit}>
 	Request Code

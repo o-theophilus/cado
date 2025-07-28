@@ -3,7 +3,8 @@
 
 	import { IG } from '$lib/input';
 	import { Button, Link } from '$lib/button';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
+	import { Error } from '$lib/layout';
 	import Login from './login.svelte';
 	import EmailTemplate from './confirm.template.svelte';
 	import Confirm from './confirm.svelte';

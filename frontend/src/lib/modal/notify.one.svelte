@@ -1,7 +1,7 @@
 <script>
 	import { notify } from '$lib/store.svelte.js';
 
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import { Row } from '$lib/layout';
 
 	let { one } = $props();

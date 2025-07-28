@@ -2,8 +2,9 @@
 	import { module, loading, token } from '$lib/store.svelte.js';
 
 	import { IG } from '$lib/input';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import { Button } from '$lib/button';
+	import { FormNote, Error } from '$lib/layout';
 
 	import Password from './forgot_3.password.svelte';
 
@@ -48,15 +49,12 @@
 
 	<Error error={error.error} block></Error>
 
-	<div>
-		<!-- FIXME: check this br -->
-		<br />
-		Verification Code has been sent to:
-
-		<b>
-			{form.email}
-		</b>
-	</div>
+	<FormNote status="200" --note-margin-top="16px" --note-margin-bottom="16px">
+		{#snippet note()}
+			Verification Code has been sent to:
+			<b> {form.email} </b>
+		{/snippet}
+	</FormNote>
 
 	<IG name="Verification Code" bind:value={form.code} type="code" error={error.code}></IG>
 

@@ -3,10 +3,9 @@
 
 	import { Button } from '$lib/button';
 	import { IG } from '$lib/input';
-
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import EmailTemplate from './email_template.svelte';
-	import Note from '$lib/note.svelte';
+	import { FormNote } from '$lib/layout';
 
 	let { entity, type, form, error = $bindable(), status } = $props();
 	let email_template;
@@ -49,7 +48,7 @@
 </script>
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
-	<Note>
+	<FormNote>
 		{#snippet title()}
 			To change the email address associated with this {type == 'org' ? 'organization' : type},
 			enter a new email address and click the button below.
@@ -57,7 +56,7 @@
 		{#snippet note()}
 			A verification code will be sent to that address to confirm your ownership.
 		{/snippet}
-	</Note>
+	</FormNote>
 
 	<IG
 		name="New Email"

@@ -1,8 +1,8 @@
 <script>
-	import Template from '$lib/email_template.svelte';
+	import { EmailTemplate } from '$lib/layout';
 </script>
 
-<Template>
+<EmailTemplate>
 	<b>Hello {'{'}firstname{'}'},</b>
 	<br /><br />
 	Please use the verification code below to complete you signup.
@@ -25,4 +25,4 @@
 	Warm regards,
 	<br /><br />
 	<b>Cado</b>
-</Template>
+</EmailTemplate>

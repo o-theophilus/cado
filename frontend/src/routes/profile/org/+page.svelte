@@ -1,11 +1,10 @@
 <script>
 	import { module, user } from '$lib/store.svelte.js';
 	import { Button, RoundButton } from '$lib/button';
-	import { Row } from '$lib/layout';
+	import { Row, PageNote } from '$lib/layout';
 	import { Meta } from '$lib/page';
-	import Icon from '$lib/icon.svelte';
+	import { Icon } from '$lib/macro';
 	import Add from './_add.svelte';
-	import Note from '$lib/note.2.svelte';
 
 	let { data } = $props();
 	let orgs = data.orgs;
@@ -55,13 +54,13 @@
 		{/each}
 	</div>
 {:else}
-	<Note>
+	<PageNote>
 		No organization available
 		<Button onclick={add}>
 			<Icon icon="add" />
 			Add Now
 		</Button>
-	</Note>
+	</PageNote>
 {/if}
 
 <style>

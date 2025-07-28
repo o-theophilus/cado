@@ -3,16 +3,9 @@
 	import { flip } from 'svelte/animate';
 	import { cubicInOut } from 'svelte/easing';
 
-	import { Meta } from '$lib/page';
-
-	import { Pagination } from '$lib/page';
-	import { Search } from '$lib/page';
-	import { Dropdown } from '$lib/page';
-	import { Radio } from '$lib/page';
-	import Note from '$lib/note.2.svelte';
-
+	import { Meta, Pagination, Search, Dropdown, Radio } from '$lib/page';
 	import { BackButton } from '$lib/button';
-	import { Row, Br } from '$lib/layout';
+	import { Row, Br, PageNote } from '$lib/layout';
 	import One from './one.svelte';
 
 	let { data } = $props();
@@ -90,7 +83,7 @@
 			<One {card} {selected} {card_status}></One>
 		</div>
 	{:else}
-		<Note>No Card Found</Note>
+		<PageNote>No Card Found</PageNote>
 	{/each}
 
 	<br />
