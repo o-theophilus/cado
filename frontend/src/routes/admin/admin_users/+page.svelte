@@ -4,10 +4,8 @@
 
 	import { BackButton } from '$lib/button';
 	import { Row } from '$lib/layout';
-	import { Meta } from '$lib/page';
+	import { Meta, Pagination, Dropdown, Search, UpdateUrl } from '$lib/macro';
 	import User from '../users/user.svelte';
-	import { Pagination, Dropdown, Search } from '$lib/page';
-	import {UpdateUrl} from '$lib/macro';
 
 	export let data;
 	$: users = data.users;

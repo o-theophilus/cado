@@ -5,3 +5,6 @@ export { default as Error } from "./error.svelte"
 export { default as FormNote } from "./form_note.svelte"
 export { default as PageNote } from "./page_note.svelte"
 export { default as EmailTemplate } from "./email_template.svelte"
+
+export { default as Dialogue } from "./dialogue.svelte"
+

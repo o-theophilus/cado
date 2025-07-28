@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { user } from '$lib/store.svelte.js';
-	import { Meta } from '$lib/page';
+	import { Meta } from '$lib/macro';
 	import Property from './property.svelte';
 	import Guidelines from './guidelines.svelte';
 	import Tools from './tools.svelte';

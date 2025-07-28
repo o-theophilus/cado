@@ -1,7 +1,5 @@
 <script>
-	import { Card } from '$lib/layout';
-
-	import { Error } from '$lib/layout';
+	import { Card, Error } from '$lib/layout';
 	import RequestCode from './0_request_code.svelte';
 	import CheckCode from './1_check_code.svelte';
 

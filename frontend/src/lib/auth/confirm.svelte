@@ -4,8 +4,7 @@
 	import { IG } from '$lib/input';
 	import { Icon } from '$lib/macro';
 	import { Button } from '$lib/button';
-	import { Dialogue } from '$lib/modal';
-	import { Error, FormNote } from '$lib/layout';
+	import { Dialogue, Error, FormNote } from '$lib/layout';
 	import Login from './login.svelte';
 
 	let form = $state({ email: module.value.email });

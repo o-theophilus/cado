@@ -2,12 +2,10 @@
 	import { flip } from 'svelte/animate';
 	import { cubicInOut } from 'svelte/easing';
 
-	import { UpdateUrl } from '$lib/macro';
+	import { UpdateUrl, Meta, Pagination, Dropdown, Search } from '$lib/macro';
 
 	import { BackButton } from '$lib/button';
 	import { Row } from '$lib/layout';
-	import { Meta } from '$lib/page';
-	import { Pagination, Dropdown, Search } from '$lib/page';
 	import User from './user.svelte';
 
 	export let data;

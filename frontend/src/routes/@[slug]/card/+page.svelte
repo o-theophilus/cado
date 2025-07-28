@@ -3,7 +3,7 @@
 	import { flip } from 'svelte/animate';
 	import { cubicInOut } from 'svelte/easing';
 
-	import { Meta, Pagination, Search, Dropdown, Radio } from '$lib/page';
+	import { Meta, Pagination, Search, Dropdown, Radio } from '$lib/macro';
 	import { BackButton } from '$lib/button';
 	import { Row, Br, PageNote } from '$lib/layout';
 	import One from './one.svelte';

@@ -302,15 +302,19 @@ def chart(key):
             "error": "invalid request"
         })
 
+    # TODO: uncomment the query below
     cur.execute("""
         SELECT
         date_trunc('day', log.date) AS day,
         COUNT(*) AS count
         FROM log
-        WHERE entity_key = %s
+        WHERE
+            entity_key = %s
+            AND action = 'viewed'
+--         AND user_key != %s
         GROUP BY day
         ORDER BY day ASC
-    ;""", (card["key"],))
+    ;""", (card["key"], user["key"]))
     data = cur.fetchall()
 
     db_close(con, cur)

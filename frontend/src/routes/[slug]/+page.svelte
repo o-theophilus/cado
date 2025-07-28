@@ -1,9 +1,7 @@
 <script>
 	import * as htmlToImage from 'html-to-image';
 
-	import { Log } from '$lib/macro';
-	import { Meta } from '$lib/page';
-	import { Icon } from '$lib/macro';
+	import { Log, Meta, Icon } from '$lib/macro';
 	import { Button, Link } from '$lib/button';
 
 	import Header from './header.svelte';

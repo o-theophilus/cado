@@ -1,7 +1,6 @@
 <script>
 	import { scale } from 'svelte/transition';
 	import { backInOut } from 'svelte/easing';
-
 	import { loading } from '$lib/store.svelte.js';
 
 	import { Spinner } from '$lib/macro';

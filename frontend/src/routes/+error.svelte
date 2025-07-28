@@ -1,7 +1,6 @@
 <script>
 	import { page } from '$app/state';
-	import { Meta } from '$lib/page';
-	import { Icon } from '$lib/macro';
+	import { Meta, Icon } from '$lib/macro';
 	import { Button } from '$lib/button';
 
 	let error = page.error.message;

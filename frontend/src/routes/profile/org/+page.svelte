@@ -2,8 +2,7 @@
 	import { module, user } from '$lib/store.svelte.js';
 	import { Button, RoundButton } from '$lib/button';
 	import { Row, PageNote } from '$lib/layout';
-	import { Meta } from '$lib/page';
-	import { Icon } from '$lib/macro';
+	import { Meta, Icon } from '$lib/macro';
 	import Add from './_add.svelte';
 
 	let { data } = $props();

@@ -2,11 +2,10 @@
 	import { onMount } from 'svelte';
 	import { notify, loading, token } from '$lib/store.svelte.js';
 
-	import { IG } from '$lib/input';
+	import { IG, Dropdown } from '$lib/input';
 	import { Button } from '$lib/button';
 	import { Icon } from '$lib/macro';
 	import { Card, Error } from '$lib/layout';
-	import { Dropdown } from '$lib/input';
 
 	let { card, active_card, update } = $props();
 

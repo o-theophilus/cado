@@ -1,7 +1,7 @@
 <script>
 	import { user } from '$lib/store.svelte.js';
 
-	import { Meta } from '$lib/page';
+	import { Meta } from '$lib/macro';
 
 	import Photo from '../../[slug]/setting/photo.svelte';
 	import Info from './info.svelte';

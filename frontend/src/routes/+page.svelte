@@ -5,10 +5,9 @@
 	import { onMount } from 'svelte';
 	import { module, user } from '$lib/store.svelte.js';
 
-	import { Meta } from '$lib/page';
-	import { Icon } from '$lib/macro';
+	import { Meta , Icon } from '$lib/macro';
 	import { Button } from '$lib/button';
-	import { Dialogue } from '$lib/modal';
+	import { Dialogue } from '$lib/layout';
 	import { Login } from '$lib/auth';
 
 	const get_module = (x) => {

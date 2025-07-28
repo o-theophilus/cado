@@ -1,11 +1,10 @@
 <script>
-	import { Card } from '$lib/layout';
+	import { Card, Error } from '$lib/layout';
 
 	import OldRequest from './0_old_request_code.svelte';
 	import OldCheck from './1_old_check_code.svelte';
 	import NewRequest from './2_new_request_code.svelte';
 	import NewCheck from './3_new_check_code.svelte';
-	import { Error } from '$lib/layout';
 
 	let { active_card, update } = $props();
 	let form = $state({});

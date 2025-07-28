@@ -1,5 +1,5 @@
 <script>
-	import { Meta } from '$lib/page';
+	import { Meta } from '$lib/macro';
 	import { BackButton } from '$lib/button';
 	import { Row } from '$lib/layout';
 

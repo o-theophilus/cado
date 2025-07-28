@@ -1,10 +1,9 @@
 <script>
-	import { Card } from '$lib/layout';
+	import { Card, Error } from '$lib/layout';
 
 	import Request from './0_request_code.svelte';
 	import Check from './1_check_code.svelte';
 	import Password from './2_password.svelte';
-	import { Error } from '$lib/layout';
 
 	let { active_card } = $props();
 	let form = $state({});

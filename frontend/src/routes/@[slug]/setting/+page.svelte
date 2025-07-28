@@ -1,8 +1,7 @@
 <script>
-	import { Meta } from '$lib/page';
+	import { Meta ,sIcon } from '$lib/macro';
 	import { RoundButton } from '$lib/button';
 	import { Row } from '$lib/layout';
-	import { Icon } from '$lib/macro';
 
 	import Photo from '../../[slug]/setting/photo.svelte';
 	import Info from './info.svelte';

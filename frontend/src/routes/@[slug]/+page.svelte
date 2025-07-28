@@ -1,10 +1,9 @@
 <script>
 	import { user } from '$lib/store.svelte.js';
 
-	import { Meta } from '$lib/page';
+	import { Meta, Icon } from '$lib/macro';
 	import { RoundButton } from '$lib/button';
 	import { Row } from '$lib/layout';
-	import { Icon } from '$lib/macro';
 	import Org from './org.svelte';
 
 	let { data } = $props();

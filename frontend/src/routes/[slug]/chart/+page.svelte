@@ -1,8 +1,7 @@
 <script>
-	import { Meta } from '$lib/page';
+	import { Meta, Icon } from '$lib/macro';
 	import { RoundButton, Radio } from '$lib/button';
-	import { Row, Br } from '$lib/layout';
-	import { Icon } from '$lib/macro';
+	import { Row } from '$lib/layout';
 
 	import { onMount } from 'svelte';
 
