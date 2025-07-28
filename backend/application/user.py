@@ -184,7 +184,7 @@ def new_email_request_code():
     error = None
     if "email" not in request.json or not request.json["email"]:
         error = "this field is required"
-    elif not re.match(r"\S+@\S+\.\S+", request.json["email"]):
+    elif not re.match(r"^[^\s@]+@[^\s@]+\.[^\s@]+$", request.json["email"]):
         error = "invalid email"
     elif user["email"] == request.json["email"]:
         error = "please use a different email form your current email"
@@ -244,7 +244,7 @@ def new_email_check_code():
         or not request.json
         or "email" not in request.json
         or not request.json["email"]
-        or not re.match(r"\S+@\S+\.\S+", request.json["email"])
+        or not re.match(r"^[^\s@]+@[^\s@]+\.[^\s@]+$", request.json["email"])
         or user["email"] == request.json["email"]
     ):
         db_close(con, cur)

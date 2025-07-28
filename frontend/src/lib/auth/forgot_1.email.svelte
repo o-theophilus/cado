@@ -20,7 +20,7 @@
 
 		if (!form.email) {
 			error.email = 'this field is required';
-		} else if (!/\S+@\S+\.\S+/.test(form.email)) {
+		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
 			error.email = 'invalid email';
 		}
 

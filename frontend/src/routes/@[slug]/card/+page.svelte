@@ -30,6 +30,7 @@
 		}
 	});
 
+	// TODO: improve accept / reject card process
 	const card_status = async (n) => {
 		error = {};
 		loading.open('Sending Request . . .');

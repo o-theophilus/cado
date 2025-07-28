@@ -82,7 +82,7 @@ def signup():
 
     if "email" not in request.json or not request.json["email"]:
         error["email"] = "this field is required"
-    elif not re.match(r"\S+@\S+\.\S+", request.json["email"]):
+    elif not re.match(r"^[^\s@]+@[^\s@]+\.[^\s@]+$", request.json["email"]):
         error["email"] = "Please enter a valid email"
     else:
         cur.execute('SELECT * FROM "user" WHERE email = %s;', (
@@ -170,7 +170,7 @@ def confirm():
         not request.json
         or "email" not in request.json
         or not request.json["email"]
-        or not re.match(r"\S+@\S+\.\S+", request.json["email"])
+        or not re.match(r"^[^\s@]+@[^\s@]+\.[^\s@]+$", request.json["email"])
     ):
         db_close(con, cur)
         return jsonify({
@@ -398,7 +398,7 @@ def forgot_request_code():
     error = None
     if "email" not in request.json or not request.json["email"]:
         error = "this field is required"
-    elif not re.match(r"\S+@\S+\.\S+", request.json["email"]):
+    elif not re.match(r"^[^\s@]+@[^\s@]+\.[^\s@]+$", request.json["email"]):
         error = "invalid email"
     if error:
         db_close(con, cur)
@@ -445,7 +445,7 @@ def forgot_check_code():
         not request.json
         or "email" not in request.json
         or not request.json["email"]
-        or not re.match(r"\S+@\S+\.\S+", request.json["email"])
+        or not re.match(r"^[^\s@]+@[^\s@]+\.[^\s@]+$", request.json["email"])
     ):
         db_close(con, cur)
         return jsonify({
@@ -486,7 +486,7 @@ def forgot_password():
         not request.json
         or "email" not in request.json
         or not request.json["email"]
-        or not re.match(r"\S+@\S+\.\S+", request.json["email"])
+        or not re.match(r"^[^\s@]+@[^\s@]+\.[^\s@]+$", request.json["email"])
     ):
         db_close(con, cur)
         return jsonify({

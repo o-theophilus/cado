@@ -49,4 +49,3 @@ def create_app(conf=None):
 # TODO: test Organogram
 # TODO: compress photos
 # TODO: design cards
-# TODO: fix front end org accept card

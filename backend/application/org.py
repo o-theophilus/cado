@@ -120,7 +120,7 @@ def update(key):
             error['email_domains'] = "invalid request"
         else:
             bad = [x for x in request.json["email_domains"]
-                   if not re.match(r"^@\w+\.\w+$", x)]
+                   if not re.match(r"^@[^\s]+\.[^\s]+$", x)]
             if bad != []:
                 error['email_domains'] = f"""invalid format: {", ".join(bad)}.
                     Each domain must start with '@', contain no spaces, and be

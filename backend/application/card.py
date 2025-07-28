@@ -284,7 +284,7 @@ def email_request_code(key, _type):
     error = None
     if "email" not in request.json or not request.json["email"]:
         error = "this field is required"
-    elif not re.match(r"\S+@\S+\.\S+", request.json["email"]):
+    elif not re.match(r"^[^\s@]+@[^\s@]+\.[^\s@]+$", request.json["email"]):
         error = "invalid email"
     elif request.json["email"] == entity["email"]:
         error = "please use a different email form your current email"

@@ -29,14 +29,14 @@
 	const validate = () => {
 		error = {};
 
-		let er = [];
+		let err = [];
 		for (const x of form.email_domains) {
-			if (!/^@\w+\.\w+$/.test(x)) {
-				er.push(x);
+			if (!/^@[^\s]+\.[^\s]+$/.test(x)) {
+				err.push(x);
 			}
 		}
-		if (er.length > 0) {
-			error.email_domains = `Invalid format: ${er.join(', ')}. Each domain must start with '@', contain no spaces, and be in the format '@domain.tld'.`;
+		if (err.length > 0) {
+			error.email_domains = `Invalid format: ${err.join(', ')}. Each domain must start with '@', contain no spaces, and be in the format '@domain.tld'.`;
 		}
 		Object.keys(error).length === 0 && submit();
 	};
