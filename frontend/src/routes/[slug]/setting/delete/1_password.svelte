@@ -3,7 +3,7 @@
 	import { loading, token, notify } from '$lib/store.svelte.js';
 
 	import { Button } from '$lib/button';
-	import { Row, FromNote } from '$lib/layout';
+	import { Row, FormNote } from '$lib/layout';
 	import { IG } from '$lib/input';
 	import { Icon } from '$lib/macro';
 
@@ -44,14 +44,14 @@
 </script>
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
-	<FromNote status="400">
+	<FormNote status="400">
 		{#snippet title()}
 			Warning:
 		{/snippet}
 		{#snippet note()}
 			To proceed with deleting this card, please enter your password below to confirm your identity.
 		{/snippet}
-	</FromNote>
+	</FormNote>
 
 	<IG
 		name="Password"
