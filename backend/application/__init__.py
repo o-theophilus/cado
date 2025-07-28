@@ -45,7 +45,6 @@ def create_app(conf=None):
     return app
 
 
-# TODO: log card views for front end stats
 # TODO: test Organogram
 # TODO: compress photos
 # TODO: design cards

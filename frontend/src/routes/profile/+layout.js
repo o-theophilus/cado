@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 
-export const load = async ({ parent, url, fetch }) => {
+export const load = async ({ parent, fetch }) => {
     let a = await parent();
 
     if (!a.locals.user.login) {

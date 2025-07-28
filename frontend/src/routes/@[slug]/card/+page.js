@@ -20,13 +20,7 @@ export const load = async ({ parent, url, fetch, params }) => {
         }
     });
 
-    let org = await fetch(`${import.meta.env.VITE_BACKEND}/org/${params.slug}`, {
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: a.locals.token
-        }
-    });
-
+    let org = await fetch(`${import.meta.env.VITE_BACKEND}/org/${params.slug}`);
 
     org = await org.json();
     cards = await cards.json();

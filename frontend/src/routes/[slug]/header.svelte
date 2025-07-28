@@ -9,6 +9,9 @@
 
 	<div class="bottom">
 		<div class="right">
+			<RoundButton href="/{card.key}/chart">
+				<Icon icon="chart" size="1.2"></Icon>
+			</RoundButton>
 			<RoundButton href="/{card.key}/setting">
 				<Icon icon="settings" size="1.2"></Icon>
 			</RoundButton>
@@ -42,6 +45,7 @@
 	.right {
 		display: flex;
 		justify-content: flex-end;
+		gap: 8px;
 
 		max-width: var(--mobileWidth);
 		margin: auto;

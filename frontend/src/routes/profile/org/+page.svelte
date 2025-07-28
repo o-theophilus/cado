@@ -33,12 +33,12 @@
 		{#each orgs as org}
 			<a href="/@{org.slug}">
 				<div class="menu">
-					<RoundButton href="/@{org.slug}/card">
+					<!-- <RoundButton href="/@{org.slug}/card">
 						<Icon icon="card" size="1.2"></Icon>
-					</RoundButton>
-					<RoundButton href="/@{org.slug}/setting">
+					</RoundButton> -->
+					<!-- <RoundButton href="/@{org.slug}/setting">
 						<Icon icon="settings" size="1.2"></Icon>
-					</RoundButton>
+					</RoundButton> -->
 				</div>
 				<div class="img">
 					{#if org.photo}

@@ -276,3 +276,46 @@ def get_org_emails(key):
         "status": 200,
         "emails": emails
     })
+
+
+@bp.get("/card/chart/<key>")
+def chart(key):
+    con, cur = db_open()
+
+    user = token_to_user(cur)
+    if not user:
+        db_close(con, cur)
+        return jsonify({
+            "status": 400,
+            "error": "invalid token"
+        })
+
+    cur.execute("""
+        SELECT * FROM card WHERE key = %s
+    ;""", (key,))
+    card = cur.fetchone()
+
+    if not card or card["user_key"] != user["key"]:
+        db_close(con, cur)
+        return jsonify({
+            "status": 400,
+            "error": "invalid request"
+        })
+
+    cur.execute("""
+        SELECT
+        date_trunc('day', log.date) AS day,
+        COUNT(*) AS count
+        FROM log
+        WHERE entity_key = %s
+        GROUP BY day
+        ORDER BY day ASC
+    ;""", (card["key"],))
+    data = cur.fetchall()
+
+    db_close(con, cur)
+    return jsonify({
+        "status": 200,
+        "card": card_schema(card),
+        "data": data
+    })

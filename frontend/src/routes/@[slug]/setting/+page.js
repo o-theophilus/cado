@@ -1,8 +1,6 @@
 import { error } from '@sveltejs/kit';
 export const load = async ({ fetch, params, parent }) => {
-    let resp = await fetch(`${import.meta.env.VITE_BACKEND}/org/${params.slug}`, {
-        headers: { 'Content-Type': 'application/json' },
-    });
+    let resp = await fetch(`${import.meta.env.VITE_BACKEND}/org/${params.slug}`);
     resp = await resp.json();
 
     let a = await parent();
