@@ -135,6 +135,6 @@
 	}
 	button:hover {
 		fill: var(--ft1_b);
-		background-color: var(--cl2);
+		background-color: var(--red);
 	}
 </style>

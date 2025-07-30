@@ -11,7 +11,7 @@
 	}
 
 	.copy {
-		padding: var(--sp5) 0;
+		padding: var(--sp4) 0;
 
 		text-align: center;
 		color: var(--ft1_b);

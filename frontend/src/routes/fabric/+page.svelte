@@ -60,6 +60,6 @@
 		width: 100%;
 		margin: auto;
 		padding: var(--sp2);
-		padding-bottom: var(--sp5);
+		padding-bottom: var(--sp4);
 	}
 </style>

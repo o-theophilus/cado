@@ -59,19 +59,19 @@
 		pointer-events: all;
 		padding: var(--sp2);
 
-		color: var(--cl3);
-		border-left: 16px solid var(--cl3);
-		background-color: color-mix(in srgb, var(--cl3), white 90%);
+		color: var(--green);
+		border-left: 16px solid var(--green);
+		background-color: color-mix(in srgb, var(--green), white 90%);
 	}
 	.bad {
-		color: var(--cl2);
-		border-left: 16px solid var(--cl2);
-		background-color: color-mix(in srgb, var(--cl2), white 90%);
+		color: var(--red);
+		border-left: 16px solid var(--red);
+		background-color: color-mix(in srgb, var(--red), white 90%);
 	}
 	.caution {
-		color: var(--cl4);
-		border-left: 16px solid var(--cl4);
-		background-color: color-mix(in srgb, var(--cl4), white 90%);
+		color: var(--yellow);
+		border-left: 16px solid var(--yellow);
+		background-color: color-mix(in srgb, var(--yellow), white 90%);
 	}
 
 	button {

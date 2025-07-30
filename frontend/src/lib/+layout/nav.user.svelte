@@ -7,8 +7,7 @@
 
 	import Link from './nav.btn.svelte';
 	import { Logout } from '$lib/auth';
-	import Avatar from '$lib/avatar.svelte';
-	import { Icon } from '$lib/macro';
+	import { Icon, Avatar } from '$lib/macro';
 
 	let open = $state(false);
 	let self = $state(false);
@@ -22,6 +21,24 @@
 		self = false;
 	}}
 />
+{#snippet avatar()}
+	<Avatar
+		name="{user.value.firstname} {user.value.lastname}"
+		photo={user.value.photo}
+		size="32"
+		--avatar-border-radius="50%"
+	/>
+{/snippet}
+
+{#snippet details()}
+	<span class="name">
+		{user.value.firstname}
+		{user.value.lastname}
+	</span>
+	<span class="email">
+		{user.value.email}
+	</span>
+{/snippet}
 
 <div class="user_menu">
 	<button
@@ -31,29 +48,15 @@
 			self = true;
 		}}
 	>
-		<Avatar
-			name="{user.value.firstname} {user.value.lastname}"
-			photo={user.value.photo}
-			size="32"
-		/>
+		{@render avatar()}
 	</button>
 
 	<div class="full_button">
 		<a href="/profile" class="goto_profile">
-			<Avatar
-				name="{user.value.firstname} {user.value.lastname}"
-				photo={user.value.photo}
-				size="32"
-			/>
+			{@render avatar()}
 
 			<div class="info_1">
-				<span class="name">
-					{user.value.firstname}
-					{user.value.lastname}
-				</span>
-				<span class="email">
-					{user.value.email}
-				</span>
+				{@render details()}
 			</div>
 		</a>
 
@@ -71,13 +74,7 @@
 	{#if open}
 		<div class="menu" transition:slide={{ delay: 0, duration: 200, easing: cubicInOut }}>
 			<a href="/profile" class="info_2">
-				<span class="name">
-					{user.value.firstname}
-					{user.value.lastname}
-				</span>
-				<span class="email">
-					{user.value.email}
-				</span>
+				{@render details()}
 			</a>
 
 			<div class="menu_btn">

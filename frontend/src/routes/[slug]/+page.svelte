@@ -2,6 +2,7 @@
 	import * as htmlToImage from 'html-to-image';
 
 	import { Log, Meta, Icon } from '$lib/macro';
+	import { Br } from '$lib/layout';
 	import { Button, Link } from '$lib/button';
 
 	import Header from './header.svelte';
@@ -102,9 +103,9 @@
 	<BusinessCard {card} />
 
 	{#if card.status == 'live'}
-		<br /><br />
+		<Br --br-height="64px" />
 		<hr />
-		<br /><br />
+		<Br --br-height="64px" />
 		<Org org={card.org}></Org>
 	{/if}
 </section>
@@ -117,7 +118,7 @@
 		width: 100%;
 		margin: auto;
 		padding: 0 var(--sp2);
-		padding-bottom: var(--sp5);
+		padding-bottom: var(--sp4);
 	}
 
 	.group {

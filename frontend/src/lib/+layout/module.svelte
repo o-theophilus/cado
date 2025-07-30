@@ -35,7 +35,7 @@
 		position: fixed;
 		inset: 0;
 
-		padding: var(--sp5) var(--sp3);
+		padding: var(--sp4) var(--sp3);
 		overflow-y: auto;
 
 		color: var(--ft1);

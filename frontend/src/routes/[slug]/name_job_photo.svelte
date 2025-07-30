@@ -1,5 +1,5 @@
 <script>
-	import Avatar from '$lib/avatar.svelte';
+	import { Avatar } from '$lib/macro';
 	let { card } = $props();
 </script>
 
@@ -7,7 +7,7 @@
 	<div class="content">
 		<div class="avatar_place">
 			<div class="avatar">
-				<Avatar name="{card.firstname} {card.lastname}" photo={card.photo} size="148" square />
+				<Avatar name="{card.firstname} {card.lastname}" photo={card.photo} size="148" />
 			</div>
 		</div>
 

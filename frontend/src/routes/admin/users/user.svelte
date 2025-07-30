@@ -1,5 +1,5 @@
 <script>
-	import Avatar from '$lib/avatar.svelte';
+	import { Avatar } from '$lib/macro';
 	export let user;
 </script>
 

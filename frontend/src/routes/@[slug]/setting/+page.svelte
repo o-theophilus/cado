@@ -1,5 +1,5 @@
 <script>
-	import { Meta ,sIcon } from '$lib/macro';
+	import { Meta, Icon } from '$lib/macro';
 	import { RoundButton } from '$lib/button';
 	import { Row } from '$lib/layout';
 

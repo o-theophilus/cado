@@ -55,21 +55,21 @@
 	}
 
 	.block.check_circle {
-		background-color: color-mix(in srgb, var(--cl3), transparent 90%);
+		background-color: color-mix(in srgb, var(--green), transparent 90%);
 	}
 	.block.error {
-		background-color: color-mix(in srgb, var(--cl4), transparent 90%);
+		background-color: color-mix(in srgb, var(--yellow), transparent 90%);
 	}
 	.block.cancel {
-		background-color: color-mix(in srgb, var(--cl2), transparent 90%);
+		background-color: color-mix(in srgb, var(--red), transparent 90%);
 	}
 	.title.check_circle {
-		color: var(--cl3);
+		color: var(--green);
 	}
 	.title.error {
-		color: var(--cl4);
+		color: var(--yellow);
 	}
 	.title.cancel {
-		color: var(--cl2);
+		color: var(--red);
 	}
 </style>

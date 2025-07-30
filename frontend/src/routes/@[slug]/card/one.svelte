@@ -1,20 +1,19 @@
 <script>
 	import { Button, Tag, RoundButton } from '$lib/button';
-	import Avatar from '$lib/avatar.svelte';
-	import { Icon } from '$lib/macro';
+	import { Icon, Avatar } from '$lib/macro';
 
 	let { card, selected, card_status } = $props();
 
 	const color = () => {
-		if (card.status == 'pending') return 'var(--cl4)';
-		if (card.status == 'live') return 'var(--cl3)';
+		if (card.status == 'pending') return 'var(--yellow)';
+		if (card.status == 'live') return 'var(--green)';
 		return '';
 	};
 </script>
 
 <div class="card">
 	<a href="/{card.key}">
-		<Avatar name="{card.firstname} {card.lastname}" photo={card.photo} size="100" square />
+		<Avatar name="{card.firstname} {card.lastname}" photo={card.photo} size="100" />
 		<div class="details">
 			<div class="name">{card.firstname} {card.lastname}</div>
 			<div>{card.email}</div>

@@ -5,7 +5,7 @@
 	import { onMount } from 'svelte';
 	import { module, user } from '$lib/store.svelte.js';
 
-	import { Meta , Icon } from '$lib/macro';
+	import { Meta, Icon } from '$lib/macro';
 	import { Button } from '$lib/button';
 	import { Dialogue } from '$lib/layout';
 	import { Login } from '$lib/auth';
@@ -90,25 +90,25 @@
 	<div class="features">
 		{@render card(
 			'design',
-			'--cl5',
+			'--blue',
 			'Create & Customize Your Digital Business Card',
 			'Build sleek, professional digital cards with your name, photo, role, and links to WhatsApp, LinkedIn, Instagram, and more. Upload your logo, choose themes, and preview changes in real time.'
 		)}
 		{@render card(
 			'qr_code',
-			'--cl2',
+			'--red',
 			'Instant QR Code for Easy Sharing',
 			'Each card comes with a unique QR code that instantly connects others to your profile. Download it for printing, packaging, or social bios — one scan, and they’re viewing your details.'
 		)}
 		{@render card(
 			'timer',
-			'--cl3',
+			'--green',
 			'Dynamic and Always Up-to-Date',
 			'Update your contact info anytime without reprinting or resending links. Your card is always current — change your title, add promotions, or update your number and it reflects instantly.'
 		)}
 		{@render card(
 			'chart',
-			'--cl4',
+			'--yellow',
 			'Insights and Control Dashboard',
 			'Track who’s viewing your card with scan analytics. See view counts, locations, and device types. Manage multiple cards in one place — perfect for professionals, teams, and events.'
 		)}
@@ -191,12 +191,12 @@
 	.page {
 		max-width: var(--mobileWidth);
 		width: 100%;
-		margin: var(--sp5) auto;
+		margin: var(--sp4) auto;
 		padding: 0 var(--sp2);
 	}
 
 	.page_title {
-		margin-top: var(--sp5);
+		margin-top: var(--sp4);
 		margin-bottom: var(--sp3);
 	}
 

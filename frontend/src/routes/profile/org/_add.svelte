@@ -43,7 +43,7 @@
 </script>
 
 <form onsubmit={(e) => e.preventDefault()} novalidate autocomplete="off">
-	<div class="page_title">Add Card</div>
+	<div class="page_title">Add Organization</div>
 
 	<Error error={error.error} block></Error>
 
@@ -51,7 +51,7 @@
 		name="Name"
 		icon="corporate_fare"
 		error={error.name}
-		placeholder="name here"
+		placeholder="Organization name here"
 		type="text"
 		bind:value={form.name}
 		required

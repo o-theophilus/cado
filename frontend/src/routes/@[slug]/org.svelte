@@ -1,29 +1,12 @@
 <script>
 	import { page } from '$app/state';
 	import { user } from '$lib/store.svelte.js';
-	import { Icon } from '$lib/macro';
+	import { Icon, Avatar } from '$lib/macro';
 	import { Link, RoundButton } from '$lib/button';
 	import { Row } from '$lib/layout';
 	import Socials from '../[slug]/socials.svelte';
 
 	let { org } = $props();
-
-	let width = $state(100);
-	let height = $state(100);
-	const calc_ = () => {
-		if (!org.photo) {
-			return;
-		}
-		let match = org.photo.match(/_(\d+)x(\d+)\./);
-		if (!match) {
-			return;
-		}
-
-		let ar = match[1] / match[2];
-		width = Math.sqrt(width * height * ar);
-		height = width / ar;
-	};
-	calc_();
 </script>
 
 {#if page.route.id == '/[slug]' && org.user_key == user.value.key}
@@ -41,17 +24,12 @@
 	</Row>
 {/if}
 
-<br />
-
-{#if org.photo}
-	<img src={org.photo || '/no_photo.png'} alt={org.name} style:max-width="{width}px" />
-{:else}
-	<div class="img" style:max-width="{width}px">
+<Avatar name={org.name} photo={org.photo} size="100" area_lock>
+	<div class="img" style:max-width="100px">
 		<Icon icon="corporate_fare" size="4" />
 	</div>
-{/if}
+</Avatar>
 
-<br />
 <br />
 
 <div class="name">
@@ -128,10 +106,6 @@
 <Socials links={org.social_links} name={org.firstname} />
 
 <style>
-	img {
-		object-fit: contain;
-		width: 100%;
-	}
 	.img {
 		display: flex;
 		align-items: center;

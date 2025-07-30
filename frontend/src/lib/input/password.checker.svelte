@@ -64,6 +64,6 @@
 
 	.active {
 		color: var(--ft1_b);
-		background-color: var(--cl3);
+		background-color: var(--green);
 	}
 </style>

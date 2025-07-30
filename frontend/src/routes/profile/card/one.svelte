@@ -5,8 +5,9 @@
 	let { card } = $props();
 	const color = () => {
 		if (card.status == 'pending')
-			return ['var(--cl4)', 'color-mix(in srgb, var(--cl4), white 90%)'];
-		if (card.status == 'live') return ['var(--cl3)', 'color-mix(in srgb, var(--cl3), white 90%)'];
+			return ['var(--yellow)', 'color-mix(in srgb, var(--yellow), white 90%)'];
+		if (card.status == 'live')
+			return ['var(--green)', 'color-mix(in srgb, var(--green), white 90%)'];
 		return ['', 'transparent'];
 	};
 	let clr = color();

@@ -1,10 +1,8 @@
 <script>
 	import { user } from '$lib/store.svelte.js';
 
-	import { Meta, Icon } from '$lib/macro';
+	import { Meta, Icon, Avatar } from '$lib/macro';
 	import { Link } from '$lib/button';
-
-	import Avatar from '$lib/avatar.svelte';
 </script>
 
 <Meta title="{user.value.firstname} {user.value.lastname} - Profile" />
@@ -19,8 +17,7 @@
 			name="{user.value.firstname} {user.value.lastname}"
 			photo={user.value.photo}
 			size="200"
-			square
-		/>
+		></Avatar>
 
 		<div class="name">
 			{user.value.firstname}

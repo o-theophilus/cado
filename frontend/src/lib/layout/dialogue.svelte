@@ -55,7 +55,7 @@
 		gap: var(--sp2);
 
 		padding: var(--sp2);
-		padding-right: var(--sp5);
+		padding-right: var(--sp4);
 
 		color: var(--ft1_b);
 		fill: currentColor;
@@ -64,13 +64,13 @@
 	}
 
 	.good {
-		background-color: var(--cl3);
+		background-color: var(--green);
 	}
 	.bad {
-		background-color: var(--cl2);
+		background-color: var(--red);
 	}
 	.warning {
-		background-color: var(--cl4);
+		background-color: var(--yellow);
 	}
 	.body {
 		display: flex;
