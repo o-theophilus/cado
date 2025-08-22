@@ -82,7 +82,7 @@
 	/>
 
 	<Row --row-gap="8px">
-		<Button primary onclick={validate}>Reset Password</Button>
+		<Button primary onclick={validate}>Change Password</Button>
 
 		<Button
 			onclick={() => {
